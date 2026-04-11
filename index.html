@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaghan Properties | Premium Real Estate & Construction Islamabad</title>
+    <meta name="description" content="Kaghan Properties Pvt. Ltd. offers luxury real estate investment, construction services, and property management in Islamabad, Pakistan. Catering to local and overseas clients.">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-slate-50 overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 px-4 md:px-12 flex justify-between items-center text-slate-800">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-white font-bold text-xl">K</div>
+            <span class="text-xl font-bold tracking-wider uppercase outfit">Kaghan Properties</span>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex gap-8 items-center font-medium text-inherit">
+            <a href="index.html" class="hover:text-gold transition-colors underline decoration-gold decoration-2 underline-offset-4">Home</a>
+            <a href="services.html" class="hover:text-gold transition-colors">Services</a>
+            <a href="projects.html" class="hover:text-gold transition-colors">Projects</a>
+            <a href="about.html" class="hover:text-gold transition-colors">About Us</a>
+            <a href="contact.html" class="bg-gold text-white px-6 py-2 rounded-full hover:bg-slate-800 transition-all luxury-shadow">Contact Now</a>
+        </div>
+
+        <!-- Mobile Menu Btn -->
+        <button id="mobile-menu-btn" class="md:hidden p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-slate-900/95 z-[60] hidden flex flex-col items-center justify-center gap-8 text-white text-2xl font-semibold">
+        <a href="index.html" class="hover:text-gold">Home</a>
+        <a href="services.html" class="hover:text-gold">Services</a>
+        <a href="projects.html" class="hover:text-gold">Projects</a>
+        <a href="about.html" class="hover:text-gold">About Us</a>
+        <a href="contact.html" class="hover:text-gold">Contact</a>
+        <button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="absolute top-8 right-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="assets/images/hero.png" alt="Luxury Real Estate Islamabad" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-slate-900/40"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl animate-fade-in">
+            <span class="text-gold uppercase tracking-[0.3em] font-semibold mb-4 block">Redefining Luxury Living</span>
+            <h1 class="text-5xl md:text-7xl text-white font-bold leading-tight mb-6 outfit">Your Trusted Partner in <br><span class="text-gold">Islamabad Real Estate</span></h1>
+            <p class="text-slate-200 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+                Expert brokerage, modern construction, and premium property management for local and overseas investors.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="projects.html" class="bg-gold text-white px-10 py-4 rounded-md font-bold text-lg hover:bg-white hover:text-slate-900 transition-all luxury-shadow">Explore Projects</a>
+                <a href="contact.html" class="glass text-white px-10 py-4 rounded-md font-bold text-lg hover:bg-gold hover:border-gold transition-all">Consulate Now</a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+        </div>
+    </header>
+
+    <!-- Why Choose Us -->
+    <section class="py-24 px-4 md:px-12 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-gold font-bold uppercase tracking-widest text-sm mb-4 block">Our Excellence</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 outfit text-slate-900">Why Choose <span class="text-gold">Kaghan Properties?</span></h2>
+                <div class="w-24 h-1 bg-gold mx-auto mb-6"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="p-10 border border-slate-50 rounded-3xl bg-slate-50 hover:bg-white hover:luxury-shadow transition-all group reveal">
+                    <div class="w-14 h-14 bg-gold/10 text-gold rounded-xl flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 outfit">Reliable Investment</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">We vet every project for legal compliance and capital growth potential, ensuring your peace of mind.</p>
+                </div>
+
+                <div class="p-10 border border-slate-50 rounded-3xl bg-slate-50 hover:bg-white hover:luxury-shadow transition-all group reveal">
+                    <div class="w-14 h-14 bg-gold/10 text-gold rounded-xl flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 outfit">Overseas Focused</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Dedicated support for UAE and European clients with direct fund transfers and property management.</p>
+                </div>
+
+                <div class="p-10 border border-slate-50 rounded-3xl bg-slate-50 hover:bg-white hover:luxury-shadow transition-all group reveal">
+                    <div class="w-14 h-14 bg-gold/10 text-gold rounded-xl flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 outfit">High ROI Projects</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Focus on housing societies like Blue World City with expected capital gains of 60-95%.</p>
+                </div>
+
+                <div class="p-10 border border-slate-50 rounded-3xl bg-slate-50 hover:bg-white hover:luxury-shadow transition-all group reveal">
+                    <div class="w-14 h-14 bg-gold/10 text-gold rounded-xl flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 outfit">Digital Infrastructure</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">We utilize 360-degree marketing and VR tours to bring real estate to your screen anywhere.</p>
+                </div>
+
+                <div class="p-10 border border-slate-50 rounded-3xl bg-slate-50 hover:bg-white hover:luxury-shadow transition-all group reveal">
+                    <div class="w-14 h-14 bg-gold/10 text-gold rounded-xl flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 outfit">Modern Construction</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">End-to-end architectural and building support for turnkey residential projects.</p>
+                </div>
+
+                <div class="p-10 border border-slate-50 rounded-3xl bg-slate-50 hover:bg-white hover:luxury-shadow transition-all group reveal">
+                    <div class="w-14 h-14 bg-gold/10 text-gold rounded-xl flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 outfit">Expert Team</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Our consultants are certified experts in the Pakistani real estate landscape.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Calculator & Consultation -->
+    <section class="py-24 px-4 md:px-12 bg-slate-100">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+            <div class="lg:w-1/2 reveal">
+                <h2 class="text-4xl font-bold outfit mb-6">Invest with <span class="text-gold">Intelligence</span></h2>
+                <p class="text-slate-600 mb-8 leading-relaxed">Use our ROI estimator to see how your property value could grow in prime Islamabad societies over the next 3 to 5 years.</p>
+                <div class="calculator-card p-10 rounded-3xl shadow-2xl text-white">
+                    <h3 class="text-xl font-bold mb-8 outfit flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                        ROI Estimator
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-slate-400 mb-2">Initial Investment (PKR)</label>
+                            <input type="number" id="invest-amount" placeholder="e.g. 5000000" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:border-gold transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-slate-400 mb-2">Investment Duration (Years)</label>
+                            <input type="number" id="invest-years" placeholder="e.g. 3" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:border-gold transition-all">
+                        </div>
+                        <button id="calculate-roi" class="w-full bg-gold py-4 rounded-lg font-bold hover:bg-white hover:text-slate-900 transition-all">Estimate Returns</button>
+                        <div id="roi-result" class="hidden mt-6 p-4 bg-gold/10 border border-gold/20 rounded-lg text-center text-lg"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:w-1/2 reveal">
+                <img src="assets/images/consultation.png" alt="Strategic Consultation" class="rounded-[3rem] luxury-shadow">
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section (Brief) -->
+    <section class="py-24 px-4 md:px-12 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 outfit">Comprehensive Services</h2>
+                <div class="w-24 h-1 bg-gold mx-auto mb-6"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Brokerage -->
+                <div class="p-8 border border-slate-100 rounded-2xl hover-lift bg-slate-50 luxury-shadow reveal text-center">
+                    <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 text-gold">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 outfit">Real Estate Brokerage</h3>
+                    <p class="text-slate-600 text-sm">Buying, selling, and renting residential and commercial plots.</p>
+                </div>
+                <!-- Construction -->
+                <div class="p-8 border border-slate-100 rounded-2xl hover-lift bg-slate-50 luxury-shadow reveal text-center">
+                    <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 text-gold">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2 1m0 0L10 4m2 1v2.5M4 7l2-1M4 7l2 1M4 7v2.5M10 21l2-1m0 0l2 1m-2-1v-2.5M20 14l-2 1m2-1l-2-1m2 1v2.5M4 14l2-1m-2 1l2 1m-2 1v2.5" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 outfit">Design & Construction</h3>
+                    <p class="text-slate-600 text-sm">End-to-end architectural and turnkey building solutions.</p>
+                </div>
+                <!-- Overseas -->
+                <div class="p-8 border border-slate-100 rounded-2xl hover-lift bg-slate-50 luxury-shadow reveal text-center">
+                    <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 text-gold">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 outfit">Property Management</h3>
+                    <p class="text-slate-600 text-sm">Dedicated services for overseas clients with direct ROI transfers.</p>
+                </div>
+                <!-- Marketing -->
+                <div class="p-8 border border-slate-100 rounded-2xl hover-lift bg-slate-50 luxury-shadow reveal text-center">
+                    <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 text-gold">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 outfit">Project Marketing</h3>
+                    <p class="text-slate-600 text-sm">360-degree digital branding, SEO, and web design for societies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 bg-slate-900 text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 reveal">
+                <span class="text-gold font-bold uppercase tracking-widest text-sm mb-4 block">Success Stories</span>
+                <h2 class="text-4xl font-bold outfit mb-6">What Our <span class="text-gold">Clients Say</span></h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-slate-800/50 p-10 rounded-3xl border border-slate-800 reveal">
+                    <div class="flex text-gold mb-6">
+                        ★★★★★
+                    </div>
+                    <p class="text-slate-300 italic mb-8 italic">"Living in Dubai, I was nervous about investing in Islamabad. Kaghan Properties handled everything from documentation to rental management. Reliable and transparent."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center font-bold">FA</div>
+                        <div>
+                            <h4 class="font-bold">Faisal Ahmed</h4>
+                            <p class="text-xs text-slate-500">Overseas Investor (UAE)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/50 p-10 rounded-3xl border border-slate-800 reveal">
+                    <div class="flex text-gold mb-6">
+                        ★★★★★
+                    </div>
+                    <p class="text-slate-300 italic mb-8 italic">"Their construction team is top-notch. They built my house in Bahria Enclave within the agreed time and budget. Truly a professional team in Pakistan."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center font-bold">SM</div>
+                        <div>
+                            <h4 class="font-bold">Sarah Malik</h4>
+                            <p class="text-xs text-slate-500">Residential Client</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/50 p-10 rounded-3xl border border-slate-800 reveal">
+                    <div class="flex text-gold mb-6">
+                        ★★★★★
+                    </div>
+                    <p class="text-slate-300 italic mb-8 italic">"Got massive gains in Blue World City within just 2 years. Their market insights are spot on. I highly recommend their brokerage services."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center font-bold">IK</div>
+                        <div>
+                            <h4 class="font-bold">Imran Khan</h4>
+                            <p class="text-xs text-slate-500">Real Estate Investor</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Book a Consultation -->
+    <section id="book" class="py-24 px-4 md:px-12 bg-white relative">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20 items-center">
+            <div class="lg:w-1/3 reveal">
+                <span class="text-gold font-bold uppercase tracking-widest text-sm mb-4 block">Schedule a Meeting</span>
+                <h2 class="text-4xl font-bold outfit mb-8">Book Your <span class="text-gold">Private Briefing</span></h2>
+                <p class="text-slate-600 mb-8 leading-relaxed">
+                    Schedule a 1-on-1 virtual or in-person consultation with our senior investment analysts. Perfect for overseas clients looking to understand the Islamabad market.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 text-slate-800 font-medium">
+                        <div class="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-gold">✓</div>
+                        Free Portfolio Review
+                    </div>
+                    <div class="flex items-center gap-4 text-slate-800 font-medium">
+                        <div class="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-gold">✓</div>
+                        Direct Access to Experts
+                    </div>
+                    <div class="flex items-center gap-4 text-slate-800 font-medium">
+                        <div class="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-gold">✓</div>
+                        Hassle-Free Scheduling
+                    </div>
+                </div>
+            </div>
+            <div class="lg:w-2/3 w-full reveal luxury-shadow rounded-[3rem] overflow-hidden border border-slate-100 bg-slate-50 p-4 md:p-8">
+                <!-- Google Calendar Embed Placeholder -->
+                <div class="relative w-full aspect-video md:aspect-[16/10]">
+                    <iframe src="https://calendar.google.com/calendar/embed?src=en.pk%23holiday%40group.v.calendar.google.com&ctz=Asia%2FKarachi&wkst=1&bgcolor=%23ffffff&showTitle=0&showPrint=0&showTabs=0&showCalendars=0&showTz=1" 
+                            style="border-width:0; width:100%; height:100%; border-radius: 2rem;" 
+                            frameborder="0" 
+                            scrolling="no"></iframe>
+                    <div class="absolute inset-0 pointer-events-none border-4 border-white rounded-[2rem]"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Footer -->
+    <footer class="bg-slate-950 text-slate-400 pt-24 pb-12 px-4 md:px-12 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+            <!-- Col 1: Brand Info -->
+            <div>
+                <div class="flex items-center gap-2 mb-8 text-white">
+                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center font-bold text-xl">K</div>
+                    <span class="text-xl font-bold tracking-wider outfit">KAGHAN PROPERTIES</span>
+                </div>
+                <p class="text-sm leading-relaxed mb-8">
+                    Kaghan Properties Pvt. Ltd. is a Pakistan-based real estate and construction leader. We provide reliable investment options, luxury construction, and expert property management for local and overseas clients.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Col 2: Quick Links -->
+            <div>
+                <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-sm outfit">Navigation</h4>
+                <ul class="grid grid-cols-1 gap-4 text-sm">
+                    <li><a href="index.html" class="hover:text-gold transition-colors">Home Experience</a></li>
+                    <li><a href="services.html" class="hover:text-gold transition-colors">Our Services</a></li>
+                    <li><a href="projects.html" class="hover:text-gold transition-colors">Current Projects</a></li>
+                    <li><a href="about.html" class="hover:text-gold transition-colors">Company Profile</a></li>
+                    <li><a href="about.html" class="hover:text-gold transition-colors">Careers & Growth</a></li>
+                    <li><a href="contact.html" class="hover:text-gold transition-colors">Get In Touch</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 3: Services & Projects -->
+            <div>
+                <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-sm outfit">Expertise</h4>
+                <ul class="grid grid-cols-1 gap-4 text-sm">
+                    <li class="flex items-center gap-2">
+                        <span class="w-1 h-1 bg-gold rounded-full"></span>
+                        <a href="services.html" class="hover:text-gold">Design & Construction</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <span class="w-1 h-1 bg-gold rounded-full"></span>
+                        <a href="services.html" class="hover:text-gold">Real Estate Brokerage</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <span class="w-1 h-1 bg-gold rounded-full"></span>
+                        <a href="services.html" class="hover:text-gold">Overseas Management</a>
+                    </li>
+                    <li class="flex items-center gap-2 mt-4 text-white font-bold">Top Projects</li>
+                    <li class="text-xs"><a href="projects.html" class="hover:text-gold">Bahria Enclave - Azan Arcade</a></li>
+                    <li class="text-xs"><a href="projects.html" class="hover:text-gold">Park View City - Islamabad</a></li>
+                    <li class="text-xs"><a href="projects.html" class="hover:text-gold">Blue World City - Sports Valley</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 4: Contact Core -->
+            <div>
+                <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-sm outfit">Headquarters</h4>
+                <p class="text-xs leading-relaxed mb-6">
+                    Ground Floor, Anjum Plaza, Near TCS Bahria Enclave / Jinnah Avenue New Mall, Islamabad, Pakistan
+                </p>
+                <div class="space-y-4 text-sm">
+                    <p class="flex items-center gap-3">
+                        <i class="fa-solid fa-phone text-gold w-4"></i>
+                        <span><span class="text-gold font-bold">PK:</span> 0334-0091127</span>
+                    </p>
+                    <p class="flex items-center gap-3 text-xs">
+                        <i class="fa-solid fa-phone text-gold w-4"></i>
+                        <span><span class="text-gold font-bold">PK:</span> 0334-5405587</span>
+                    </p>
+                    <p class="flex items-center gap-3">
+                        <i class="fa-solid fa-phone text-gold w-4"></i>
+                        <span><span class="text-gold font-bold">DXB:</span> +971-54-5490192</span>
+                    </p>
+                    <p class="flex items-center gap-3 text-xs break-all">
+                        <i class="fa-solid fa-envelope text-gold w-4"></i>
+                        <span><span class="text-gold font-bold">@:</span> tanzilminhas@kaghanproperties.com</span>
+                    </p>
+                </div>
+                <div class="mt-8">
+                    <label class="block text-xs uppercase tracking-widest text-slate-500 mb-3">Newsletter</label>
+                    <div class="flex">
+                        <input type="email" placeholder="Email" class="bg-slate-900 border-none rounded-l-lg px-4 py-2 text-sm w-full outline-none">
+                        <button class="bg-gold text-white px-4 py-2 rounded-r-lg hover:bg-white hover:text-slate-900 transition-all">Join</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto pt-12 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-xs">&copy; 2026 Kaghan Properties Pvt. Ltd. All Rights Reserved. SECP Registered.</p>
+            <div class="flex gap-8 text-xs">
+                <a href="#" class="hover:text-gold">Privacy Policy</a>
+                <a href="#" class="hover:text-gold">Terms of Service</a>
+                <a href="#" class="hover:text-gold">Sitemap</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
