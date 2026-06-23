@@ -4,6 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us | Kaghan Properties - Islamabad & Dubai Offices</title>
+    <meta name="description" content="Get in touch with Kaghan Properties for Bahria Enclave inquiries, 8-12% property management, joint-ventures, and luxury guest stays. Islamabad & Dubai hubs.">
+    <link rel="canonical" href="https://kaghanproperties.com/contact.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaghanproperties.com/contact.html">
+    <meta property="og:title" content="Contact Us | Kaghan Properties - Islamabad & Dubai Offices">
+    <meta property="og:description" content="Get in touch with Kaghan Properties for Bahria Enclave inquiries, 8-12% property management, joint-ventures, and luxury guest stays. Islamabad & Dubai hubs.">
+    <meta property="og:image" content="https://kaghanproperties.com/assets/images/logo.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://kaghanproperties.com/contact.html">
+    <meta name="twitter:title" content="Contact Us | Kaghan Properties - Islamabad & Dubai Offices">
+    <meta name="twitter:description" content="Get in touch with Kaghan Properties for Bahria Enclave inquiries, 8-12% property management, joint-ventures, and luxury guest stays. Islamabad & Dubai hubs.">
+    <meta name="twitter:image" content="https://kaghanproperties.com/assets/images/logo.png">
+
+    <!-- Structured Data (JSON-LD ContactPage Schema) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "mainEntity": {
+        "@type": "RealEstateAgent",
+        "name": "Kaghan Properties",
+        "image": "https://kaghanproperties.com/assets/images/logo.png",
+        "telephone": "+923340091127",
+        "url": "https://kaghanproperties.com/index.html",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ground Floor, Anjum Plaza, Bahria Enclave / Jinnah Avenue New Mall",
+          "addressLocality": "Islamabad",
+          "addressCountry": "PK"
+        }
+      }
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -12,7 +50,7 @@
     <!-- Navigation -->
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 px-4 md:px-12 flex justify-between items-center text-slate-800 glass-dark text-white">
         <div class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-white font-bold text-xl">K</div>
+            <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-10 w-auto object-contain">
             <span class="text-xl font-bold tracking-wider uppercase outfit">Kaghan Properties</span>
         </div>
         <div class="hidden md:flex gap-8 items-center font-medium">
@@ -20,6 +58,7 @@
             <a href="services.html" class="hover:text-gold transition-colors">Services</a>
             <a href="projects.html" class="hover:text-gold transition-colors">Projects</a>
             <a href="about.html" class="hover:text-gold transition-colors">About Us</a>
+            <a href="stay/index.html" class="hover:text-gold transition-colors">Luxury Stays</a>
             <a href="contact.html" class="bg-gold text-white px-6 py-2 rounded-full hover:bg-white hover:text-slate-900 transition-all underline decoration-white decoration-2 underline-offset-4">Contact</a>
         </div>
     </nav>
@@ -47,32 +86,36 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Full Name</label>
-                                <input type="text" placeholder="John Doe" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all">
+                                <input type="text" id="contact-name" placeholder="John Doe" required class="w-full bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Phone Number</label>
-                                <input type="tel" placeholder="+92 ..." class="w-full bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all">
+                                <input type="tel" id="contact-phone" placeholder="+92 ..." required class="w-full bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all">
                             </div>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Email Address</label>
-                            <input type="email" placeholder="john@example.com" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all">
+                            <input type="email" id="contact-email" placeholder="john@example.com" required class="w-full bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Inquiry Type</label>
-                            <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all appearance-none">
-                                <option>Investment in Bahria Enclave</option>
-                                <option>Blue World City Booking</option>
-                                <option>Construction Consultation</option>
-                                <option>Property Management (Overseas)</option>
-                                <option>Career Opportunity</option>
+                            <select id="contact-type" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all appearance-none">
+                                <option value="Investment in Bahria Enclave">Investment in Bahria Enclave</option>
+                                <option value="Property Management (8-12% Fee Model)">Property Management (8-12% Fee Model)</option>
+                                <option value="KP Hospitality & Airbnb Setup">KP Hospitality & Airbnb Setup</option>
+                                <option value="Construction Consultation (5-Marla & Flipping)">Construction Consultation (5-Marla & Flipping)</option>
+                                <option value="Joint-Venture (JV) Development Inquiries">Joint-Venture (JV) Development Inquiries</option>
+                                <option value="Hotel Reservation & Resort Booking">Hotel Reservation & Resort Booking</option>
+                                <option value="Career Opportunity">Career Opportunity</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">Detailed Inquiry</label>
-                            <textarea rows="5" placeholder="Tell us about your requirements..." class="w-full bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all resize-none"></textarea>
+                            <textarea id="contact-message" rows="5" placeholder="Tell us about your requirements..." required class="w-full bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all resize-none"></textarea>
                         </div>
-                        <button type="submit" class="w-full bg-gold text-white font-bold py-5 rounded-2xl hover:bg-slate-900 transition-all luxury-shadow outfit text-lg">Submit Request</button>
+                        <button type="submit" id="contact-submit-btn" class="w-full bg-gold text-white font-bold py-5 rounded-2xl hover:bg-slate-900 transition-all luxury-shadow outfit text-lg flex items-center justify-center gap-2">Submit Request</button>
+                        <!-- Status Banner -->
+                        <div id="contact-status-banner" class="hidden p-4 rounded-xl text-center text-sm font-semibold"></div>
                     </form>
                 </div>
 
@@ -137,8 +180,8 @@
             <!-- Col 1: Brand Info -->
             <div>
                 <div class="flex items-center gap-2 mb-8 text-white">
-                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center font-bold text-xl">K</div>
-                    <span class="text-xl font-bold tracking-wider outfit">KAGHAN PROPERTIES</span>
+                    <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-10 w-auto object-contain">
+                    <span class="text-xl font-bold tracking-wider outfit font-semibold">KAGHAN PROPERTIES</span>
                 </div>
                 <p class="text-sm leading-relaxed mb-8">
                     Kaghan Properties Pvt. Ltd. is a Pakistan-based real estate and construction leader. We provide reliable investment options, luxury construction, and expert property management for local and overseas clients.
@@ -227,6 +270,48 @@
         </div>
     </footer>
 
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- Corporate DB -->
+    <script src="assets/js/db.js"></script>
     <script src="assets/js/script.js"></script>
+
+    <!-- Contact Form Submission Logic -->
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('contact-submit-btn');
+            const statusBanner = document.getElementById('contact-status-banner');
+            
+            // Get values
+            const name = document.getElementById('contact-name').value;
+            const phone = document.getElementById('contact-phone').value;
+            const email = document.getElementById('contact-email').value;
+            const inquiryType = document.getElementById('contact-type').value;
+            const message = document.getElementById('contact-message').value;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Processing Request...';
+            
+            statusBanner.className = 'hidden p-4 rounded-xl text-center text-sm font-semibold';
+            
+            try {
+                const res = await CorporateDB.addInquiry({ name, phone, email, inquiryType, message });
+                if (res.success) {
+                    statusBanner.innerText = 'Thank you! Your inquiry has been received. Our senior consultant will contact you shortly.';
+                    statusBanner.className = 'p-4 rounded-xl text-center text-sm font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200 mt-4 block';
+                    document.getElementById('contact-form').reset();
+                }
+            } catch (error) {
+                console.error("Form submit error:", error);
+                statusBanner.innerText = 'Failed to submit. Please check your network and try again.';
+                statusBanner.className = 'p-4 rounded-xl text-center text-sm font-semibold bg-rose-100 text-rose-800 border border-rose-200 mt-4 block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Request';
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,4 +1,17 @@
 [[redirects]]
+  host = "stay.kaghanproperties.com"
+  from = "/assets/*"
+  to = "/stay/assets/:splat"
+  status = 200
+
+[[redirects]]
+  host = "stay.kaghanproperties.com"
+  from = "/*"
+  to = "/stay/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/index"
   to = "/"
   status = 301
