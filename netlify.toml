@@ -59,6 +59,11 @@
   force = true
 
 [[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
   from = "/index"
   to = "/"
   status = 301
