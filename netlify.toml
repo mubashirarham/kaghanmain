@@ -1,46 +1,8 @@
+# Redirect /stay/* paths on main domains to their stay subdomain counterparts
 [[redirects]]
-  host = "stay.kaghan-new.com"
-  from = "/assets/*"
-  to = "/stay/assets/:splat"
-  status = 200
-
-[[redirects]]
-  host = "stay.kaghan-new.com"
-  from = "/*"
-  to = "/stay/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  host = "stay.kaghannew.com"
-  from = "/assets/*"
-  to = "/stay/assets/:splat"
-  status = 200
-
-[[redirects]]
-  host = "stay.kaghannew.com"
-  from = "/*"
-  to = "/stay/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  host = "stay.kaghanproperties.com"
-  from = "/assets/*"
-  to = "/stay/assets/:splat"
-  status = 200
-
-[[redirects]]
-  host = "stay.kaghanproperties.com"
-  from = "/*"
-  to = "/stay/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  host = "kaghan-new.com"
+  host = "kaghanproperties.com"
   from = "/stay/*"
-  to = "https://stay.kaghan-new.com/:splat"
+  to = "https://stay.kaghanproperties.com/:splat"
   status = 301
   force = true
 
@@ -52,12 +14,20 @@
   force = true
 
 [[redirects]]
-  host = "kaghanproperties.com"
+  host = "kaghan-new.com"
+  from = "/stay/*"
+  to = "https://stay.kaghan-new.com/:splat"
+  status = 301
+  force = true
+
+# Default fallback redirect for other domains (e.g. Netlify deployment URL)
+[[redirects]]
   from = "/stay/*"
   to = "https://stay.kaghanproperties.com/:splat"
   status = 301
   force = true
 
+# Redirect default index files to root
 [[redirects]]
   from = "/index.html"
   to = "/"
@@ -73,7 +43,7 @@
   to = "/"
   status = 301
 
-# Handle clean URLs if the user manually navigates
+# Clean URLs rewrites
 [[redirects]]
   from = "/about"
   to = "/about.html"
@@ -90,8 +60,18 @@
   status = 200
 
 [[redirects]]
+  from = "/blog"
+  to = "/blog.html"
+  status = 200
+
+[[redirects]]
   from = "/contact"
   to = "/contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/under-construction"
+  to = "/under-construction.html"
   status = 200
 
 [build]
