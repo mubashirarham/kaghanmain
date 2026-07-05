@@ -65,3 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 });
+
+// Register Service Worker for cache isolation and offline capabilities
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        // Correct relative path from root domain
+        navigator.serviceWorker.register('/service-worker.js')
+            .then((reg) => console.log('[Service Worker] Registered successfully with scope:', reg.scope))
+            .catch((err) => console.error('[Service Worker] Registration failed:', err));
+    });
+}
+

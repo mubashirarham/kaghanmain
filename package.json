@@ -13,5 +13,8 @@
     "luxury"
   ],
   "author": "Antigravity AI",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "nodemailer": "^6.9.13"
+  }
 }
