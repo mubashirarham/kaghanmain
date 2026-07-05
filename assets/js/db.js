@@ -272,6 +272,40 @@ window.CorporateDB = {
         }
     },
 
+    getSettings: async () => {
+        try {
+            const doc = await db.collection('settings').doc('general').get();
+            if (doc.exists) {
+                return doc.data();
+            }
+            return {
+                companyName: "Kaghan Properties",
+                phone1: "0334-0091127",
+                phone2: "0334-5405587",
+                email: "tanzilminhas@kaghanproperties.com",
+                address: "Ground Floor, Anjum Plaza, Near TCS Bahria Enclave / Jinnah Avenue New Mall, Islamabad, Pakistan",
+                blogCategories: ["Real Estate Insights", "Construction Updates", "Investment Guides", "Company News", "Market Shifts"],
+                blogAuthors: ["Tanzil Minhas", "Mobin Ahmad", "Nabil"],
+                locations: ["Islamabad", "Nathia Gali"],
+                smtpHost: "smtp.hostinger.com",
+                smtpUser: "info@kphstay.com"
+            };
+        } catch (error) {
+            console.error("Error getting settings:", error);
+            return null;
+        }
+    },
+
+    saveSettings: async (settings) => {
+        try {
+            await db.collection('settings').doc('general').set(settings, { merge: true });
+            return { success: true };
+        } catch (error) {
+            console.error("Error saving settings:", error);
+            throw error;
+        }
+    },
+
     // Simple Admin Auth Simulation (Same as hotel console)
     login: async (email, password) => {
         const normalizedEmail = email.toLowerCase().trim();

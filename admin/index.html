@@ -136,6 +136,10 @@
                         <i class="fa-solid fa-newspaper text-sm w-5 text-center"></i>
                         Blog Management
                     </button>
+                    <button onclick="switchTab('settings')" id="tab-btn-settings" class="w-full flex items-center gap-3.5 px-5 py-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                        <i class="fa-solid fa-gears text-sm w-5 text-center"></i>
+                        System Settings
+                    </button>
                 </nav>
             </div>
 
@@ -481,6 +485,7 @@
 
                 <!-- View: Blogs Management -->
                 <div id="view-blogs" class="tab-view hidden space-y-8">
+                    <!-- Blog Split (Form Left, List Right) -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         
                         <!-- Add Blog Form -->
@@ -494,10 +499,7 @@
                                 <div>
                                     <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Category</label>
                                     <select id="blog-cat" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-xs text-white focus:outline-none transition-all">
-                                        <option value="Real Estate Insights">Real Estate Insights</option>
-                                        <option value="Construction Updates">Construction Updates</option>
-                                        <option value="Investment Guides">Investment Guides</option>
-                                        <option value="Company News">Company News</option>
+                                        <!-- Dynamic categories populates here -->
                                     </select>
                                 </div>
                                 <div>
@@ -551,6 +553,80 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- View: System Settings -->
+                <div id="view-settings" class="tab-view hidden space-y-8 max-w-4xl mx-auto">
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl">
+                        <h3 class="text-xl font-bold outfit text-white mb-2">Corporate Settings Manager</h3>
+                        <p class="text-xs text-slate-400 mb-8 border-b border-slate-800/60 pb-4">Manage core settings, communication parameters, active regions, and dynamic blog categories.</p>
+
+                        <form id="settings-form" class="space-y-6" onsubmit="saveSystemSettings(event)">
+                            
+                            <!-- Section: General Configurations -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Company Name</label>
+                                    <input type="text" id="set-company" required class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-xs text-white focus:outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Hotline Email Address</label>
+                                    <input type="email" id="set-email" required class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-xs text-white focus:outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Primary Contact Number</label>
+                                    <input type="text" id="set-phone1" required class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-xs text-white focus:outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Secondary Contact Number</label>
+                                    <input type="text" id="set-phone2" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-xs text-white focus:outline-none transition-all">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Headquarters Office Address</label>
+                                <input type="text" id="set-address" required class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-xs text-white focus:outline-none transition-all">
+                            </div>
+
+                            <hr class="border-slate-800/60 my-6">
+
+                            <!-- Section: Blog Setting Options -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Blog Categories (Comma Separated)</label>
+                                    <input type="text" id="set-blog-cats" required placeholder="e.g. Insights, Updates, Guides" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-xs text-white focus:outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Permitted Blog Authors (Comma Separated)</label>
+                                    <input type="text" id="set-blog-authors" required placeholder="e.g. Tanzil Minhas, Mobin Ahmad" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-xs text-white focus:outline-none transition-all">
+                                </div>
+                            </div>
+
+                            <!-- Section: Active Locations -->
+                            <div>
+                                <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Active Marketing Locations (Comma Separated)</label>
+                                <input type="text" id="set-locations" required placeholder="e.g. Islamabad, Nathia Gali" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-xs text-white focus:outline-none transition-all">
+                            </div>
+
+                            <hr class="border-slate-800/60 my-6">
+
+                            <!-- Section: SMTP gateway diagnostic testing -->
+                            <div class="p-6 bg-slate-950 border border-slate-900 rounded-2xl">
+                                <h4 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
+                                    <i class="fa-solid fa-server text-[#D4AF37]"></i> SMTP Diagnostics Utility
+                                </h4>
+                                <p class="text-[11px] text-slate-400 mb-4">Click below to send a diagnostic test message to verify the connection between Netlify functions and the Hostinger SMTP server.</p>
+                                <div class="flex items-center gap-3">
+                                    <button type="button" onclick="runSmtpDiagnostics()" id="smtp-diag-btn" class="bg-slate-800 hover:bg-[#D4AF37] hover:text-slate-950 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-all">Run SMTP Diagnostics Test</button>
+                                    <div id="smtp-diag-status" class="hidden text-xs font-semibold"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end mt-8">
+                                <button type="submit" class="bg-gradient-to-r from-[#D4AF37] to-amber-500 hover:from-white hover:to-white text-slate-950 font-extrabold px-8 py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all">Save System Configuration</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -640,6 +716,7 @@
         let allSubscribers = [];
         let allProjects = [];
         let allBlogs = [];
+        let activeSettings = null;
         
         let editingProjectId = null;
         let editingBlogId = null;
@@ -731,10 +808,21 @@
             const listings = await CorporateDB.getListings();
             const blogs = await CorporateDB.getBlogs();
             const corpBlogs = blogs.filter(b => b.portal === 'corporate');
+            activeSettings = await CorporateDB.getSettings();
 
             allProjects = listings;
             allBlogs = corpBlogs;
             allSubscribers = subscribers;
+
+            // Load blog categories selection dynamically in dropdown
+            if (activeSettings && activeSettings.blogCategories) {
+                const blogCatSelect = document.getElementById('blog-cat');
+                if (blogCatSelect) {
+                    blogCatSelect.innerHTML = activeSettings.blogCategories.map(cat => `
+                        <option value="${cat}">${cat}</option>
+                    `).join('');
+                }
+            }
 
             // Stats computations
             const totalLeads = allInquiries.length;
@@ -789,9 +877,14 @@
                 leads: 'Inquiry Leads / CRM',
                 newsletter: 'Newsletter Ledger',
                 projects: 'Portfolio Inventory',
-                blogs: 'Blog Management'
+                blogs: 'Blog Management',
+                settings: 'System Settings'
             };
             document.getElementById('header-breadcrumb').innerText = breadcrumbMap[tabId] || 'Corporate Console';
+
+            if (tabId === 'settings') {
+                loadSystemSettings();
+            }
         }
 
         // Render Overview Tab
@@ -1000,7 +1093,7 @@
             if (!selectedInquiry) return;
             
             statusDiv.className = "text-[10px] font-bold mt-1 text-slate-400";
-            statusDiv.innerText = "Dispatching via Hostinger SMTP...";
+            statusDiv.innerText = "Dispatching via SMTP gateway...";
             statusDiv.classList.remove('hidden');
             sendBtn.disabled = true;
             
@@ -1386,6 +1479,89 @@
                 if (success) {
                     await reloadData();
                 }
+            }
+        }
+
+        // Settings load & save actions
+        async function loadSystemSettings() {
+            if (!activeSettings) {
+                activeSettings = await CorporateDB.getSettings();
+            }
+            if (!activeSettings) return;
+
+            document.getElementById('set-company').value = activeSettings.companyName || '';
+            document.getElementById('set-email').value = activeSettings.email || '';
+            document.getElementById('set-phone1').value = activeSettings.phone1 || '';
+            document.getElementById('set-phone2').value = activeSettings.phone2 || '';
+            document.getElementById('set-address').value = activeSettings.address || '';
+            document.getElementById('set-blog-cats').value = (activeSettings.blogCategories || []).join(', ');
+            document.getElementById('set-blog-authors').value = (activeSettings.blogAuthors || []).join(', ');
+            document.getElementById('set-locations').value = (activeSettings.locations || []).join(', ');
+        }
+
+        async function saveSystemSettings(e) {
+            e.preventDefault();
+            const companyName = document.getElementById('set-company').value.trim();
+            const email = document.getElementById('set-email').value.trim();
+            const phone1 = document.getElementById('set-phone1').value.trim();
+            const phone2 = document.getElementById('set-phone2').value.trim();
+            const address = document.getElementById('set-address').value.trim();
+            
+            const blogCategories = document.getElementById('set-blog-cats').value.split(',').map(s => s.trim()).filter(s => s);
+            const blogAuthors = document.getElementById('set-blog-authors').value.split(',').map(s => s.trim()).filter(s => s);
+            const locations = document.getElementById('set-locations').value.split(',').map(s => s.trim()).filter(s => s);
+
+            try {
+                const res = await CorporateDB.saveSettings({
+                    companyName, email, phone1, phone2, address, blogCategories, blogAuthors, locations
+                });
+                if (res.success) {
+                    alert("System configurations successfully saved!");
+                    await reloadData();
+                }
+            } catch (err) {
+                console.error("Save settings error:", err);
+                alert("Failed to save configurations to database.");
+            }
+        }
+
+        async function runSmtpDiagnostics() {
+            const diagBtn = document.getElementById('smtp-diag-btn');
+            const diagStatus = document.getElementById('smtp-diag-status');
+            
+            diagBtn.disabled = true;
+            diagStatus.className = "text-xs font-semibold text-slate-400 animate-pulse";
+            diagStatus.innerText = "Initiating ping to SMTP gateway...";
+            diagStatus.classList.remove('hidden');
+            
+            try {
+                const emailAddress = document.getElementById('set-email').value.trim() || 'tanzilminhas2007@gmail.com';
+                
+                const res = await fetch('/.netlify/functions/booking-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: emailAddress,
+                        name: 'System Admin',
+                        inquiryType: 'SMTP Gateway Diagnostic Ping',
+                        message: 'Diagnostic SMTP ping completed successfully. Connection, TLS handshake, and credentials validation checked.'
+                    })
+                });
+                
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    diagStatus.className = "text-xs font-semibold text-emerald-500";
+                    diagStatus.innerText = "Diagnostics Success! Test email sent successfully to " + emailAddress;
+                } else {
+                    diagStatus.className = "text-xs font-semibold text-rose-500";
+                    diagStatus.innerText = "Diagnostics Failed: " + (data.error || "Mail transmission failed.");
+                }
+            } catch (err) {
+                console.error("Diagnostics error:", err);
+                diagStatus.className = "text-xs font-semibold text-rose-500";
+                diagStatus.innerText = "Gateway unresponsive. Check Netlify functions setup.";
+            } finally {
+                diagBtn.disabled = false;
             }
         }
 
