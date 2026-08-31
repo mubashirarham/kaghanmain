@@ -3,56 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaghan Properties | Islamabad & Nathia Gali Real Estate</title>
-    <meta name="description" content="Kaghan Properties offers premium real estate investment, turnkey construction, property management, and hospitality services in Islamabad and Nathia Gali.">
+    <title>Kaghan Properties | Islamabad & Nathia Gali Real Estate, Construction & Stays</title>
+    <meta name="description" content="Kaghan Properties offers luxury real estate investments, turnkey villa construction, short-stay Airbnb management, and property advisory in Islamabad and Nathia Gali.">
+    <meta name="keywords" content="Islamabad Real Estate, Bahria Enclave Islamabad, DHA Islamabad, Turnkey Construction Islamabad, Property Management Islamabad, Nathia Gali Holiday Chalets, Overseas Pakistani Real Estate, Tanzil Minhas">
+    <meta name="author" content="Kaghan Properties">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="theme-color" content="#0B0F19">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="canonical" href="https://kaghanproperties.com/index.html">
+
+    <!-- Favicon & PWA Icons -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+    <link rel="manifest" href="site.webmanifest">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kaghan Properties">
+    <meta property="og:locale" content="en_PK">
     <meta property="og:url" content="https://kaghanproperties.com/index.html">
     <meta property="og:title" content="Kaghan Properties | Islamabad & Nathia Gali Real Estate">
     <meta property="og:description" content="Kaghan Properties offers premium real estate investment, turnkey construction, property management, and hospitality services in Islamabad and Nathia Gali.">
     <meta property="og:image" content="https://kaghanproperties.com/assets/images/bahria-villa.png">
 
-    <!-- Twitter -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@kaghanprop">
+    <meta name="twitter:creator" content="@kaghanprop">
     <meta name="twitter:url" content="https://kaghanproperties.com/index.html">
     <meta name="twitter:title" content="Kaghan Properties | Islamabad & Nathia Gali Real Estate">
     <meta name="twitter:description" content="Kaghan Properties offers premium real estate investment, turnkey construction, property management, and hospitality services in Islamabad and Nathia Gali.">
     <meta name="twitter:image" content="https://kaghanproperties.com/assets/images/bahria-villa.png">
 
-    <!-- Structured Data (JSON-LD LocalBusiness Schema) -->
+    <!-- Structured Data (JSON-LD RealEstateAgent & WebSite Schema) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "RealEstateAgent",
-      "name": "Kaghan Properties",
-      "image": "https://kaghanproperties.com/assets/images/logo.png",
-      "description": "Premium real estate agency, turnkey villa construction, and corporate property management in Islamabad.",
-      "founder": {
-        "@type": "Person",
-        "name": "Tanzil Minhas",
-        "jobTitle": "CEO & Founder",
-        "alumniOf": "Master of Computer Science"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Ground Floor, Anjum Plaza, Bahria Enclave / Jinnah Avenue New Mall",
-        "addressLocality": "Islamabad",
-        "addressCountry": "PK"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "33.6669",
-        "longitude": "73.1932"
-      },
-      "telephone": "+923340091127",
-      "url": "https://kaghanproperties.com/index.html",
-      "priceRange": "$$$",
-      "sameAs": [
-        "https://www.facebook.com/kaghanproperties",
-        "https://www.instagram.com/kaghanproperties",
-        "https://www.youtube.com/kaghanproperties"
+      "@graph": [
+        {
+          "@type": "RealEstateAgent",
+          "@id": "https://kaghanproperties.com/#organization",
+          "name": "Kaghan Properties",
+          "alternateName": "Kaghan Real Estate & Construction",
+          "url": "https://kaghanproperties.com/index.html",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://kaghanproperties.com/assets/images/logo.png"
+          },
+          "image": "https://kaghanproperties.com/assets/images/bahria-villa.png",
+          "description": "Premium real estate agency, turnkey villa construction, and corporate property management in Islamabad.",
+          "telephone": "+923340091127",
+          "priceRange": "$$$",
+          "founder": {
+            "@type": "Person",
+            "name": "Tanzil Minhas",
+            "jobTitle": "CEO & Founder",
+            "alumniOf": "Master of Computer Science"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Ground Floor, Anjum Plaza, Bahria Enclave / Jinnah Avenue New Mall",
+            "addressLocality": "Islamabad",
+            "addressRegion": "ICT",
+            "postalCode": "44000",
+            "addressCountry": "PK"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.6669,
+            "longitude": 73.1932
+          },
+          "areaServed": [
+            "Islamabad",
+            "Rawalpindi",
+            "Bahria Enclave",
+            "DHA Islamabad",
+            "Nathia Gali",
+            "Kaghan Valley"
+          ],
+          "sameAs": [
+            "https://www.facebook.com/kaghanproperties",
+            "https://www.instagram.com/kaghanproperties",
+            "https://www.youtube.com/kaghanproperties"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://kaghanproperties.com/#website",
+          "url": "https://kaghanproperties.com/",
+          "name": "Kaghan Properties",
+          "description": "Islamabad and Nathia Gali Real Estate, Property Management & Turnkey Construction",
+          "publisher": {
+            "@id": "https://kaghanproperties.com/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://kaghanproperties.com/projects.html?search={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        }
       ]
     }
     </script>
@@ -73,17 +126,20 @@
         </div>
 
         <!-- Desktop Menu -->
-        <div class="hidden md:flex gap-8 items-center font-medium text-inherit">
+        <div class="hidden lg:flex gap-6 items-center font-medium text-xs">
             <a href="index.html" class="hover:text-gold transition-colors underline decoration-gold decoration-2 underline-offset-4">Home</a>
-            <a href="services.html" class="hover:text-gold transition-colors">Services</a>
-            <a href="projects.html" class="hover:text-gold transition-colors">Projects</a>
-            <a href="about.html" class="hover:text-gold transition-colors">About Us</a>
-            <a href="stay/index.html" class="hover:text-gold transition-colors">Luxury Stays</a>
-            <a href="contact.html" class="bg-gold text-white px-6 py-2 rounded-full hover:bg-slate-800 transition-all luxury-shadow">Contact Now</a>
+            <a href="projects.html" class="hover:text-gold transition-colors">Properties</a>
+            <a href="societies.html" class="hover:text-gold transition-colors">Societies</a>
+            <a href="calculator.html" class="hover:text-gold transition-colors">Calculators</a>
+            <a href="compare.html" class="hover:text-gold transition-colors">Compare</a>
+            <a href="agents.html" class="hover:text-gold transition-colors">Agents</a>
+            <a href="blog.html" class="hover:text-gold transition-colors">Blog</a>
+            <a href="faqs.html" class="hover:text-gold transition-colors">FAQs</a>
+            <a href="contact.html" class="bg-gold text-white px-5 py-2 rounded-full hover:bg-slate-800 transition-all luxury-shadow font-bold">Contact Now</a>
         </div>
 
         <!-- Mobile Menu Btn -->
-        <button id="mobile-menu-btn" class="md:hidden p-2">
+        <button id="mobile-menu-btn" class="lg:hidden p-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
             </svg>
@@ -91,13 +147,16 @@
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-slate-900/95 z-[60] hidden flex flex-col items-center justify-center gap-8 text-white text-2xl font-semibold">
+    <div id="mobile-menu" class="fixed inset-0 bg-slate-900/95 z-[60] hidden flex flex-col items-center justify-center gap-5 text-white text-lg font-semibold">
         <a href="index.html" class="hover:text-gold">Home</a>
-        <a href="services.html" class="hover:text-gold">Services</a>
-        <a href="projects.html" class="hover:text-gold">Projects</a>
-        <a href="about.html" class="hover:text-gold">About Us</a>
-        <a href="stay/index.html" class="hover:text-gold">Luxury Stays</a>
-        <a href="contact.html" class="hover:text-gold">Contact</a>
+        <a href="projects.html" class="hover:text-gold">Properties</a>
+        <a href="societies.html" class="hover:text-gold">Societies Directory</a>
+        <a href="calculator.html" class="hover:text-gold">Financial Calculators</a>
+        <a href="compare.html" class="hover:text-gold">Compare Properties</a>
+        <a href="agents.html" class="hover:text-gold">Our Advisors</a>
+        <a href="blog.html" class="hover:text-gold">Market Blog</a>
+        <a href="faqs.html" class="hover:text-gold">FAQs & Guide</a>
+        <a href="contact.html" class="hover:text-gold">Contact Us</a>
         <button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="absolute top-8 right-8">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -112,20 +171,56 @@
             <div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-slate-900/40"></div>
         </div>
 
-        <div class="relative z-10 text-center px-4 max-w-5xl animate-fade-in">
-            <span class="text-gold uppercase tracking-[0.3em] font-semibold mb-4 block">Redefining Luxury Living</span>
-            <h1 class="text-5xl md:text-7xl text-white font-bold leading-tight mb-6 outfit">Your Trusted Partner in <br><span class="text-gold">Islamabad & Nathia Gali</span></h1>
-            <p class="text-slate-200 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+        <div class="relative z-10 text-center px-4 max-w-5xl animate-fade-in space-y-6 pt-16">
+            <span class="text-gold uppercase tracking-[0.3em] font-semibold block">Redefining Luxury Living</span>
+            <h1 class="text-4xl md:text-6xl text-white font-bold leading-tight outfit">Your Trusted Partner in <br><span class="text-gold">Islamabad & Nathia Gali</span></h1>
+            <p class="text-slate-200 text-sm md:text-base max-w-2xl mx-auto font-light leading-relaxed">
                 Expert brokerage, modern construction, and premium property management in Islamabad and Nathia Gali.
             </p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <a href="projects.html" class="bg-gold text-white px-10 py-4 rounded-md font-bold text-lg hover:bg-white hover:text-slate-900 transition-all luxury-shadow">Explore Projects</a>
-                <a href="contact.html" class="glass text-white px-10 py-4 rounded-md font-bold text-lg hover:bg-gold hover:border-gold transition-all">Consulate Now</a>
+
+            <!-- Hero Interactive Search Bar Box -->
+            <div class="bg-slate-900/90 border border-white/10 p-4 md:p-6 rounded-3xl backdrop-blur-md shadow-2xl text-left max-w-4xl mx-auto">
+                <form action="projects.html" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
+                    <div>
+                        <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1">Area / Society</label>
+                        <select name="area" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs focus:border-gold outline-none">
+                            <option value="all">All Areas & Societies</option>
+                            <option value="DHA Islamabad">DHA Islamabad</option>
+                            <option value="Bahria Town">Bahria Town / Enclave</option>
+                            <option value="G-11">CDA Sector G-11</option>
+                            <option value="Nathia Gali">Nathia Gali / Kaghan</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1">Property Type</label>
+                        <select name="type" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs focus:border-gold outline-none">
+                            <option value="all">All Types</option>
+                            <option value="house">House / Villa</option>
+                            <option value="plot">Plot</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="office">Corporate Office</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-slate-400 uppercase font-bold block mb-1">Purpose</label>
+                        <select name="purpose" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs focus:border-gold outline-none">
+                            <option value="all">All Purposes</option>
+                            <option value="sale">For Sale</option>
+                            <option value="rent">For Rent</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full bg-gold hover:bg-white hover:text-slate-950 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass"></i> Search Properties
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce text-white hidden md:block">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
         </div>
@@ -355,6 +450,29 @@
             
             <div class="text-center mt-12">
                 <a href="projects.html" class="border border-slate-350 text-slate-800 px-8 py-4 rounded-xl font-bold hover:bg-slate-100 transition-all text-sm inline-block">View Full Portfolio</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Areas & Societies Showcase -->
+    <section class="py-24 px-4 md:px-12 bg-slate-900 text-white relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-gold font-bold uppercase tracking-widest text-sm mb-4 block font-semibold">Prime Locations</span>
+                <h2 class="text-4xl md:text-5xl font-bold outfit text-white mb-4">Key Areas & <span class="text-gold">Societies</span></h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-6"></div>
+                <p class="text-slate-300 max-w-2xl mx-auto text-sm leading-relaxed">
+                    Browse our top high-yield housing authorities and CDA sectors across Islamabad ICT and Alpine resorts.
+                </p>
+            </div>
+
+            <!-- Dynamic Societies Grid -->
+            <div id="key-societies-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Loaded dynamically by Javascript -->
+                <div class="col-span-4 text-center text-slate-400 py-12">
+                    <i class="fa-solid fa-spinner animate-spin text-2xl text-gold mb-3"></i>
+                    <p class="text-xs uppercase font-semibold tracking-wider">Syncing active societies database...</p>
+                </div>
             </div>
         </div>
     </section>
@@ -947,45 +1065,86 @@
     <script src="assets/js/db.js"></script>
     <script src="assets/js/script.js"></script>
     <script>
-        // Fetch and Render Dynamic Projects Showcase
+        // Fetch and Render Dynamic Properties Showcase
         async function loadFeaturedProjects() {
             const container = document.getElementById('featured-projects-container');
             if (!container) return;
 
             try {
-                const listings = await CorporateDB.getListings();
+                const listings = await window.KaghanDB.getProperties({ status: 'published' });
                 if (listings.length === 0) {
-                    container.innerHTML = `<div class="col-span-3 text-center text-slate-500 py-12">No active projects listed in database. Check Admin Panel.</div>`;
+                    container.innerHTML = `<div class="col-span-3 text-center text-slate-500 py-12">No active published properties listed in database. Check Admin Panel.</div>`;
                     return;
                 }
 
-                // Render latest 3 projects
+                // Render latest 3 properties
                 const latest = listings.slice(0, 3);
                 container.innerHTML = latest.map(p => {
-                    const img = p.imageUrl || 'assets/images/logo.png';
+                    const img = window.KaghanDB.getDriveDirectUrl(p.images && p.images[0] ? p.images[0].url : '');
+                    const formattedPrice = (p.price / 1000000).toFixed(2);
                     return `
                         <div class="bg-white rounded-[2.5rem] border border-slate-100 overflow-hidden shadow-lg hover-lift hover:border-gold transition-all duration-300 flex flex-col justify-between">
                             <div class="relative h-64 overflow-hidden group">
-                                <img src="${img}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='stay/assets/images/logo.png'">
-                                <span class="absolute top-4 right-4 bg-slate-900/90 text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">${p.status}</span>
+                                <img src="${img}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='assets/images/bahria-villa.png'">
+                                <span class="absolute top-4 left-4 bg-slate-900/90 text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">${p.purpose === 'sale' ? 'FOR SALE' : 'FOR RENT'}</span>
+                                <span class="absolute top-4 right-4 bg-gold text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">${p.type}</span>
                             </div>
                             <div class="p-8 flex-grow flex flex-col justify-between">
                                 <div>
-                                    <span class="text-gold font-bold text-[9px] uppercase tracking-widest block mb-2">${p.category}</span>
-                                    <h4 class="text-xl font-bold outfit text-slate-950 mb-3">${p.name}</h4>
-                                    <p class="text-slate-550 text-xs leading-relaxed mb-6">${p.description}</p>
+                                    <span class="text-gold font-bold text-[9px] uppercase tracking-widest block mb-2">${p.area}, ${p.city}</span>
+                                    <h4 class="text-xl font-bold outfit text-slate-950 mb-3 line-clamp-2">${p.title}</h4>
+                                    <div class="flex items-center gap-4 text-xs font-semibold text-slate-600 mb-6 py-2 border-y border-slate-100">
+                                        <span><i class="fa-solid fa-bed text-gold mr-1"></i> ${p.bedrooms} Beds</span>
+                                        <span><i class="fa-solid fa-bath text-gold mr-1"></i> ${p.bathrooms} Baths</span>
+                                        <span><i class="fa-solid fa-ruler-combined text-gold mr-1"></i> ${p.size} ${p.sizeUnit}</span>
+                                    </div>
                                 </div>
                                 <div class="pt-4 border-t border-slate-50 flex justify-between items-center text-xs font-bold">
-                                    <span class="text-slate-400">KAGHAN PROPERTIES</span>
-                                    <a href="projects.html" class="text-gold hover:underline flex items-center gap-1.5">View Details <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
+                                    <span class="text-slate-900 font-extrabold outfit">PKR ${formattedPrice} Lac/Cr</span>
+                                    <a href="property.html?slug=${p.slug}" class="text-gold hover:underline flex items-center gap-1.5">View Details <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
                                 </div>
                             </div>
                         </div>
                     `;
                 }).join('');
             } catch (err) {
-                console.error("Failed to load featured projects:", err);
+                console.error("Failed to load featured properties:", err);
                 container.innerHTML = `<div class="col-span-3 text-center text-rose-500 py-12">Failed to connect to database.</div>`;
+            }
+        }
+
+        // Fetch and Render Key Areas & Societies Showcase
+        async function loadKeySocieties() {
+            const container = document.getElementById('key-societies-container');
+            if (!container) return;
+
+            try {
+                const societies = await window.KaghanDB.getSocieties();
+                const active = societies.filter(s => s.isActive !== false);
+
+                if (active.length === 0) {
+                    container.innerHTML = `<div class="col-span-4 text-center text-slate-500 py-12">No societies active in database.</div>`;
+                    return;
+                }
+
+                container.innerHTML = active.map(s => `
+                    <div class="bg-slate-800/80 border border-slate-700 hover:border-gold rounded-3xl p-6 transition-all duration-300 flex flex-col justify-between hover-lift">
+                        <div>
+                            <span class="text-gold font-bold text-[9px] uppercase tracking-widest block mb-2">${s.type || 'Society'} • ${s.city || 'Islamabad'}</span>
+                            <h4 class="text-xl font-bold outfit text-white mb-3">${s.name}</h4>
+                            <p class="text-slate-400 text-xs leading-relaxed mb-6 line-clamp-3">${s.description}</p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-700/60 flex justify-between items-center">
+                            <span class="text-[10px] text-slate-400 font-semibold uppercase">${s.amenities ? s.amenities.length : 0} Amenities</span>
+                            <a href="area.html?slug=${s.slug}" class="bg-gold/20 hover:bg-gold text-gold hover:text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition-all">
+                                Explore Area <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error("Failed to load societies:", err);
+                container.innerHTML = `<div class="col-span-4 text-center text-rose-500 py-12">Failed to load societies.</div>`;
             }
         }
 
@@ -995,24 +1154,23 @@
             if (!container) return;
 
             try {
-                const blogs = await CorporateDB.getBlogs();
-                const corpBlogs = blogs.filter(b => b.portal === 'corporate');
-                if (corpBlogs.length === 0) {
-                    container.innerHTML = `<div class="col-span-2 text-center text-slate-500 py-12">No articles published in database yet. Check Admin Panel.</div>`;
+                const posts = await window.KaghanDB.getBlogPosts('published');
+                if (posts.length === 0) {
+                    container.innerHTML = `<div class="col-span-2 text-center text-slate-500 py-12">No market updates published in database yet. Check Admin Panel.</div>`;
                     return;
                 }
 
-                // Render latest 2 corporate blogs
-                const latest = corpBlogs.slice(0, 2);
+                // Render latest 2 blog posts
+                const latest = posts.slice(0, 2);
                 container.innerHTML = latest.map(b => {
-                    const img = b.imageUrl || 'assets/images/logo.png';
+                    const img = window.KaghanDB.getDriveDirectUrl(b.featuredImage && b.featuredImage.url ? b.featuredImage.url : '');
                     return `
                         <div class="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-md hover-lift hover:border-gold transition-all duration-300 flex flex-col md:flex-row gap-6 items-center">
-                            <div class="w-full md:w-1/3 aspect-video md:aspect-square rounded-2xl overflow-hidden shrink-0 border border-slate-100">
-                                <img src="${img}" alt="${b.title}" class="w-full h-full object-cover" onerror="this.src='stay/assets/images/logo.png'">
+                            <div class="w-full md:w-1/3 aspect-video md:aspect-square rounded-2xl overflow-hidden shrink-0 border border-slate-100 bg-slate-900">
+                                <img src="${img}" alt="${b.title}" class="w-full h-full object-cover" onerror="this.src='assets/images/logo.png'">
                             </div>
                             <div class="flex-grow">
-                                <span class="text-gold font-bold text-[9px] uppercase tracking-widest block mb-2">${b.category}</span>
+                                <span class="text-gold font-bold text-[9px] uppercase tracking-widest block mb-2">${b.category || 'Market Update'}</span>
                                 <h4 class="text-lg font-bold outfit text-slate-950 mb-3 leading-snug">${b.title}</h4>
                                 <p class="text-slate-550 text-xs leading-relaxed mb-4 line-clamp-2">${b.excerpt}</p>
                                 <a href="blog.html#${b.slug}" class="text-slate-900 hover:text-gold text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 self-start">Read Article <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
@@ -1028,6 +1186,7 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             loadFeaturedProjects();
+            loadKeySocieties();
             loadFeaturedBlogs();
         });
 
@@ -1104,5 +1263,6 @@
             }
         }
     </script>
+    <script src="assets/js/shared.js"></script>
 </body>
 </html>

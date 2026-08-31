@@ -3,19 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us & CEO Tanzil Minhas | Kaghan Properties</title>
+    <title>About Us & CEO Tanzil Minhas | Kaghan Properties Islamabad</title>
     <meta name="description" content="Meet CEO Tanzil Minhas (MCS) and learn about the Kaghan Properties 10-year strategic roadmap for tech-driven property management and construction in Islamabad.">
+    <meta name="keywords" content="Tanzil Minhas, CEO Kaghan Properties, Islamabad Real Estate Firm, Bahria Enclave Developers, Turnkey Construction Pakistan, Real Estate Tech Roadmap">
+    <meta name="author" content="Kaghan Properties">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#0B0F19">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="canonical" href="https://kaghanproperties.com/about.html">
+
+    <!-- Favicon & PWA Icons -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+    <link rel="manifest" href="site.webmanifest">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kaghan Properties">
+    <meta property="og:locale" content="en_PK">
     <meta property="og:url" content="https://kaghanproperties.com/about.html">
     <meta property="og:title" content="About Us & CEO Tanzil Minhas | Kaghan Properties">
     <meta property="og:description" content="Meet CEO Tanzil Minhas (MCS) and learn about the Kaghan Properties 10-year strategic roadmap for tech-driven property management and construction in Islamabad.">
     <meta property="og:image" content="https://kaghanproperties.com/assets/images/consultation.png">
 
-    <!-- Twitter -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@kaghanprop">
     <meta name="twitter:url" content="https://kaghanproperties.com/about.html">
     <meta name="twitter:title" content="About Us & CEO Tanzil Minhas | Kaghan Properties">
     <meta name="twitter:description" content="Meet CEO Tanzil Minhas (MCS) and learn about the Kaghan Properties 10-year strategic roadmap for tech-driven property management and construction in Islamabad.">
@@ -25,22 +39,51 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "AboutPage",
-      "mainEntity": {
-        "@type": "RealEstateAgent",
-        "name": "Kaghan Properties",
-        "founder": {
-          "@type": "Person",
-          "name": "Tanzil Minhas",
-          "jobTitle": "CEO & Founder",
-          "alumniOf": "Master of Computer Science",
-          "knowsAbout": ["Real Estate Development", "Property Management", "AI and Tech Automation", "Digital Marketing"],
-          "worksFor": {
-            "@type": "Organization",
+      "@graph": [
+        {
+          "@type": "AboutPage",
+          "@id": "https://kaghanproperties.com/about.html#about",
+          "url": "https://kaghanproperties.com/about.html",
+          "name": "About Kaghan Properties & Founder Tanzil Minhas",
+          "description": "Learn about the mission, technological vision, and construction standards of Kaghan Properties in Islamabad.",
+          "isPartOf": {
+            "@type": "WebSite",
+            "@id": "https://kaghanproperties.com/#website",
+            "url": "https://kaghanproperties.com/",
             "name": "Kaghan Properties"
+          },
+          "mainEntity": {
+            "@type": "Person",
+            "@id": "https://kaghanproperties.com/#tanzil-minhas",
+            "name": "Tanzil Minhas",
+            "jobTitle": "CEO & Founder",
+            "alumniOf": "Master of Computer Science",
+            "knowsAbout": ["Real Estate Development", "Property Management", "AI and Tech Automation", "Turnkey Villa Construction"],
+            "worksFor": {
+              "@type": "RealEstateAgent",
+              "name": "Kaghan Properties",
+              "url": "https://kaghanproperties.com/"
+            }
           }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://kaghanproperties.com/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "About Us",
+              "item": "https://kaghanproperties.com/about.html"
+            }
+          ]
         }
-      }
+      ]
     }
     </script>
 
@@ -372,5 +415,6 @@
     </footer>
 
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/shared.js"></script>
 </body>
 </html>

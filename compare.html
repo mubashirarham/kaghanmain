@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Properties Side-by-Side | Kaghan Properties Islamabad</title>
+    <meta name="description" content="Compare property specs, prices, locations, amenities, and rental yields side-by-side to make informed real estate investment choices in Islamabad and Kaghan.">
+    <meta name="keywords" content="Compare Properties Islamabad, Real Estate Comparison Tool, Bahria Enclave vs DHA Islamabad, Property Yield Comparison">
+    <meta name="author" content="Kaghan Properties">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#0B0F19">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="canonical" href="https://kaghanproperties.com/compare.html">
+
+    <!-- Favicon & PWA Icons -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kaghan Properties">
+    <meta property="og:locale" content="en_PK">
+    <meta property="og:url" content="https://kaghanproperties.com/compare.html">
+    <meta property="og:title" content="Compare Properties Side-by-Side | Kaghan Properties">
+    <meta property="og:description" content="Compare property specs, prices, locations, and amenities side-by-side.">
+    <meta property="og:image" content="https://kaghanproperties.com/assets/images/bahria-villa.png">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@kaghanprop">
+    <meta name="twitter:url" content="https://kaghanproperties.com/compare.html">
+    <meta name="twitter:title" content="Compare Properties Side-by-Side | Kaghan Properties">
+    <meta name="twitter:description" content="Compare property specs, prices, locations, and amenities side-by-side.">
+    <meta name="twitter:image" content="https://kaghanproperties.com/assets/images/bahria-villa.png">
+
+    <!-- Structured Data (JSON-LD WebApplication & Breadcrumbs) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://kaghanproperties.com/compare.html#app",
+          "name": "Kaghan Properties Comparison Matrix",
+          "url": "https://kaghanproperties.com/compare.html",
+          "applicationCategory": "RealEstateApplication",
+          "operatingSystem": "All",
+          "description": "Side-by-side real estate analysis matrix for Islamabad and Kaghan properties."
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://kaghanproperties.com/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Compare Properties",
+              "item": "https://kaghanproperties.com/compare.html"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Outfit & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="assets/js/db.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#D4AF37',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .outfit { font-family: 'Outfit', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Navigation Header -->
+    <nav class="bg-slate-900/95 text-white sticky top-0 z-50 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-10 w-auto object-contain">
+                <span class="text-xl font-bold tracking-wider uppercase outfit">Kaghan Properties</span>
+            </a>
+            <div class="hidden lg:flex gap-7 items-center font-medium text-sm">
+                <a href="index.html" class="hover:text-gold transition-colors">Home</a>
+                <a href="projects.html" class="hover:text-gold transition-colors">Properties</a>
+                <a href="societies.html" class="hover:text-gold transition-colors">Societies</a>
+                <a href="calculator.html" class="hover:text-gold transition-colors">Calculators</a>
+                <a href="compare.html" class="text-gold font-bold transition-colors">Compare</a>
+                <a href="agents.html" class="hover:text-gold transition-colors">Agents</a>
+                <a href="blog.html" class="hover:text-gold transition-colors">Blog</a>
+                <a href="faqs.html" class="hover:text-gold transition-colors">FAQs</a>
+                <a href="contact.html" class="bg-gold text-white px-5 py-2 rounded-full hover:bg-white hover:text-slate-900 transition-all font-bold shadow-md">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Hero Banner -->
+    <header class="pt-24 pb-16 bg-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 text-center relative z-10">
+            <span class="bg-gold/10 text-gold border border-gold/30 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest inline-block mb-4">Comparison Studio</span>
+            <h1 class="text-3xl md:text-5xl font-extrabold outfit leading-tight text-white mb-4">Compare Properties Side-by-Side</h1>
+            <p class="text-slate-400 text-sm max-w-xl mx-auto">Select up to 3 listings to evaluate prices, locations, floor plans, and specs in a unified decision matrix.</p>
+        </div>
+    </header>
+
+    <!-- Main Comparison Section -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 md:px-8 py-12 space-y-8">
+        <!-- Selector Bar -->
+        <div class="bg-white rounded-3xl p-6 shadow-lg border border-slate-100 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+                <label class="text-xs font-bold uppercase text-slate-400 block mb-2">Property Slot 1</label>
+                <select id="select-prop-1" onchange="updateComparison()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-xs font-bold focus:outline-none focus:border-gold"></select>
+            </div>
+            <div>
+                <label class="text-xs font-bold uppercase text-slate-400 block mb-2">Property Slot 2</label>
+                <select id="select-prop-2" onchange="updateComparison()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-xs font-bold focus:outline-none focus:border-gold"></select>
+            </div>
+            <div>
+                <label class="text-xs font-bold uppercase text-slate-400 block mb-2">Property Slot 3</label>
+                <select id="select-prop-3" onchange="updateComparison()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-xs font-bold focus:outline-none focus:border-gold"></select>
+            </div>
+        </div>
+
+        <!-- Matrix Table Container -->
+        <div class="bg-white rounded-[2.5rem] p-6 md:p-8 shadow-xl border border-slate-100 overflow-x-auto">
+            <div id="comparison-matrix-container" class="min-w-[700px]">
+                <div class="text-center py-12 text-slate-400">Loading properties data...</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-10 border-t border-slate-800 text-center">
+        <p>&copy; 2026 Kaghan Properties. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        let availableProps = [];
+
+        async function initCompare() {
+            try {
+                availableProps = await window.KaghanDB.getProperties({ status: 'published' });
+                
+                const s1 = document.getElementById('select-prop-1');
+                const s2 = document.getElementById('select-prop-2');
+                const s3 = document.getElementById('select-prop-3');
+
+                const optionsHtml = availableProps.map((p, idx) => `<option value="${p.id}">${p.title} (${p.area})</option>`).join('');
+
+                s1.innerHTML = optionsHtml;
+                s2.innerHTML = `<option value="none">-- None --</option>` + optionsHtml;
+                s3.innerHTML = `<option value="none">-- None --</option>` + optionsHtml;
+
+                if (availableProps.length > 1) s2.selectedIndex = 2;
+                if (availableProps.length > 2) s3.selectedIndex = 3;
+
+                updateComparison();
+            } catch (e) {
+                console.error("Failed to initialize compare module:", e);
+            }
+        }
+
+        function updateComparison() {
+            const id1 = document.getElementById('select-prop-1').value;
+            const id2 = document.getElementById('select-prop-2').value;
+            const id3 = document.getElementById('select-prop-3').value;
+
+            const selected = [id1, id2, id3]
+                .filter(id => id && id !== 'none')
+                .map(id => availableProps.find(p => p.id === id))
+                .filter(p => p);
+
+            const container = document.getElementById('comparison-matrix-container');
+
+            if (selected.length === 0) {
+                container.innerHTML = `<div class="text-center py-12 text-slate-400">Select properties above to view comparison matrix.</div>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-200">
+                            <th class="p-4 w-1/4 text-slate-400 uppercase font-bold">Feature</th>
+                            ${selected.map(p => `
+                                <th class="p-4 w-1/4">
+                                    <img src="${window.KaghanDB.getDriveDirectUrl(p.images && p.images[0] ? p.images[0].url : '')}" class="w-full h-40 object-cover rounded-2xl mb-3 shadow">
+                                    <span class="text-gold font-bold uppercase text-[10px] tracking-wider block">${p.area}, ${p.city}</span>
+                                    <h4 class="text-base font-bold outfit text-slate-900 leading-snug mb-1">${p.title}</h4>
+                                    <div class="text-lg font-extrabold text-gold outfit">PKR ${(p.price/1000000).toFixed(2)} Lac / Cr</div>
+                                </th>
+                            `).join('')}
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr>
+                            <td class="p-4 font-bold text-slate-500 uppercase">Property Type</td>
+                            ${selected.map(p => `<td class="p-4 font-bold text-slate-900 capitalize">${p.type} (${p.purpose})</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold text-slate-500 uppercase">Size</td>
+                            ${selected.map(p => `<td class="p-4 font-bold text-slate-900">${p.size} ${p.sizeUnit}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold text-slate-500 uppercase">Bedrooms & Baths</td>
+                            ${selected.map(p => `<td class="p-4 font-semibold text-slate-700">${p.bedrooms} Beds • ${p.bathrooms} Baths</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold text-slate-500 uppercase">YouTube Tour</td>
+                            ${selected.map(p => `<td class="p-4">${p.videos && p.videos.length > 0 ? '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-check mr-1"></i> Video Tour Available</span>' : '<span class="text-slate-400">N/A</span>'}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold text-slate-500 uppercase">Floor Plan Doc</td>
+                            ${selected.map(p => `<td class="p-4">${p.documents && p.documents.length > 0 ? '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-file-pdf mr-1"></i> Floor Plan PDF</span>' : '<span class="text-slate-400">N/A</span>'}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold text-slate-500 uppercase">Assigned Agent</td>
+                            ${selected.map(p => `<td class="p-4 font-semibold text-slate-800">${p.agentName || 'Ali Khan'}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td class="p-4"></td>
+                            ${selected.map(p => `
+                                <td class="p-4">
+                                    <a href="property.html?slug=${p.slug}" class="w-full bg-slate-900 hover:bg-gold text-white hover:text-slate-950 font-bold py-2.5 rounded-xl text-center block text-xs transition-all">
+                                        View Full Listing <i class="fa-solid fa-arrow-right ml-1"></i>
+                                    </a>
+                                </td>
+                            `).join('')}
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+        }
+
+        window.addEventListener('load', initCompare);
+    </script>
+    <script src="assets/js/shared.js"></script>
+</body>
+</html>

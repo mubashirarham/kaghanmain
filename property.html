@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Property Details | Kaghan Properties Islamabad</title>
+    <meta id="page-meta-desc" name="description" content="View property details, images, floor plans, ROI specs, and schedule a private site visit with Kaghan Properties.">
+    <meta name="keywords" content="Islamabad Real Estate, Property Details, Luxury Villa Islamabad, Bahria Enclave Properties, DHA Islamabad Villas, Buy House Islamabad">
+    <meta name="author" content="Kaghan Properties">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#0B0F19">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="canonical" href="https://kaghanproperties.com/property.html">
+
+    <!-- Favicon & PWA Icons -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kaghan Properties">
+    <meta property="og:locale" content="en_PK">
+    <meta property="og:url" content="https://kaghanproperties.com/property.html">
+    <meta property="og:title" id="og-title" content="Property Details | Kaghan Properties Islamabad">
+    <meta property="og:description" id="og-desc" content="View property details, images, floor plans, and inquire directly with Kaghan Properties.">
+    <meta property="og:image" id="og-image" content="https://kaghanproperties.com/assets/images/bahria-villa.png">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@kaghanprop">
+    <meta name="twitter:url" content="https://kaghanproperties.com/property.html">
+    <meta name="twitter:title" id="twitter-title" content="Property Details | Kaghan Properties">
+    <meta name="twitter:description" id="twitter-desc" content="View property details, floor plans, and investment ROI.">
+    <meta name="twitter:image" id="twitter-image" content="https://kaghanproperties.com/assets/images/bahria-villa.png">
+
+    <!-- Structured Data (JSON-LD RealEstateListing & ItemPage Schema) -->
+    <script type="application/ld+json" id="property-schema">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ItemPage",
+          "@id": "https://kaghanproperties.com/property.html",
+          "url": "https://kaghanproperties.com/property.html",
+          "name": "Property Details & Specifications",
+          "isPartOf": {
+            "@type": "WebSite",
+            "@id": "https://kaghanproperties.com/#website",
+            "url": "https://kaghanproperties.com/",
+            "name": "Kaghan Properties"
+          }
+        },
+        {
+          "@type": "RealEstateListing",
+          "name": "Luxury Property in Islamabad",
+          "provider": {
+            "@type": "RealEstateAgent",
+            "name": "Kaghan Properties",
+            "url": "https://kaghanproperties.com/"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://kaghanproperties.com/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Properties",
+              "item": "https://kaghanproperties.com/projects.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Property Details",
+              "item": "https://kaghanproperties.com/property.html"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .outfit { font-family: 'Outfit', sans-serif; }
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="assets/js/db.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Navigation Bar -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 px-4 md:px-12 flex justify-between items-center glass-dark text-white shadow-xl">
+        <div class="flex items-center gap-2">
+            <a href="index.html" class="flex items-center gap-2">
+                <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-10 w-auto object-contain" onerror="this.src='stay/assets/images/logo.png'">
+                <span class="text-xl font-bold tracking-wider uppercase outfit">Kaghan Properties</span>
+            </a>
+        </div>
+        <div class="hidden md:flex gap-7 items-center font-medium text-sm">
+            <a href="index.html" class="hover:text-gold transition-colors">Home</a>
+            <a href="projects.html" class="text-gold font-bold transition-colors">Properties</a>
+            <a href="societies.html" class="hover:text-gold transition-colors">Societies</a>
+            <a href="calculator.html" class="hover:text-gold transition-colors">Calculators</a>
+            <a href="compare.html" class="hover:text-gold transition-colors">Compare</a>
+            <a href="agents.html" class="hover:text-gold transition-colors">Agents</a>
+            <a href="blog.html" class="hover:text-gold transition-colors">Blog</a>
+            <a href="faqs.html" class="hover:text-gold transition-colors">FAQs</a>
+            <a href="contact.html" class="bg-gold text-white px-5 py-2 rounded-full hover:bg-white hover:text-slate-900 transition-all font-bold shadow-md">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Header Hero Banner -->
+    <header class="pt-40 pb-16 bg-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+            <div class="flex justify-between items-center mb-4">
+                <a href="projects.html" class="text-gold hover:underline text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left text-[10px]"></i> Back to Property Catalog
+                </a>
+                
+                <!-- Action Buttons: Save Wishlist, Share, Schedule Tour -->
+                <div class="flex gap-2">
+                    <button id="btn-fav-toggle" onclick="toggleFavoriteProperty()" class="bg-slate-800 hover:bg-gold text-white hover:text-slate-950 font-bold px-3.5 py-2 rounded-full text-xs transition-all flex items-center gap-1.5 border border-slate-700">
+                        <i class="fa-regular fa-heart text-gold"></i> <span id="fav-text">Save</span>
+                    </button>
+                    <button onclick="openShareModal()" class="bg-slate-800 hover:bg-gold text-white hover:text-slate-950 font-bold px-3.5 py-2 rounded-full text-xs transition-all flex items-center gap-1.5 border border-slate-700">
+                        <i class="fa-solid fa-share-nodes text-gold"></i> Share
+                    </button>
+                    <button onclick="openScheduleTourModal()" class="bg-gold hover:bg-white text-slate-950 font-bold px-4 py-2 rounded-full text-xs transition-all flex items-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-calendar-check"></i> Book Tour
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mt-2">
+                <div>
+                    <span id="prop-area-badge" class="bg-gold/10 text-gold border border-gold/30 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest block w-fit mb-3">Area</span>
+                    <h1 id="prop-title-display" class="text-3xl md:text-5xl font-extrabold outfit leading-tight text-white">Loading Property...</h1>
+                    <p id="prop-address-display" class="text-slate-400 text-sm mt-2 flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot text-gold"></i> Location Address
+                    </p>
+                </div>
+                <div class="text-left md:text-right shrink-0">
+                    <span class="text-xs text-slate-400 font-bold uppercase tracking-wider block">Asking Price</span>
+                    <div id="prop-price-display" class="text-3xl md:text-4xl font-extrabold text-gold outfit">PKR 0</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Property Detail Viewport -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 md:px-8 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            
+            <!-- Left 2 Columns: Media & Details -->
+            <div class="lg:col-span-2 space-y-10">
+                
+                <!-- Main Gallery -->
+                <div class="bg-white p-4 rounded-[2.5rem] shadow-lg border border-slate-100">
+                    <div class="h-80 md:h-[480px] rounded-2xl overflow-hidden relative shadow-inner bg-slate-900">
+                        <img id="prop-primary-img" src="assets/images/bahria-villa.png" alt="Property Main View" class="w-full h-full object-cover">
+                        <span id="prop-status-tag" class="absolute top-4 left-4 bg-slate-900/90 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">Status</span>
+                    </div>
+                    <div id="prop-thumbnails-grid" class="flex gap-3 overflow-x-auto mt-4 pb-2">
+                        <!-- Dynamic Thumbnails -->
+                    </div>
+                </div>
+
+                <!-- Key Attributes Grid -->
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-md border border-slate-100">
+                    <h3 class="text-xl font-bold outfit text-slate-900 mb-6 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-gold"></i> Overview & Key Specifications
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <span class="text-slate-400 text-[10px] uppercase font-bold block mb-1">Property Type</span>
+                            <strong id="spec-type" class="text-slate-900 text-sm uppercase">House</strong>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <span class="text-slate-400 text-[10px] uppercase font-bold block mb-1">Size</span>
+                            <strong id="spec-size" class="text-slate-900 text-sm">10 Marla</strong>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <span class="text-slate-400 text-[10px] uppercase font-bold block mb-1">Bedrooms</span>
+                            <strong id="spec-beds" class="text-slate-900 text-sm">3 Beds</strong>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <span class="text-slate-400 text-[10px] uppercase font-bold block mb-1">Bathrooms</span>
+                            <strong id="spec-baths" class="text-slate-900 text-sm">4 Baths</strong>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <span class="text-slate-400 text-[10px] uppercase font-bold block mb-1">Floors</span>
+                            <strong id="spec-floors" class="text-slate-900 text-sm">2 Floors</strong>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <span class="text-slate-400 text-[10px] uppercase font-bold block mb-1">Facing</span>
+                            <strong id="spec-facing" class="text-slate-900 text-sm">North</strong>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <span class="text-slate-400 text-[10px] uppercase font-bold block mb-1">Year Built</span>
+                            <strong id="spec-year" class="text-slate-900 text-sm">2024</strong>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <span class="text-slate-400 text-[10px] uppercase font-bold block mb-1">Parking</span>
+                            <strong id="spec-parking" class="text-slate-900 text-sm">2 Vehicles</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description & Amenities -->
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-md border border-slate-100 space-y-6">
+                    <div>
+                        <h3 class="text-xl font-bold outfit text-slate-900 mb-3">Property Description</h3>
+                        <div id="prop-description" class="text-slate-600 text-sm leading-relaxed space-y-3">
+                            Loading property description...
+                        </div>
+                    </div>
+
+                    <div id="amenities-container">
+                        <h4 class="text-sm font-bold outfit uppercase text-slate-800 mb-3">Featured Amenities</h4>
+                        <div id="amenities-tags" class="flex flex-wrap gap-2">
+                            <!-- Dynamic tags -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- YouTube Video Tour Embed -->
+                <div id="video-tour-section" class="bg-white p-8 rounded-[2.5rem] shadow-md border border-slate-100 hidden">
+                    <h3 class="text-xl font-bold outfit text-slate-900 mb-4 flex items-center gap-2">
+                        <i class="fa-brands fa-youtube text-red-600 text-2xl"></i> Video Property Tour
+                    </h3>
+                    <div class="aspect-video rounded-2xl overflow-hidden border border-slate-200 shadow-md">
+                        <iframe id="youtube-iframe" src="" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <!-- Floor Plan & Drive Documents -->
+                <div id="documents-section" class="bg-blue-50/70 border border-blue-200/80 p-6 rounded-[2rem] flex flex-col md:flex-row justify-between items-center gap-4 hidden">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <div>
+                            <h4 id="doc-title" class="font-bold text-slate-900 text-sm">Floor Plan & Verified Documents</h4>
+                            <span class="text-xs text-blue-700">Stored on Google Drive for instant viewing</span>
+                        </div>
+                    </div>
+                    <a id="doc-download-btn" href="#" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition-all whitespace-nowrap shadow-md">
+                        <i class="fa-solid fa-download mr-1.5"></i> Download File
+                    </a>
+                </div>
+
+                <!-- Google Maps Embed -->
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-md border border-slate-100 space-y-4">
+                    <h3 class="text-xl font-bold outfit text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-map-location-dot text-gold"></i> Location Map
+                    </h3>
+                    <div class="h-80 rounded-2xl overflow-hidden border border-slate-200 shadow-inner">
+                        <iframe id="google-map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.467824128522!2d73.1932!3d33.6669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDQwJzAwLjgiTiA3M8KwMTEnMzUuNSJF!5e0!3m2!1sen!2spk!4v1700000000000!5m2!1sen!2spk" class="w-full h-full" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Agent & Inquiry Sidebar -->
+            <div class="space-y-8">
+                
+                <!-- Direct WhatsApp CTA Box -->
+                <div class="bg-gradient-to-br from-emerald-500 to-teal-700 text-white p-8 rounded-[2.5rem] shadow-xl text-center space-y-4">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto text-4xl">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold outfit">Instant WhatsApp Inquiry</h3>
+                    <p class="text-xs text-emerald-100 leading-relaxed">Connect directly with our listed property manager for quick video call walkthroughs and instant documents.</p>
+                    <a id="btn-whatsapp-direct" href="#" target="_blank" class="w-full bg-white text-emerald-800 hover:bg-slate-900 hover:text-white font-extrabold py-4 rounded-xl text-xs uppercase tracking-wider block transition-all shadow-lg">
+                        Chat on WhatsApp Now
+                    </a>
+                </div>
+
+                <!-- Lead Form Box -->
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <h3 class="text-xl font-bold outfit text-slate-900">Inquire About This Listing</h3>
+                        <p class="text-xs text-slate-400 mt-1">Submit your details to receive full details and callback.</p>
+                    </div>
+
+                    <form id="property-lead-form" onsubmit="handleLeadSubmit(event)" class="space-y-4 text-xs">
+                        <div>
+                            <label class="block font-bold text-slate-700 uppercase mb-1">Your Full Name *</label>
+                            <input type="text" id="lead-name" required placeholder="Ali Ahmed" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:border-gold outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 uppercase mb-1">Phone / WhatsApp Number *</label>
+                            <input type="tel" id="lead-phone" required placeholder="+923001234567" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:border-gold outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 uppercase mb-1">Email Address</label>
+                            <input type="email" id="lead-email" placeholder="ali@example.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:border-gold outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 uppercase mb-1">Message</label>
+                            <textarea id="lead-message" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:border-gold outline-none">I am interested in this property. Please contact me with details.</textarea>
+                        </div>
+                        <button type="submit" id="lead-submit-btn" class="w-full bg-slate-900 hover:bg-gold text-white hover:text-slate-950 font-bold py-4 rounded-xl text-xs uppercase tracking-wider transition-all shadow-md">
+                            Submit Inquiry
+                        </button>
+                        <div id="lead-status-msg" class="hidden text-center font-bold text-xs p-3 rounded-xl"></div>
+                    </form>
+                </div>
+
+                <!-- Assigned Agent Details Card -->
+                <div class="bg-slate-900 text-white p-8 rounded-[2.5rem] shadow-xl border border-slate-800 space-y-4">
+                    <span class="text-[10px] text-gold uppercase font-bold tracking-widest block">Assigned Property Agent</span>
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-full bg-gold/20 border-2 border-gold flex items-center justify-center font-bold text-gold text-lg outfit">
+                            KP
+                        </div>
+                        <div>
+                            <h4 id="agent-name-display" class="font-bold text-white text-base">Ali Khan</h4>
+                            <span id="agent-role-display" class="text-xs text-slate-400">Senior Real Estate Consultant</span>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800 space-y-2 text-xs text-slate-300">
+                        <p class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-gold"></i>
+                            <span id="agent-phone-display">+923340091127</span>
+                        </p>
+                        <p class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-gold"></i>
+                            <span>info@kaghanproperties.com</span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-12 px-4 md:px-12 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3 text-white">
+                <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-8 w-auto" onerror="this.src='stay/assets/images/logo.png'">
+                <span class="font-bold outfit uppercase tracking-wider">KAGHAN PROPERTIES</span>
+            </div>
+            <p class="text-xs">&copy; 2026 Kaghan Properties Pvt. Ltd. | Path: <span class="text-gold">kaghan_properties/properties</span></p>
+        </div>
+    </footer>
+
+    <!-- Page Initialization Script -->
+    <script>
+        let currentProperty = null;
+
+        async function initPropertyDetailPage() {
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get('slug') || params.get('id') || 'islamabad-dha-phase2-house-123';
+
+            try {
+                currentProperty = await window.KaghanDB.getPropertyBySlugOrId(slug);
+                if (!currentProperty) {
+                    document.getElementById('prop-title-display').innerText = "Property Not Found";
+                    return;
+                }
+
+                // Populate Headers
+                document.getElementById('page-title').innerText = `${currentProperty.title} – Kaghan Properties`;
+                if (currentProperty.metaDescription) {
+                    document.getElementById('page-meta-desc').setAttribute('content', currentProperty.metaDescription);
+                }
+                document.getElementById('prop-title-display').innerText = currentProperty.title;
+                document.getElementById('prop-area-badge').innerText = `${currentProperty.area || 'Islamabad'}`;
+                document.getElementById('prop-address-display').innerHTML = `<i class="fa-solid fa-location-dot text-gold"></i> ${currentProperty.address || ''}, ${currentProperty.area || ''}, ${currentProperty.city || 'Islamabad'}`;
+                
+                const formattedPrice = (currentProperty.price || 0).toLocaleString();
+                document.getElementById('prop-price-display').innerText = `PKR ${formattedPrice}`;
+                document.getElementById('prop-status-tag').innerText = (currentProperty.status || 'published').toUpperCase();
+
+                // Specs
+                document.getElementById('spec-type').innerText = `${currentProperty.type || 'House'} (${currentProperty.purpose || 'sale'})`;
+                document.getElementById('spec-size').innerText = `${currentProperty.size || 0} ${currentProperty.sizeUnit || 'marla'}`;
+                document.getElementById('spec-beds').innerText = `${currentProperty.bedrooms || 0} Beds`;
+                document.getElementById('spec-baths').innerText = `${currentProperty.bathrooms || 0} Baths`;
+                document.getElementById('spec-floors').innerText = `${currentProperty.floors || 1} Floors`;
+                document.getElementById('spec-facing').innerText = currentProperty.facing || 'North';
+                document.getElementById('spec-year').innerText = currentProperty.yearBuilt || '2024';
+                document.getElementById('spec-parking').innerText = `${currentProperty.parkingSpaces || 1} Vehicle(s)`;
+
+                // Description (Rich HTML from TinyMCE)
+                const descEl = document.getElementById('prop-description');
+                if (currentProperty.description) {
+                    descEl.innerHTML = currentProperty.description;
+                } else if (currentProperty.metaDescription) {
+                    descEl.innerText = currentProperty.metaDescription;
+                } else {
+                    descEl.innerText = currentProperty.title || 'Spacious real estate property in prime location.';
+                }
+
+                // Amenities
+                const amenitiesContainer = document.getElementById('amenities-tags');
+                if (currentProperty.amenities && currentProperty.amenities.length > 0) {
+                    amenitiesContainer.innerHTML = currentProperty.amenities.map(a => `<span class="bg-slate-100 text-slate-800 text-xs font-semibold px-3 py-1.5 rounded-xl uppercase tracking-wider"><i class="fa-solid fa-circle-check text-gold mr-1"></i> ${a}</span>`).join('');
+                } else {
+                    document.getElementById('amenities-container').classList.add('hidden');
+                }
+
+                // Primary Image & Thumbnails
+                if (currentProperty.images && currentProperty.images.length > 0) {
+                    const firstImg = window.KaghanDB.getDriveDirectUrl(currentProperty.images[0].url || currentProperty.images[0].driveFileId);
+                    document.getElementById('prop-primary-img').src = firstImg;
+
+                    const thumbContainer = document.getElementById('prop-thumbnails-grid');
+                    thumbContainer.innerHTML = currentProperty.images.map(imgObj => {
+                        const url = window.KaghanDB.getDriveDirectUrl(imgObj.url || imgObj.driveFileId);
+                        return `<img src="${url}" onclick="document.getElementById('prop-primary-img').src='${url}'" class="w-20 h-16 rounded-xl object-cover cursor-pointer border-2 border-transparent hover:border-gold transition-all">`;
+                    }).join('');
+                }
+
+                // YouTube Video Tour
+                if (currentProperty.videos && currentProperty.videos.length > 0 && (currentProperty.videos[0].url || currentProperty.videos[0].videoId)) {
+                    const embedUrl = window.KaghanDB.getYouTubeEmbedUrl(currentProperty.videos[0].url || currentProperty.videos[0].videoId);
+                    if (embedUrl) {
+                        document.getElementById('youtube-iframe').src = embedUrl;
+                        document.getElementById('video-tour-section').classList.remove('hidden');
+                    }
+                }
+
+                // Documents Download
+                if (currentProperty.documents && currentProperty.documents.length > 0 && currentProperty.documents[0].url) {
+                    document.getElementById('doc-title').innerText = currentProperty.documents[0].title || "Floor Plan & Brochure Document";
+                    document.getElementById('doc-download-btn').href = currentProperty.documents[0].url;
+                    document.getElementById('documents-section').classList.remove('hidden');
+                }
+
+                // Agent Info
+                if (currentProperty.agentName) document.getElementById('agent-name-display').innerText = currentProperty.agentName;
+                if (currentProperty.agentPhone) document.getElementById('agent-phone-display').innerText = currentProperty.agentPhone;
+
+                // WhatsApp Link
+                const waPhone = (currentProperty.agentPhone || "+923340091127").replace(/[^0-9]/g, '');
+                const encodedMsg = encodeURIComponent(`Hi Kaghan Properties, I am interested in: ${currentProperty.title} (${currentProperty.area || ''})`);
+                document.getElementById('btn-whatsapp-direct').href = `https://wa.me/${waPhone}?text=${encodedMsg}`;
+
+                // Map Embed
+                if (currentProperty.coordinates && currentProperty.coordinates.lat) {
+                    const mapUrl = `https://maps.google.com/maps?q=${currentProperty.coordinates.lat},${currentProperty.coordinates.lng}&z=15&output=embed`;
+                    document.getElementById('google-map-iframe').src = mapUrl;
+                }
+
+            } catch (err) {
+                console.error("Failed to load property:", err);
+            }
+        }
+
+        async function handleLeadSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('lead-submit-btn');
+            const msg = document.getElementById('lead-status-msg');
+
+            const name = document.getElementById('lead-name').value.trim();
+            const phone = document.getElementById('lead-phone').value.trim();
+            const email = document.getElementById('lead-email').value.trim();
+            const message = document.getElementById('lead-message').value.trim();
+
+            btn.disabled = true;
+            btn.innerText = "Submitting Lead...";
+
+            try {
+                await window.KaghanDB.createLead({
+                    name, phone, email, message,
+                    propertyId: currentProperty ? currentProperty.id : '',
+                    propertyTitle: currentProperty ? currentProperty.title : '',
+                    agentId: currentProperty ? (currentProperty.agentId || 'user_001') : 'user_001',
+                    sourcePage: window.location.pathname + window.location.search
+                });
+
+                msg.innerText = "Thank you! Your inquiry has been submitted. Our agent will contact you shortly.";
+                msg.className = "text-center font-bold text-xs p-3 rounded-xl bg-emerald-100 text-emerald-800 border border-emerald-200 block";
+                document.getElementById('property-lead-form').reset();
+            } catch (err) {
+                console.error(err);
+                msg.innerText = "Submission failed. Please check network.";
+                msg.className = "text-center font-bold text-xs p-3 rounded-xl bg-rose-100 text-rose-800 border border-rose-200 block";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Submit Inquiry";
+            }
+        }
+
+        // WISHLIST & FAVORITES
+        function toggleFavoriteProperty() {
+            if (!currentProperty) return;
+            const favorites = JSON.parse(localStorage.getItem('kaghan_favs') || '[]');
+            const idx = favorites.indexOf(currentProperty.id);
+
+            const textEl = document.getElementById('fav-text');
+            const btnEl = document.getElementById('btn-fav-toggle');
+
+            if (idx >= 0) {
+                favorites.splice(idx, 1);
+                if (textEl) textEl.innerText = 'Save';
+                if (btnEl) btnEl.className = 'bg-slate-800 hover:bg-gold text-white hover:text-slate-950 font-bold px-3.5 py-2 rounded-full text-xs transition-all flex items-center gap-1.5 border border-slate-700';
+            } else {
+                favorites.push(currentProperty.id);
+                if (textEl) textEl.innerText = 'Saved';
+                if (btnEl) btnEl.className = 'bg-rose-600 text-white font-bold px-3.5 py-2 rounded-full text-xs transition-all flex items-center gap-1.5 shadow-md';
+            }
+            localStorage.setItem('kaghan_favs', JSON.stringify(favorites));
+        }
+
+        function checkWishlistState() {
+            if (!currentProperty) return;
+            const favorites = JSON.parse(localStorage.getItem('kaghan_favs') || '[]');
+            if (favorites.includes(currentProperty.id)) {
+                const textEl = document.getElementById('fav-text');
+                const btnEl = document.getElementById('btn-fav-toggle');
+                if (textEl) textEl.innerText = 'Saved';
+                if (btnEl) btnEl.className = 'bg-rose-600 text-white font-bold px-3.5 py-2 rounded-full text-xs transition-all flex items-center gap-1.5 shadow-md';
+            }
+        }
+
+        // SHARE MODAL
+        function openShareModal() {
+            document.getElementById('modal-share').classList.remove('hidden');
+            document.getElementById('share-link-input').value = window.location.href;
+            const waShareMsg = encodeURIComponent(`Check out this property listing on Kaghan Properties: ${window.location.href}`);
+            document.getElementById('share-wa-link').href = `https://wa.me/?text=${waShareMsg}`;
+        }
+        function closeShareModal() {
+            document.getElementById('modal-share').classList.add('hidden');
+        }
+        function copyShareLink() {
+            const input = document.getElementById('share-link-input');
+            input.select();
+            document.execCommand('copy');
+            alert('Listing link copied to clipboard!');
+        }
+
+        // SCHEDULE TOUR MODAL
+        function openScheduleTourModal() {
+            document.getElementById('modal-schedule-tour').classList.remove('hidden');
+        }
+        function closeScheduleTourModal() {
+            document.getElementById('modal-schedule-tour').classList.add('hidden');
+        }
+        async function submitTourBooking(e) {
+            e.preventDefault();
+            const date = document.getElementById('tour-date').value;
+            const time = document.getElementById('tour-time').value;
+            const name = document.getElementById('tour-name').value;
+            const phone = document.getElementById('tour-phone').value;
+
+            await window.KaghanDB.createLead({
+                name, phone,
+                email: '',
+                message: `Private Tour Request for ${date} at ${time}`,
+                propertyId: currentProperty ? currentProperty.id : '',
+                propertyTitle: currentProperty ? currentProperty.title : '',
+                sourcePage: window.location.pathname + window.location.search
+            });
+
+            alert(`Thank you ${name}! Your private property tour request for ${date} (${time}) has been registered.`);
+            closeScheduleTourModal();
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            await initPropertyDetailPage();
+            checkWishlistState();
+        });
+    </script>
+
+    <!-- MODAL: SHARE PROPERTY -->
+    <div id="modal-share" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="text-lg font-bold text-slate-900 outfit">Share Property</h3>
+                <button onclick="closeShareModal()" class="text-slate-400 hover:text-slate-900"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="space-y-4 text-xs">
+                <div class="flex gap-2">
+                    <input type="text" id="share-link-input" readonly class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 font-medium">
+                    <button onclick="copyShareLink()" class="bg-slate-900 text-white font-bold px-4 py-2 rounded-xl">Copy</button>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 flex justify-center gap-4">
+                    <a id="share-wa-link" target="_blank" class="bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: SCHEDULE PRIVATE TOUR -->
+    <div id="modal-schedule-tour" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl text-white">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-lg font-bold outfit">Book Private Property Tour</h3>
+                <button onclick="closeScheduleTourModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <form onsubmit="submitTourBooking(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="text-slate-400 font-bold uppercase block mb-1">Your Full Name *</label>
+                    <input type="text" id="tour-name" required placeholder="Ali Ahmed" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                </div>
+                <div>
+                    <label class="text-slate-400 font-bold uppercase block mb-1">Phone Number (WhatsApp) *</label>
+                    <input type="text" id="tour-phone" required placeholder="+92 300 1234567" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 font-bold uppercase block mb-1">Preferred Date *</label>
+                        <input type="date" id="tour-date" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 font-bold uppercase block mb-1">Time Slot *</label>
+                        <select id="tour-time" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                            <option value="11:00 AM">11:00 AM</option>
+                            <option value="02:00 PM">02:00 PM</option>
+                            <option value="05:00 PM">05:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-3 flex justify-end gap-2">
+                    <button type="button" onclick="closeScheduleTourModal()" class="px-4 py-2.5 border border-slate-700 text-slate-300 rounded-xl">Cancel</button>
+                    <button type="submit" class="bg-gold text-slate-950 font-bold px-6 py-2.5 rounded-xl uppercase">Confirm Booking</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="assets/js/shared.js"></script>
+</body>
+</html>

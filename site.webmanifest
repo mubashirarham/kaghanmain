@@ -1,0 +1,23 @@
+{
+  "name": "Kaghan Properties",
+  "short_name": "Kaghan",
+  "description": "Premium real estate brokerage, construction, and property management in Islamabad and Nathia Gali.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0B0F19",
+  "icons": [
+    {
+      "src": "/assets/images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

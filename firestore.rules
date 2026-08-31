@@ -1,0 +1,77 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions for authentication & role checks
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/kaghan_properties/main/users/$(request.auth.uid)).data;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        getUserData().role == 'admin' ||
+        request.auth.token.email == 'admin@kaghanproperties.com' ||
+        request.auth.token.email == 'ali@kaghanproperties.com' ||
+        request.auth.uid == 'usr_admin_default'
+      );
+    }
+
+    function isAgent() {
+      return isAuthenticated() && (
+        getUserData().role == 'agent' || isAdmin()
+      );
+    }
+
+    // Match top-level collection kaghan_properties and any subcollections/documents
+    match /kaghan_properties/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+
+      // Subcollections under kaghan_properties/main or kaghan_properties/{docId}
+      
+      // 1. Properties
+      match /properties/{propertyId} {
+        allow read: if resource.data.status == 'published' || isAgent();
+        allow create, update: if isAgent() && (
+          isAdmin() || request.resource.data.agentId == request.auth.uid || request.resource.data.agentId == 'user_001'
+        );
+        allow delete: if isAdmin();
+      }
+
+      // 2. Users
+      match /users/{userId} {
+        allow read: if isAgent();
+        allow write: if isAdmin() || (isAuthenticated() && request.auth.uid == userId);
+      }
+
+      // 3. Leads (Public can create, agents can read/update)
+      match /leads/{leadId} {
+        allow create: if true;
+        allow read, update, delete: if isAgent();
+      }
+
+      // 4. Societies
+      match /societies/{societyId} {
+        allow read: if resource.data.isActive == true || isAgent();
+        allow write: if isAdmin();
+      }
+
+      // 5. Blog Posts
+      match /blogPosts/{postId} {
+        allow read: if resource.data.status == 'published' || isAgent();
+        allow write: if isAgent();
+      }
+
+      // 6. Site Settings
+      match /siteSettings/{settingId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+    }
+  }
+}
+

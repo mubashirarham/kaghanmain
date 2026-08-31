@@ -27,21 +27,36 @@
   status = 301
   force = true
 
-# Redirect default index files to root
+# Clean URLs rewrites for Admin and Properties
 [[redirects]]
-  from = "/index.html"
-  to = "/"
-  status = 301
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
 
 [[redirects]]
-  from = "/index"
-  to = "/"
-  status = 301
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
 
 [[redirects]]
-  from = "/home"
-  to = "/"
-  status = 301
+  from = "/property/:slug"
+  to = "/property.html?slug=:slug"
+  status = 200
+
+[[redirects]]
+  from = "/property/*"
+  to = "/property.html"
+  status = 200
+
+[[redirects]]
+  from = "/area/:slug"
+  to = "/area.html?slug=:slug"
+  status = 200
+
+[[redirects]]
+  from = "/area/*"
+  to = "/area.html"
+  status = 200
 
 # Clean URLs rewrites
 [[redirects]]
@@ -60,6 +75,36 @@
   status = 200
 
 [[redirects]]
+  from = "/properties"
+  to = "/projects.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculator"
+  to = "/calculator.html"
+  status = 200
+
+[[redirects]]
+  from = "/compare"
+  to = "/compare.html"
+  status = 200
+
+[[redirects]]
+  from = "/societies"
+  to = "/societies.html"
+  status = 200
+
+[[redirects]]
+  from = "/agents"
+  to = "/agents.html"
+  status = 200
+
+[[redirects]]
+  from = "/faqs"
+  to = "/faqs.html"
+  status = 200
+
+[[redirects]]
   from = "/blog"
   to = "/blog.html"
   status = 200
@@ -67,11 +112,6 @@
 [[redirects]]
   from = "/contact"
   to = "/contact.html"
-  status = 200
-
-[[redirects]]
-  from = "/under-construction"
-  to = "/under-construction.html"
   status = 200
 
 [build]
@@ -97,12 +137,5 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "upgrade-insecure-requests"
-
-[[edge_functions]]
-  path = "/.netlify/functions/chatbot"
-  function = "rate-limiter"
-

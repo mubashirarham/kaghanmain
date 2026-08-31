@@ -3,58 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Islamabad & Nathia Gali Real Estate Portfolio | Kaghan Properties</title>
-    <meta name="description" content="View the Kaghan Properties portfolio: 29 Mideast Plaza, Azan Arcade, turnkey smart villas, and Pine Valley alpine hotel & resort in Islamabad and Nathia Gali.">
+    <title>Property Listings & Projects Catalog | Kaghan Properties Islamabad</title>
+    <meta name="description" content="Search and browse verified properties for sale and rent in Islamabad and Kaghan. Luxury villas in Bahria Enclave, DHA Islamabad plots, and alpine hotel apartments.">
+    <meta name="keywords" content="Islamabad Properties For Sale, Bahria Enclave Houses, DHA Islamabad Plots, Azan Arcade Bahria Enclave, Buy Flat Islamabad, Nathia Gali Apartments">
+    <meta name="author" content="Kaghan Properties">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#0B0F19">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="canonical" href="https://kaghanproperties.com/projects.html">
+
+    <!-- Favicon & PWA Icons -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+    <link rel="manifest" href="site.webmanifest">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kaghan Properties">
+    <meta property="og:locale" content="en_PK">
     <meta property="og:url" content="https://kaghanproperties.com/projects.html">
-    <meta property="og:title" content="Islamabad & Nathia Gali Real Estate Portfolio | Kaghan Properties">
-    <meta property="og:description" content="View the Kaghan Properties portfolio: 29 Mideast Plaza, Azan Arcade, turnkey smart villas, and Pine Valley alpine hotel & resort in Islamabad and Nathia Gali.">
+    <meta property="og:title" content="Property Listings & Projects Catalog | Kaghan Properties">
+    <meta property="og:description" content="Browse verified real estate properties, houses, plots, offices, and apartments in Islamabad and Kaghan.">
     <meta property="og:image" content="https://kaghanproperties.com/assets/images/bahria-villa.png">
 
-    <!-- Twitter -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@kaghanprop">
     <meta name="twitter:url" content="https://kaghanproperties.com/projects.html">
-    <meta name="twitter:title" content="Islamabad & Nathia Gali Real Estate Portfolio | Kaghan Properties">
-    <meta name="twitter:description" content="View the Kaghan Properties portfolio: 29 Mideast Plaza, Azan Arcade, turnkey smart villas, and Pine Valley alpine hotel & resort in Islamabad and Nathia Gali.">
+    <meta name="twitter:title" content="Property Listings & Projects Catalog | Kaghan Properties">
+    <meta name="twitter:description" content="Browse verified real estate properties, houses, plots, offices, and apartments in Islamabad and Kaghan.">
     <meta name="twitter:image" content="https://kaghanproperties.com/assets/images/bahria-villa.png">
 
-    <!-- Structured Data (JSON-LD RealEstateProject Schema) -->
+    <!-- Structured Data (JSON-LD CollectionPage Schema) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ItemList",
-      "name": "Kaghan Properties Development Catalog",
-      "itemListElement": [
+      "@graph": [
         {
-          "@type": "ListItem",
-          "position": 1,
-          "item": {
-            "@type": "Accommodation",
-            "name": "Azan Arcade",
-            "description": "Premium commercial and residential complex in Bahria Enclave Islamabad."
+          "@type": "CollectionPage",
+          "@id": "https://kaghanproperties.com/projects.html#catalog",
+          "url": "https://kaghanproperties.com/projects.html",
+          "name": "Kaghan Properties Listings & Projects Catalog",
+          "description": "Comprehensive listings of verified residential villas, commercial plots, and holiday apartments.",
+          "publisher": {
+            "@type": "RealEstateAgent",
+            "name": "Kaghan Properties",
+            "url": "https://kaghanproperties.com/"
           }
         },
         {
-          "@type": "ListItem",
-          "position": 2,
-          "item": {
-            "@type": "Accommodation",
-            "name": "Kaghan Pine Valley Resort",
-            "description": "Alpine smart-chalets and luxury vacation suites in Pine Valley."
-          }
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://kaghanproperties.com/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Properties Catalog",
+              "item": "https://kaghanproperties.com/projects.html"
+            }
+          ]
         }
       ]
     }
     </script>
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <!-- Kaghan Database SDK -->
+    <script src="assets/js/db.js"></script>
 </head>
-<body class="bg-slate-50">
+<body class="bg-slate-50 text-slate-800">
 
     <!-- Navigation -->
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 px-4 md:px-12 flex justify-between items-center text-slate-800 glass-dark text-white">
@@ -65,7 +97,7 @@
         <div class="hidden md:flex gap-8 items-center font-medium">
             <a href="index.html" class="hover:text-gold transition-colors">Home</a>
             <a href="services.html" class="hover:text-gold transition-colors">Services</a>
-            <a href="projects.html" class="hover:text-gold transition-colors underline decoration-gold decoration-2 underline-offset-4">Projects</a>
+            <a href="projects.html" class="hover:text-gold transition-colors underline decoration-gold decoration-2 underline-offset-4">Properties</a>
             <a href="about.html" class="hover:text-gold transition-colors">About Us</a>
             <a href="stay/index.html" class="hover:text-gold transition-colors">Luxury Stays</a>
             <a href="contact.html" class="bg-gold text-white px-6 py-2 rounded-full hover:bg-white hover:text-slate-900 transition-all">Contact</a>
@@ -73,1067 +105,335 @@
     </nav>
 
     <!-- Page Header -->
-    <header class="pt-48 pb-32 bg-slate-900 text-white relative overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
-            <img src="assets/images/parkview.png" alt="Background" class="w-full h-full object-cover">
-        </div>
-        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center reveal">
-            <span class="text-gold font-bold uppercase tracking-[0.3em] text-sm mb-4 block">Our Portfolio</span>
-            <h1 class="text-5xl md:text-7xl font-bold mb-8 outfit">Iconic <span class="text-gold">Developments</span></h1>
-            <p class="text-slate-400 text-xl leading-relaxed">Pioneering standard-setting residential and commercial spaces across the capital territory.</p>
+    <header class="pt-48 pb-24 bg-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 relative z-10 text-center">
+            <span class="text-gold font-bold uppercase tracking-[0.3em] text-xs mb-3 block">Islamabad & Kaghan Valley</span>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 outfit">Property <span class="text-gold">Catalog</span></h1>
+            <p class="text-slate-300 text-lg max-w-2xl mx-auto font-light leading-relaxed">
+                Discover verified residential villas, commercial offices, apartments, and mountain resorts with instant WhatsApp inquiry.
+            </p>
         </div>
     </header>
 
-    <!-- Detailed Projects Grid -->
-    <main class="py-24 px-4 md:px-12">
-        <div class="max-w-7xl mx-auto space-y-32">
-            
-            <!-- Bahria Enclave Series -->
-            <section class="reveal">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-                    <div>
-                        <h2 class="text-4xl font-bold outfit mb-2">Bahria Enclave <span class="text-gold">Islamabad</span></h2>
-                        <p class="text-slate-500">Premium location with complete civic amenities and a safe environment.</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="px-4 py-2 bg-slate-100 rounded-full text-xs font-bold text-slate-500 uppercase">CDA Approved</span>
-                        <span class="px-4 py-2 bg-slate-100 rounded-full text-xs font-bold text-slate-500 uppercase">Gated Community</span>
-                    </div>
+    <!-- Search & Filter Controls -->
+    <section class="py-8 bg-slate-900/95 text-white border-b border-slate-800 sticky top-[80px] z-40 shadow-lg backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+                <!-- Location / Society -->
+                <div>
+                    <label class="text-[10px] text-slate-400 font-bold uppercase block mb-1">Area / Society</label>
+                    <select id="filter-area" onchange="filterAndRenderCatalog()" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs focus:border-gold focus:outline-none">
+                        <option value="all">All Areas & Societies</option>
+                        <option value="DHA Islamabad">DHA Islamabad</option>
+                        <option value="Bahria Town">Bahria Town / Enclave</option>
+                        <option value="G-11">CDA Sector G-11</option>
+                        <option value="Nathia Gali">Nathia Gali / Kaghan</option>
+                    </select>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    <!-- Azan Arcade -->
-                    <div class="bg-white rounded-[2rem] overflow-hidden luxury-shadow group flex flex-col">
-                        <div class="overflow-hidden h-72 relative">
-                            <img src="assets/images/azan-arcade.png" alt="Azan Arcade" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div class="absolute top-4 right-4 bg-gold text-white text-[10px] font-bold px-3 py-1 rounded-full">85% COMPLETE</div>
-                        </div>
-                        <div class="p-8 flex-grow">
-                            <h3 class="text-2xl font-bold mb-3 outfit">Azan Arcade</h3>
-                            <p class="text-slate-600 text-sm mb-6 leading-relaxed">A mixed-use commercial masterpiece. Ideal for bank branches, flagship retail stores, and executive office spaces.</p>
-                            <div class="space-y-3 mb-8">
-                                <div class="flex justify-between text-xs border-b border-slate-100 pb-2">
-                                    <span class="text-slate-400 uppercase">Type</span>
-                                    <span class="font-bold text-slate-700">Commercial / Residential</span>
-                                </div>
-                                <div class="flex justify-between text-xs border-b border-slate-100 pb-2">
-                                    <span class="text-slate-400 uppercase">Availability</span>
-                                    <span class="font-bold text-gold">Booking Open</span>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="block text-center bg-slate-900 text-white py-3 rounded-xl hover:bg-gold transition-all font-bold text-sm">Download Brochure</a>
-                        </div>
-                    </div>
-
-                    <!-- Embassy Garden 2 -->
-                    <div class="bg-white rounded-[2rem] overflow-hidden luxury-shadow group flex flex-col">
-                        <div class="overflow-hidden h-72 relative">
-                            <img src="assets/images/embassy.png" alt="Embassy Garden" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div class="absolute top-4 right-4 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-full">PRIME LOCATION</div>
-                        </div>
-                        <div class="p-8 flex-grow">
-                            <h3 class="text-2xl font-bold mb-3 outfit">Embassy Garden 2</h3>
-                            <p class="text-slate-600 text-sm mb-6 leading-relaxed">Luxury apartments and vibrant commercial spaces situated near Bahria Enclave entrance. Unmatched luxury at an unbeatable location.</p>
-                            <div class="space-y-3 mb-8">
-                                <div class="flex justify-between text-xs border-b border-slate-100 pb-2">
-                                    <span class="text-slate-400 uppercase">Type</span>
-                                    <span class="font-bold text-slate-700">Luxury Apartments</span>
-                                </div>
-                                <div class="flex justify-between text-xs border-b border-slate-100 pb-2">
-                                    <span class="text-slate-400 uppercase">Yield</span>
-                                    <span class="font-bold text-gold">10% Annual Rental</span>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="block text-center bg-slate-900 text-white py-3 rounded-xl hover:bg-gold transition-all font-bold text-sm">View Floor Plan</a>
-                        </div>
-                    </div>
-
-                    <!-- H & B-1 -->
-                    <div class="bg-white rounded-[2rem] overflow-hidden luxury-shadow group flex flex-col">
-                        <div class="overflow-hidden h-72 bg-slate-200">
-                            <img src="assets/images/hero.png" alt="H & B-1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        </div>
-                        <div class="p-8 flex-grow">
-                            <h3 class="text-2xl font-bold mb-3 outfit">H & B (H&B-1)</h3>
-                            <p class="text-slate-600 text-sm mb-6 leading-relaxed">Elegant residential destination offering majestic vistas of the Margalla Hills. Designed for those who value privacy and style.</p>
-                            <div class="space-y-3 mb-8">
-                                <div class="flex justify-between text-xs border-b border-slate-100 pb-2">
-                                    <span class="text-slate-400 uppercase">Type</span>
-                                    <span class="font-bold text-slate-700">Boutique Residency</span>
-                                </div>
-                                <div class="flex justify-between text-xs border-b border-slate-100 pb-2">
-                                    <span class="text-slate-400 uppercase">Status</span>
-                                    <span class="font-bold text-gold">Ready for Possession</span>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="block text-center bg-slate-900 text-white py-3 rounded-xl hover:bg-gold transition-all font-bold text-sm">Request Site Visit</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
- 
-            <!-- 29 Mideast Plaza -->
-            <section class="reveal bg-white rounded-[3rem] overflow-hidden shadow-xl border border-slate-100">
-                <div class="p-12 lg:p-20">
-                    <span class="text-gold font-bold uppercase tracking-widest text-sm mb-4 block">New Launch Series</span>
-                    <h2 class="text-4xl md:text-5xl font-bold outfit mb-8">29 Mideast <span class="text-gold">Plaza</span></h2>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-                        <div>
-                            <p class="text-slate-600 text-lg leading-relaxed mb-6 font-light">
-                                Presenting <strong>29 Mideast Plaza</strong>, a modern architectural landmark designed by Mideast Builders (Pvt) Ltd. Offering a sophisticated fusion of retail shops, executive office spaces, premium residential apartments, and luxury penthouses.
-                            </p>
-                            <p class="text-slate-500 text-sm leading-relaxed mb-8">
-                                Situated in a highly sought-after commercial block in Islamabad, this development features outstanding landscaping, grand lobbies, and secure parking. Units are available on a highly attractive <strong>3-year installment plan</strong> with just a <strong>20% down payment</strong> (or 15% / 25% depending on floor tier).
-                            </p>
-                            <div class="flex flex-wrap gap-4 mb-8">
-                                <span class="px-4 py-2 bg-slate-100 rounded-xl text-xs font-bold text-slate-700 uppercase flex items-center gap-2">
-                                    <i class="fa-solid fa-hotel text-gold"></i> 1 & 2 Bed Apartments
-                                </span>
-                                <span class="px-4 py-2 bg-slate-100 rounded-xl text-xs font-bold text-slate-700 uppercase flex items-center gap-2">
-                                    <i class="fa-solid fa-briefcase text-gold"></i> Corporate Offices
-                                </span>
-                                <span class="px-4 py-2 bg-slate-100 rounded-xl text-xs font-bold text-slate-700 uppercase flex items-center gap-2">
-                                    <i class="fa-solid fa-store text-gold"></i> Brand Outlets
-                                </span>
-                                <span class="px-4 py-2 bg-slate-100 rounded-xl text-xs font-bold text-slate-700 uppercase flex items-center gap-2">
-                                    <i class="fa-solid fa-gem text-gold"></i> Luxury Penthouses
-                                </span>
-                            </div>
-                            <div class="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6 flex gap-4 items-center">
-                                <i class="fa-solid fa-phone text-gold text-2xl animate-pulse"></i>
-                                <div>
-                                    <h4 class="text-xs uppercase font-bold text-slate-500">Booking Hotline</h4>
-                                    <p class="text-xl font-bold text-slate-900 outfit">0320-5058382</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="rounded-3xl overflow-hidden shadow border border-slate-100 h-64">
-                                <img src="assets/images/mideast-view1.png" alt="29 Mideast Rendering View 1" class="w-full h-full object-cover hover:scale-105 transition-all duration-500">
-                            </div>
-                            <div class="rounded-3xl overflow-hidden shadow border border-slate-100 h-64">
-                                <img src="assets/images/mideast-view2.png" alt="29 Mideast Rendering View 2" class="w-full h-full object-cover hover:scale-105 transition-all duration-500">
-                            </div>
-                            <div class="col-span-2 rounded-3xl overflow-hidden shadow border border-slate-100 bg-slate-900 p-8 flex justify-between items-center text-white relative">
-                                <div class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image: url('assets/images/mideast-view1.png');"></div>
-                                <div class="relative z-10">
-                                    <h4 class="text-xs uppercase font-bold text-gold tracking-widest mb-1">Mideast Builders</h4>
-                                    <p class="text-xl font-bold outfit">Your Address for Life & Business</p>
-                                </div>
-                                <a href="contact.html" class="relative z-10 bg-gold text-white font-bold px-6 py-3 rounded-xl hover:bg-white hover:text-slate-950 transition-all text-xs">Request Brochure</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Payment Plan Tables Container -->
-                    <div class="border-t border-slate-100 pt-12">
-                        <h3 class="text-2xl font-bold outfit mb-6 text-slate-900 text-center">Interactive Payment Plan & Inventory</h3>
-                        
-                        <!-- Floor Selector Tabs -->
-                        <div class="flex flex-wrap justify-center gap-2 mb-8" id="mideast-tabs">
-                            <button onclick="switchMideastTab('shops')" id="tab-btn-shops" class="px-5 py-3 rounded-xl text-xs font-bold uppercase transition-all bg-amber-500 text-slate-950">
-                                <i class="fa-solid fa-store mr-1.5"></i> Shops (LGS & GFS)
-                            </button>
-                            <button onclick="switchMideastTab('offices')" id="tab-btn-offices" class="px-5 py-3 rounded-xl text-xs font-bold uppercase transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
-                                <i class="fa-solid fa-building mr-1.5"></i> Offices (1st Floor)
-                            </button>
-                            <button onclick="switchMideastTab('apartments')" id="tab-btn-apartments" class="px-5 py-3 rounded-xl text-xs font-bold uppercase transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
-                                <i class="fa-solid fa-bed mr-1.5"></i> Apartments (2nd - 4th Floor)
-                            </button>
-                            <button onclick="switchMideastTab('penthouses')" id="tab-btn-penthouses" class="px-5 py-3 rounded-xl text-xs font-bold uppercase transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
-                                <i class="fa-solid fa-gem mr-1.5"></i> Penthouses (5th Floor)
-                            </button>
-                        </div>
-
-                        <!-- Tab contents (Tables) -->
-                        <div class="overflow-x-auto max-w-full rounded-2xl border border-slate-150 shadow-sm bg-white">
-                            <!-- SHOPS TABLE -->
-                            <div id="mideast-view-shops" class="mideast-tab-content p-4">
-                                <h4 class="font-bold text-slate-800 text-sm mb-4">Lower Ground Floor Shops (Area Price 34,000 / SQFT | Down Payment 25%)</h4>
-                                <table class="min-w-full text-xs text-left text-slate-600 mb-8 border-collapse">
-                                    <thead>
-                                        <tr class="bg-slate-900 text-white font-bold uppercase tracking-wider outfit border-b border-slate-200">
-                                            <th class="px-4 py-3">Unit No</th>
-                                            <th class="px-4 py-3">Gross Area (SQFT)</th>
-                                            <th class="px-4 py-3">Price (PKR)</th>
-                                            <th class="px-4 py-3">Down Payment (25%)</th>
-                                            <th class="px-4 py-3">Quarterly Installments (x4)</th>
-                                            <th class="px-4 py-3">Possession (20%)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100">
-                                        <!-- LGS-01 to LGS-09 (all identical sizes) -->
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">LGS-01 to LGS-09 (9 Units)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">600 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">20,400,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">5,100,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,805,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">4,080,000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                                <h4 class="font-bold text-slate-800 text-sm mb-4">Ground Floor Shops (Area Price 54,000 / SQFT | Down Payment 25%)</h4>
-                                <table class="min-w-full text-xs text-left text-slate-600 border-collapse">
-                                    <thead>
-                                        <tr class="bg-slate-900 text-white font-bold uppercase tracking-wider outfit border-b border-slate-200">
-                                            <th class="px-4 py-3">Unit No</th>
-                                            <th class="px-4 py-3">Gross Area (SQFT)</th>
-                                            <th class="px-4 py-3">Price (PKR)</th>
-                                            <th class="px-4 py-3">Down Payment (25%)</th>
-                                            <th class="px-4 py-3">Quarterly Installments (x4)</th>
-                                            <th class="px-4 py-3">Possession (20%)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100">
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">GFS-01</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">703 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">37,962,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">9,490,500</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">5,219,775</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">7,592,400</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">GFS-02</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">681 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">36,774,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">9,193,500</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">5,056,425</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">7,354,800</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">GFS-03</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">807 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">43,578,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">10,894,500</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">5,991,975</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">8,715,600</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">GFS-04</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">473 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">25,542,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">6,385,500</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,512,025</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">5,108,400</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">GFS-05</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">692 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">37,368,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">9,342,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">5,138,100</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">7,473,600</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">GFS-06</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">695 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">37,530,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">9,382,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">5,160,375</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">7,506,000</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">GFS-07</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">689 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">37,206,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">9,301,500</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">5,115,825</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">7,441,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">GFS-08</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">694 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">37,476,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">9,369,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">5,152,950</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">7,495,200</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- OFFICES TABLE -->
-                            <div id="mideast-view-offices" class="mideast-tab-content p-4 hidden">
-                                <h4 class="font-bold text-slate-800 text-sm mb-4">First Floor Offices (Area Price 34,000 / SQFT | Down Payment 15% | Installment Plan 3 Years)</h4>
-                                <table class="min-w-full text-xs text-left text-slate-600 border-collapse">
-                                    <thead>
-                                        <tr class="bg-slate-900 text-white font-bold uppercase tracking-wider outfit border-b border-slate-200">
-                                            <th class="px-4 py-3">Unit No</th>
-                                            <th class="px-4 py-3">Area (SQFT)</th>
-                                            <th class="px-4 py-3">Price (PKR)</th>
-                                            <th class="px-4 py-3">Down Payment (15%)</th>
-                                            <th class="px-4 py-3">Allocation (10%)</th>
-                                            <th class="px-4 py-3">Annual (10%)</th>
-                                            <th class="px-4 py-3">Quarterly (x6)</th>
-                                            <th class="px-4 py-3">Possession (20%)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100">
-                                        <!-- FFO 01-12 -->
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-01</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">375 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">12,750,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,912,500</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,275,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,275,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">956,250</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,550,000</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-02</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">373 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">12,682,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,902,300</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,268,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,268,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">951,150</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,536,400</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-03</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">786 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">26,724,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">4,008,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,672,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,672,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,004,300</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">5,344,800</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-04</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">473 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">16,082,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,412,300</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,608,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,608,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,206,150</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,216,400</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-05</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">476 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">16,184,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,427,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,618,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,618,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,213,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,236,800</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-06</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">512 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">17,408,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,611,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,740,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,740,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,305,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,481,600</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-07</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">589 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">20,026,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,003,900</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,002,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,002,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,501,950</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">4,005,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-08</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">552 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">18,768,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,815,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,876,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,876,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,407,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,753,600</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-09</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">778 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">26,452,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,967,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,645,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,645,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,983,900</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">5,290,400</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-10</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">386 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">13,124,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,968,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,312,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,312,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">984,300</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,624,800</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-11</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">329 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">11,186,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,677,900</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,118,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,118,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">838,950</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,237,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFO-12</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">334 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">11,356,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,703,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,135,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,135,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">851,700</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,271,200</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- APARTMENTS TABLE -->
-                            <div id="mideast-view-apartments" class="mideast-tab-content p-4 hidden">
-                                <h4 class="font-bold text-slate-800 text-sm mb-4">Apartments (Area Price 18,000 / SQFT | Down Payment 15% | 3-Year Installments)</h4>
-                                <table class="min-w-full text-xs text-left text-slate-600 border-collapse">
-                                    <thead>
-                                        <tr class="bg-slate-900 text-white font-bold uppercase tracking-wider outfit border-b border-slate-200">
-                                            <th class="px-4 py-3">Floor & Unit</th>
-                                            <th class="px-4 py-3">Gross Area (SQFT)</th>
-                                            <th class="px-4 py-3">Price (PKR)</th>
-                                            <th class="px-4 py-3">Down Payment (15%)</th>
-                                            <th class="px-4 py-3">Allocation (10%)</th>
-                                            <th class="px-4 py-3">Annual (10%)</th>
-                                            <th class="px-4 py-3">Quarterly (x6)</th>
-                                            <th class="px-4 py-3">Possession (20%)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100">
-                                        <!-- SECOND FLOOR -->
-                                        <tr class="bg-slate-100/50 font-bold"><td colspan="8" class="px-4 py-2 border-b border-slate-100">Second Floor Apartments</td></tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">SFA-01 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">599 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">10,782,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,617,300</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,078,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,078,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">808,725</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,156,400</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">SFA-02 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">577 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">10,386,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,557,900</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,038,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,038,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">778,950</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,077,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">SFA-03 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">577 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">10,386,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,557,900</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,038,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,038,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">778,950</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,077,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">SFA-04 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">599 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">10,782,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,617,300</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,078,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,078,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">808,725</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,156,400</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">SFA-05 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">612 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">11,016,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,652,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,101,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,101,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">826,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,203,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">SFA-06 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">881 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">15,858,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,378,700</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,585,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,585,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,189,350</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,171,600</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">SFA-07 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">584 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">10,512,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,576,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,051,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,051,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">788,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,102,400</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">SFA-08 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">791 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">14,238,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,135,700</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,423,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,423,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,067,850</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,847,600</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">SFA-09 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">744 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">13,392,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,008,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,339,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,339,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,004,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,678,400</td>
-                                        </tr>
-                                        <!-- THIRD FLOOR -->
-                                        <tr class="bg-slate-100/50 font-bold"><td colspan="8" class="px-4 py-2 border-b border-slate-100">Third Floor Apartments</td></tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">TFA-01 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">912 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">16,416,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,462,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,641,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,641,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,231,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,283,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">TFA-02 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">847 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">15,246,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,286,900</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,524,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,524,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,143,450</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,049,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">TFA-03 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">898 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">16,164,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,424,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,616,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,616,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,212,300</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,232,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">TFA-04 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">565 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">10,170,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,525,500</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,017,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,017,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">762,750</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,034,000</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">TFA-05 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">623 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">11,214,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,682,100</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,121,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,121,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">841,050</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,242,800</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">TFA-06 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">581 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">10,458,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,568,700</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,045,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,045,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">784,350</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,091,600</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">TFA-07 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">774 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">13,932,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,089,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,393,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,393,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,044,900</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,786,400</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">TFA-08 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">765 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">13,770,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,065,550</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,377,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,377,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,032,750</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,754,000</td>
-                                        </tr>
-                                        <!-- FOURTH FLOOR -->
-                                        <tr class="bg-slate-100/50 font-bold"><td colspan="8" class="px-4 py-2 border-b border-slate-100">Fourth Floor Apartments</td></tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFA-01 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">912 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">16,416,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,462,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,641,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,641,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,231,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,283,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFA-02 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">847 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">15,246,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,286,900</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,524,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,524,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,143,450</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,049,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFA-03 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">592 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">10,656,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,598,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,065,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,065,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">799,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,131,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFA-04 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">612 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">11,016,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,652,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,101,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,101,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">826,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,203,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFA-05 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">881 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">15,858,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,378,700</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,585,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,585,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,189,350</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,171,600</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFA-06 (1 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">582 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">10,476,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,571,400</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,047,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,047,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">785,700</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,095,200</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFA-07 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">774 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">13,932,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,089,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,393,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,393,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,044,900</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,786,400</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFA-08 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">765 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">13,770,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,065,500</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,377,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,377,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,032,750</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,754,000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- PENTHOUSES TABLE -->
-                            <div id="mideast-view-penthouses" class="mideast-tab-content p-4 hidden">
-                                <h4 class="font-bold text-slate-800 text-sm mb-4">Fifth Floor Penthouses (Area Price 18,000 / SQFT | Down Payment 15% | 3-Year Installments)</h4>
-                                <table class="min-w-full text-xs text-left text-slate-600 border-collapse">
-                                    <thead>
-                                        <tr class="bg-slate-900 text-white font-bold uppercase tracking-wider outfit border-b border-slate-200">
-                                            <th class="px-4 py-3">Unit No</th>
-                                            <th class="px-4 py-3">Gross Area (SQFT)</th>
-                                            <th class="px-4 py-3">Price (PKR)</th>
-                                            <th class="px-4 py-3">Down Payment (15%)</th>
-                                            <th class="px-4 py-3">Allocation (10%)</th>
-                                            <th class="px-4 py-3">Annual (10%)</th>
-                                            <th class="px-4 py-3">Quarterly (x6)</th>
-                                            <th class="px-4 py-3">Possession (20%)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100">
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFP-01 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">876 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">15,768,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,365,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,576,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,576,800</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,182,600</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">3,153,600</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50 bg-slate-50/20">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFP-02 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">739 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">13,302,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,995,300</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,330,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,330,200</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">997,650</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,660,400</td>
-                                        </tr>
-                                        <tr class="hover:bg-slate-50/50">
-                                            <td class="px-4 py-3 font-bold text-slate-900 border-b border-slate-100">FFP-03 (2 Bed)</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">785 SQFT</td>
-                                            <td class="px-4 py-3 font-semibold text-gold border-b border-slate-100">14,130,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,119,500</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,413,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,413,000</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">1,059,750</td>
-                                            <td class="px-4 py-3 border-b border-slate-100">2,826,000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Pine Valley Resort Spotlight -->
-            <section class="reveal bg-slate-900 text-white rounded-[3rem] overflow-hidden shadow-2xl border border-white/5">
-                <div class="grid grid-cols-1 lg:grid-cols-12">
-                    <div class="lg:col-span-5 h-[400px] lg:h-auto">
-                        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80" alt="Nathia Gali Pine Valley Resort" class="w-full h-full object-cover">
-                    </div>
-                    <div class="lg:col-span-7 p-12 lg:p-20 flex flex-col justify-center">
-                        <span class="text-gold font-bold uppercase tracking-widest text-sm mb-4 block">Hospitality Development</span>
-                        <h2 class="text-4xl md:text-5xl font-bold outfit mb-8">Nathia Gali Pine Valley <span class="text-gold">Hotel & Resort</span></h2>
-                        <p class="text-slate-400 mb-8 text-lg leading-relaxed font-light">
-                            Our premier smart-resort development in Pine Valley, Nathia Gali. Designed as a high-yield hospitality asset, featuring 5-star alpine chalets, private butler services, and heated infinity pools overlooking the hills.
-                        </p>
-                        
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
-                            <div class="p-4 bg-slate-800/50 border border-slate-700/50 rounded-2xl text-center">
-                                <h4 class="text-xl font-bold text-gold outfit">5 Stars</h4>
-                                <p class="text-[10px] text-slate-400 uppercase mt-1">Luxury Class</p>
-                            </div>
-                            <div class="p-4 bg-slate-800/50 border border-slate-700/50 rounded-2xl text-center">
-                                <h4 class="text-xl font-bold text-gold outfit">12-15%</h4>
-                                <p class="text-[10px] text-slate-400 uppercase mt-1">Expected Yield</p>
-                            </div>
-                            <div class="p-4 bg-slate-800/50 border border-slate-700/50 rounded-2xl text-center">
-                                <h4 class="text-xl font-bold text-gold outfit">Underway</h4>
-                                <p class="text-[10px] text-slate-400 uppercase mt-1">Development</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex gap-4">
-                            <a href="stay/index.html" class="bg-gold text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-slate-900 transition-all text-sm shadow-lg shadow-gold/20">Visit Resort Portal</a>
-                            <a href="contact.html" class="border border-white/20 text-white px-8 py-4 rounded-xl font-bold hover:bg-gold hover:border-gold transition-all text-sm">Consult Investment</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
- 
-            <!-- Park View City Detail -->
-            <section class="reveal bg-white rounded-[3rem] overflow-hidden shadow-xl">
-                <div class="grid grid-cols-1 lg:grid-cols-12">
-                    <div class="lg:col-span-7 p-12 lg:p-20 order-2 lg:order-1">
-                        <span class="text-gold font-bold uppercase tracking-widest text-sm mb-4 block">Vision Group Development</span>
-                        <h2 class="text-4xl md:text-5xl font-bold outfit mb-8">Park View City <span class="text-gold">Islamabad</span></h2>
-                        <p class="text-slate-600 mb-8 text-lg leading-relaxed">
-                            A CDA-approved, premium residential project developed by Vision Group. Features a 400 ft wide Main Boulevard and offers plots and houses with easy installment plans.
-                        </p>
-                        
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
-                            <div class="p-4 border border-slate-100 rounded-2xl text-center">
-                                <h4 class="text-xl font-bold outfit">Block A-J</h4>
-                                <p class="text-[10px] text-slate-400 uppercase mt-1">Residential</p>
-                            </div>
-                            <div class="p-4 border border-slate-100 rounded-2xl text-center">
-                                <h4 class="text-xl font-bold outfit">The Walk</h4>
-                                <p class="text-[10px] text-slate-400 uppercase mt-1">Commercial Hub</p>
-                            </div>
-                            <div class="p-4 border border-slate-100 rounded-2xl text-center">
-                                <h4 class="text-xl font-bold outfit">Overseas</h4>
-                                <p class="text-[10px] text-slate-400 uppercase mt-1">Luxury Block</p>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-50 p-8 rounded-2xl mb-12">
-                            <h4 class="font-bold mb-4 outfit flex items-center gap-2">
-                                <span class="w-6 h-6 bg-gold text-white rounded-full flex items-center justify-center text-xs">!</span>
-                                Location Highlights
-                            </h4>
-                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-600">
-                                <li class="flex items-center gap-2">✔ 15 Minutes from Serena Hotel</li>
-                                <li class="flex items-center gap-2">✔ Near Bahria Enclave Gate 2</li>
-                                <li class="flex items-center gap-2">✔ Surrounded by Margalla Hills</li>
-                                <li class="flex items-center gap-2">✔ 100% Underground Electricity</li>
-                            </ul>
-                        </div>
-                        
-                        <a href="contact.html" class="inline-block bg-gold text-white px-10 py-4 rounded-xl font-bold hover:bg-slate-900 transition-all luxury-shadow">Book Your Plot Today</a>
-                    </div>
-                    <div class="lg:col-span-5 order-1 lg:order-2 h-[400px] lg:h-auto">
-                        <img src="assets/images/parkview.png" alt="Park View City" class="w-full h-full object-cover">
-                    </div>
-                </div>
-            </section>
-
-            <!-- Blue World City Blocks -->
-            <section class="reveal">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold outfit mb-4 text-slate-900">Blue World City <span class="text-gold">Investment Opportunities</span></h2>
-                    <p class="text-slate-600 max-w-2xl mx-auto">Promoting high-growth blocks in the world's first purpose-built tourist city.</p>
+                <!-- Type -->
+                <div>
+                    <label class="text-[10px] text-slate-400 font-bold uppercase block mb-1">Property Type</label>
+                    <select id="filter-type" onchange="filterAndRenderCatalog()" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs focus:border-gold focus:outline-none">
+                        <option value="all">All Types</option>
+                        <option value="house">House / Villa</option>
+                        <option value="plot">Plot</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="commercial">Commercial</option>
+                        <option value="office">Corporate Office</option>
+                        <option value="shop">Shop</option>
+                    </select>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="p-8 bg-slate-900 text-white rounded-3xl border border-slate-800 hover:border-gold transition-all">
-                        <h3 class="text-xl font-bold text-gold mb-3 outfit uppercase tracking-widest text-sm">Sports Valley</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed mb-6">Home to Pakistan's largest cricket stadium. Prime for short-term capital gains.</p>
-                        <span class="text-white font-bold text-sm">ROI: High</span>
-                    </div>
-                    <div class="p-8 bg-white text-slate-900 rounded-3xl border border-slate-100 luxury-shadow hover:border-gold transition-all">
-                        <h3 class="text-xl font-bold text-gold mb-3 outfit uppercase tracking-widest text-sm">Awami Block</h3>
-                        <p class="text-slate-500 text-xs leading-relaxed mb-6">Affordable housing solutions for middle-class investors with easy monthly installments.</p>
-                        <span class="text-slate-900 font-bold text-sm">Booking: Open</span>
-                    </div>
-                    <div class="p-8 bg-slate-900 text-white rounded-3xl border border-slate-800 hover:border-gold transition-all">
-                        <h3 class="text-xl font-bold text-gold mb-3 outfit uppercase tracking-widest text-sm">General Block</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed mb-6">Fully developed and ready for possession. Perfect for immediate construction of your home.</p>
-                        <span class="text-white font-bold text-sm">Status: Ready</span>
-                    </div>
-                    <div class="p-8 bg-white text-slate-900 rounded-3xl border border-slate-100 luxury-shadow hover:border-gold transition-all">
-                        <h3 class="text-xl font-bold text-gold mb-3 outfit uppercase tracking-widest text-sm">Waterfront</h3>
-                        <p class="text-slate-500 text-xs leading-relaxed mb-6">Luxury villas and apartments facing serene water bodies and scenic views.</p>
-                        <span class="text-slate-900 font-bold text-sm">ROI: Premium</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Small-Scale Development Projects -->
-            <section class="reveal">
-                <div class="text-center mb-16">
-                    <span class="text-gold font-bold uppercase tracking-widest text-sm mb-4 block">Development Division</span>
-                    <h2 class="text-4xl font-bold outfit mb-4 text-slate-900">Small-Scale & <span class="text-gold">Turnkey Developments</span></h2>
-                    <p class="text-slate-600 max-w-2xl mx-auto">Creating direct wealth through construction, joint-ventures, and residential flipping projects.</p>
+                <!-- Purpose -->
+                <div>
+                    <label class="text-[10px] text-slate-400 font-bold uppercase block mb-1">Purpose</label>
+                    <select id="filter-purpose" onchange="filterAndRenderCatalog()" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs focus:border-gold focus:outline-none">
+                        <option value="all">All Purposes</option>
+                        <option value="sale">For Sale</option>
+                        <option value="rent">For Rent</option>
+                    </select>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <!-- Turnkey Villas -->
-                    <div class="bg-white rounded-[2.5rem] overflow-hidden luxury-shadow group flex flex-col md:flex-row">
-                        <div class="md:w-1/2 overflow-hidden h-64 md:h-auto">
-                            <img src="assets/images/bahria-villa.png" alt="5 Marla Modern Turnkey House in Bahria Enclave Islamabad - Kaghan Properties" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 animate-pulse-slow">
-                        </div>
-                        <div class="p-8 md:w-1/2 flex flex-col justify-between">
-                            <div>
-                                <span class="text-gold text-[10px] font-bold uppercase tracking-wider block mb-2">Active Development</span>
-                                <h3 class="text-xl font-bold mb-3 outfit">5 Marla Turnkey Villas</h3>
-                                <p class="text-slate-500 text-xs leading-relaxed mb-6">
-                                    Developing premium compact housing units in Bahria Enclave. Optimized floor layouts, state-of-the-art materials, and high-yield potential for immediate flipping or high-end rentals.
-                                </p>
-                            </div>
-                            <a href="contact.html" class="block text-center bg-slate-900 text-white py-3 rounded-xl hover:bg-gold transition-all font-bold text-xs">Consult Layouts</a>
-                        </div>
-                    </div>
-
-                    <!-- Joint Ventures -->
-                    <div class="bg-white rounded-[2.5rem] overflow-hidden luxury-shadow group flex flex-col md:flex-row">
-                        <div class="md:w-1/2 overflow-hidden h-64 md:h-auto font-sans">
-                            <img src="assets/images/interior.png" alt="Luxury interior renovation and flipping project in Islamabad - Kaghan Properties" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        </div>
-                        <div class="p-8 md:w-1/2 flex flex-col justify-between">
-                            <div>
-                                <span class="text-gold text-[10px] font-bold uppercase tracking-wider block mb-2">JV Model</span>
-                                <h3 class="text-xl font-bold mb-3 outfit">Renovation & Flipping JV</h3>
-                                <p class="text-slate-500 text-xs leading-relaxed mb-6">
-                                    Partnering with local land owners to renovate, furnish, and remodel existing residential units to generate high-paying short-term rental yields in Islamabad.
-                                </p>
-                            </div>
-                            <a href="contact.html" class="block text-center bg-slate-900 text-white py-3 rounded-xl hover:bg-gold transition-all font-bold text-xs">View JV Feasibility</a>
-                        </div>
-                    </div>
+                <!-- Bedrooms -->
+                <div>
+                    <label class="text-[10px] text-slate-400 font-bold uppercase block mb-1">Min Bedrooms</label>
+                    <select id="filter-bedrooms" onchange="filterAndRenderCatalog()" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs focus:border-gold focus:outline-none">
+                        <option value="0">Any Bedrooms</option>
+                        <option value="1">1+ Beds</option>
+                        <option value="2">2+ Beds</option>
+                        <option value="3">3+ Beds</option>
+                        <option value="4">4+ Beds</option>
+                    </select>
                 </div>
-            </section>
 
-            <!-- Regional Horizons (Geographical Expansion) -->
-            <section class="reveal bg-slate-900 text-white rounded-[3rem] p-12 lg:p-20 relative overflow-hidden">
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-gold/10 via-transparent to-transparent opacity-40"></div>
-                <div class="relative z-10 max-w-4xl mx-auto text-center space-y-8">
-                    <span class="text-gold font-bold uppercase tracking-widest text-sm block">Geographical Expansion</span>
-                    <h2 class="text-4xl md:text-5xl font-bold outfit">Strategic Regional <span class="text-gold">Expansion Horizons</span></h2>
-                    <p class="text-slate-400 text-sm leading-relaxed max-w-2xl mx-auto">
-                        Starting from our Bahria Enclave operational base, we are expanding our tech-driven property management, hospitality chalets, and residential construction models into Pakistan's premium growth zones.
-                    </p>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-4">
-                        <div class="p-4 bg-slate-950 border border-slate-800 rounded-2xl">
-                            <h4 class="font-bold text-white text-sm outfit">DHA Margalla</h4>
-                            <p class="text-[10px] text-slate-500 mt-1 uppercase">Islamabad</p>
-                        </div>
-                        <div class="p-4 bg-slate-950 border border-slate-800 rounded-2xl">
-                            <h4 class="font-bold text-white text-sm outfit">Park View City</h4>
-                            <p class="text-[10px] text-slate-500 mt-1 uppercase">Overseas Block</p>
-                        </div>
-                        <div class="p-4 bg-slate-950 border border-slate-800 rounded-2xl">
-                            <h4 class="font-bold text-white text-sm outfit">Nathia Gali</h4>
-                            <p class="text-[10px] text-slate-500 mt-1 uppercase">Alpine Chalets</p>
-                        </div>
-                        <div class="p-4 bg-slate-950 border border-slate-800 rounded-2xl">
-                            <h4 class="font-bold text-white text-sm outfit">Kaghan Valley</h4>
-                            <p class="text-[10px] text-slate-500 mt-1 uppercase">KP Resorts</p>
-                        </div>
-                    </div>
+                <!-- Reset Button -->
+                <div class="flex items-end h-full">
+                    <button onclick="resetFilters()" class="w-full bg-slate-800 hover:bg-gold hover:text-slate-950 border border-slate-700 font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition-all">
+                        <i class="fa-solid fa-rotate-left mr-1"></i> Reset Filters
+                    </button>
                 </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
+    <!-- Main Properties Grid -->
+    <main class="py-16 px-4 md:px-12 bg-slate-50 min-h-screen">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold outfit text-slate-900">Available Properties (<span id="results-count" class="text-gold">0</span>)</h2>
+                <span class="text-xs text-slate-500 font-semibold">Real-time data from Firestore collection: <code class="text-gold">kaghan_properties</code></span>
+            </div>
+
+            <!-- Grid Container -->
+            <div id="properties-catalog-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="col-span-3 text-center text-slate-500 py-16">
+                    <i class="fa-solid fa-spinner animate-spin text-3xl text-gold mb-3"></i>
+                    <p class="text-xs font-bold uppercase tracking-wider">Fetching published properties...</p>
+                </div>
+            </div>
         </div>
     </main>
 
-    <!-- Detailed Footer -->
-    <footer class="bg-slate-950 text-slate-400 pt-24 pb-12 px-4 md:px-12 border-t border-slate-900">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
-            <!-- Col 1: Brand Info -->
-            <div>
-                <div class="flex items-center gap-2 mb-8 text-white">
-                    <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-10 w-auto object-contain">
-                    <span class="text-xl font-bold tracking-wider outfit font-semibold">KAGHAN PROPERTIES</span>
-                </div>
-                <p class="text-sm leading-relaxed mb-8">
-                    Kaghan Properties Pvt. Ltd. is a Pakistan-based real estate and construction leader. We provide reliable investment options, luxury construction, and expert property management for local and overseas clients.
-                </p>
-                <div class="flex gap-4">
-                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                </div>
-            </div>
+    <!-- PROPERTY DETAIL MODAL -->
+    <div id="modal-property-detail" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-4xl w-full p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto relative shadow-2xl">
+            <button onclick="closePropertyDetailModal()" class="absolute top-6 right-6 w-10 h-10 bg-slate-100 hover:bg-slate-900 hover:text-white rounded-full flex items-center justify-center transition-all text-slate-600">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
 
-            <!-- Col 2: Quick Links -->
-            <div>
-                <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-sm outfit">Navigation</h4>
-                <ul class="grid grid-cols-1 gap-4 text-sm">
-                    <li><a href="index.html" class="hover:text-gold transition-colors">Home Experience</a></li>
-                    <li><a href="services.html" class="hover:text-gold transition-colors">Our Services</a></li>
-                    <li><a href="projects.html" class="hover:text-gold transition-colors">Current Projects</a></li>
-                    <li><a href="about.html" class="hover:text-gold transition-colors">Company Profile</a></li>
-                    <li><a href="about.html" class="hover:text-gold transition-colors">Careers & Growth</a></li>
-                    <li><a href="contact.html" class="hover:text-gold transition-colors">Get In Touch</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 3: Services & Projects -->
-            <div>
-                <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-sm outfit">Expertise</h4>
-                <ul class="grid grid-cols-1 gap-4 text-sm">
-                    <li class="flex items-center gap-2">
-                        <span class="w-1 h-1 bg-gold rounded-full"></span>
-                        <a href="services.html" class="hover:text-gold">Design & Construction</a>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <span class="w-1 h-1 bg-gold rounded-full"></span>
-                        <a href="services.html" class="hover:text-gold">Real Estate Brokerage</a>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <span class="w-1 h-1 bg-gold rounded-full"></span>
-                        <a href="services.html" class="hover:text-gold">Nathia Gali Hospitality</a>
-                    </li>
-                    <li class="flex items-center gap-2 mt-4 text-white font-bold">Top Projects</li>
-                    <li class="text-xs"><a href="projects.html" class="hover:text-gold">Islamabad - 29 Mideast Plaza</a></li>
-                    <li class="text-xs"><a href="projects.html" class="hover:text-gold">Nathia Gali - Pine Valley Resort</a></li>
-                    <li class="text-xs"><a href="projects.html" class="hover:text-gold">Bahria Enclave - Azan Arcade</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 4: Contact Core -->
-            <div>
-                <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-sm outfit">Headquarters</h4>
-                <p class="text-xs leading-relaxed mb-6">
-                    Ground Floor, Anjum Plaza, Near TCS Bahria Enclave / Jinnah Avenue New Mall, Islamabad, Pakistan
-                </p>
-                <div class="space-y-3 text-sm">
-                    <p class="flex items-center gap-3">
-                        <i class="fa-solid fa-phone text-gold w-4"></i>
-                        <span><span class="text-gold font-bold">PK:</span> 0334-0091127</span>
-                    </p>
-                    <p class="flex items-center gap-3 text-xs">
-                        <i class="fa-solid fa-phone text-gold w-4"></i>
-                        <span><span class="text-gold font-bold">PK:</span> 0334-5405587</span>
-                    </p>
-                    <p class="flex items-center gap-3 text-xs">
-                        <i class="fa-solid fa-map-pin text-gold w-4 text-center"></i>
-                        <span><span class="text-gold font-bold">Nathia Gali:</span> Regional Support Active</span>
-                    </p>
-                    <p class="flex items-center gap-3 text-xs break-all">
-                        <i class="fa-solid fa-envelope text-gold w-4"></i>
-                        <span><span class="text-gold font-bold">E:</span> tanzilminhas@kaghanproperties.com</span>
-                    </p>
-                </div>
+            <div id="modal-detail-content" class="space-y-6">
+                <!-- Dynamically populated -->
             </div>
         </div>
-        <div class="max-w-7xl mx-auto pt-8 border-t border-slate-900 text-center text-[10px] uppercase tracking-widest">
-            <p>&copy; 2026 Kaghan Properties Pvt. Ltd. | Secure Real Estate Investments Pakistan</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-12 px-4 md:px-12 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3 text-white">
+                <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-8 w-auto">
+                <span class="font-bold outfit uppercase tracking-wider">KAGHAN PROPERTIES</span>
+            </div>
+            <p class="text-xs">&copy; 2026 Kaghan Properties Pvt. Ltd. | Top-Level Collection: <span class="text-gold">kaghan_properties</span></p>
         </div>
     </footer>
 
-    <script src="assets/js/script.js"></script>
+    <!-- Floating WhatsApp Button -->
+    <a id="floating-whatsapp" href="https://wa.me/923340091127?text=Hi%20Kaghan%20Properties,%20I%20am%20interested%20in%20your%20property%20listings." target="_blank" class="fixed bottom-6 right-6 z-50 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- Page Logic -->
     <script>
-        // Interactive floor plan tab switching for 29 Mideast Plaza
-        function switchMideastTab(tabId) {
-            // Hide all tab contents
-            document.querySelectorAll('.mideast-tab-content').forEach(el => el.classList.add('hidden'));
-            
-            // Show the selected tab content
-            document.getElementById('mideast-view-' + tabId).classList.remove('hidden');
-            
-            // Reset all tab button styles to unselected state
-            document.querySelectorAll('#mideast-tabs button').forEach(btn => {
-                btn.className = "px-5 py-3 rounded-xl text-xs font-bold uppercase transition-all bg-slate-100 text-slate-700 hover:bg-slate-200";
-            });
-            
-            // Set the clicked button to selected state
-            document.getElementById('tab-btn-' + tabId).className = "px-5 py-3 rounded-xl text-xs font-bold uppercase transition-all bg-amber-500 text-slate-950";
+        let allPublishedProperties = [];
+
+        async function loadPublishedProperties() {
+            try {
+                // Parse URL Query Params
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('area')) {
+                    const select = document.getElementById('filter-area');
+                    const areaVal = urlParams.get('area');
+                    for (let i = 0; i < select.options.length; i++) {
+                        if (select.options[i].value.toLowerCase().includes(areaVal.toLowerCase())) {
+                            select.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+                if (urlParams.has('type')) {
+                    document.getElementById('filter-type').value = urlParams.get('type');
+                }
+                if (urlParams.has('purpose')) {
+                    document.getElementById('filter-purpose').value = urlParams.get('purpose');
+                }
+
+                allPublishedProperties = await window.KaghanDB.getProperties({ status: 'published' });
+                filterAndRenderCatalog();
+            } catch (e) {
+                console.error("Failed to load catalog properties:", e);
+                document.getElementById('properties-catalog-container').innerHTML = `<div class="col-span-3 text-center text-rose-500 py-12">Failed to load property listings. Please check connection.</div>`;
+            }
         }
+
+        function filterAndRenderCatalog() {
+            const area = document.getElementById('filter-area').value;
+            const type = document.getElementById('filter-type').value;
+            const purpose = document.getElementById('filter-purpose').value;
+            const minBeds = parseInt(document.getElementById('filter-bedrooms').value);
+
+            const filtered = allPublishedProperties.filter(p => {
+                if (area !== 'all' && !p.area.toLowerCase().includes(area.toLowerCase()) && !p.city.toLowerCase().includes(area.toLowerCase())) return false;
+                if (type !== 'all' && p.type !== type) return false;
+                if (purpose !== 'all' && p.purpose !== purpose) return false;
+                if (minBeds > 0 && p.bedrooms < minBeds) return false;
+                return true;
+            });
+
+            document.getElementById('results-count').innerText = filtered.length;
+            const container = document.getElementById('properties-catalog-container');
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-3 text-center text-slate-500 py-16 bg-white rounded-3xl border border-slate-200">No published properties matched your search filters.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(p => {
+                const primaryImg = window.KaghanDB.getDriveDirectUrl(p.images && p.images[0] ? p.images[0].url : '');
+                const formattedPrice = (p.price / 1000000).toFixed(2);
+                
+                return `
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg border border-slate-100 hover-lift hover:border-gold transition-all flex flex-col justify-between">
+                        <div class="relative h-64 overflow-hidden group">
+                            <img src="${primaryImg}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-4 left-4 bg-slate-900/90 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">${p.purpose === 'sale' ? 'FOR SALE' : 'FOR RENT'}</span>
+                            <span class="absolute top-4 right-4 bg-gold text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">${p.type}</span>
+                        </div>
+                        
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <span class="text-gold font-bold text-[10px] uppercase tracking-widest block mb-1">${p.area}, ${p.city}</span>
+                                <h3 class="text-xl font-bold outfit text-slate-900 mb-2 leading-snug line-clamp-2">${p.title}</h3>
+                                <p class="text-slate-500 text-xs leading-relaxed mb-4 line-clamp-2">${p.metaDescription || p.address || 'Premium real estate listing in prime location.'}</p>
+                                
+                                <div class="flex items-center gap-4 text-xs font-semibold text-slate-600 mb-6 py-2 border-y border-slate-100">
+                                    <span><i class="fa-solid fa-bed text-gold mr-1"></i> ${p.bedrooms} Beds</span>
+                                    <span><i class="fa-solid fa-bath text-gold mr-1"></i> ${p.bathrooms} Baths</span>
+                                    <span><i class="fa-solid fa-ruler-combined text-gold mr-1"></i> ${p.size} ${p.sizeUnit}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="text-[10px] text-slate-400 uppercase font-bold block">Asking Price</span>
+                                    <span class="text-lg font-extrabold text-slate-900 outfit">PKR ${formattedPrice} Lac / Cr</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="openPropertyDetailModal('${p.id}')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-3 py-2 rounded-xl text-xs transition-all">
+                                        Quick View
+                                    </button>
+                                    <a href="property.html?slug=${p.slug}" class="bg-slate-900 hover:bg-gold text-white hover:text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition-all flex items-center gap-1">
+                                        Details <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function resetFilters() {
+            document.getElementById('filter-area').value = 'all';
+            document.getElementById('filter-type').value = 'all';
+            document.getElementById('filter-purpose').value = 'all';
+            document.getElementById('filter-bedrooms').value = '0';
+            filterAndRenderCatalog();
+        }
+
+        async function openPropertyDetailModal(id) {
+            const prop = allPublishedProperties.find(p => p.id === id);
+            if (!prop) return;
+
+            const modal = document.getElementById('modal-property-detail');
+            const content = document.getElementById('modal-detail-content');
+            modal.classList.remove('hidden');
+
+            const primaryImg = window.KaghanDB.getDriveDirectUrl(prop.images && prop.images[0] ? prop.images[0].url : '');
+            const youtubeEmbed = prop.videos && prop.videos[0] ? window.KaghanDB.getYouTubeEmbedUrl(prop.videos[0].url || prop.videos[0].videoId) : '';
+            const docUrl = prop.documents && prop.documents[0] ? prop.documents[0].url : '';
+            const encodedTitle = encodeURIComponent(prop.title);
+
+            content.innerHTML = `
+                <div>
+                    <span class="text-gold font-bold uppercase text-xs tracking-widest block mb-1">${prop.area}, ${prop.city}</span>
+                    <h2 class="text-2xl md:text-3xl font-bold outfit text-slate-900 mb-2">${prop.title}</h2>
+                    <div class="text-2xl font-extrabold text-gold outfit">PKR ${(prop.price).toLocaleString()}</div>
+                </div>
+
+                <!-- Gallery / Main Image -->
+                <div class="rounded-2xl overflow-hidden shadow-lg h-72 md:h-96 border border-slate-200">
+                    <img src="${primaryImg}" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Specs Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <div class="p-2"><span class="text-slate-400 text-[10px] uppercase font-bold block">Type</span><strong class="text-slate-800 text-sm uppercase">${prop.type} (${prop.purpose})</strong></div>
+                    <div class="p-2"><span class="text-slate-400 text-[10px] uppercase font-bold block">Size</span><strong class="text-slate-800 text-sm">${prop.size} ${prop.sizeUnit}</strong></div>
+                    <div class="p-2"><span class="text-slate-400 text-[10px] uppercase font-bold block">Bedrooms</span><strong class="text-slate-800 text-sm">${prop.bedrooms} Beds</strong></div>
+                    <div class="p-2"><span class="text-slate-400 text-[10px] uppercase font-bold block">Bathrooms</span><strong class="text-slate-800 text-sm">${prop.bathrooms} Baths</strong></div>
+                </div>
+
+                <!-- Video Tour Embed -->
+                ${youtubeEmbed ? `
+                    <div>
+                        <h4 class="text-sm font-bold outfit uppercase text-slate-900 mb-2"><i class="fa-brands fa-youtube text-red-600 mr-2"></i> Property Video Tour</h4>
+                        <div class="aspect-video rounded-2xl overflow-hidden border border-slate-200 shadow-md">
+                            <iframe src="${youtubeEmbed}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                ` : ''}
+
+                <!-- Document Download -->
+                ${docUrl ? `
+                    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 flex justify-between items-center">
+                        <div>
+                            <strong class="text-xs text-blue-900 font-bold block">Floor Plan / Legal Brochure Document</strong>
+                            <span class="text-[10px] text-blue-700">Stored on Google Drive</span>
+                        </div>
+                        <a href="${docUrl}" target="_blank" class="bg-blue-600 text-white font-bold px-4 py-2 rounded-xl text-xs hover:bg-blue-700">Download Floor Plan</a>
+                    </div>
+                ` : ''}
+
+                <!-- Inquiry & WhatsApp -->
+                <div class="pt-4 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                    <a href="https://wa.me/923340091127?text=Hi%20Kaghan%20Properties,%20I%20am%20interested%20in:%20${encodedTitle}" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Direct WhatsApp Inquiry
+                    </a>
+                    <button onclick="document.getElementById('inquiry-box-${prop.id}').classList.toggle('hidden')" class="bg-slate-900 hover:bg-gold text-white hover:text-slate-950 font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider">
+                        Send Lead Form
+                    </button>
+                </div>
+
+                <!-- Embedded Lead Form -->
+                <div id="inquiry-box-${prop.id}" class="hidden bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 text-xs">
+                    <h5 class="font-bold text-slate-800">Inquire About This Property</h5>
+                    <input type="text" id="lead-name-${prop.id}" placeholder="Your Full Name *" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2">
+                    <input type="tel" id="lead-phone-${prop.id}" placeholder="Phone / WhatsApp Number *" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2">
+                    <textarea id="lead-msg-${prop.id}" rows="2" placeholder="Message..." class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2">I am interested in ${prop.title}. Please share further details.</textarea>
+                    <button onclick="submitPropertyLead('${prop.id}', '${prop.title}')" class="w-full bg-[#D4AF37] text-slate-950 font-bold py-2.5 rounded-xl">Submit Lead</button>
+                </div>
+            `;
+        }
+
+        function closePropertyDetailModal() {
+            document.getElementById('modal-property-detail').classList.add('hidden');
+        }
+
+        async function submitPropertyLead(propId, propTitle) {
+            const name = document.getElementById(`lead-name-${propId}`).value.trim();
+            const phone = document.getElementById(`lead-phone-${propId}`).value.trim();
+            const message = document.getElementById(`lead-msg-${propId}`).value.trim();
+
+            if (!name || !phone) {
+                alert("Please enter your name and phone number.");
+                return;
+            }
+
+            await window.KaghanDB.createLead({
+                name, phone, message,
+                propertyId: propId,
+                propertyTitle: propTitle,
+                sourcePage: `/property/${propId}`
+            });
+
+            alert("Thank you! Your lead inquiry has been recorded. Our agent will contact you shortly.");
+            closePropertyDetailModal();
+        }
+
+        window.addEventListener('load', loadPublishedProperties);
     </script>
+    <script src="assets/js/shared.js"></script>
 </body>
 </html>

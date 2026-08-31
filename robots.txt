@@ -1,0 +1,46 @@
+# ==========================================
+# Kaghan Properties - Robots.txt
+# Optimized for Web Search Engines & Generative AI Crawlers (AIEO/GEO)
+# ==========================================
+
+# Standard Web Search Crawlers (Google, Bing, Yahoo, Yandex, DuckDuckGo)
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: Bingbot
+User-agent: Slurp
+User-agent: DuckDuckBot
+User-agent: Baiduspider
+User-agent: Yandex
+Allow: /
+Disallow: /admin/
+Disallow: /login.html
+
+# Generative AI & LLM Search Agents (OpenAI, Anthropic, Perplexity, Gemini, Apple Intelligence)
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: cohere-ai
+User-agent: Diffbot
+User-agent: Bytespider
+User-agent: CCBot
+User-agent: FacebookBot
+User-agent: Amazonbot
+Allow: /
+Disallow: /admin/
+Disallow: /login.html
+
+# Default Crawler Policy
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /login.html
+
+# Sitemaps & AI Knowledge Indexes
+Sitemap: https://kaghanproperties.com/sitemap.xml
+# AI Model Context Specifications:
+# https://kaghanproperties.com/llms.txt
+# https://kaghanproperties.com/llms-full.txt
