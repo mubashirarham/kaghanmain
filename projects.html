@@ -288,7 +288,10 @@
                         <div class="relative h-64 overflow-hidden group">
                             <img src="${primaryImg}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <span class="absolute top-4 left-4 bg-slate-900/90 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">${p.purpose === 'sale' ? 'FOR SALE' : 'FOR RENT'}</span>
-                            <span class="absolute top-4 right-4 bg-gold text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">${p.type}</span>
+                            <div class="absolute top-4 right-4 flex items-center gap-1.5">
+                                <span class="bg-gold text-slate-950 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">${p.type}</span>
+                                ${(p.images && p.images.length > 1) ? `<span class="bg-slate-950/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1"><i class="fa-solid fa-images text-gold"></i> ${p.images.length}</span>` : ''}
+                            </div>
                         </div>
                         
                         <div class="p-6 flex-grow flex flex-col justify-between">

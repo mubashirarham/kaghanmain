@@ -204,7 +204,10 @@ const DEFAULT_PROPERTIES = [
         parkingSpaces: 2,
         amenities: ["security", "elevator", "generator", "park", "gated"],
         images: [
-            { driveFileId: "1abc123", url: "assets/images/bahria-villa.png", caption: "Front View", isPrimary: true }
+            { driveFileId: "1abc123", url: "assets/images/bahria-villa.png", caption: "Exterior Elevation", isPrimary: true },
+            { driveFileId: "1int123", url: "assets/images/interior.png", caption: "Designer Living Lounge", isPrimary: false },
+            { driveFileId: "1hero123", url: "assets/images/hero.png", caption: "Architectural Overview", isPrimary: false },
+            { driveFileId: "1emb123", url: "assets/images/embassy.png", caption: "Neighborhood Boulevard", isPrimary: false }
         ],
         videos: [
             { platform: "youtube", videoId: "dQw4w9WgXcQ", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", title: "Property Tour", type: "property_tour" }
@@ -257,7 +260,9 @@ const DEFAULT_PROPERTIES = [
         parkingSpaces: 4,
         amenities: ["elevator", "generator", "security", "parking"],
         images: [
-            { driveFileId: "1mideast", url: "assets/images/mideast-view1.png", caption: "Plaza View", isPrimary: true }
+            { driveFileId: "1mideast", url: "assets/images/mideast-view1.png", caption: "Commercial Front View", isPrimary: true },
+            { driveFileId: "1mideast2", url: "assets/images/mideast-view2.png", caption: "Plaza Floor Plan & Elevation", isPrimary: false },
+            { driveFileId: "1int124", url: "assets/images/interior.png", caption: "Corporate Executive Suite", isPrimary: false }
         ],
         videos: [
             { platform: "youtube", videoId: "dQw4w9WgXcQ", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", title: "Plaza Tour", type: "property_tour" }
@@ -307,7 +312,9 @@ const DEFAULT_PROPERTIES = [
         parkingSpaces: 1,
         amenities: ["elevator", "security", "gated"],
         images: [
-            { driveFileId: "1azan", url: "assets/images/azan-arcade.png", caption: "Building Elevation", isPrimary: true }
+            { driveFileId: "1azan", url: "assets/images/azan-arcade.png", caption: "Building Elevation", isPrimary: true },
+            { driveFileId: "1int125", url: "assets/images/interior.png", caption: "Modern Living & Dining Area", isPrimary: false },
+            { driveFileId: "1hero124", url: "assets/images/hero.png", caption: "Complex View", isPrimary: false }
         ],
         videos: [],
         documents: [],

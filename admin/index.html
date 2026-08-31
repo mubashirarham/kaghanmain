@@ -840,19 +840,29 @@
                     </div>
                 </div>
 
-                <!-- Cloudinary Multi-Image Upload Hub -->
+                <!-- Cloudinary Multi-Image Upload Hub & Gallery Manager -->
                 <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 space-y-3">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                         <div>
                             <label class="text-white font-bold text-xs flex items-center gap-2">
-                                <i class="fa-solid fa-cloud-arrow-up text-[#D4AF37]"></i> Property Image Gallery (Cloudinary)
+                                <i class="fa-solid fa-images text-[#D4AF37]"></i> Property Image Gallery (Multi-Photo & Cloudinary)
                             </label>
-                            <p class="text-[10px] text-slate-400">Direct CDN upload to Cloudinary (Cloud: <code class="text-[#D4AF37]">dis1ptaip</code> | Preset: <code class="text-[#D4AF37]">mubashir</code>)</p>
+                            <p class="text-[10px] text-slate-400">Direct CDN upload (Cloud: <code class="text-[#D4AF37]">dis1ptaip</code> | Preset: <code class="text-[#D4AF37]">mubashir</code>) or paste image URLs</p>
                         </div>
-                        <label class="cursor-pointer bg-gradient-to-r from-[#D4AF37] to-amber-500 hover:from-white hover:to-white text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-md">
-                            <i class="fa-solid fa-upload"></i> Upload Images
-                            <input type="file" id="prop-cloudinary-file-input" multiple accept="image/*" class="hidden" onchange="handlePropertyCloudinaryUpload(event)">
-                        </label>
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <label class="cursor-pointer bg-gradient-to-r from-[#D4AF37] to-amber-500 hover:from-white hover:to-white text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-md">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Upload to Cloudinary
+                                <input type="file" id="prop-cloudinary-file-input" multiple accept="image/*" class="hidden" onchange="handlePropertyCloudinaryUpload(event)">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Quick Add Image via URL Row -->
+                    <div class="flex gap-2 items-center bg-slate-900/60 p-2 rounded-xl border border-slate-800/80">
+                        <input type="text" id="prop-add-url-input" placeholder="Paste Cloudinary / image URL (e.g. https://... or assets/images/...)" class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs" onkeydown="if(event.key==='Enter'){event.preventDefault();handleAddImageUrl();}">
+                        <button type="button" onclick="handleAddImageUrl()" class="bg-slate-800 hover:bg-[#D4AF37] text-slate-300 hover:text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap">
+                            <i class="fa-solid fa-plus mr-1"></i> Add URL
+                        </button>
                     </div>
 
                     <!-- Upload Progress Indicator -->
@@ -870,7 +880,7 @@
                     <div id="prop-gallery-preview" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 min-h-[70px] p-2.5 bg-slate-900/50 rounded-xl border border-slate-800/80">
                         <div id="prop-gallery-empty" class="col-span-full text-center py-3 text-slate-500 text-xs flex items-center justify-center gap-2">
                             <i class="fa-regular fa-images text-lg text-slate-600"></i>
-                            <span>No images in gallery yet. Upload via Cloudinary or enter URL below.</span>
+                            <span>No images in gallery yet. Upload via Cloudinary or paste URLs above.</span>
                         </div>
                     </div>
 
@@ -1388,7 +1398,7 @@
             renderPropertyGalleryPreviews();
         }
 
-        function addImageToPropertyGallery(url, publicId = '', isPrimary = false) {
+        function addImageToPropertyGallery(url, publicId = '', isPrimary = false, caption = '') {
             if (!url) return;
             const exists = currentPropertyImages.some(img => img.url === url);
             if (!exists) {
@@ -1397,10 +1407,21 @@
                     driveFileId: publicId || url,
                     publicId: publicId || '',
                     isPrimary: isPrimary || currentPropertyImages.length === 0,
-                    caption: "Property Photo"
+                    caption: caption || "Property Photo"
                 });
+                if (currentPropertyImages.length === 1) {
+                    document.getElementById('form-prop-image').value = url;
+                }
                 renderPropertyGalleryPreviews();
             }
+        }
+
+        function handleAddImageUrl() {
+            const input = document.getElementById('prop-add-url-input');
+            const url = input.value.trim();
+            if (!url) return;
+            addImageToPropertyGallery(url, '', currentPropertyImages.length === 0, 'Property Photo');
+            input.value = '';
         }
 
         function renderPropertyGalleryPreviews() {
@@ -1411,7 +1432,7 @@
                 container.innerHTML = `
                     <div id="prop-gallery-empty" class="col-span-full text-center py-3 text-slate-500 text-xs flex items-center justify-center gap-2">
                         <i class="fa-regular fa-images text-lg text-slate-600"></i>
-                        <span>No images in gallery yet. Upload via Cloudinary or enter URL below.</span>
+                        <span>No images in gallery yet. Upload via Cloudinary or paste URLs above.</span>
                     </div>
                 `;
                 return;
@@ -1419,28 +1440,43 @@
 
             container.innerHTML = currentPropertyImages.map((img, idx) => {
                 const isPrimary = img.isPrimary || (idx === 0 && !currentPropertyImages.some(i => i.isPrimary));
+                const isFirst = idx === 0;
+                const isLast = idx === currentPropertyImages.length - 1;
                 return `
-                    <div class="relative group bg-slate-950 rounded-xl overflow-hidden border ${isPrimary ? 'border-[#D4AF37] ring-1 ring-[#D4AF37]/50' : 'border-slate-800'} aspect-[4/3]">
+                    <div class="relative group bg-slate-950 rounded-xl overflow-hidden border ${isPrimary ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/50' : 'border-slate-800'} aspect-[4/3]">
                         <img src="${img.url}" class="w-full h-full object-cover">
                         
                         <!-- Badges & Action Overlay -->
-                        <div class="absolute inset-0 bg-slate-950/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-1.5">
+                        <div class="absolute inset-0 bg-slate-950/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-1.5 z-10">
                             <div class="flex justify-between items-center">
-                                <button type="button" onclick="setPropertyPrimaryImage(${idx})" title="Set as primary thumbnail" class="p-1 rounded bg-slate-900/80 hover:bg-[#D4AF37] text-white hover:text-slate-950 text-[10px]">
+                                <button type="button" onclick="setPropertyPrimaryImage(${idx})" title="${isPrimary ? 'Primary Image' : 'Set as primary thumbnail'}" class="p-1 rounded bg-slate-900/90 hover:bg-[#D4AF37] text-white hover:text-slate-950 text-[10px]">
                                     <i class="fa-solid fa-star ${isPrimary ? 'text-[#D4AF37] hover:text-slate-950' : ''}"></i>
                                 </button>
-                                <button type="button" onclick="removePropertyImage(${idx})" title="Remove image" class="p-1 rounded bg-rose-500/80 hover:bg-rose-600 text-white text-[10px]">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                                <div class="flex items-center gap-1">
+                                    ${!isFirst ? `<button type="button" onclick="movePropertyImage(${idx}, -1)" title="Move Left" class="p-1 rounded bg-slate-900/90 hover:bg-[#D4AF37] text-white hover:text-slate-950 text-[9px]"><i class="fa-solid fa-arrow-left"></i></button>` : ''}
+                                    ${!isLast ? `<button type="button" onclick="movePropertyImage(${idx}, 1)" title="Move Right" class="p-1 rounded bg-slate-900/90 hover:bg-[#D4AF37] text-white hover:text-slate-950 text-[9px]"><i class="fa-solid fa-arrow-right"></i></button>` : ''}
+                                    <button type="button" onclick="removePropertyImage(${idx})" title="Remove image" class="p-1 rounded bg-rose-500/80 hover:bg-rose-600 text-white text-[10px]">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button type="button" onclick="navigator.clipboard.writeText('${img.url}'); alert('Cloudinary URL copied to clipboard!');" class="w-full bg-slate-900/90 text-white hover:text-[#D4AF37] text-[9px] py-0.5 rounded font-mono truncate">
-                                Copy URL
+                            <button type="button" onclick="navigator.clipboard.writeText('${img.url}'); alert('Image CDN Link copied!');" class="w-full bg-slate-900/90 text-white hover:text-[#D4AF37] text-[9px] py-1 rounded font-mono truncate">
+                                Copy Link
                             </button>
                         </div>
-                        ${isPrimary ? `<span class="absolute top-1 left-1 bg-[#D4AF37] text-slate-950 font-extrabold text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded shadow">Main</span>` : ''}
+                        ${isPrimary ? `<span class="absolute top-1 left-1 bg-[#D4AF37] text-slate-950 font-extrabold text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded shadow z-0">Main</span>` : ''}
                     </div>
                 `;
             }).join('');
+        }
+
+        function movePropertyImage(index, delta) {
+            const targetIndex = index + delta;
+            if (targetIndex < 0 || targetIndex >= currentPropertyImages.length) return;
+            const temp = currentPropertyImages[index];
+            currentPropertyImages[index] = currentPropertyImages[targetIndex];
+            currentPropertyImages[targetIndex] = temp;
+            renderPropertyGalleryPreviews();
         }
 
         function setPropertyPrimaryImage(index) {
