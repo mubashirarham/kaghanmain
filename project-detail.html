@@ -56,6 +56,22 @@
     <!-- App Data Store & Shared UI Engine -->
     <script src="assets/js/db.js"></script>
     <script src="assets/js/shared.js"></script>
+
+    <!-- Immediate Service Worker Cache Invalidation Guard -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (let r of registrations) r.update();
+            });
+            if ('caches' in window) {
+                caches.keys().then(keys => {
+                    for (let k of keys) {
+                        if (k === 'kaghan-properties-v1') caches.delete(k);
+                    }
+                });
+            }
+        }
+    </script>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
@@ -1559,15 +1575,13 @@
                 const isTarget = btn.getAttribute('data-target') === targetId;
                 btn.classList.toggle('active', isTarget);
                 
-                // Gently scroll the horizontal tab container on mobile without affecting window scroll
-                if (isTarget && navContainer) {
+                // Align tab horizontally ONLY if tab bar overflows horizontally (mobile/tablet)
+                // Use direct scrollLeft assignment so NO smooth animation thread locks window scroll
+                if (isTarget && navContainer && navContainer.scrollWidth > navContainer.clientWidth) {
                     const btnLeft = btn.offsetLeft;
                     const btnWidth = btn.offsetWidth;
                     const containerWidth = navContainer.clientWidth;
-                    navContainer.scrollTo({
-                        left: btnLeft - (containerWidth / 2) + (btnWidth / 2),
-                        behavior: 'smooth'
-                    });
+                    navContainer.scrollLeft = btnLeft - (containerWidth / 2) + (btnWidth / 2);
                 }
             });
         }
@@ -1581,13 +1595,14 @@
 
                 if (!ticking) {
                     window.requestAnimationFrame(() => {
-                        const scrollPos = window.scrollY + 180;
                         let activeSection = sections[0];
-
                         for (let i = 0; i < sections.length; i++) {
                             const sec = document.getElementById(sections[i]);
-                            if (sec && sec.offsetTop <= scrollPos) {
-                                activeSection = sections[i];
+                            if (sec) {
+                                const rect = sec.getBoundingClientRect();
+                                if (rect.top <= 220) {
+                                    activeSection = sections[i];
+                                }
                             }
                         }
 
