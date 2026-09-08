@@ -21,8 +21,100 @@
     <!-- Google Fonts: Outfit & Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- TinyMCE Rich Text Editor with API Key -->
-    <script src="https://cdn.tiny.cloud/1/7ljj288xo7ekxabldpx0j9gmxvzw7l3ao5riv578q9vi1c9s/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <!-- TinyMCE Rich Text Editor with Rotating Cloud API Keys -->
+    <script>
+        (function() {
+            // Built-in Rotating TinyMCE API Keys pool (load-balancing & quota-sharing)
+            const DEFAULT_TINYMCE_KEYS = [
+                '7ljj288xo7ekxabldpx0j9gmxvzw7l3ao5riv578q9vi1c9s',
+                'rwutnfe5su6ui9xib0x0vyx3osrzul4iobyp0i9n6msy5bi8'
+            ];
+
+            let customKeys = null;
+            try {
+                const stored = localStorage.getItem('kaghan_tinymce_keys');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        customKeys = parsed.map(k => (typeof k === 'string' ? k.trim() : '')).filter(Boolean);
+                    }
+                }
+            } catch (e) {}
+
+            const keys = (customKeys && customKeys.length > 0) ? customKeys : DEFAULT_TINYMCE_KEYS;
+
+            // Retrieve active key index
+            let activeIdx = parseInt(localStorage.getItem('kaghan_tinymce_key_idx') || '0', 10);
+            if (isNaN(activeIdx) || activeIdx < 0 || activeIdx >= keys.length) {
+                activeIdx = 0;
+            }
+
+            // Expose global rotator controller
+            window.KaghanTinyMCERotator = {
+                keys: keys,
+                activeIdx: activeIdx,
+                isLoaded: false,
+                get activeKey() {
+                    return this.keys[this.activeIdx] || this.keys[0];
+                },
+                rotateToNext: function(forceReload = true) {
+                    const next = (this.activeIdx + 1) % this.keys.length;
+                    this.activeIdx = next;
+                    localStorage.setItem('kaghan_tinymce_key_idx', next.toString());
+                    console.log(`[TinyMCE Rotator] Active key manually rotated to Key #${next + 1}: ${this.activeKey.substring(0, 8)}...`);
+                    if (forceReload) {
+                        location.reload();
+                    }
+                },
+                setKeys: function(newKeysList) {
+                    if (Array.isArray(newKeysList) && newKeysList.length > 0) {
+                        this.keys = newKeysList;
+                        localStorage.setItem('kaghan_tinymce_keys', JSON.stringify(newKeysList));
+                    }
+                }
+            };
+
+            // Dynamically load TinyMCE CDN script with automatic fallback rotation
+            function loadTinyMCEScript(idx, attempts = 0) {
+                if (attempts >= keys.length) {
+                    console.warn('[TinyMCE Rotator] All rotating keys failed or quota exceeded. Loading fallback.');
+                    const fallbackScript = document.createElement('script');
+                    fallbackScript.src = 'https://cdn.tiny.cloud/1/no-api-key/tinymce/7/tinymce.min.js';
+                    fallbackScript.referrerPolicy = 'origin';
+                    document.head.appendChild(fallbackScript);
+                    return;
+                }
+
+                const currentKey = keys[idx];
+                window.KaghanTinyMCERotator.activeIdx = idx;
+
+                const script = document.createElement('script');
+                script.id = 'tinymce-rotator-cdn';
+                script.src = `https://cdn.tiny.cloud/1/${currentKey}/tinymce/7/tinymce.min.js`;
+                script.referrerPolicy = 'origin';
+
+                script.onload = function() {
+                    console.log(`%c[TinyMCE Rotator] Key #${idx + 1} of ${keys.length} (${currentKey.substring(0, 8)}...) successfully loaded`, 'color: #10B981; font-weight: bold;');
+                    window.KaghanTinyMCERotator.isLoaded = true;
+                    // Auto-advance for the next session so requests balance across all keys
+                    const nextSessionIdx = (idx + 1) % keys.length;
+                    localStorage.setItem('kaghan_tinymce_key_idx', nextSessionIdx.toString());
+                    window.dispatchEvent(new CustomEvent('tinymce:ready', { detail: { key: currentKey, index: idx } }));
+                };
+
+                script.onerror = function() {
+                    console.warn(`[TinyMCE Rotator] API Key #${idx + 1} failed or quota exceeded. Rotating to next key...`);
+                    script.remove();
+                    const nextIdx = (idx + 1) % keys.length;
+                    loadTinyMCEScript(nextIdx, attempts + 1);
+                };
+
+                document.head.appendChild(script);
+            }
+
+            loadTinyMCEScript(activeIdx);
+        })();
+    </script>
 
     <!-- Chart.js for Visual Analytics -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -318,6 +410,13 @@
 
                 <!-- Filters Bar -->
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center gap-4 text-xs">
+                    <div class="flex-1 min-w-[200px]">
+                        <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Search Listings</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+                            <input type="text" id="prop-filter-search" oninput="renderPropertiesTable()" placeholder="Filter by title, society, sector, or city..." class="w-full bg-slate-950 border border-slate-800 text-white rounded-lg pl-8 pr-3 py-2 focus:outline-none focus:border-[#D4AF37]">
+                        </div>
+                    </div>
                     <div>
                         <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Status</label>
                         <select id="prop-filter-status" onchange="renderPropertiesTable()" class="bg-slate-950 border border-slate-800 text-white rounded-lg px-3 py-2 focus:outline-none">
@@ -349,18 +448,29 @@
                             <option value="rent">For Rent</option>
                         </select>
                     </div>
+                    <div>
+                        <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Marketplace Signal & Tier</label>
+                        <select id="prop-filter-signal" onchange="renderPropertiesTable()" class="bg-slate-950 border border-slate-800 text-[#D4AF37] font-semibold rounded-lg px-3 py-2 focus:outline-none">
+                            <option value="all">All Signals & Badges</option>
+                            <option value="super-hot">⚡ Super Hot 🔥</option>
+                            <option value="hot">🔥 Hot Listing</option>
+                            <option value="verified">✓ Verified Only</option>
+                            <option value="project">🏗️ New Projects</option>
+                            <option value="titanium">👑 Titanium Partners</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Table -->
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
                     <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-950/70 border-b border-slate-800 text-slate-400 font-bold uppercase">
+                        <thead class="bg-slate-950/80 border-b border-slate-800 text-slate-400 font-bold uppercase text-[11px] tracking-wider">
                             <tr>
-                                <th class="p-4">Property</th>
-                                <th class="p-4">Type & Area</th>
-                                <th class="p-4">Price</th>
-                                <th class="p-4">Status</th>
-                                <th class="p-4">Agent</th>
+                                <th class="p-4">Property & Badges</th>
+                                <th class="p-4">Type & Location</th>
+                                <th class="p-4">Price & Units</th>
+                                <th class="p-4">Listing Signals</th>
+                                <th class="p-4">Assigned Agent</th>
                                 <th class="p-4 text-right">Actions</th>
                             </tr>
                         </thead>
@@ -721,6 +831,85 @@
                         </div>
                     </div>
 
+                    <!-- MARKETPLACE CURRENCY, UNITS & FINANCING STANDARDS -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-5 space-y-4">
+                        <label class="text-white font-bold text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-coins text-[#D4AF37]"></i> Marketplace Currency, Units & Financing Standards
+                        </label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="text-slate-400 font-bold uppercase block mb-1">Default Display Currency</label>
+                                <select id="set-default-currency" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                                    <option value="PKR">PKR (Pakistani Rupee - Lakh & Crore)</option>
+                                    <option value="USD">USD (US Dollar - $)</option>
+                                    <option value="AED">AED (UAE Dirham - د.إ)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-slate-400 font-bold uppercase block mb-1">Default Area Unit</label>
+                                <select id="set-default-unit" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                                    <option value="marla">Marla (1 Marla = 225 Sq Ft)</option>
+                                    <option value="sqft">Square Feet (Sq. Ft.)</option>
+                                    <option value="kanal">Kanal (1 Kanal = 20 Marla)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-slate-400 font-bold uppercase block mb-1">Benchmark Mortgage Rate (%)</label>
+                                <input type="number" step="0.1" id="set-default-loanrate" value="14.5" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- OVERSEAS PAKISTANI & ROSHAN DIGITAL ACCOUNT (RDA) SUPPORT -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-5 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <label class="text-white font-bold text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-earth-asia text-emerald-400"></i> Overseas Pakistani & Roshan Digital Account (RDA)
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                                <input type="checkbox" id="set-feat-rda" class="w-4 h-4 rounded text-emerald-500" checked>
+                                <span>Enable RDA Support Banner</span>
+                            </label>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-slate-400 font-bold uppercase block mb-1">RDA Banner Headline</label>
+                                <input type="text" id="set-rda-headline" value="Overseas Pakistani Investors: Direct RDA Support, Title Verification & Escrow-Safe Bookings" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                            </div>
+                            <div>
+                                <label class="text-slate-400 font-bold uppercase block mb-1">Dedicated Overseas Concierge WhatsApp</label>
+                                <input type="text" id="set-rda-whatsapp" value="+923340091127" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TINYMCE CLOUD RICH-TEXT API ROTATION & QUOTA BALANCER -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-5 space-y-4">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <label class="text-white font-bold text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-feather text-[#D4AF37]"></i> TinyMCE Cloud API Key Rotation & Quota Balancer
+                            </label>
+                            <div class="flex items-center gap-2">
+                                <span id="tinymce-active-badge" class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                                    <i class="fa-solid fa-circle-check mr-1"></i> Key Active
+                                </span>
+                                <button type="button" onclick="manualRotateTinyMCEKey()" class="px-3 py-1 rounded-lg text-[10px] font-bold bg-slate-800 hover:bg-[#D4AF37] hover:text-slate-950 text-slate-300 transition-all border border-slate-700 flex items-center gap-1.5 cursor-pointer">
+                                    <i class="fa-solid fa-rotate text-[9px]"></i> Rotate to Next Key Now
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-[11px] leading-relaxed">
+                            Automatically distributes editor sessions across rotating cloud API keys to prevent exceeding free monthly quotas (1,000 loads/month per key). If an API key encounters an issue, the system automatically falls back to the next key.
+                        </p>
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label class="text-slate-400 font-bold uppercase text-[10px]">Rotating Cloud API Keys Pool (One Key Per Line)</label>
+                                <span class="text-[10px] text-slate-500 font-mono" id="tinymce-pool-count">2 Keys Configured</span>
+                            </div>
+                            <textarea id="set-tinymce-keys" rows="3" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white font-mono text-xs focus:outline-none focus:border-[#D4AF37] leading-relaxed" placeholder="7ljj288xo7ekxabldpx0j9gmxvzw7l3ao5riv578q9vi1c9s&#10;rwutnfe5su6ui9xib0x0vyx3osrzul4iobyp0i9n6msy5bi8"></textarea>
+                        </div>
+                    </div>
+
                     <div class="pt-4 border-t border-slate-800 flex items-center gap-6">
                         <label class="flex items-center gap-2 cursor-pointer text-slate-300">
                             <input type="checkbox" id="set-feat-blog" class="w-4 h-4 rounded text-[#D4AF37]">
@@ -926,9 +1115,188 @@
                     </div>
                 </div>
 
+                <!-- MARKETPLACE SIGNALS, BADGES & TIER -->
+                <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <label class="text-white font-bold text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-certificate text-[#D4AF37]"></i> Marketplace Signals, Badges & Agency Tier
+                        </label>
+                        <span class="text-[10px] text-slate-400">High-intent buyer visual badges</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                        <div>
+                            <label class="text-slate-400 uppercase text-[10px] font-bold block mb-1">Listing Urgency</label>
+                            <select id="form-prop-urgency" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs">
+                                <option value="standard">Standard Listing</option>
+                                <option value="hot">🔥 Hot Listing</option>
+                                <option value="super-hot">⚡ Super Hot 🔥</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-slate-400 uppercase text-[10px] font-bold block mb-1">Agency Partner Tier</label>
+                            <select id="form-prop-agencytier" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs">
+                                <option value="Titanium">Titanium Partner 👑</option>
+                                <option value="Platinum">Platinum Agency</option>
+                                <option value="Gold">Gold Agency</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-slate-400 uppercase text-[10px] font-bold block mb-1">Badge Tag / Relative Time</label>
+                            <input type="text" id="form-prop-addedrelative" placeholder="e.g. Just Now, 2 hours ago" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                        <div class="flex flex-col justify-center space-y-2 pt-1">
+                            <label class="flex items-center gap-2 cursor-pointer text-slate-300 text-xs">
+                                <input type="checkbox" id="form-prop-verified" class="w-4 h-4 rounded text-emerald-500 bg-slate-900 border-slate-800" checked>
+                                <span class="font-semibold text-emerald-400"><i class="fa-solid fa-circle-check text-emerald-400"></i> Verified Listing</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer text-slate-300 text-xs">
+                                <input type="checkbox" id="form-prop-isnewproject" onchange="toggleProjectUnitsSection()" class="w-4 h-4 rounded text-indigo-500 bg-slate-900 border-slate-800">
+                                <span class="font-semibold text-indigo-400"><i class="fa-solid fa-building-flag"></i> New Project Mode</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW PROJECT UNIT TYPES INVENTORY MATRIX -->
+                <div id="section-project-units" class="hidden bg-slate-950/90 border border-indigo-900/40 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <div>
+                            <label class="text-indigo-400 font-bold text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-cubes text-indigo-400"></i> New Project Unit Types Matrix
+                            </label>
+                            <p class="text-[10px] text-slate-400">Configure multi-unit inventories (studios, executive chalets, penthouses, retail shops) with size & price bands</p>
+                        </div>
+                        <button type="button" onclick="addProjectUnitRow()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1 transition-all">
+                            <i class="fa-solid fa-plus text-xs"></i> Add Unit Type
+                        </button>
+                    </div>
+
+                    <div id="project-units-list" class="space-y-2">
+                        <!-- Dynamic Unit Type Rows injected here -->
+                    </div>
+                </div>
+
+                <!-- CATEGORIZED AMENITIES TAXONOMY (7 MODULES) -->
+                <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <div>
+                            <label class="text-white font-bold text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-list-check text-[#D4AF37]"></i> Categorized Amenities Taxonomy (7 Standard Modules)
+                            </label>
+                            <p class="text-[10px] text-slate-400">Enter comma-separated features or click quick preset chips below to append</p>
+                        </div>
+                        <span class="text-[10px] text-slate-500">Live syncs with Property Detail tabs</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <!-- 1. Main Features -->
+                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-1.5">
+                            <label class="text-[#D4AF37] font-bold text-[11px] uppercase block">1. Main Features</label>
+                            <input type="text" id="form-prop-amen-main" placeholder="e.g. Passenger Elevator, Double Glazed Windows, Power Backup" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                            <div class="flex flex-wrap gap-1 pt-1">
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-main', 'Passenger Elevator')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Elevator</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-main', 'Double Glazed Windows')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Double Glazed</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-main', '24/7 Power Backup')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Power Backup</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-main', 'Underground Gas Connection')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Sui Gas</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-main', 'Solar Inverter Ready')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Solar Ready</button>
+                            </div>
+                        </div>
+
+                        <!-- 2. Rooms -->
+                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-1.5">
+                            <label class="text-[#D4AF37] font-bold text-[11px] uppercase block">2. Rooms & Interior</label>
+                            <input type="text" id="form-prop-amen-rooms" placeholder="e.g. Ensuite Bedrooms, Designer Kitchen, Powder Room" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                            <div class="flex flex-wrap gap-1 pt-1">
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-rooms', 'Ensuite Bedrooms')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Ensuite Beds</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-rooms', 'Designer Powder Room')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Powder Room</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-rooms', 'Open American Kitchen')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ American Kitchen</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-rooms', 'Balcony with Mountain View')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Balcony View</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-rooms', 'Drawing & Dining Lounge')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Drawing Lounge</button>
+                            </div>
+                        </div>
+
+                        <!-- 3. Business & Communication -->
+                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-1.5">
+                            <label class="text-[#D4AF37] font-bold text-[11px] uppercase block">3. Business & Telecom</label>
+                            <input type="text" id="form-prop-amen-biz" placeholder="e.g. High-Speed Optical Fiber, Satellite TV, Intercom" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                            <div class="flex flex-wrap gap-1 pt-1">
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-biz', 'High-Speed Fiber Internet')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Fiber Internet</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-biz', 'Intercom Facility')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Intercom</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-biz', 'Smart Video Door Phone')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Video Door Phone</button>
+                            </div>
+                        </div>
+
+                        <!-- 4. Community Features -->
+                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-1.5">
+                            <label class="text-[#D4AF37] font-bold text-[11px] uppercase block">4. Community & Security</label>
+                            <input type="text" id="form-prop-amen-comm" placeholder="e.g. 24/7 Gated Security, Jamia Mosque, Community Park" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                            <div class="flex flex-wrap gap-1 pt-1">
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-comm', '24/7 Gated Security & Barrier')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Gated Barrier</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-comm', 'Community Park & Jogging Track')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Park & Track</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-comm', 'Grand Jamia Mosque nearby')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Jamia Mosque</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-comm', 'Kids Activity Play Area')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Kids Play Area</button>
+                            </div>
+                        </div>
+
+                        <!-- 5. Healthcare & Recreation -->
+                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-1.5">
+                            <label class="text-[#D4AF37] font-bold text-[11px] uppercase block">5. Healthcare & Wellness</label>
+                            <input type="text" id="form-prop-amen-health" placeholder="e.g. Swimming Pool, Fitness Center, Medical First Aid Clinic" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                            <div class="flex flex-wrap gap-1 pt-1">
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-health', 'Fitness Gymnasium')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Gym</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-health', 'Swimming Pool')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Swimming Pool</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-health', 'First Aid Medical Clinic')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Clinic</button>
+                            </div>
+                        </div>
+
+                        <!-- 6. Nearby Locations -->
+                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-1.5">
+                            <label class="text-[#D4AF37] font-bold text-[11px] uppercase block">6. Nearby Proximity</label>
+                            <input type="text" id="form-prop-amen-nearby" placeholder="e.g. Roots Millennium School (3 mins), Shifa Clinic (5 mins)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                            <div class="flex flex-wrap gap-1 pt-1">
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-nearby', 'Top Tier School (3 mins)')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ School (3m)</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-nearby', 'Commercial Center (2 mins)')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Commercial (2m)</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-nearby', 'Hospital & Pharmacy (5 mins)')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Hospital (5m)</button>
+                            </div>
+                        </div>
+
+                        <!-- 7. Facilities -->
+                        <div class="md:col-span-2 bg-slate-900/70 p-3 rounded-xl border border-slate-800 space-y-1.5">
+                            <label class="text-[#D4AF37] font-bold text-[11px] uppercase block">7. Facilities & Maintenance</label>
+                            <input type="text" id="form-prop-amen-fac" placeholder="e.g. 24/7 CCTV, Maintenance Staff on Call, Dedicated Covered Parking" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                            <div class="flex flex-wrap gap-1 pt-1">
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-fac', '24/7 CCTV Security Surveillance')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ 24/7 CCTV</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-fac', 'Maintenance Staff on Call')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Maintenance Staff</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-fac', 'Dedicated Covered Parking')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Covered Parking</button>
+                                <button type="button" onclick="appendAmenityChip('form-prop-amen-fac', 'Water Boring & Overhead Storage Tanks')" class="text-[9px] bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded text-slate-300">+ Water Storage</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEARBY POINTS OF INTEREST (POIs & DISTANCE) -->
+                <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <div>
+                            <label class="text-white font-bold text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-map-pin text-[#D4AF37]"></i> Nearby Points of Interest (POIs & Distance)
+                            </label>
+                            <p class="text-[10px] text-slate-400">Map landmarks, commute times, schools, and health facilities displayed on listing page</p>
+                        </div>
+                        <button type="button" onclick="addNearbyPoiRow()" class="bg-slate-800 hover:bg-[#D4AF37] text-slate-300 hover:text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1 transition-all">
+                            <i class="fa-solid fa-plus text-xs"></i> Add Landmark
+                        </button>
+                    </div>
+
+                    <div id="nearby-pois-list" class="space-y-2">
+                        <!-- Dynamic POI Rows injected here -->
+                    </div>
+                </div>
+
                 <div class="pt-4 flex justify-end gap-3 border-t border-slate-800">
-                    <button type="button" onclick="closePropertyModal()" class="px-5 py-2.5 rounded-xl border border-slate-700 text-slate-300">Cancel</button>
-                    <button type="submit" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-6 py-2.5 rounded-xl">Save Property</button>
+                    <button type="button" onclick="closePropertyModal()" class="px-5 py-2.5 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">Cancel</button>
+                    <button type="submit" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-6 py-2.5 rounded-xl shadow-lg transition-all">Save Property</button>
                 </div>
             </form>
         </div>
@@ -1232,8 +1600,30 @@
             const status = document.getElementById('prop-filter-status').value;
             const type = document.getElementById('prop-filter-type').value;
             const purpose = document.getElementById('prop-filter-purpose').value;
+            const signal = document.getElementById('prop-filter-signal')?.value || 'all';
+            const searchQuery = (document.getElementById('prop-filter-search')?.value || '').toLowerCase().trim();
             
-            const properties = await window.KaghanDB.getProperties({ status, type, purpose });
+            let properties = await window.KaghanDB.getProperties({ status, type, purpose });
+
+            // Apply Signal & Tier Filters
+            if (signal !== 'all') {
+                if (signal === 'super-hot') properties = properties.filter(p => p.urgency === 'super-hot');
+                else if (signal === 'hot') properties = properties.filter(p => p.urgency === 'hot');
+                else if (signal === 'verified') properties = properties.filter(p => p.isVerified);
+                else if (signal === 'project') properties = properties.filter(p => p.isNewProject);
+                else if (signal === 'titanium') properties = properties.filter(p => p.agencyTier === 'Titanium');
+            }
+
+            // Apply Keyword Search
+            if (searchQuery) {
+                properties = properties.filter(p => 
+                    (p.title && p.title.toLowerCase().includes(searchQuery)) ||
+                    (p.area && p.area.toLowerCase().includes(searchQuery)) ||
+                    (p.sector && p.sector.toLowerCase().includes(searchQuery)) ||
+                    (p.city && p.city.toLowerCase().includes(searchQuery))
+                );
+            }
+
             const tbody = document.getElementById('properties-table-body');
             
             if (properties.length === 0) {
@@ -1243,33 +1633,174 @@
 
             tbody.innerHTML = properties.map(p => {
                 const img = window.KaghanDB.getDriveDirectUrl(p.images && p.images[0] ? p.images[0].url : '');
+                const formattedPrice = window.KaghanDB.formatPriceWithMagnitude(p.price);
+                const hasProjectUnits = p.isNewProject && p.projectUnits && p.projectUnits.length > 0;
+                
                 return `
-                    <tr class="hover:bg-slate-900/50">
-                        <td class="p-4 flex items-center gap-3">
-                            <img src="${img}" class="w-12 h-12 rounded-lg object-cover border border-slate-800">
-                            <div>
-                                <div class="font-bold text-white">${p.title}</div>
-                                <div class="text-[10px] text-slate-400">${p.bedrooms} Beds • ${p.size} ${p.sizeUnit}</div>
+                    <tr class="hover:bg-slate-900/60 transition-colors">
+                        <td class="p-4 flex items-start gap-3">
+                            <img src="${img}" class="w-14 h-14 rounded-xl object-cover border border-slate-800 shrink-0">
+                            <div class="space-y-1 min-w-0">
+                                <div class="font-bold text-white leading-snug truncate max-w-[280px]" title="${p.title}">${p.title}</div>
+                                <div class="text-[10px] text-slate-400 flex items-center gap-2">
+                                    <span>${p.bedrooms || 0} Beds • ${p.size} ${p.sizeUnit}</span>
+                                    <span>•</span>
+                                    <span class="text-slate-500">${p.addedRelative || 'Recent'}</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
+                                    ${p.urgency === 'super-hot' 
+                                        ? '<span class="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-extrabold flex items-center gap-1"><i class="fa-solid fa-bolt"></i> SUPER HOT 🔥</span>' 
+                                        : p.urgency === 'hot' 
+                                        ? '<span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[9px] font-bold flex items-center gap-1"><i class="fa-solid fa-fire"></i> HOT</span>' 
+                                        : ''}
+                                    ${p.isVerified 
+                                        ? '<span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Verified</span>' 
+                                        : '<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-500 text-[9px]">Unverified</span>'}
+                                    <span class="px-1.5 py-0.5 rounded bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/30 text-[9px] font-bold">${p.agencyTier || 'Titanium'}</span>
+                                    ${p.isNewProject ? '<span class="px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[9px] font-bold flex items-center gap-1"><i class="fa-solid fa-cubes"></i> Project</span>' : ''}
+                                </div>
                             </div>
                         </td>
                         <td class="p-4">
-                            <div class="text-white font-semibold capitalize">${p.type} (${p.purpose})</div>
-                            <div class="text-[10px] text-slate-400">${p.area}, ${p.city}</div>
-                        </td>
-                        <td class="p-4 font-bold text-[#D4AF37]">
-                            PKR ${p.price.toLocaleString()}
+                            <div class="text-white font-semibold capitalize">${p.type} <span class="text-slate-400 text-[10px]">(${p.purpose})</span></div>
+                            <div class="text-[10px] text-slate-400">${p.area || p.sector || ''}, ${p.city}</div>
                         </td>
                         <td class="p-4">
-                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${p.status==='published'?'bg-emerald-500/20 text-emerald-400':p.status==='sold'?'bg-rose-500/20 text-rose-400':'bg-slate-800 text-slate-400'}">${p.status}</span>
+                            <div class="font-bold text-[#D4AF37] text-xs">${formattedPrice}</div>
+                            <div class="text-[10px] text-slate-400">PKR ${p.price ? p.price.toLocaleString() : '0'}</div>
+                            ${hasProjectUnits ? `<div class="text-[9px] text-indigo-400 mt-0.5 font-medium">${p.projectUnits.length} Unit Types</div>` : ''}
+                        </td>
+                        <td class="p-4 space-y-1.5">
+                            <div>
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${p.status==='published'?'bg-emerald-500/20 text-emerald-400':p.status==='sold'?'bg-rose-500/20 text-rose-400':'bg-slate-800 text-slate-400'}">${p.status}</span>
+                            </div>
+                            <!-- Quick Signal Inline Toggles -->
+                            <div class="flex items-center gap-1">
+                                <button onclick="togglePropertyVerified('${p.id}')" title="Click to toggle Verified badge" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-[10px] ${p.isVerified ? 'text-emerald-400' : 'text-slate-500'}">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </button>
+                                <button onclick="cyclePropertyUrgency('${p.id}')" title="Click to cycle urgency: standard -> hot -> super-hot" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-[10px] ${p.urgency === 'super-hot' ? 'text-rose-400' : p.urgency === 'hot' ? 'text-amber-400' : 'text-slate-500'}">
+                                    <i class="fa-solid fa-fire-flame-curved"></i>
+                                </button>
+                            </div>
                         </td>
                         <td class="p-4 text-slate-300">${p.agentName || 'Ali Khan'}</td>
-                        <td class="p-4 text-right space-x-2">
-                            <button onclick="editProperty('${p.id}')" class="p-2 text-slate-400 hover:text-white bg-slate-800 rounded-lg"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="deleteProperty('${p.id}')" class="p-2 text-rose-400 hover:text-rose-300 bg-rose-500/10 rounded-lg"><i class="fa-solid fa-trash"></i></button>
+                        <td class="p-4 text-right space-x-1.5 whitespace-nowrap">
+                            <a href="../property.html?id=${p.id || p.slug}" target="_blank" title="View Public Listing" class="inline-block p-2 text-slate-400 hover:text-[#D4AF37] bg-slate-800/80 hover:bg-slate-800 rounded-lg">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </a>
+                            <button onclick="editProperty('${p.id}')" title="Edit Listing" class="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 rounded-lg"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteProperty('${p.id}')" title="Delete Listing" class="p-2 text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 rounded-lg"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
             }).join('');
+        }
+
+        // Quick Signal Inline Toggles
+        async function togglePropertyVerified(id) {
+            const prop = await window.KaghanDB.getPropertyBySlugOrId(id);
+            if (!prop) return;
+            prop.isVerified = !prop.isVerified;
+            await window.KaghanDB.saveProperty(prop);
+            renderPropertiesTable();
+            if (window.AdminTools) window.AdminTools.logAudit(`Toggled Verified badge for ${prop.title} to: ${prop.isVerified}`);
+        }
+
+        async function cyclePropertyUrgency(id) {
+            const prop = await window.KaghanDB.getPropertyBySlugOrId(id);
+            if (!prop) return;
+            const current = prop.urgency || 'standard';
+            const next = current === 'standard' ? 'hot' : (current === 'hot' ? 'super-hot' : 'standard');
+            prop.urgency = next;
+            await window.KaghanDB.saveProperty(prop);
+            renderPropertiesTable();
+            if (window.AdminTools) window.AdminTools.logAudit(`Cycled urgency for ${prop.title} to: ${next}`);
+        }
+
+        // Helpers for Project Units Matrix & Nearby POIs
+        function toggleProjectUnitsSection() {
+            const isChecked = document.getElementById('form-prop-isnewproject').checked;
+            const sec = document.getElementById('section-project-units');
+            if (isChecked) {
+                sec.classList.remove('hidden');
+                if (document.getElementById('project-units-list').children.length === 0) {
+                    addProjectUnitRow();
+                }
+            } else {
+                sec.classList.add('hidden');
+            }
+        }
+
+        function addProjectUnitRow(unit = null) {
+            const list = document.getElementById('project-units-list');
+            if (!list) return;
+            const rowId = 'punit_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+            const div = document.createElement('div');
+            div.id = rowId;
+            div.className = 'grid grid-cols-1 sm:grid-cols-12 gap-2 bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 items-center';
+            div.innerHTML = `
+                <div class="sm:col-span-4">
+                    <input type="text" placeholder="Unit Type (e.g. 1-Bed Alpine Chalet)" value="${unit ? (unit.type || '') : ''}" class="punit-type w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                </div>
+                <div class="sm:col-span-4">
+                    <input type="text" placeholder="Price Band (e.g. PKR 95 Lakh - 1.25 Cr)" value="${unit ? (unit.priceRange || '') : ''}" class="punit-price w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                </div>
+                <div class="sm:col-span-3">
+                    <input type="text" placeholder="Size (e.g. 650 - 850 Sq Ft)" value="${unit ? (unit.sizeRange || '') : ''}" class="punit-size w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                </div>
+                <div class="sm:col-span-1 text-right">
+                    <button type="button" onclick="document.getElementById('${rowId}').remove()" class="p-1.5 text-rose-400 hover:bg-rose-500/10 rounded-lg"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `;
+            list.appendChild(div);
+        }
+
+        function addNearbyPoiRow(poi = null) {
+            const list = document.getElementById('nearby-pois-list');
+            if (!list) return;
+            const rowId = 'poi_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+            const div = document.createElement('div');
+            div.id = rowId;
+            div.className = 'grid grid-cols-1 sm:grid-cols-12 gap-2 bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 items-center';
+            div.innerHTML = `
+                <div class="sm:col-span-3">
+                    <select class="poi-category w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                        <option value="Schools" ${poi && poi.category === 'Schools' ? 'selected' : ''}>Schools</option>
+                        <option value="Hospitals" ${poi && poi.category === 'Hospitals' ? 'selected' : ''}>Hospitals</option>
+                        <option value="Shopping" ${poi && poi.category === 'Shopping' ? 'selected' : ''}>Shopping</option>
+                        <option value="Parks" ${poi && poi.category === 'Parks' ? 'selected' : ''}>Parks</option>
+                        <option value="Restaurants" ${poi && poi.category === 'Restaurants' ? 'selected' : ''}>Restaurants</option>
+                        <option value="Banks" ${poi && poi.category === 'Banks' ? 'selected' : ''}>Banks</option>
+                        <option value="Transit" ${poi && poi.category === 'Transit' ? 'selected' : ''}>Transit</option>
+                    </select>
+                </div>
+                <div class="sm:col-span-5">
+                    <input type="text" placeholder="Landmark Name (e.g. Roots Millennium School)" value="${poi ? (poi.name || '') : ''}" class="poi-name w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                </div>
+                <div class="sm:col-span-3">
+                    <input type="text" placeholder="Commute Distance (e.g. 3 mins)" value="${poi ? (poi.distance || '') : ''}" class="poi-distance w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white text-xs">
+                </div>
+                <div class="sm:col-span-1 text-right">
+                    <button type="button" onclick="document.getElementById('${rowId}').remove()" class="p-1.5 text-rose-400 hover:bg-rose-500/10 rounded-lg"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `;
+            list.appendChild(div);
+        }
+
+        function appendAmenityChip(inputId, value) {
+            const el = document.getElementById(inputId);
+            if (!el) return;
+            let current = el.value.trim();
+            if (!current) {
+                el.value = value;
+            } else {
+                const items = current.split(',').map(s => s.trim());
+                if (!items.includes(value)) {
+                    items.push(value);
+                    el.value = items.join(', ');
+                }
+            }
         }
 
         let currentPropertyImages = [];
@@ -1548,6 +2079,40 @@
                 document.getElementById('form-prop-agent').value = prop.agentId || 'user_001';
                 document.getElementById('form-prop-meta').value = prop.metaDescription || '';
 
+                // NEW FEATURE ATTRIBUTES
+                document.getElementById('form-prop-urgency').value = prop.urgency || 'standard';
+                document.getElementById('form-prop-agencytier').value = prop.agencyTier || 'Titanium';
+                document.getElementById('form-prop-addedrelative').value = prop.addedRelative || 'Just Now';
+                document.getElementById('form-prop-verified').checked = prop.isVerified !== false;
+                document.getElementById('form-prop-isnewproject').checked = !!prop.isNewProject;
+                toggleProjectUnitsSection();
+
+                // Populate Project Units Matrix
+                const unitsList = document.getElementById('project-units-list');
+                unitsList.innerHTML = '';
+                if (prop.projectUnits && Array.isArray(prop.projectUnits) && prop.projectUnits.length > 0) {
+                    prop.projectUnits.forEach(u => addProjectUnitRow(u));
+                } else if (prop.isNewProject) {
+                    addProjectUnitRow();
+                }
+
+                // Populate Categorized Amenities (7 Modules)
+                const catAmen = prop.categorizedAmenities || {};
+                document.getElementById('form-prop-amen-main').value = (catAmen.mainFeatures || []).join(', ');
+                document.getElementById('form-prop-amen-rooms').value = (catAmen.rooms || []).join(', ');
+                document.getElementById('form-prop-amen-biz').value = (catAmen.business || []).join(', ');
+                document.getElementById('form-prop-amen-comm').value = (catAmen.community || []).join(', ');
+                document.getElementById('form-prop-amen-health').value = (catAmen.healthcare || []).join(', ');
+                document.getElementById('form-prop-amen-nearby').value = (catAmen.nearby || []).join(', ');
+                document.getElementById('form-prop-amen-fac').value = (catAmen.facilities || []).join(', ');
+
+                // Populate Nearby POIs
+                const poisList = document.getElementById('nearby-pois-list');
+                poisList.innerHTML = '';
+                if (prop.nearbyPOIs && Array.isArray(prop.nearbyPOIs) && prop.nearbyPOIs.length > 0) {
+                    prop.nearbyPOIs.forEach(poi => addNearbyPoiRow(poi));
+                }
+
                 // Populate Gallery
                 if (prop.images && Array.isArray(prop.images) && prop.images.length > 0) {
                     currentPropertyImages = prop.images.map((img, idx) => ({
@@ -1587,6 +2152,25 @@
                 document.getElementById('form-prop-video').value = '';
                 document.getElementById('form-prop-doc').value = '';
                 document.getElementById('form-prop-meta').value = '';
+
+                // NEW FEATURE ATTRIBUTES RESET
+                document.getElementById('form-prop-urgency').value = 'standard';
+                document.getElementById('form-prop-agencytier').value = 'Titanium';
+                document.getElementById('form-prop-addedrelative').value = 'Just Now';
+                document.getElementById('form-prop-verified').checked = true;
+                document.getElementById('form-prop-isnewproject').checked = false;
+                toggleProjectUnitsSection();
+
+                document.getElementById('project-units-list').innerHTML = '';
+                document.getElementById('form-prop-amen-main').value = '';
+                document.getElementById('form-prop-amen-rooms').value = '';
+                document.getElementById('form-prop-amen-biz').value = '';
+                document.getElementById('form-prop-amen-comm').value = '';
+                document.getElementById('form-prop-amen-health').value = '';
+                document.getElementById('form-prop-amen-nearby').value = '';
+                document.getElementById('form-prop-amen-fac').value = '';
+                document.getElementById('nearby-pois-list').innerHTML = '';
+
                 currentPropertyImages = [];
 
                 if (typeof tinymce !== 'undefined' && tinymce.get('form-prop-description')) {
@@ -1640,6 +2224,60 @@
             const agentId = document.getElementById('form-prop-agent').value;
             const metaDescription = document.getElementById('form-prop-meta').value;
 
+            // Extract New Marketplace Signals & Attributes
+            const urgency = document.getElementById('form-prop-urgency').value;
+            const agencyTier = document.getElementById('form-prop-agencytier').value;
+            const addedRelative = document.getElementById('form-prop-addedrelative').value.trim() || 'Just Now';
+            const isVerified = document.getElementById('form-prop-verified').checked;
+            const isNewProject = document.getElementById('form-prop-isnewproject').checked;
+
+            // Extract New Project Units Matrix
+            const projectUnits = [];
+            if (isNewProject) {
+                document.querySelectorAll('#project-units-list > div').forEach(row => {
+                    const type = row.querySelector('.punit-type')?.value?.trim();
+                    const priceRange = row.querySelector('.punit-price')?.value?.trim();
+                    const sizeRange = row.querySelector('.punit-size')?.value?.trim();
+                    if (type || priceRange) {
+                        projectUnits.push({ 
+                            type: type || 'Unit Variant', 
+                            priceRange: priceRange || 'Call for Price', 
+                            sizeRange: sizeRange || '' 
+                        });
+                    }
+                });
+            }
+
+            // Extract Categorized Amenities (7 Standard Modules)
+            const splitAmen = (val) => val ? val.split(',').map(s => s.trim()).filter(Boolean) : [];
+            const categorizedAmenities = {
+                mainFeatures: splitAmen(document.getElementById('form-prop-amen-main').value),
+                rooms: splitAmen(document.getElementById('form-prop-amen-rooms').value),
+                business: splitAmen(document.getElementById('form-prop-amen-biz').value),
+                community: splitAmen(document.getElementById('form-prop-amen-comm').value),
+                healthcare: splitAmen(document.getElementById('form-prop-amen-health').value),
+                nearby: splitAmen(document.getElementById('form-prop-amen-nearby').value),
+                facilities: splitAmen(document.getElementById('form-prop-amen-fac').value)
+            };
+
+            // Derive flat tags array
+            const flatAmenities = Array.from(new Set([
+                ...categorizedAmenities.mainFeatures,
+                ...categorizedAmenities.facilities,
+                ...categorizedAmenities.community
+            ])).map(s => s.toLowerCase());
+
+            // Extract Nearby Points of Interest
+            const nearbyPOIs = [];
+            document.querySelectorAll('#nearby-pois-list > div').forEach(row => {
+                const category = row.querySelector('.poi-category')?.value || 'Shopping';
+                const name = row.querySelector('.poi-name')?.value?.trim();
+                const distance = row.querySelector('.poi-distance')?.value?.trim();
+                if (name) {
+                    nearbyPOIs.push({ category, name, distance: distance || 'Nearby' });
+                }
+            });
+
             // Get Description from TinyMCE Editor
             let description = '';
             if (typeof tinymce !== 'undefined' && tinymce.get('form-prop-description')) {
@@ -1665,6 +2303,9 @@
                 id: id || slug,
                 title, slug, type, purpose, status, price, city, area, sector, address,
                 size, sizeUnit, bedrooms, bathrooms,
+                urgency, agencyTier, addedRelative, isVerified, isNewProject,
+                projectUnits, categorizedAmenities, nearbyPOIs,
+                amenities: flatAmenities.length > 0 ? flatAmenities : ['security', 'gated'],
                 description,
                 images: finalImages.length > 0 ? finalImages : (manualImageUrl ? [{ url: manualImageUrl, isPrimary: true }] : []),
                 videos: videoUrl ? [{ platform: "youtube", videoId: window.KaghanDB.extractYouTubeId(videoUrl), url: videoUrl, title: "Property Tour" }] : [],
@@ -1976,6 +2617,37 @@
             }
         }
 
+        // Update TinyMCE status badge and pool counter in Site Settings
+        function updateTinyMCEBadge() {
+            const badge = document.getElementById('tinymce-active-badge');
+            const poolCount = document.getElementById('tinymce-pool-count');
+            if (window.KaghanTinyMCERotator) {
+                const rot = window.KaghanTinyMCERotator;
+                const activeKey = rot.activeKey || '';
+                const masked = activeKey ? (activeKey.substring(0, 6) + '...' + activeKey.substring(activeKey.length - 4)) : 'None';
+                if (badge) {
+                    badge.innerHTML = `<i class="fa-solid fa-arrows-rotate text-emerald-400 mr-1 animate-spin-slow"></i> Active: Key #${rot.activeIdx + 1} (${masked})`;
+                }
+                if (poolCount) {
+                    poolCount.innerText = `${rot.keys.length} Keys Configured (Active: #${rot.activeIdx + 1})`;
+                }
+            }
+        }
+
+        function manualRotateTinyMCEKey() {
+            if (window.KaghanTinyMCERotator) {
+                const currentIdx = window.KaghanTinyMCERotator.activeIdx;
+                const totalKeys = window.KaghanTinyMCERotator.keys.length;
+                const nextIdx = (currentIdx + 1) % totalKeys;
+                const nextKey = window.KaghanTinyMCERotator.keys[nextIdx];
+                if (confirm(`Rotate to Key #${nextIdx + 1} (${nextKey.substring(0, 8)}...)? The page will refresh to reload the active editor API session.`)) {
+                    window.KaghanTinyMCERotator.rotateToNext(true);
+                }
+            }
+        }
+
+        window.addEventListener('tinymce:ready', updateTinyMCEBadge);
+
         // SITE SETTINGS
         async function loadSettingsForm() {
             const set = await window.KaghanDB.getSiteSettings();
@@ -1988,8 +2660,28 @@
             document.getElementById('set-facebook').value = set.social ? set.social.facebook : '';
             document.getElementById('set-instagram').value = set.social ? set.social.instagram : '';
             document.getElementById('set-youtube').value = set.social ? set.social.youtube : '';
-            document.getElementById('set-feat-blog').checked = set.features ? set.features.showBlog : true;
-            document.getElementById('set-feat-whatsapp').checked = set.features ? set.features.showWhatsAppButton : true;
+            document.getElementById('set-feat-blog').checked = set.features ? (set.features.showBlog !== false) : true;
+            document.getElementById('set-feat-whatsapp').checked = set.features ? (set.features.showWhatsAppButton !== false) : true;
+
+            // Load New Features Settings
+            document.getElementById('set-default-currency').value = set.defaultCurrency || localStorage.getItem('kaghan_currency') || 'PKR';
+            document.getElementById('set-default-unit').value = set.defaultAreaUnit || localStorage.getItem('kaghan_area_unit') || 'marla';
+            document.getElementById('set-default-loanrate').value = set.defaultLoanRate || 14.5;
+            document.getElementById('set-feat-rda').checked = set.features ? (set.features.showRdaBanner !== false) : true;
+            document.getElementById('set-rda-headline').value = (set.features && set.features.rdaHeadline) || 'Overseas Pakistani Investors: Direct RDA Support, Title Verification & Escrow-Safe Bookings';
+            document.getElementById('set-rda-whatsapp').value = (set.features && set.features.rdaWhatsApp) || '+923340091127';
+
+            // Load TinyMCE Rotating Keys Pool
+            const activeRotator = window.KaghanTinyMCERotator;
+            const currentPool = (activeRotator && activeRotator.keys) ? activeRotator.keys : [
+                '7ljj288xo7ekxabldpx0j9gmxvzw7l3ao5riv578q9vi1c9s',
+                'rwutnfe5su6ui9xib0x0vyx3osrzul4iobyp0i9n6msy5bi8'
+            ];
+            const setKeysElem = document.getElementById('set-tinymce-keys');
+            if (setKeysElem) {
+                setKeysElem.value = currentPool.join('\n');
+            }
+            updateTinyMCEBadge();
         }
 
         async function saveSiteSettings(e) {
@@ -2006,14 +2698,44 @@
             const showBlog = document.getElementById('set-feat-blog').checked;
             const showWhatsAppButton = document.getElementById('set-feat-whatsapp').checked;
 
+            // Extract New Features Settings
+            const defaultCurrency = document.getElementById('set-default-currency').value;
+            const defaultAreaUnit = document.getElementById('set-default-unit').value;
+            const defaultLoanRate = parseFloat(document.getElementById('set-default-loanrate').value) || 14.5;
+            const showRdaBanner = document.getElementById('set-feat-rda').checked;
+            const rdaHeadline = document.getElementById('set-rda-headline').value.trim();
+            const rdaWhatsApp = document.getElementById('set-rda-whatsapp').value.trim();
+
+            // TinyMCE Rotating API Keys Pool
+            const tinymceKeysRaw = document.getElementById('set-tinymce-keys') ? document.getElementById('set-tinymce-keys').value : '';
+            const parsedKeys = tinymceKeysRaw.split('\n').map(k => k.trim()).filter(Boolean);
+            if (parsedKeys.length > 0 && window.KaghanTinyMCERotator) {
+                window.KaghanTinyMCERotator.setKeys(parsedKeys);
+            }
+
+            // Sync with LocalStorage for instant front-end updates
+            localStorage.setItem('kaghan_currency', defaultCurrency);
+            localStorage.setItem('kaghan_area_unit', defaultAreaUnit);
+
             await window.KaghanDB.saveSiteSettings({
                 siteName, domain,
                 contact: { phone, email, address, googleMapsEmbedUrl: mapUrl },
                 social: { facebook, instagram, youtube },
-                features: { showBlog, showWhatsAppButton }
+                defaultCurrency,
+                defaultAreaUnit,
+                defaultLoanRate,
+                tinymceKeys: parsedKeys,
+                features: { 
+                    showBlog, 
+                    showWhatsAppButton,
+                    showRdaBanner,
+                    rdaHeadline,
+                    rdaWhatsApp
+                }
             });
-            if (window.AdminTools) window.AdminTools.logAudit("Updated site settings");
-            alert("Site settings updated!");
+            updateTinyMCEBadge();
+            if (window.AdminTools) window.AdminTools.logAudit("Updated site settings with currency, area unit, RDA & TinyMCE rotating API keys");
+            alert("Site settings, marketplace defaults and rotating API keys updated successfully!");
         }
 
         // FINANCIAL CALCULATORS RUNNERS

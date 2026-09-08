@@ -3,440 +3,951 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Listings & Projects Catalog | Kaghan Properties Islamabad</title>
-    <meta name="description" content="Search and browse verified properties for sale and rent in Islamabad and Kaghan. Luxury villas in Bahria Enclave, DHA Islamabad plots, and alpine hotel apartments.">
-    <meta name="keywords" content="Islamabad Properties For Sale, Bahria Enclave Houses, DHA Islamabad Plots, Azan Arcade Bahria Enclave, Buy Flat Islamabad, Nathia Gali Apartments">
+    <title>Properties for Sale & Rent in Islamabad & Pakistan | Kaghan Properties</title>
+    <meta name="description" content="Explore verified houses, plots, flats, and new projects for sale and rent in Islamabad, Rawalpindi, and Murree. Filter by price, area, society, and bedrooms.">
+    <meta name="keywords" content="Properties for Sale Islamabad, Bahria Enclave Houses, DHA Islamabad Plots, Park View City, Flats in Nathia Gali">
     <meta name="author" content="Kaghan Properties">
     <meta name="robots" content="index, follow, max-image-preview:large">
-    <meta name="theme-color" content="#0B0F19">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#077943">
     <link rel="canonical" href="https://kaghanproperties.com/projects.html">
 
-    <!-- Favicon & PWA Icons -->
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
-    <link rel="apple-touch-icon" href="assets/images/logo.png">
-    <link rel="manifest" href="site.webmanifest">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Kaghan Properties">
-    <meta property="og:locale" content="en_PK">
-    <meta property="og:url" content="https://kaghanproperties.com/projects.html">
-    <meta property="og:title" content="Property Listings & Projects Catalog | Kaghan Properties">
-    <meta property="og:description" content="Browse verified real estate properties, houses, plots, offices, and apartments in Islamabad and Kaghan.">
-    <meta property="og:image" content="https://kaghanproperties.com/assets/images/bahria-villa.png">
-
-    <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@kaghanprop">
-    <meta name="twitter:url" content="https://kaghanproperties.com/projects.html">
-    <meta name="twitter:title" content="Property Listings & Projects Catalog | Kaghan Properties">
-    <meta name="twitter:description" content="Browse verified real estate properties, houses, plots, offices, and apartments in Islamabad and Kaghan.">
-    <meta name="twitter:image" content="https://kaghanproperties.com/assets/images/bahria-villa.png">
-
-    <!-- Structured Data (JSON-LD CollectionPage Schema) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "CollectionPage",
-          "@id": "https://kaghanproperties.com/projects.html#catalog",
-          "url": "https://kaghanproperties.com/projects.html",
-          "name": "Kaghan Properties Listings & Projects Catalog",
-          "description": "Comprehensive listings of verified residential villas, commercial plots, and holiday apartments.",
-          "publisher": {
-            "@type": "RealEstateAgent",
-            "name": "Kaghan Properties",
-            "url": "https://kaghanproperties.com/"
-          }
-        },
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "https://kaghanproperties.com/index.html"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Properties Catalog",
-              "item": "https://kaghanproperties.com/projects.html"
-            }
-          ]
-        }
-      ]
-    }
-    </script>
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS (for layout utilities) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#e8f5ed',
+                            600: '#077943',
+                            700: '#055e34',
+                            800: '#044827'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Token Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
 
     <!-- Firebase Compat SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-    <!-- Kaghan Database SDK -->
+    <!-- App Data Store & Shared UI Engine -->
     <script src="assets/js/db.js"></script>
+    <script src="assets/js/shared.js"></script>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 px-4 md:px-12 flex justify-between items-center text-slate-800 glass-dark text-white">
-        <div class="flex items-center gap-2">
-            <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-10 w-auto object-contain">
-            <span class="text-xl font-bold tracking-wider uppercase outfit">Kaghan Properties</span>
-        </div>
-        <div class="hidden md:flex gap-8 items-center font-medium">
-            <a href="index.html" class="hover:text-gold transition-colors">Home</a>
-            <a href="services.html" class="hover:text-gold transition-colors">Services</a>
-            <a href="projects.html" class="hover:text-gold transition-colors underline decoration-gold decoration-2 underline-offset-4">Properties</a>
-            <a href="about.html" class="hover:text-gold transition-colors">About Us</a>
-            <a href="stay/index.html" class="hover:text-gold transition-colors">Luxury Stays</a>
-            <a href="contact.html" class="bg-gold text-white px-6 py-2 rounded-full hover:bg-white hover:text-slate-900 transition-all">Contact</a>
-        </div>
-    </nav>
+    <!-- Header (Dynamic Shared UI) -->
+    <div id="site-header"></div>
 
-    <!-- Page Header -->
-    <header class="pt-48 pb-24 bg-slate-900 text-white relative overflow-hidden">
-        <div class="max-w-6xl mx-auto px-4 relative z-10 text-center">
-            <span class="text-gold font-bold uppercase tracking-[0.3em] text-xs mb-3 block">Islamabad & Kaghan Valley</span>
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 outfit">Property <span class="text-gold">Catalog</span></h1>
-            <p class="text-slate-300 text-lg max-w-2xl mx-auto font-light leading-relaxed">
-                Discover verified residential villas, commercial offices, apartments, and mountain resorts with instant WhatsApp inquiry.
-            </p>
-        </div>
-    </header>
+    <!-- ==========================================================================
+         TOP FILTER BAR (Replaces Tier-2 subnav, horizontally scrollable on mobile - §5)
+         ========================================================================== -->
+    <section class="bg-white border-b border-slate-200 sticky top-[60px] z-30 shadow-xs">
+        <div class="market-container py-3">
+            <div class="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-thin">
+                
+                <!-- Purpose Pills -->
+                <div class="segmented-control shrink-0">
+                    <button type="button" id="filter-purpose-sale" onclick="setFilterPurpose('sale')" class="active">Buy</button>
+                    <button type="button" id="filter-purpose-rent" onclick="setFilterPurpose('rent')">Rent</button>
+                </div>
 
-    <!-- Search & Filter Controls -->
-    <section class="py-8 bg-slate-900/95 text-white border-b border-slate-800 sticky top-[80px] z-40 shadow-lg backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
-                <!-- Location / Society -->
-                <div>
-                    <label class="text-[10px] text-slate-400 font-bold uppercase block mb-1">Area / Society</label>
-                    <select id="filter-area" onchange="filterAndRenderCatalog()" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs focus:border-gold focus:outline-none">
-                        <option value="all">All Areas & Societies</option>
-                        <option value="DHA Islamabad">DHA Islamabad</option>
-                        <option value="Bahria Town">Bahria Town / Enclave</option>
-                        <option value="G-11">CDA Sector G-11</option>
-                        <option value="Nathia Gali">Nathia Gali / Kaghan</option>
+                <!-- City Selector -->
+                <div class="shrink-0">
+                    <select id="filter-city" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
+                        <option value="all">All Cities</option>
+                        <option value="Islamabad" selected>Islamabad</option>
+                        <option value="Rawalpindi">Rawalpindi</option>
+                        <option value="Murree">Murree</option>
+                        <option value="Nathia Gali">Nathia Gali</option>
                     </select>
                 </div>
 
-                <!-- Type -->
-                <div>
-                    <label class="text-[10px] text-slate-400 font-bold uppercase block mb-1">Property Type</label>
-                    <select id="filter-type" onchange="filterAndRenderCatalog()" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs focus:border-gold focus:outline-none">
+                <!-- Location Field -->
+                <div class="relative shrink-0 min-w-[170px]">
+                    <i class="fa-solid fa-location-dot absolute left-2.5 top-2 text-slate-400 text-[10px]"></i>
+                    <input type="text" id="filter-location" oninput="debounceApplyFilters()" placeholder="Society / Location" class="w-full bg-slate-100 border border-slate-200 rounded-lg pl-7 pr-2 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:border-emerald-600">
+                </div>
+
+                <!-- Property Type -->
+                <div class="shrink-0">
+                    <select id="filter-type" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
                         <option value="all">All Types</option>
-                        <option value="house">House / Villa</option>
-                        <option value="plot">Plot</option>
-                        <option value="apartment">Apartment</option>
+                        <option value="house">Houses & Villas</option>
+                        <option value="plot">Plots</option>
+                        <option value="apartment">Apartments</option>
                         <option value="commercial">Commercial</option>
-                        <option value="office">Corporate Office</option>
-                        <option value="shop">Shop</option>
                     </select>
                 </div>
 
-                <!-- Purpose -->
-                <div>
-                    <label class="text-[10px] text-slate-400 font-bold uppercase block mb-1">Purpose</label>
-                    <select id="filter-purpose" onchange="filterAndRenderCatalog()" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs focus:border-gold focus:outline-none">
-                        <option value="all">All Purposes</option>
-                        <option value="sale">For Sale</option>
-                        <option value="rent">For Rent</option>
+                <!-- Area Range Filter -->
+                <div class="shrink-0">
+                    <select id="filter-area-range" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
+                        <option value="all">Area: Any Size</option>
+                        <option value="5">5 Marla</option>
+                        <option value="8">8 Marla</option>
+                        <option value="10">10 Marla</option>
+                        <option value="20">1 Kanal (20 Marla)</option>
+                        <option value="80">4 Kanal+ Estate</option>
                     </select>
                 </div>
 
-                <!-- Bedrooms -->
-                <div>
-                    <label class="text-[10px] text-slate-400 font-bold uppercase block mb-1">Min Bedrooms</label>
-                    <select id="filter-bedrooms" onchange="filterAndRenderCatalog()" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs focus:border-gold focus:outline-none">
-                        <option value="0">Any Bedrooms</option>
-                        <option value="1">1+ Beds</option>
+                <!-- Price Range Filter -->
+                <div class="shrink-0">
+                    <select id="filter-price-range" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
+                        <option value="all">Price: Any</option>
+                        <option value="0-15000000">Under 1.5 Crore</option>
+                        <option value="15000000-30000000">1.5 - 3.0 Crore</option>
+                        <option value="30000000-60000000">3.0 - 6.0 Crore</option>
+                        <option value="60000000-100000000">6.0 - 10 Crore</option>
+                        <option value="100000000-999999999">10 Crore+</option>
+                    </select>
+                </div>
+
+                <!-- Beds Filter -->
+                <div class="shrink-0">
+                    <select id="filter-beds" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
+                        <option value="0">Beds: Any</option>
                         <option value="2">2+ Beds</option>
                         <option value="3">3+ Beds</option>
                         <option value="4">4+ Beds</option>
+                        <option value="5">5+ Beds</option>
                     </select>
                 </div>
 
-                <!-- Reset Button -->
-                <div class="flex items-end h-full">
-                    <button onclick="resetFilters()" class="w-full bg-slate-800 hover:bg-gold hover:text-slate-950 border border-slate-700 font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition-all">
-                        <i class="fa-solid fa-rotate-left mr-1"></i> Reset Filters
+                <!-- Keyword Search -->
+                <div class="relative shrink-0 min-w-[150px]">
+                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-slate-400 text-[10px]"></i>
+                    <input type="text" id="filter-keyword" oninput="debounceApplyFilters()" placeholder="Keyword..." class="w-full bg-slate-100 border border-slate-200 rounded-lg pl-7 pr-2 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-emerald-600">
+                </div>
+
+                <!-- "More Options" Expandable Drawer Toggle -->
+                <button type="button" onclick="toggleMoreOptionsDrawer()" class="btn-outline text-xs py-1.5 px-3 rounded-lg shrink-0 flex items-center gap-1.5">
+                    <i class="fa-solid fa-sliders text-xs"></i>
+                    <span>More Options</span>
+                    <span id="more-filters-badge" class="bg-emerald-700 text-white text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </button>
+
+                <!-- Reset Filters Button -->
+                <button type="button" onclick="resetAllFilters()" title="Reset Filters" class="p-1.5 text-slate-400 hover:text-slate-800 text-xs shrink-0">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- "More Options" Expandable Filter Drawer -->
+        <div id="more-options-drawer" class="hidden bg-slate-50 border-t border-slate-200 py-4 px-4 shadow-inner">
+            <div class="market-container grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 text-xs">
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Baths</label>
+                    <select id="more-baths" onchange="applyFilters()" class="w-full bg-white border border-slate-200 rounded-lg p-2">
+                        <option value="0">Any Baths</option>
+                        <option value="2">2+ Baths</option>
+                        <option value="3">3+ Baths</option>
+                        <option value="4">4+ Baths</option>
+                        <option value="5">5+ Baths</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Facing</label>
+                    <select id="more-facing" onchange="applyFilters()" class="w-full bg-white border border-slate-200 rounded-lg p-2">
+                        <option value="all">Any Facing</option>
+                        <option value="North">North Facing</option>
+                        <option value="East">East Facing</option>
+                        <option value="Corner">Corner Plot / Unit</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Urgency Status</label>
+                    <select id="more-urgency" onchange="applyFilters()" class="w-full bg-white border border-slate-200 rounded-lg p-2">
+                        <option value="all">All Listings</option>
+                        <option value="super-hot">Super Hot Only</option>
+                        <option value="hot">Hot Deals</option>
+                        <option value="verified">Verified Ads Only</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button type="button" onclick="toggleMoreOptionsDrawer()" class="w-full btn-primary py-2 rounded-lg font-bold">
+                        Apply & Close Drawer
                     </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Main Properties Grid -->
-    <main class="py-16 px-4 md:px-12 bg-slate-50 min-h-screen">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold outfit text-slate-900">Available Properties (<span id="results-count" class="text-gold">0</span>)</h2>
-                <span class="text-xs text-slate-500 font-semibold">Real-time data from Firestore collection: <code class="text-gold">kaghan_properties</code></span>
-            </div>
+    <!-- ==========================================================================
+         PAGE HEADING ROW & CATEGORY SUB-TABS (§5)
+         ========================================================================== -->
+    <div class="bg-white border-b border-slate-200 py-4">
+        <div class="market-container space-y-3">
+            <!-- Breadcrumbs -->
+            <nav class="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium">
+                <a href="index.html" class="hover:text-emerald-700">Home</a>
+                <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
+                <a href="projects.html" class="hover:text-emerald-700">Pakistan Property</a>
+                <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
+                <span id="breadcrumb-city" class="text-slate-700 font-semibold">Islamabad</span>
+            </nav>
 
-            <!-- Grid Container -->
-            <div id="properties-catalog-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="col-span-3 text-center text-slate-500 py-16">
-                    <i class="fa-solid fa-spinner animate-spin text-3xl text-gold mb-3"></i>
-                    <p class="text-xs font-bold uppercase tracking-wider">Fetching published properties...</p>
+            <!-- H1 Heading & Save Search -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                    <h1 id="page-h1-heading" class="text-xl sm:text-2xl lg:text-3xl font-extrabold outfit text-slate-900 tracking-tight">
+                        <span id="h1-count" class="text-emerald-700">14,322</span> Properties for Sale in <span id="h1-city">Islamabad</span>
+                    </h1>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" id="save-search-btn" onclick="toggleSaveSearch()" class="btn-outline text-xs py-1.5 px-3.5 rounded-full flex items-center gap-1.5">
+                        <i id="save-search-icon" class="fa-regular fa-bell"></i>
+                        <span id="save-search-text">Save Search</span>
+                    </button>
+                    <!-- Mobile Filter Drawer Toggle Button -->
+                    <button type="button" onclick="toggleMobileFilterRail()" class="lg:hidden btn-primary text-xs py-1.5 px-3 rounded-full flex items-center gap-1.5">
+                        <i class="fa-solid fa-filter"></i> Filters
+                    </button>
                 </div>
             </div>
-        </div>
-    </main>
 
-    <!-- PROPERTY DETAIL MODAL -->
-    <div id="modal-property-detail" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl max-w-4xl w-full p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto relative shadow-2xl">
-            <button onclick="closePropertyDetailModal()" class="absolute top-6 right-6 w-10 h-10 bg-slate-100 hover:bg-slate-900 hover:text-white rounded-full flex items-center justify-center transition-all text-slate-600">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-
-            <div id="modal-detail-content" class="space-y-6">
-                <!-- Dynamically populated -->
+            <!-- Category Sub-Tabs with Counts (§5) -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin text-xs">
+                <button type="button" data-subcat="all" onclick="setSubCategory('all')" class="category-subtab px-3 py-1.5 rounded-full bg-emerald-700 text-white font-bold whitespace-nowrap">
+                    All Homes <span class="badge-count text-[10px] opacity-90">(14,322)</span>
+                </button>
+                <button type="button" data-subcat="house" onclick="setSubCategory('house')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Houses <span class="badge-count text-[10px] text-slate-400">(8,450)</span>
+                </button>
+                <button type="button" data-subcat="apartment" onclick="setSubCategory('apartment')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Flats & Suites <span class="badge-count text-[10px] text-slate-400">(3,240)</span>
+                </button>
+                <button type="button" data-subcat="farmhouse" onclick="setSubCategory('farmhouse')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Farm Houses <span class="badge-count text-[10px] text-slate-400">(1,180)</span>
+                </button>
+                <button type="button" data-subcat="penthouse" onclick="setSubCategory('penthouse')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Penthouses <span class="badge-count text-[10px] text-slate-400">(620)</span>
+                </button>
+                <button type="button" data-subcat="newproject" onclick="setSubCategory('newproject')" class="category-subtab px-3 py-1.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold whitespace-nowrap">
+                    New Projects <span class="badge-count text-[10px] text-indigo-400">(832)</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-slate-950 text-slate-400 pt-16 pb-12 px-4 md:px-12 border-t border-slate-900">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-3 text-white">
-                <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-8 w-auto">
-                <span class="font-bold outfit uppercase tracking-wider">KAGHAN PROPERTIES</span>
-            </div>
-            <p class="text-xs">&copy; 2026 Kaghan Properties Pvt. Ltd. | Top-Level Collection: <span class="text-gold">kaghan_properties</span></p>
+    <!-- ==========================================================================
+         2-PANEL MAIN CONTENT LAYOUT (§2, §5)
+         Left Filter Rail (~22%) + Wide Results Column (~78%)
+         ========================================================================== -->
+    <div class="market-container py-8 flex-1">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- ==========================================================================
+                 LEFT FILTER RAIL (Collapsible on mobile into drawer - §2, §5)
+                 ========================================================================== -->
+            <aside id="left-filter-rail" class="lg:col-span-3 space-y-6 hidden lg:block bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                
+                <!-- Left Rail Header -->
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <span class="font-bold outfit text-slate-900 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-emerald-700"></i> Narrow Search
+                    </span>
+                    <button type="button" onclick="resetAllFilters()" class="text-xs text-slate-400 hover:text-emerald-700 font-semibold">
+                        Reset All
+                    </button>
+                </div>
+
+                <!-- Locations Panel (§5) -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-xs uppercase tracking-wider text-slate-800">Locations</h4>
+                        <button type="button" onclick="toggleSortLocations()" class="text-[11px] text-emerald-700 hover:underline font-medium">
+                            <span id="loc-sort-label">Sort A-Z</span>
+                        </button>
+                    </div>
+
+                    <!-- Neighborhood Checkbox List with Counts -->
+                    <div id="locations-checkbox-list" class="space-y-1 max-h-56 overflow-y-auto pr-1 scrollbar-thin text-xs">
+                        <label class="custom-checkbox-row">
+                            <span class="flex items-center gap-2">
+                                <input type="checkbox" value="Bahria Enclave" onchange="handleLocationCheck(this)">
+                                <span>Bahria Enclave</span>
+                            </span>
+                            <span class="text-slate-400 tabular-nums">(4,230)</span>
+                        </label>
+                        <label class="custom-checkbox-row">
+                            <span class="flex items-center gap-2">
+                                <input type="checkbox" value="Park View City" onchange="handleLocationCheck(this)">
+                                <span>Park View City</span>
+                            </span>
+                            <span class="text-slate-400 tabular-nums">(2,190)</span>
+                        </label>
+                        <label class="custom-checkbox-row">
+                            <span class="flex items-center gap-2">
+                                <input type="checkbox" value="Park Enclave" onchange="handleLocationCheck(this)">
+                                <span>Park Enclave</span>
+                            </span>
+                            <span class="text-slate-400 tabular-nums">(1,840)</span>
+                        </label>
+                        <label class="custom-checkbox-row">
+                            <span class="flex items-center gap-2">
+                                <input type="checkbox" value="Margalla Enclave" onchange="handleLocationCheck(this)">
+                                <span>Margalla Enclave</span>
+                            </span>
+                            <span class="text-slate-400 tabular-nums">(940)</span>
+                        </label>
+                        <label class="custom-checkbox-row">
+                            <span class="flex items-center gap-2">
+                                <input type="checkbox" value="Margalla Orchards" onchange="handleLocationCheck(this)">
+                                <span>Margalla Orchards</span>
+                            </span>
+                            <span class="text-slate-400 tabular-nums">(680)</span>
+                        </label>
+                        <label class="custom-checkbox-row">
+                            <span class="flex items-center gap-2">
+                                <input type="checkbox" value="Nathia Gali" onchange="handleLocationCheck(this)">
+                                <span>Nathia Gali / Pine Valley</span>
+                            </span>
+                            <span class="text-slate-400 tabular-nums">(1,420)</span>
+                        </label>
+                        <label class="custom-checkbox-row">
+                            <span class="flex items-center gap-2">
+                                <input type="checkbox" value="Murree" onchange="handleLocationCheck(this)">
+                                <span>Murree Hills</span>
+                            </span>
+                            <span class="text-slate-400 tabular-nums">(1,150)</span>
+                        </label>
+                    </div>
+
+                    <a href="societies.html" class="text-xs text-emerald-700 hover:underline font-bold block pt-1">
+                        View All Locations & Maps &raquo;
+                    </a>
+                </div>
+
+                <!-- Budget Presets Block (§5) -->
+                <div class="space-y-2.5 pt-4 border-t border-slate-100">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-800">Payment Modes</h4>
+                    <div class="grid grid-cols-3 gap-1.5 text-center text-xs">
+                        <button type="button" onclick="setBudgetPreset('any')" id="preset-any" class="py-1.5 rounded-lg border border-slate-200 bg-emerald-50 text-emerald-800 font-bold">Any</button>
+                        <button type="button" onclick="setBudgetPreset('cash')" id="preset-cash" class="py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-semibold">Cash</button>
+                        <button type="button" onclick="setBudgetPreset('installments')" id="preset-inst" class="py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-semibold">Installments</button>
+                    </div>
+                </div>
+
+                <!-- Urgency & Agency Tier Quick Filter -->
+                <div class="space-y-2 pt-4 border-t border-slate-100 text-xs font-semibold">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-800 mb-2">Listing Quality</h4>
+                    <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                        <input type="checkbox" id="check-verified-only" onchange="applyFilters()" class="accent-emerald-700">
+                        <span>Verified Listings Only</span>
+                    </label>
+                    <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
+                        <input type="checkbox" id="check-titanium-only" onchange="applyFilters()" class="accent-emerald-700">
+                        <span>Titanium Agencies Only</span>
+                    </label>
+                </div>
+
+                <!-- Support Banner inside Rail -->
+                <div class="bg-slate-900 text-white p-4 rounded-xl space-y-2 text-xs">
+                    <span class="text-amber-400 font-bold uppercase text-[10px] tracking-wider block">Direct Advisory</span>
+                    <p class="font-semibold text-slate-200">Need help finding off-market plots in Bahria or CDA?</p>
+                    <a href="https://wa.me/923340091127" target="_blank" class="w-full btn-whatsapp py-2 rounded-lg text-xs font-bold block text-center">
+                        <i class="fa-brands fa-whatsapp mr-1"></i> Chat with Broker
+                    </a>
+                </div>
+            </aside>
+
+            <!-- ==========================================================================
+                 WIDE RESULTS COLUMN (~78% - §5)
+                 ========================================================================== -->
+            <section class="lg:col-span-9 space-y-6">
+                
+                <!-- Results Toolbar (§5) -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 text-xs">
+                    <!-- Left: Result Range Text -->
+                    <div class="text-slate-600 font-semibold">
+                        Showing <span id="toolbar-range-text" class="text-slate-900 font-bold">1 to 8 of 8</span> Properties
+                    </div>
+
+                    <!-- Right: Sort Dropdown -->
+                    <div class="flex items-center gap-2">
+                        <label class="text-slate-500 font-medium">Sort by:</label>
+                        <select id="results-sort" onchange="applySortAndRender()" class="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-600 cursor-pointer">
+                            <option value="popular" selected>Popular</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="newest">Newest First</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- PROPERTY CARDS LIST CONTAINER (§5) -->
+                <div id="properties-card-list" class="space-y-4">
+                    <!-- Loaded dynamically via JavaScript -->
+                    <div class="text-center py-20 text-slate-400">
+                        <i class="fa-solid fa-spinner animate-spin text-3xl text-emerald-600 mb-3"></i>
+                        <p class="text-xs font-bold uppercase tracking-wider">Loading marketplace listings...</p>
+                    </div>
+                </div>
+
+                <!-- PAGINATION BAR (§5) -->
+                <div class="pt-6 border-t border-slate-200 flex items-center justify-between flex-wrap gap-4 text-xs font-semibold">
+                    <div class="text-slate-500">
+                        Page <span id="current-page-num" class="font-bold text-slate-900">1</span> of <span id="total-pages-num" class="font-bold text-slate-900">1</span>
+                    </div>
+
+                    <div id="pagination-links-container" class="flex items-center gap-1.5">
+                        <button class="w-8 h-8 rounded-lg bg-emerald-700 text-white font-bold flex items-center justify-center shadow-xs">1</button>
+                        <button class="w-8 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 flex items-center justify-center">2</button>
+                        <button class="w-8 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 flex items-center justify-center">3</button>
+                        <button class="px-3 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 flex items-center gap-1 font-bold">
+                            Next <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==========================================================================
+                     BELOW-FOLD SEO / CONTENT BLOCK (§5)
+                     ========================================================================== -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 space-y-4 text-xs leading-relaxed text-slate-600 mt-12">
+                    <h2 class="text-lg font-bold outfit text-slate-900">About Real Estate in Islamabad & Northern Corridors</h2>
+                    <p>
+                        Islamabad remains the premier investment market in Pakistan for capital security and lifestyle tranquility. The expansion of Park Road and Margalla Avenue has unlocked prime corridors in Bahria Enclave, CDA Park Enclave, Margalla Enclave, and Park View City.
+                    </p>
+                    <p>
+                        Concurrently, alpine holiday chalets and serviced hotel apartments in Nathia Gali and Murree continue to witness extraordinary short-term rental returns fueled by year-round northern tourism. Kaghan Properties ensures transparent transaction advisory, CDA/RDA legal vetting, and hands-off rental management.
+                    </p>
+
+                    <!-- Popular Searches Wrapping Tag Cloud (§5) -->
+                    <div class="pt-4 border-t border-slate-100">
+                        <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] mb-3">Popular Searches in Islamabad</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="projects.html?type=house&area=Bahria+Enclave" class="tag-cloud-chip">5 Marla House in Bahria Enclave</a>
+                            <a href="projects.html?type=house&area=Park+View+City" class="tag-cloud-chip">10 Marla Villa in Park View City</a>
+                            <a href="projects.html?type=house&area=Park+Enclave" class="tag-cloud-chip">1 Kanal House in Park Enclave</a>
+                            <a href="projects.html?type=apartment&city=Nathia+Gali" class="tag-cloud-chip">Apartments in Nathia Gali</a>
+                            <a href="projects.html?type=house&city=Murree" class="tag-cloud-chip">Luxury Chalet in Murree Hills</a>
+                            <a href="projects.html?type=plot&city=Islamabad" class="tag-cloud-chip">CDA Sector Plots</a>
+                            <a href="projects.html?purpose=rent&city=Islamabad" class="tag-cloud-chip">Houses for Rent Islamabad</a>
+                            <a href="projects.html?isNewProject=true" class="tag-cloud-chip">Commercial Mall Offices</a>
+                            <a href="projects.html?type=apartment&area=Azan+Arcade" class="tag-cloud-chip">Azan Arcade 2 Bed Suites</a>
+                            <a href="projects.html?type=house&area=Margalla+Orchards" class="tag-cloud-chip">Margalla Orchards Farmhouses</a>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
         </div>
-    </footer>
+    </div>
 
-    <!-- Floating WhatsApp Button -->
-    <a id="floating-whatsapp" href="https://wa.me/923340091127?text=Hi%20Kaghan%20Properties,%20I%20am%20interested%20in%20your%20property%20listings." target="_blank" class="fixed bottom-6 right-6 z-50 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all">
-        <i class="fa-brands fa-whatsapp text-3xl"></i>
-    </a>
+    <!-- Footer (Dynamic Shared UI) -->
+    <div id="site-footer"></div>
 
-    <!-- Page Logic -->
+    <!-- ==========================================================================
+         JAVASCRIPT LOGIC: FILTER ENGINE & PROPERTY CARD RENDERING (§5, §8, §12)
+         ========================================================================== -->
     <script>
-        let allPublishedProperties = [];
+        let allProperties = [];
+        let filteredProperties = [];
+        let activePurpose = 'sale';
+        let isSavedSearch = false;
+        let selectedLocations = [];
+        let locationSortAsc = true;
 
-        async function loadPublishedProperties() {
-            try {
-                // Parse URL Query Params
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.has('area')) {
-                    const select = document.getElementById('filter-area');
-                    const areaVal = urlParams.get('area');
-                    for (let i = 0; i < select.options.length; i++) {
-                        if (select.options[i].value.toLowerCase().includes(areaVal.toLowerCase())) {
-                            select.selectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-                if (urlParams.has('type')) {
-                    document.getElementById('filter-type').value = urlParams.get('type');
-                }
-                if (urlParams.has('purpose')) {
-                    document.getElementById('filter-purpose').value = urlParams.get('purpose');
-                }
+        // Initialize Page
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Read URL Params
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('purpose')) activePurpose = params.get('purpose');
+            if (params.get('city')) {
+                const cityEl = document.getElementById('filter-city');
+                if (cityEl) cityEl.value = params.get('city');
+            }
+            if (params.get('area')) {
+                const areaEl = document.getElementById('filter-location');
+                if (areaEl) areaEl.value = params.get('area');
+            }
+            if (params.get('type')) {
+                const typeEl = document.getElementById('filter-type');
+                if (typeEl) typeEl.value = params.get('type');
+            }
 
-                allPublishedProperties = await window.KaghanDB.getProperties({ status: 'published' });
-                filterAndRenderCatalog();
-            } catch (e) {
-                console.error("Failed to load catalog properties:", e);
-                document.getElementById('properties-catalog-container').innerHTML = `<div class="col-span-3 text-center text-rose-500 py-12">Failed to load property listings. Please check connection.</div>`;
+            if (params.get('isNewProject') === 'true') {
+                activeSubCategory = 'newproject';
+                document.querySelectorAll('.category-subtab').forEach(btn => {
+                    const isActive = btn.getAttribute('data-subcat') === 'newproject';
+                    btn.className = isActive 
+                        ? 'category-subtab px-3 py-1.5 rounded-full bg-emerald-700 text-white font-bold whitespace-nowrap'
+                        : 'category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap';
+                });
+            }
+
+            syncPurposeUI();
+
+            // Load Data
+            if (window.KaghanDB && window.KaghanDB.getProperties) {
+                allProperties = await window.KaghanDB.getProperties();
+            } else if (typeof DEFAULT_PROPERTIES !== 'undefined') {
+                allProperties = [...DEFAULT_PROPERTIES];
+            }
+
+            // Listen to currency or unit changes from header
+            window.addEventListener('marketStateChanged', () => {
+                renderPropertyCards();
+            });
+
+            applyFilters();
+        });
+
+        function syncPurposeUI() {
+            const btnSale = document.getElementById('filter-purpose-sale');
+            const btnRent = document.getElementById('filter-purpose-rent');
+            if (activePurpose === 'rent') {
+                btnSale.classList.remove('active');
+                btnRent.classList.add('active');
+            } else {
+                btnSale.classList.add('active');
+                btnRent.classList.remove('active');
             }
         }
 
-        function filterAndRenderCatalog() {
-            const area = document.getElementById('filter-area').value;
-            const type = document.getElementById('filter-type').value;
-            const purpose = document.getElementById('filter-purpose').value;
-            const minBeds = parseInt(document.getElementById('filter-bedrooms').value);
+        function setFilterPurpose(purpose) {
+            activePurpose = purpose;
+            syncPurposeUI();
+            applyFilters();
+        }
 
-            const filtered = allPublishedProperties.filter(p => {
-                if (area !== 'all' && !p.area.toLowerCase().includes(area.toLowerCase()) && !p.city.toLowerCase().includes(area.toLowerCase())) return false;
+        let activeSubCategory = 'all';
+        function setSubCategory(cat) {
+            activeSubCategory = cat;
+            document.querySelectorAll('.category-subtab').forEach(btn => {
+                const isActive = btn.getAttribute('data-subcat') === cat;
+                btn.className = isActive 
+                    ? 'category-subtab px-3 py-1.5 rounded-full bg-emerald-700 text-white font-bold whitespace-nowrap'
+                    : 'category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap';
+            });
+            const typeEl = document.getElementById('filter-type');
+            if (cat === 'all' || cat === 'newproject') {
+                typeEl.value = 'all';
+            } else {
+                typeEl.value = cat;
+            }
+            applyFilters();
+        }
+
+        function handleLocationCheck(cb) {
+            if (cb.checked) {
+                if (!selectedLocations.includes(cb.value)) selectedLocations.push(cb.value);
+            } else {
+                selectedLocations = selectedLocations.filter(x => x !== cb.value);
+            }
+            applyFilters();
+        }
+
+        function setBudgetPreset(preset) {
+            ['preset-any', 'preset-cash', 'preset-inst'].forEach(id => {
+                const b = document.getElementById(id);
+                b.className = 'py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-semibold';
+            });
+            if (preset === 'any') {
+                document.getElementById('preset-any').className = 'py-1.5 rounded-lg border border-slate-200 bg-emerald-50 text-emerald-800 font-bold';
+            } else if (preset === 'cash') {
+                document.getElementById('preset-cash').className = 'py-1.5 rounded-lg border border-slate-200 bg-emerald-50 text-emerald-800 font-bold';
+            } else if (preset === 'installments') {
+                document.getElementById('preset-inst').className = 'py-1.5 rounded-lg border border-slate-200 bg-emerald-50 text-emerald-800 font-bold';
+            }
+            applyFilters();
+        }
+
+        let debounceTimer;
+        function debounceApplyFilters() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(applyFilters, 250);
+        }
+
+        function toggleMoreOptionsDrawer() {
+            const d = document.getElementById('more-options-drawer');
+            d.classList.toggle('hidden');
+        }
+
+        function toggleMobileFilterRail() {
+            const rail = document.getElementById('left-filter-rail');
+            rail.classList.toggle('hidden');
+            if (!rail.classList.contains('hidden')) {
+                rail.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function toggleSaveSearch() {
+            isSavedSearch = !isSavedSearch;
+            const btn = document.getElementById('save-search-btn');
+            const icon = document.getElementById('save-search-icon');
+            const text = document.getElementById('save-search-text');
+            if (isSavedSearch) {
+                btn.className = 'btn-primary text-xs py-1.5 px-3.5 rounded-full flex items-center gap-1.5';
+                icon.className = 'fa-solid fa-check';
+                text.innerText = 'Search Saved';
+            } else {
+                btn.className = 'btn-outline text-xs py-1.5 px-3.5 rounded-full flex items-center gap-1.5';
+                icon.className = 'fa-regular fa-bell';
+                text.innerText = 'Save Search';
+            }
+        }
+
+        function toggleSortLocations() {
+            locationSortAsc = !locationSortAsc;
+            document.getElementById('loc-sort-label').innerText = locationSortAsc ? 'Sort A-Z' : 'Sort by Count';
+            const list = document.getElementById('locations-checkbox-list');
+            const items = Array.from(list.children);
+            items.sort((a, b) => {
+                const textA = a.innerText.trim();
+                const textB = b.innerText.trim();
+                return locationSortAsc ? textA.localeCompare(textB) : textB.localeCompare(textA);
+            });
+            items.forEach(el => list.appendChild(el));
+        }
+
+        function resetAllFilters() {
+            document.getElementById('filter-city').value = 'all';
+            document.getElementById('filter-location').value = '';
+            document.getElementById('filter-type').value = 'all';
+            document.getElementById('filter-area-range').value = 'all';
+            document.getElementById('filter-price-range').value = 'all';
+            document.getElementById('filter-beds').value = '0';
+            document.getElementById('filter-keyword').value = '';
+            document.querySelectorAll('#locations-checkbox-list input').forEach(c => c.checked = false);
+            selectedLocations = [];
+            document.getElementById('check-verified-only').checked = false;
+            document.getElementById('check-titanium-only').checked = false;
+            activePurpose = 'sale';
+            syncPurposeUI();
+            applyFilters();
+        }
+
+        // Apply all filters to allProperties
+        function applyFilters() {
+            const city = document.getElementById('filter-city').value;
+            const locQuery = document.getElementById('filter-location').value.trim().toLowerCase();
+            const type = document.getElementById('filter-type').value;
+            const areaRange = document.getElementById('filter-area-range').value;
+            const priceRange = document.getElementById('filter-price-range').value;
+            const minBeds = parseInt(document.getElementById('filter-beds').value, 10);
+            const keyword = document.getElementById('filter-keyword').value.trim().toLowerCase();
+            const verifiedOnly = document.getElementById('check-verified-only').checked;
+            const titaniumOnly = document.getElementById('check-titanium-only').checked;
+
+            filteredProperties = allProperties.filter(p => {
+                // Purpose
+                if (p.purpose && p.purpose !== activePurpose) return false;
+
+                // SubCategory: New Projects
+                if (activeSubCategory === 'newproject' && !p.isNewProject) return false;
+
+                // City
+                if (city !== 'all' && p.city.toLowerCase() !== city.toLowerCase()) return false;
+
+                // Location field
+                if (locQuery && !p.area.toLowerCase().includes(locQuery) && !p.address.toLowerCase().includes(locQuery)) return false;
+
+                // Checkbox locations
+                if (selectedLocations.length > 0) {
+                    const match = selectedLocations.some(l => p.area.toLowerCase().includes(l.toLowerCase()));
+                    if (!match) return false;
+                }
+
+                // Type
                 if (type !== 'all' && p.type !== type) return false;
-                if (purpose !== 'all' && p.purpose !== purpose) return false;
-                if (minBeds > 0 && p.bedrooms < minBeds) return false;
+
+                // Area
+                if (areaRange !== 'all') {
+                    const targetArea = parseInt(areaRange, 10);
+                    if (targetArea <= 20 && p.size !== targetArea) return false;
+                    if (targetArea > 20 && p.size < targetArea) return false;
+                }
+
+                // Price range
+                if (priceRange !== 'all') {
+                    const [minP, maxP] = priceRange.split('-').map(Number);
+                    if (p.price < minP || p.price > maxP) return false;
+                }
+
+                // Beds
+                if (minBeds > 0 && (p.bedrooms || 0) < minBeds) return false;
+
+                // Keyword
+                if (keyword) {
+                    const haystack = `${p.title} ${p.description} ${p.area} ${p.sector}`.toLowerCase();
+                    if (!haystack.includes(keyword)) return false;
+                }
+
+                // Trust toggles
+                if (verifiedOnly && !p.isVerified) return false;
+                if (titaniumOnly && p.agencyTier !== 'Titanium') return false;
+
                 return true;
             });
 
-            document.getElementById('results-count').innerText = filtered.length;
-            const container = document.getElementById('properties-catalog-container');
+            // Update UI headers
+            const count = filteredProperties.length;
+            document.getElementById('h1-count').innerText = count.toLocaleString();
+            document.getElementById('h1-city').innerText = city !== 'all' ? city : 'Pakistan';
+            document.getElementById('breadcrumb-city').innerText = city !== 'all' ? city : 'Pakistan';
+            document.getElementById('toolbar-range-text').innerText = count > 0 ? `1 to ${count} of ${count}` : '0 results';
 
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-3 text-center text-slate-500 py-16 bg-white rounded-3xl border border-slate-200">No published properties matched your search filters.</div>`;
+            applySortAndRender();
+        }
+
+        function applySortAndRender() {
+            const sort = document.getElementById('results-sort').value;
+            if (sort === 'price-asc') {
+                filteredProperties.sort((a, b) => a.price - b.price);
+            } else if (sort === 'price-desc') {
+                filteredProperties.sort((a, b) => b.price - a.price);
+            } else if (sort === 'newest') {
+                filteredProperties.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            }
+            renderPropertyCards();
+        }
+
+        // Render Property Cards (Standard + New Project Variant - §5)
+        function renderPropertyCards() {
+            const container = document.getElementById('properties-card-list');
+            if (filteredProperties.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-12 text-center rounded-2xl border border-slate-200 space-y-3">
+                        <i class="fa-solid fa-house-chimney-crack text-4xl text-slate-300"></i>
+                        <h3 class="text-lg font-bold outfit text-slate-800">No Properties Found Matching Your Criteria</h3>
+                        <p class="text-xs text-slate-500 max-w-md mx-auto">Try broadening your area, price range, or clearing custom filters.</p>
+                        <button onclick="resetAllFilters()" class="btn-primary text-xs py-2 px-4 rounded-xl">Clear All Filters</button>
+                    </div>
+                `;
                 return;
             }
 
-            container.innerHTML = filtered.map(p => {
-                const primaryImg = window.KaghanDB.getDriveDirectUrl(p.images && p.images[0] ? p.images[0].url : '');
-                const formattedPrice = (p.price / 1000000).toFixed(2);
-                
-                return `
-                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg border border-slate-100 hover-lift hover:border-gold transition-all flex flex-col justify-between">
-                        <div class="relative h-64 overflow-hidden group">
-                            <img src="${primaryImg}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <span class="absolute top-4 left-4 bg-slate-900/90 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">${p.purpose === 'sale' ? 'FOR SALE' : 'FOR RENT'}</span>
-                            <div class="absolute top-4 right-4 flex items-center gap-1.5">
-                                <span class="bg-gold text-slate-950 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">${p.type}</span>
-                                ${(p.images && p.images.length > 1) ? `<span class="bg-slate-950/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1"><i class="fa-solid fa-images text-gold"></i> ${p.images.length}</span>` : ''}
-                            </div>
+            container.innerHTML = filteredProperties.map(p => {
+                const formattedPrice = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${p.price.toLocaleString()}`;
+                const formattedArea = window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : `${p.size} Marla`;
+                const primaryImage = (p.images && p.images[0] && p.images[0].url) ? p.images[0].url : 'assets/images/bahria-villa.png';
+                const photoCount = p.photoCount || (p.images ? p.images.length : 12);
+                const addedRelative = p.addedRelative || 'Recently added';
+
+                // ==========================================================================
+                // VARIANT A: NEW PROJECT CARD (§5)
+                // ==========================================================================
+                if (p.isNewProject) {
+                    const unitRows = (p.projectUnits || [
+                        { type: "1 Bed Luxury Suite", priceRange: "PKR 85 Lakh - 1.1 Crore", sizeRange: "550 - 750 Sq Ft" },
+                        { type: "2 Bed Executive Suite", priceRange: "PKR 1.45 - 1.85 Crore", sizeRange: "950 - 1250 Sq Ft" },
+                        { type: "3 Bed Duplex Penthouse", priceRange: "PKR 2.6 - 3.4 Crore", sizeRange: "1800 - 2400 Sq Ft" }
+                    ]).map(u => `
+                        <div class="flex justify-between items-center py-1.5 border-b border-slate-100 last:border-b-0 text-[11px]">
+                            <span class="font-bold text-slate-800">${u.type}</span>
+                            <span class="text-slate-500">${u.sizeRange}</span>
+                            <span class="font-bold text-emerald-700">${u.priceRange}</span>
                         </div>
-                        
-                        <div class="p-6 flex-grow flex flex-col justify-between">
-                            <div>
-                                <span class="text-gold font-bold text-[10px] uppercase tracking-widest block mb-1">${p.area}, ${p.city}</span>
-                                <h3 class="text-xl font-bold outfit text-slate-900 mb-2 leading-snug line-clamp-2">${p.title}</h3>
-                                <p class="text-slate-500 text-xs leading-relaxed mb-4 line-clamp-2">${p.metaDescription || p.address || 'Premium real estate listing in prime location.'}</p>
+                    `).join('');
+
+                    return `
+                        <div class="property-card bg-gradient-to-r from-white to-indigo-50/40 border-2 border-indigo-100 p-5 rounded-2xl space-y-4">
+                            <!-- Banner Image with Overlays -->
+                            <div class="relative h-56 rounded-xl overflow-hidden group">
+                                <img src="${primaryImage}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
                                 
-                                <div class="flex items-center gap-4 text-xs font-semibold text-slate-600 mb-6 py-2 border-y border-slate-100">
-                                    <span><i class="fa-solid fa-bed text-gold mr-1"></i> ${p.bedrooms} Beds</span>
-                                    <span><i class="fa-solid fa-bath text-gold mr-1"></i> ${p.bathrooms} Baths</span>
-                                    <span><i class="fa-solid fa-ruler-combined text-gold mr-1"></i> ${p.size} ${p.sizeUnit}</span>
-                                </div>
+                                <span class="absolute top-3 left-3 badge-premium-new text-[9px] px-2 py-0.5 rounded shadow">
+                                    <i class="fa-solid fa-sparkles mr-1"></i> New Project
+                                </span>
+                                <span class="absolute bottom-3 left-3 text-white text-xs font-bold flex items-center gap-1.5 drop-shadow">
+                                    <i class="fa-solid fa-location-dot text-indigo-400"></i> ${p.sector || p.area}, ${p.city}
+                                </span>
+                                <span class="absolute bottom-3 right-3 badge-photo-count">
+                                    <i class="fa-solid fa-camera"></i> ${photoCount}
+                                </span>
                             </div>
-                            
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <span class="text-[10px] text-slate-400 uppercase font-bold block">Asking Price</span>
-                                    <span class="text-lg font-extrabold text-slate-900 outfit">PKR ${formattedPrice} Lac / Cr</span>
+
+                            <!-- Content Block -->
+                            <div class="space-y-3">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="badge-tier-titanium"><i class="fa-solid fa-star"></i> Titanium Developer</span>
+                                            <span class="badge-verified"><i class="fa-solid fa-circle-check"></i> Approved Project</span>
+                                        </div>
+                                        <h3 class="text-lg font-bold text-slate-900 outfit line-clamp-1 hover:text-indigo-700">
+                                            <a href="project-detail.html?slug=${p.slug}">${p.title}</a>
+                                        </h3>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Starting from</span>
+                                        <span class="price-hero text-xl text-indigo-700">${formattedPrice}</span>
+                                    </div>
                                 </div>
-                                <div class="flex gap-2">
-                                    <button onclick="openPropertyDetailModal('${p.id}')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-3 py-2 rounded-xl text-xs transition-all">
-                                        Quick View
-                                    </button>
-                                    <a href="property.html?slug=${p.slug}" class="bg-slate-900 hover:bg-gold text-white hover:text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition-all flex items-center gap-1">
-                                        Details <i class="fa-solid fa-arrow-right text-[10px]"></i>
+
+                                <!-- Compact Unit Types Table -->
+                                <div class="bg-white p-3 rounded-xl border border-slate-100">
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Available Units & Configurations</span>
+                                    ${unitRows}
+                                </div>
+
+                                <!-- CTAs -->
+                                <div class="flex items-center justify-end gap-2 pt-1">
+                                    <a href="https://wa.me/923340091127?text=Hi,%20I%20want%20to%20reserve%20a%20unit%20in%20${encodeURIComponent(p.title)}" target="_blank" class="btn-whatsapp text-xs py-2 px-4 rounded-xl font-bold">
+                                        <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp Desk
+                                    </a>
+                                    <a href="project-detail.html?slug=${p.slug}" class="btn-primary bg-indigo-600 hover:bg-indigo-500 text-xs py-2 px-5 rounded-xl font-bold shadow-md">
+                                        <i class="fa-solid fa-calendar-check text-[10px]"></i> Reserve Unit
                                     </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    `;
+                }
+
+                // ==========================================================================
+                // VARIANT B: STANDARD PROPERTY CARD (§5)
+                // Desktop horizontal (~35% image, 65% content), mobile vertical
+                // ==========================================================================
+                const urgencyHtml = p.urgency === 'super-hot' 
+                    ? `<span class="badge-urgency-superhot">Super Hot</span>` 
+                    : (p.urgency === 'hot' ? `<span class="badge-urgency-hot">Hot Deal</span>` : '');
+
+                return `
+                    <article class="property-card flex flex-col md:flex-row group">
+                        
+                        <!-- Image Block (~35% width desktop) -->
+                        <div class="relative md:w-[36%] h-56 md:h-auto shrink-0 overflow-hidden bg-slate-100">
+                            <img src="${primaryImage}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            
+                            <!-- Urgency / Status Ribbon Top-Left -->
+                            <div class="absolute top-3 left-3 z-10 flex items-center gap-1.5">
+                                ${urgencyHtml}
+                                ${p.isVerified ? `<span class="badge-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>` : ''}
+                            </div>
+
+                            <!-- Photo Count Overlay Bottom-Right -->
+                            <span class="absolute bottom-3 right-3 badge-photo-count z-10">
+                                <i class="fa-solid fa-camera"></i> ${photoCount}
+                            </span>
+
+                            <!-- Floating Action Toolbar Revealed on Hover -->
+                            <div class="floating-image-actions">
+                                <button onclick="shareProperty('${p.title}', 'property.html?slug=${p.slug}')" title="Share" class="btn-icon-circle w-8 h-8 text-xs shadow-md">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                </button>
+                                <button onclick="toggleFavorite('${p.id}', this)" title="Favorite" class="btn-icon-circle w-8 h-8 text-xs shadow-md">
+                                    <i class="fa-regular fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Content Block (~65% width desktop) -->
+                        <div class="p-5 md:p-6 flex-1 flex flex-col justify-between space-y-3">
+                            <div>
+                                <!-- Agency Tier Badge -->
+                                <div class="flex items-center justify-between gap-2 mb-1.5">
+                                    <span class="badge-tier-titanium">
+                                        <i class="fa-solid fa-star"></i> ${p.agencyTier || 'Titanium'}
+                                    </span>
+                                    <span class="text-[11px] text-slate-400 font-medium">Added: ${addedRelative}</span>
+                                </div>
+
+                                <!-- Price in Large Bold Type -->
+                                <div class="price-hero text-2xl md:text-3xl mb-1">
+                                    ${formattedPrice}
+                                </div>
+
+                                <!-- Location Line -->
+                                <div class="text-xs font-semibold text-slate-700 flex items-center gap-1.5 mb-2 line-clamp-1">
+                                    <i class="fa-solid fa-location-dot text-emerald-600 text-[11px]"></i>
+                                    <span>${p.address || p.sector}, ${p.area}, ${p.city}</span>
+                                </div>
+
+                                <!-- Quick Facts Row (Beds, Baths, Area) -->
+                                <div class="flex items-center gap-4 text-xs font-semibold text-slate-700 py-2 border-y border-slate-100">
+                                    <span class="flex items-center gap-1.5">
+                                        <i class="fa-solid fa-bed text-slate-400"></i>
+                                        <span class="tabular-nums">${p.bedrooms || 0}</span> Beds
+                                    </span>
+                                    <span class="text-slate-300">&bull;</span>
+                                    <span class="flex items-center gap-1.5">
+                                        <i class="fa-solid fa-bath text-slate-400"></i>
+                                        <span class="tabular-nums">${p.bathrooms || 0}</span> Baths
+                                    </span>
+                                    <span class="text-slate-300">&bull;</span>
+                                    <span class="flex items-center gap-1.5">
+                                        <i class="fa-solid fa-ruler-combined text-slate-400"></i>
+                                        <span class="tabular-nums">${formattedArea}</span>
+                                    </span>
+                                </div>
+
+                                <!-- Clamped Title Heading -->
+                                <h3 class="text-sm md:text-base font-bold text-slate-900 outfit line-clamp-1 mt-2 hover:text-emerald-700 transition-colors">
+                                    <a href="property.html?slug=${p.slug}">${p.title}</a>
+                                </h3>
+
+                                <!-- Description Snippet with "...more" link -->
+                                <p class="text-xs text-slate-500 line-clamp-2 mt-1 leading-relaxed">
+                                    ${p.description.replace(/<[^>]*>/g, '').substring(0, 160)}...
+                                    <a href="property.html?slug=${p.slug}" class="text-emerald-700 font-bold hover:underline">more</a>
+                                </p>
+                            </div>
+
+                            <!-- Footer Row: Dual CTA Buttons Side by Side (WhatsApp + Call) -->
+                            <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+                                <div class="text-[11px] text-slate-400 font-medium">
+                                    Agent: <span class="font-bold text-slate-700">${p.agentName || 'Kaghan Advisor'}</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <a href="https://wa.me/${(p.agentPhone || '923340091127').replace(/[^0-9]/g, '')}?text=Hi,%20I%20am%20interested%20in%20listing:%20${encodeURIComponent(p.title)}" target="_blank" class="btn-whatsapp text-xs py-1.5 px-3.5 rounded-lg">
+                                        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                                    </a>
+                                    <a href="tel:${p.agentPhone || '+923340091127'}" class="btn-primary text-xs py-1.5 px-4 rounded-lg font-bold">
+                                        <i class="fa-solid fa-phone text-xs"></i> Call
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
                 `;
             }).join('');
         }
 
-        function resetFilters() {
-            document.getElementById('filter-area').value = 'all';
-            document.getElementById('filter-type').value = 'all';
-            document.getElementById('filter-purpose').value = 'all';
-            document.getElementById('filter-bedrooms').value = '0';
-            filterAndRenderCatalog();
-        }
-
-        async function openPropertyDetailModal(id) {
-            const prop = allPublishedProperties.find(p => p.id === id);
-            if (!prop) return;
-
-            const modal = document.getElementById('modal-property-detail');
-            const content = document.getElementById('modal-detail-content');
-            modal.classList.remove('hidden');
-
-            const primaryImg = window.KaghanDB.getDriveDirectUrl(prop.images && prop.images[0] ? prop.images[0].url : '');
-            const youtubeEmbed = prop.videos && prop.videos[0] ? window.KaghanDB.getYouTubeEmbedUrl(prop.videos[0].url || prop.videos[0].videoId) : '';
-            const docUrl = prop.documents && prop.documents[0] ? prop.documents[0].url : '';
-            const encodedTitle = encodeURIComponent(prop.title);
-
-            content.innerHTML = `
-                <div>
-                    <span class="text-gold font-bold uppercase text-xs tracking-widest block mb-1">${prop.area}, ${prop.city}</span>
-                    <h2 class="text-2xl md:text-3xl font-bold outfit text-slate-900 mb-2">${prop.title}</h2>
-                    <div class="text-2xl font-extrabold text-gold outfit">PKR ${(prop.price).toLocaleString()}</div>
-                </div>
-
-                <!-- Gallery / Main Image -->
-                <div class="rounded-2xl overflow-hidden shadow-lg h-72 md:h-96 border border-slate-200">
-                    <img src="${primaryImg}" class="w-full h-full object-cover">
-                </div>
-
-                <!-- Specs Grid -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                    <div class="p-2"><span class="text-slate-400 text-[10px] uppercase font-bold block">Type</span><strong class="text-slate-800 text-sm uppercase">${prop.type} (${prop.purpose})</strong></div>
-                    <div class="p-2"><span class="text-slate-400 text-[10px] uppercase font-bold block">Size</span><strong class="text-slate-800 text-sm">${prop.size} ${prop.sizeUnit}</strong></div>
-                    <div class="p-2"><span class="text-slate-400 text-[10px] uppercase font-bold block">Bedrooms</span><strong class="text-slate-800 text-sm">${prop.bedrooms} Beds</strong></div>
-                    <div class="p-2"><span class="text-slate-400 text-[10px] uppercase font-bold block">Bathrooms</span><strong class="text-slate-800 text-sm">${prop.bathrooms} Baths</strong></div>
-                </div>
-
-                <!-- Video Tour Embed -->
-                ${youtubeEmbed ? `
-                    <div>
-                        <h4 class="text-sm font-bold outfit uppercase text-slate-900 mb-2"><i class="fa-brands fa-youtube text-red-600 mr-2"></i> Property Video Tour</h4>
-                        <div class="aspect-video rounded-2xl overflow-hidden border border-slate-200 shadow-md">
-                            <iframe src="${youtubeEmbed}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                ` : ''}
-
-                <!-- Document Download -->
-                ${docUrl ? `
-                    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 flex justify-between items-center">
-                        <div>
-                            <strong class="text-xs text-blue-900 font-bold block">Floor Plan / Legal Brochure Document</strong>
-                            <span class="text-[10px] text-blue-700">Stored on Google Drive</span>
-                        </div>
-                        <a href="${docUrl}" target="_blank" class="bg-blue-600 text-white font-bold px-4 py-2 rounded-xl text-xs hover:bg-blue-700">Download Floor Plan</a>
-                    </div>
-                ` : ''}
-
-                <!-- Inquiry & WhatsApp -->
-                <div class="pt-4 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                    <a href="https://wa.me/923340091127?text=Hi%20Kaghan%20Properties,%20I%20am%20interested%20in:%20${encodedTitle}" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
-                        <i class="fa-brands fa-whatsapp text-lg"></i> Direct WhatsApp Inquiry
-                    </a>
-                    <button onclick="document.getElementById('inquiry-box-${prop.id}').classList.toggle('hidden')" class="bg-slate-900 hover:bg-gold text-white hover:text-slate-950 font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider">
-                        Send Lead Form
-                    </button>
-                </div>
-
-                <!-- Embedded Lead Form -->
-                <div id="inquiry-box-${prop.id}" class="hidden bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 text-xs">
-                    <h5 class="font-bold text-slate-800">Inquire About This Property</h5>
-                    <input type="text" id="lead-name-${prop.id}" placeholder="Your Full Name *" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2">
-                    <input type="tel" id="lead-phone-${prop.id}" placeholder="Phone / WhatsApp Number *" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2">
-                    <textarea id="lead-msg-${prop.id}" rows="2" placeholder="Message..." class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2">I am interested in ${prop.title}. Please share further details.</textarea>
-                    <button onclick="submitPropertyLead('${prop.id}', '${prop.title}')" class="w-full bg-[#D4AF37] text-slate-950 font-bold py-2.5 rounded-xl">Submit Lead</button>
-                </div>
-            `;
-        }
-
-        function closePropertyDetailModal() {
-            document.getElementById('modal-property-detail').classList.add('hidden');
-        }
-
-        async function submitPropertyLead(propId, propTitle) {
-            const name = document.getElementById(`lead-name-${propId}`).value.trim();
-            const phone = document.getElementById(`lead-phone-${propId}`).value.trim();
-            const message = document.getElementById(`lead-msg-${propId}`).value.trim();
-
-            if (!name || !phone) {
-                alert("Please enter your name and phone number.");
-                return;
+        function shareProperty(title, url) {
+            if (navigator.share) {
+                navigator.share({ title: title, url: window.location.origin + '/' + url }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(window.location.origin + '/' + url);
+                alert('Property link copied to clipboard!');
             }
-
-            await window.KaghanDB.createLead({
-                name, phone, message,
-                propertyId: propId,
-                propertyTitle: propTitle,
-                sourcePage: `/property/${propId}`
-            });
-
-            alert("Thank you! Your lead inquiry has been recorded. Our agent will contact you shortly.");
-            closePropertyDetailModal();
         }
 
-        window.addEventListener('load', loadPublishedProperties);
+        function toggleFavorite(id, btn) {
+            let favs = JSON.parse(localStorage.getItem('kaghan_favs') || '[]');
+            const icon = btn.querySelector('i');
+            if (favs.includes(id)) {
+                favs = favs.filter(x => x !== id);
+                icon.className = 'fa-regular fa-heart';
+            } else {
+                favs.push(id);
+                icon.className = 'fa-solid fa-heart text-rose-600';
+            }
+            localStorage.setItem('kaghan_favs', JSON.stringify(favs));
+            if (window.KaghanSharedUI) window.KaghanSharedUI.updateWishlistBadge();
+        }
     </script>
-    <script src="assets/js/shared.js"></script>
 </body>
 </html>

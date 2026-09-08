@@ -113,29 +113,13 @@ window.CloudinaryService = {
 // Initial Data Seeding for Firestore 'kaghan_properties'
 const DEFAULT_SOCIETIES = [
     {
-        id: "dha-islamabad",
-        name: "DHA Islamabad",
-        slug: "dha-islamabad",
+        id: "bahria-enclave-islamabad",
+        name: "Bahria Enclave Islamabad",
+        slug: "bahria-enclave-islamabad",
         type: "society",
         city: "Islamabad",
-        description: "Defence Housing Authority Islamabad offers world-class residential and commercial opportunities with top-tier security, parks, and infrastructure.",
-        amenities: ["Security", "Parks", "Schools", "Hospitals", "Commercial Hubs"],
-        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3324.5!2d73.09!3d33.55!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1",
-        coordinates: { lat: 33.55, lng: 73.09 },
-        introVideoId: "dQw4w9WgXcQ",
-        documentsFolderUrl: "https://drive.google.com",
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    },
-    {
-        id: "bahria-town-islamabad",
-        name: "Bahria Town Islamabad",
-        slug: "bahria-town-islamabad",
-        type: "society",
-        city: "Islamabad",
-        description: "Bahria Town & Bahria Enclave offer luxury living with 24/7 power backup, gated security, modern shopping arcades, and international standards.",
-        amenities: ["24/7 Security", "Gated Entry", "Shopping Malls", "Golf Club", "Parks"],
+        description: "Bahria Enclave Islamabad offers world-class gated community living with 24/7 underground electricity, Civic Center commercial arcade, zoo, CineGold Plex, and scenic Margalla foothills views.",
+        amenities: ["24/7 Security", "Underground Electricity", "Commercial Arcades", "CineGold Plex", "Parks & Zoo"],
         mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.467824128522!2d73.1932!3d33.6669",
         coordinates: { lat: 33.6669, lng: 73.1932 },
         introVideoId: "dQw4w9WgXcQ",
@@ -145,33 +129,97 @@ const DEFAULT_SOCIETIES = [
         updatedAt: new Date().toISOString()
     },
     {
-        id: "g11-sector-islamabad",
-        name: "CDA Sector G-11",
-        slug: "g11-sector-islamabad",
-        type: "sector",
+        id: "park-view-city",
+        name: "Park View City",
+        slug: "park-view-city",
+        type: "society",
         city: "Islamabad",
-        description: "Prime CDA sector featuring 29 Mideast Plaza, executive corporate offices, and central access to Kashmir Highway.",
-        amenities: ["CDA Water Supply", "Commercial Markaz", "Metro Access", "Schools"],
-        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3320.1!2d72.99!3d33.67",
-        coordinates: { lat: 33.67, lng: 72.99 },
-        introVideoId: "",
-        documentsFolderUrl: "",
+        description: "CDA-approved luxury housing society by Vision Group located on Malot Road Zone IV. Renowned for Downtown Commercial, dancing fountains, botanical gardens, and premium Overseas Block.",
+        amenities: ["CDA Approved NOC", "Downtown Dancing Fountains", "Overseas Block", "Gated Security", "Botanical Gardens"],
+        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13278.432!2d73.1812!3d33.7058",
+        coordinates: { lat: 33.7058, lng: 73.1812 },
+        introVideoId: "dQw4w9WgXcQ",
+        documentsFolderUrl: "https://drive.google.com",
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     },
     {
-        id: "nathia-gali-kaghan",
-        name: "Nathia Gali & Kaghan Valley",
-        slug: "nathia-gali-kaghan",
-        type: "scheme",
-        city: "Kaghan / Galyat",
-        description: "Pine valley resorts, alpine smart chalets, and mountain retreats in Galyat and Kaghan Valley.",
-        amenities: ["Mountain Views", "Alpine Climate", "Resort Facilities", "Parking"],
-        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.5!2d73.38!3d34.07",
-        coordinates: { lat: 34.07, lng: 73.38 },
-        introVideoId: "",
-        documentsFolderUrl: "",
+        id: "park-enclave",
+        name: "Park Enclave",
+        slug: "park-enclave",
+        type: "society",
+        city: "Islamabad",
+        description: "Known as the Jewel of Islamabad, CDA's signature Park Enclave on Park Road provides state-of-the-art infrastructure, wide boulevards, eco-friendly green belts, and premium security.",
+        amenities: ["CDA Developed", "Underground Electrification", "Sports Club & Lake", "Gated Boundary", "Prime Park Road Access"],
+        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13282.9!2d73.1415!3d33.6922",
+        coordinates: { lat: 33.6922, lng: 73.1415 },
+        introVideoId: "dQw4w9WgXcQ",
+        documentsFolderUrl: "https://drive.google.com",
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+    },
+    {
+        id: "margalla-enclave",
+        name: "Margalla Enclave",
+        slug: "margalla-enclave",
+        type: "society",
+        city: "Islamabad",
+        description: "Nestled directly at the Margalla Foothills corridor with direct Margalla Avenue connectivity. Features pristine mountain air, contemporary architecture, and round-the-clock gated security.",
+        amenities: ["Margalla Foothill Views", "Margalla Avenue Access", "24/7 Security", "Lush Green Parks", "Underground Utilities"],
+        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13270.2!2d72.9680!3d33.7250",
+        coordinates: { lat: 33.7250, lng: 72.9680 },
+        introVideoId: "dQw4w9WgXcQ",
+        documentsFolderUrl: "https://drive.google.com",
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+    },
+    {
+        id: "margalla-orchards",
+        name: "Margalla Orchards",
+        slug: "margalla-orchards",
+        type: "society",
+        city: "Islamabad",
+        description: "Exclusive agro-luxury farmhouses and serene residential estates surrounded by nature, organic fruit orchards, and panoramic mountain ridges in Islamabad.",
+        amenities: ["Agro Luxury Farmhouses", "Natural Springs & Water", "Fruit Orchards", "Gated Surveillance", "Scenic Hiking Trails"],
+        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13268.5!2d73.0450!3d33.7550",
+        coordinates: { lat: 33.7550, lng: 73.0450 },
+        introVideoId: "dQw4w9WgXcQ",
+        documentsFolderUrl: "https://drive.google.com",
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+    },
+    {
+        id: "murree",
+        name: "Murree",
+        slug: "murree",
+        type: "resort",
+        city: "Murree",
+        description: "Pakistan's premier hill station resort territory. Famous for alpine pine forests, Mall Road, New Murree Patriata, Bhurban, luxury vacation suites, and lucrative short-term rental yields.",
+        amenities: ["Alpine Climate & Snow", "High Tourist Rental Yield", "Patriata Chairlift Access", "Boutique Serviced Suites", "Scenic Valleys"],
+        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26451.7!2d73.3907!3d33.9070",
+        coordinates: { lat: 33.9070, lng: 73.3907 },
+        introVideoId: "dQw4w9WgXcQ",
+        documentsFolderUrl: "https://drive.google.com",
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+    },
+    {
+        id: "nathia-gali",
+        name: "Nathia Gali",
+        slug: "nathia-gali",
+        type: "resort",
+        city: "Nathia Gali",
+        description: "The jewel of Galyat with dense pine forests, alpine trails to Mukshpuri & Miranjani, Pine Valley luxury resort chalets, and year-round vacation home investments.",
+        amenities: ["Mukshpuri Hiking Trails", "Pine Forest Retreat", "Pine Valley Luxury Chalets", "24/7 Hospitality Care", "Alpine Climate"],
+        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26392.2!2d73.3758!3d34.0664",
+        coordinates: { lat: 34.0664, lng: 73.3758 },
+        introVideoId: "dQw4w9WgXcQ",
+        documentsFolderUrl: "https://drive.google.com",
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -180,122 +228,18 @@ const DEFAULT_SOCIETIES = [
 
 const DEFAULT_PROPERTIES = [
     {
-        id: "islamabad-dha-phase2-house-123",
-        title: "3 Bedroom Modern House in DHA Phase 2",
-        slug: "islamabad-dha-phase2-house-123",
-        type: "house",
-        purpose: "sale",
-        status: "published",
-        city: "Islamabad",
-        area: "DHA Islamabad",
-        sector: "Phase 2",
-        address: "Street 5, House 12",
-        landmark: "Near Central Park",
-        coordinates: { lat: 33.55, lng: 73.09 },
-        price: 45000000,
-        currency: "PKR",
-        size: 10,
-        sizeUnit: "marla",
-        bedrooms: 3,
-        bathrooms: 4,
-        floors: 2,
-        facing: "North",
-        yearBuilt: 2023,
-        parkingSpaces: 2,
-        amenities: ["security", "elevator", "generator", "park", "gated"],
-        images: [
-            { driveFileId: "1abc123", url: "assets/images/bahria-villa.png", caption: "Exterior Elevation", isPrimary: true },
-            { driveFileId: "1int123", url: "assets/images/interior.png", caption: "Designer Living Lounge", isPrimary: false },
-            { driveFileId: "1hero123", url: "assets/images/hero.png", caption: "Architectural Overview", isPrimary: false },
-            { driveFileId: "1emb123", url: "assets/images/embassy.png", caption: "Neighborhood Boulevard", isPrimary: false }
-        ],
-        videos: [
-            { platform: "youtube", videoId: "dQw4w9WgXcQ", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", title: "Property Tour", type: "property_tour" }
-        ],
-        documents: [
-            { driveFileId: "1xyz789", url: "https://drive.google.com", title: "Floor Plan", type: "floor_plan" }
-        ],
-        agentId: "user_001",
-        agentName: "Ali Khan",
-        agentPhone: "+923340091127",
-        description: `<h4>Executive Designer Residence in DHA Islamabad Phase 2</h4>
-<p>Kaghan Properties is pleased to present this custom-built 10 Marla designer house nestled in a prime, peaceful boulevard of DHA Phase 2 Islamabad. Featuring architectural symmetry, double-glazed Italian tempered glass elevations, and premium imported marble flooring.</p>
-<h5>Key Features & Layout:</h5>
-<ul>
-    <li><strong>3 Executive Master Suites</strong> with attached Spanish-tile ensuites and custom walk-in closets.</li>
-    <li><strong>Designer Chef's Kitchen</strong> equipped with German hardware, granite countertops, and grease extractor hood.</li>
-    <li><strong>Expansive Sunlit Lounge</strong> and formal drawing/dining area with recessed warm ambient lighting.</li>
-    <li><strong>Dedicated Rooftop Terrace</strong> with panoramic Margalla foothill view and open barbeque deck.</li>
-    <li><strong>2 Covered Parking Spaces</strong> with automated sliding gate system and 24/7 CCTV surveillance integration.</li>
-</ul>
-<p>Direct access to G.T. Road, Islamabad Expressway, and Jacaranda Family Club. Ready for immediate handover with clear titles.</p>`,
-        metaTitle: "3 Bedroom House in DHA Phase 2 – Kaghan Properties",
-        metaDescription: "Spacious 3 bedroom house for sale in DHA Islamabad Phase 2 with modern interior design.",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        publishedAt: new Date().toISOString()
-    },
-    {
-        id: "mideast-plaza-g11-commercial-office",
-        title: "Executive Corporate Office in 29 Mideast Plaza",
-        slug: "mideast-plaza-g11-commercial-office",
-        type: "office",
-        purpose: "sale",
-        status: "published",
-        city: "Islamabad",
-        area: "CDA Sector G-11",
-        sector: "G-11 Markaz",
-        address: "Plot 29, Markaz G-11",
-        landmark: "Near Metro Station",
-        coordinates: { lat: 33.67, lng: 72.99 },
-        price: 18500000,
-        currency: "PKR",
-        size: 5,
-        sizeUnit: "marla",
-        bedrooms: 0,
-        bathrooms: 2,
-        floors: 4,
-        facing: "East",
-        yearBuilt: 2024,
-        parkingSpaces: 4,
-        amenities: ["elevator", "generator", "security", "parking"],
-        images: [
-            { driveFileId: "1mideast", url: "assets/images/mideast-view1.png", caption: "Commercial Front View", isPrimary: true },
-            { driveFileId: "1mideast2", url: "assets/images/mideast-view2.png", caption: "Plaza Floor Plan & Elevation", isPrimary: false },
-            { driveFileId: "1int124", url: "assets/images/interior.png", caption: "Corporate Executive Suite", isPrimary: false }
-        ],
-        videos: [
-            { platform: "youtube", videoId: "dQw4w9WgXcQ", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", title: "Plaza Tour", type: "property_tour" }
-        ],
-        documents: [],
-        agentId: "user_001",
-        agentName: "Ali Khan",
-        agentPhone: "+923340091127",
-        description: `<h4>Prime Commercial Office Suite at 29 Mideast Plaza</h4>
-<p>Strategically situated in the vibrant hub of <strong>G-11 Markaz Islamabad</strong>, 29 Mideast Plaza is engineered for multinational corporations, software technology companies, and premier consultancy firms seeking a prestigious corporate address.</p>
-<h5>Commercial Highlights:</h5>
-<ul>
-    <li><strong>High-Speed Smart Elevators</strong> with biometric access control.</li>
-    <li><strong>24/7 Dedicated Power Backup</strong> via synchronized Caterpillar diesel generators.</li>
-    <li><strong>Central Fire Suppression System</strong> and 24/7 security guard control room.</li>
-    <li><strong>Underground Reserved Parking</strong> for executive staff and visitors.</li>
-</ul>
-<p>Available on flexible 3-year installment schedules with high forecasted rental yield (8-10% ROI annual).</p>`,
-        metaTitle: "Executive Office in 29 Mideast Plaza G-11 Islamabad",
-        metaDescription: "Premium office spaces in G-11 Markaz with flexible 3-year installment plans.",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        publishedAt: new Date().toISOString()
-    },
-    {
         id: "azan-arcade-bahria-apartment",
         title: "2 Bedroom Luxury Apartment in Azan Arcade",
         slug: "azan-arcade-bahria-apartment",
         type: "apartment",
         purpose: "sale",
         status: "published",
+        urgency: "super-hot",
+        isVerified: true,
+        agencyTier: "Titanium",
+        addedRelative: "2 hours ago (Updated: 15 mins ago)",
         city: "Islamabad",
-        area: "Bahria Town Islamabad",
+        area: "Bahria Enclave Islamabad",
         sector: "Sector C, Bahria Enclave",
         address: "Main Commercial Boulevard, Sector C",
         landmark: "Next to Civic Center",
@@ -310,11 +254,31 @@ const DEFAULT_PROPERTIES = [
         facing: "Corner",
         yearBuilt: 2024,
         parkingSpaces: 1,
-        amenities: ["elevator", "security", "gated"],
+        photoCount: 27,
+        amenities: ["elevator", "security", "gated", "generator"],
+        categorizedAmenities: {
+            mainFeatures: ["Elevator / Passenger Lift", "Double Glazed Soundproof Windows", "Central Heating & Cooling Ready", "24/7 Underground Power Backup", "Dedicated Gas Connection"],
+            rooms: ["2 Master Bedrooms with Attached Baths", "Designer Powder Room", "Open Concept American Kitchen", "Spacious Family Living Lounge", "Private Balcony with Hill View"],
+            business: ["High-Speed Optical Fiber Internet", "Intercom Facility to Lobby", "Satellite / Smart TV Cabling"],
+            community: ["Community Park & Walking Trail", "Civic Center Commercial Mall", "Gated Security & Access Gate"],
+            healthcare: ["First Aid Clinic on Premises", "Fitness & Yoga Center nearby"],
+            nearby: ["Roots Millennium School (3 mins)", "Shifa Medical Complex (8 mins)", "Commercial Banks & ATMs (2 mins)"],
+            facilities: ["Maintenance Staff on Call", "24/7 CCTV Surveillance", "Dedicated Covered Basement Parking"]
+        },
+        nearbyPOIs: [
+            { category: "Schools", name: "Roots Millennium School Enclave", distance: "3 mins" },
+            { category: "Hospitals", name: "Shifa International Clinic", distance: "5 mins" },
+            { category: "Shopping", name: "Civic Mall & Green Valley Store", distance: "2 mins" },
+            { category: "Restaurants", name: "Gloria Jean's & Tehzeeb Bakery", distance: "4 mins" },
+            { category: "Parks", name: "Bahria Enclave Music Theme Park", distance: "5 mins" },
+            { category: "Banks", name: "Meezan Bank & HBL Commercial Zone", distance: "2 mins" }
+        ],
         images: [
-            { driveFileId: "1azan", url: "assets/images/azan-arcade.png", caption: "Building Elevation", isPrimary: true },
+            { driveFileId: "1azan", url: "assets/images/azan-arcade.png", caption: "Building Elevation & Facade", isPrimary: true },
             { driveFileId: "1int125", url: "assets/images/interior.png", caption: "Modern Living & Dining Area", isPrimary: false },
-            { driveFileId: "1hero124", url: "assets/images/hero.png", caption: "Complex View", isPrimary: false }
+            { driveFileId: "1hero124", url: "assets/images/hero.png", caption: "Complex View & Surroundings", isPrimary: false },
+            { driveFileId: "1p1", url: "assets/images/bahria-villa.png", caption: "Balcony Scenic Outlook", isPrimary: false },
+            { driveFileId: "1p2", url: "assets/images/mideast-view1.png", caption: "Master Bedroom Suite", isPrimary: false }
         ],
         videos: [],
         documents: [],
@@ -336,6 +300,528 @@ const DEFAULT_PROPERTIES = [
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         publishedAt: new Date().toISOString()
+    },
+    {
+        id: "modern-villa-sector-c-bahria-enclave",
+        title: "5 Marla Ultra Modern Villa in Sector C",
+        slug: "modern-villa-sector-c-bahria-enclave",
+        type: "house",
+        purpose: "sale",
+        status: "published",
+        urgency: "hot",
+        isVerified: true,
+        agencyTier: "Titanium",
+        addedRelative: "4 hours ago (Updated: 1 hour ago)",
+        city: "Islamabad",
+        area: "Bahria Enclave Islamabad",
+        sector: "Sector C",
+        address: "Street 8, Sector C",
+        landmark: "Near Enclave Zoo",
+        coordinates: { lat: 33.6685, lng: 73.1950 },
+        price: 28500000,
+        currency: "PKR",
+        size: 5,
+        sizeUnit: "marla",
+        bedrooms: 4,
+        bathrooms: 5,
+        floors: 2,
+        facing: "North",
+        yearBuilt: 2024,
+        parkingSpaces: 2,
+        photoCount: 32,
+        amenities: ["security", "generator", "park", "gated"],
+        categorizedAmenities: {
+            mainFeatures: ["Built in 2024", "Spanish Porcelain Tile Flooring", "Solid Ash Wood Finish", "Solar Inverter Ready", "Dual Water Tank Supply"],
+            rooms: ["4 Ensuite Bedrooms", "Formal Drawing Room", "Dirty & Clean Kitchens", "Rooftop BBQ Pavilion"],
+            business: ["Broadband Fiber Optic", "Smart Video Door Bell", "CCTV Provision"],
+            community: ["Sector C Central Park (100m)", "Jamia Mosque nearby", "Gated Security Entry"],
+            healthcare: ["Enclave Hospital (5 mins)", "Walking Track"],
+            nearby: ["Beaconhouse School (4 mins)", "Commercial Market (2 mins)"],
+            facilities: ["2 Car Garage Porch", "Servant Room with Bath"]
+        },
+        nearbyPOIs: [
+            { category: "Parks", name: "Sector C Bird Sanctuary Park", distance: "2 mins" },
+            { category: "Schools", name: "Beaconhouse Enclave Campus", distance: "4 mins" },
+            { category: "Hospitals", name: "Bahria Enclave Hospital", distance: "5 mins" },
+            { category: "Shopping", name: "Sector C Commercial Avenue", distance: "2 mins" }
+        ],
+        images: [
+            { driveFileId: "1bvilla", url: "assets/images/bahria-villa.png", caption: "Contemporary Front Elevation", isPrimary: true },
+            { driveFileId: "1int123", url: "assets/images/interior.png", caption: "Designer Living Lounge", isPrimary: false },
+            { driveFileId: "1hero123", url: "assets/images/hero.png", caption: "Architectural Overview", isPrimary: false },
+            { driveFileId: "1emb", url: "assets/images/embassy.png", caption: "Master Bath & Wardrobe", isPrimary: false }
+        ],
+        videos: [
+            { platform: "youtube", videoId: "dQw4w9WgXcQ", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", title: "Villa Tour", type: "property_tour" }
+        ],
+        documents: [],
+        agentId: "user_002",
+        agentName: "Tanzil Minhas",
+        agentPhone: "+923340091127",
+        description: `<h4>Custom-Built 5 Marla Designer Villa in Bahria Enclave</h4>
+<p>Kaghan Properties is proud to present this architectural masterpiece located in the prime sector C of Bahria Enclave Islamabad. Features imported Spanish tiles, double-glazed glass windows, and high-end wooden woodwork.</p>
+<h5>Key Highlights:</h5>
+<ul>
+    <li>4 spacious ensuite bedrooms with custom wardrobes.</li>
+    <li>Dual modern kitchens with built-in appliances.</li>
+    <li>Rooftop barbeque deck with open views of Margalla hills.</li>
+    <li>24/7 underground electricity with zero load-shedding.</li>
+</ul>`,
+        metaTitle: "5 Marla Modern Villa in Bahria Enclave Islamabad",
+        metaDescription: "Brand new 5 Marla luxury house for sale in Bahria Enclave Sector C Islamabad.",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+    {
+        id: "pine-valley-resort-suites-project",
+        title: "Pine Valley Serviced Resort Suites & Chalets",
+        slug: "pine-valley-resort-suites-project",
+        type: "apartment",
+        purpose: "sale",
+        status: "published",
+        isNewProject: true,
+        urgency: "super-hot",
+        isVerified: true,
+        agencyTier: "Titanium",
+        addedRelative: "Just Now",
+        city: "Nathia Gali",
+        area: "Nathia Gali",
+        sector: "Pine Valley Ridge",
+        address: "Governor House Ridge Road, Nathia Gali",
+        landmark: "Near Pine Top Hotel & Mukshpuri Base",
+        coordinates: { lat: 34.0664, lng: 73.3758 },
+        price: 9500000,
+        currency: "PKR",
+        size: 3,
+        sizeUnit: "marla",
+        bedrooms: 2,
+        bathrooms: 2,
+        floors: 4,
+        facing: "Scenic Valley",
+        yearBuilt: 2025,
+        parkingSpaces: 1,
+        photoCount: 40,
+        amenities: ["security", "generator", "park", "elevator"],
+        projectUnits: [
+            { type: "Studio Alpine Suite", priceRange: "PKR 95 Lakh - 1.15 Crore", sizeRange: "425 - 550 Sq Ft" },
+            { type: "1-Bed Executive Chalet", priceRange: "PKR 1.45 - 1.75 Crore", sizeRange: "720 - 900 Sq Ft" },
+            { type: "2-Bed Duplex Penthouse", priceRange: "PKR 2.40 - 2.95 Crore", sizeRange: "1,250 - 1,600 Sq Ft" }
+        ],
+        categorizedAmenities: {
+            mainFeatures: ["Hotel Managed Stays", "Central Water Heating & Fireplace", "Panoramic Snow Valley Views", "Elevator Access to All Floors"],
+            rooms: ["Serviced Luxury Bedrooms", "Kitchenette with Appliances", "Glass Framed Balcony"],
+            business: ["High Speed Satellite WiFi", "Business Center & Lounge"],
+            community: ["Bonfire Deck & Barbeque Terrace", "Indoor Games Room", "Kids Activity Zone"],
+            healthcare: ["First Aid & Paramedic Facility"],
+            nearby: ["Mukshpuri Hiking Track (5 mins)", "Mall Road Nathia Gali (4 mins)"],
+            facilities: ["24/7 Front Desk Concierge", "Valet Parking", "Housekeeping & Room Service"]
+        },
+        nearbyPOIs: [
+            { category: "Parks", name: "Ayubia National Park", distance: "12 mins" },
+            { category: "Restaurants", name: "Sweet Tooth & Pine Cafe", distance: "4 mins" },
+            { category: "Shopping", name: "Nathia Gali Bazaar", distance: "5 mins" }
+        ],
+        images: [
+            { driveFileId: "1pv1", url: "assets/images/parkview.png", caption: "Pine Valley Resort Architectural Render", isPrimary: true },
+            { driveFileId: "1pv2", url: "assets/images/interior.png", caption: "Fireplace Living Room & Balcony", isPrimary: false },
+            { driveFileId: "1pv3", url: "assets/images/mideast-view2.png", caption: "Mountain Ridge View", isPrimary: false }
+        ],
+        videos: [],
+        documents: [],
+        agentId: "user_002",
+        agentName: "Tanzil Minhas",
+        agentPhone: "+923340091127",
+        description: `<h4>Pine Valley Serviced Resort Suites Nathia Gali</h4>
+<p>An exceptional alpine development managed exclusively by Kaghan Properties. Offering guaranteed seasonal rental income, 24/7 hospitality care, and high capital appreciation nestled in Nathia Gali's pristine pine hills.</p>
+<h5>Investment Highlights:</h5>
+<ul>
+    <li>Quarterly profit distribution for short-stay tourism.</li>
+    <li>Complimentary owner stay vouchers (30 days/year).</li>
+    <li>3-year easy installment plan with 25% down payment.</li>
+</ul>`,
+        metaTitle: "Pine Valley Resort Suites & Chalets in Nathia Gali",
+        metaDescription: "Pre-launch hotel suites and serviced chalets for sale in Nathia Gali.",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+    {
+        id: "kaghan-vault-commercial-project",
+        title: "The Kaghan Vault & Corporate Tower",
+        slug: "kaghan-vault-commercial-project",
+        type: "commercial",
+        purpose: "sale",
+        status: "published",
+        isNewProject: true,
+        urgency: "super-hot",
+        isVerified: true,
+        agencyTier: "Titanium",
+        addedRelative: "Flagship Tower",
+        city: "Islamabad",
+        area: "Blue Area",
+        sector: "Jinnah Avenue Commercial Corridor",
+        address: "Plot 14-B, Jinnah Avenue, Blue Area, Islamabad",
+        landmark: "Facing Centaurus Mall & Metro Station",
+        coordinates: { lat: 33.7088, lng: 73.0566 },
+        price: 42100000,
+        priceRangeStr: "PKR 4.21 Crore to 7.24 Crore",
+        currency: "PKR",
+        size: 4,
+        sizeUnit: "marla",
+        bedrooms: 0,
+        bathrooms: 4,
+        floors: 32,
+        facing: "Main Boulevard",
+        yearBuilt: 2026,
+        parkingSpaces: 4,
+        photoCount: 35,
+        amenities: ["security", "generator", "elevator", "parking"],
+        projectUnits: [
+            { type: "Retail Ground Floor Shops", priceRange: "PKR 5.20 - 7.24 Crore", sizeRange: "4.1 - 5.8 Marla (920 - 1,300 Sq Ft)", category: "Shops", descriptor: "High-visibility ground floor retail frontage with 18ft double-height ceiling and boulevard drop-off." },
+            { type: "Retail First Floor Outlets", priceRange: "PKR 4.21 - 5.80 Crore", sizeRange: "3.05 - 4.9 Marla (680 - 1,100 Sq Ft)", category: "Shops", descriptor: "Fashion, jewelry, and luxury boutique retail outlets facing atrium escalators." },
+            { type: "Corporate Executive Offices", priceRange: "PKR 3.80 - 6.10 Crore", sizeRange: "3.5 - 6.2 Marla (800 - 1,400 Sq Ft)", category: "Offices", descriptor: "Grade-A LEED certified corporate suites with fiber optic backbone and centralized HVAC." },
+            { type: "Sky Business Suites", priceRange: "PKR 2.95 - 4.50 Crore", sizeRange: "2.8 - 4.2 Marla (630 - 950 Sq Ft)", category: "Commercial", descriptor: "Consulting and tech firm executive office spaces with Margalla hills vistas." },
+            { type: "Luxury Penthouses & Lofts", priceRange: "PKR 6.50 - 9.80 Crore", sizeRange: "8.0 - 12.5 Marla (1,800 - 2,800 Sq Ft)", category: "Flats", descriptor: "Ultra-luxury executive residences on levels 28-32 with private express elevators." }
+        ],
+        categorizedAmenities: {
+            mainFeatures: ["32-Storey Landmark Tower", "High-Speed Mitsubishi Destination Elevators", "4-Level Underground Dedicated Parking", "Double-Glazed Low-E Glass Facade"],
+            rooms: ["Double Height Reception Atrium", "Executive Boardrooms", "Panoramic Terrace Balconies"],
+            business: ["Redundant Gigabit Fiber Optic Backbone", "Tier-3 On-Site Server Rooms", "Conference Arcades"],
+            community: ["Rooftop Helipad & Executive Club", "Fine Dining Restaurants", "Gymnasium & Health Club"],
+            healthcare: ["On-Call Paramedic Emergency Station", "First-Aid Dispensary"],
+            nearby: ["Centaurus Mall (2 mins)", "Blue Area Metro Station (1 min)", "Stock Exchange (3 mins)"],
+            facilities: ["24/7 Central CCTV & Armed Guards", "Smart BMS Automation", "Dedicated Freight & Service Lifts"]
+        },
+        nearbyPOIs: [
+            { category: "Attractions", name: "Centaurus Mall & Cineplex", distance: "2 mins walk" },
+            { category: "Restaurants", name: "Beverly Center Gourmet Strip", distance: "3 mins drive" },
+            { category: "Hospitals", name: "Kulsum International Hospital", distance: "4 mins drive" },
+            { category: "Schools", name: "Islamabad Model College F-7/2", distance: "5 mins drive" }
+        ],
+        images: [
+            { driveFileId: "kv1", url: "assets/images/mideast-view2.png", caption: "The Kaghan Vault Corporate Tower Architectural Elevation", isPrimary: true },
+            { driveFileId: "kv2", url: "assets/images/azan-arcade.png", caption: "Ground Floor Commercial Promenade & Grand Atrium", isPrimary: false },
+            { driveFileId: "kv3", url: "assets/images/interior.png", caption: "Executive Boardroom & Corporate Suite Interior", isPrimary: false },
+            { driveFileId: "kv4", url: "assets/images/parkview.png", caption: "Jinnah Avenue Sky High Horizon View", isPrimary: false }
+        ],
+        videos: [],
+        documents: [],
+        agentId: "user_001",
+        agentName: "Mubashir Arham",
+        agentPhone: "+923340091127",
+        description: `<h4>The Kaghan Vault: Rise Above the Rest</h4>
+<p>An iconic 32-storey mixed-use corporate and luxury commercial tower located at the epicenter of Islamabad's financial district on Jinnah Avenue, Blue Area. Designed for elite retailers, multinational corporations, and discerning property investors seeking capital growth and commercial yields.</p>`,
+        metaTitle: "The Kaghan Vault & Corporate Tower Blue Area Islamabad",
+        metaDescription: "Retail shops, corporate offices, and luxury executive suites in Blue Area Islamabad.",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+    {
+        id: "designer-villa-overseas-block-park-view-city",
+        title: "10 Marla Luxury Designer Villa in Overseas Block",
+        slug: "designer-villa-overseas-block-park-view-city",
+        type: "house",
+        purpose: "sale",
+        status: "published",
+        urgency: "super-hot",
+        isVerified: true,
+        agencyTier: "Titanium",
+        addedRelative: "6 hours ago",
+        city: "Islamabad",
+        area: "Park View City",
+        sector: "Overseas Block",
+        address: "Boulevard 4, Overseas Block",
+        landmark: "Overlooking Downtown Commercial",
+        coordinates: { lat: 33.7058, lng: 73.1812 },
+        price: 48000000,
+        currency: "PKR",
+        size: 10,
+        sizeUnit: "marla",
+        bedrooms: 5,
+        bathrooms: 6,
+        floors: 2,
+        facing: "East",
+        yearBuilt: 2024,
+        parkingSpaces: 3,
+        photoCount: 29,
+        amenities: ["security", "park", "gated", "generator"],
+        categorizedAmenities: {
+            mainFeatures: ["Double Height Ceilings", "Turkish Travertine Stone Walls", "Smart Climate Control", "Imported Kitchen with Island"],
+            rooms: ["5 Master Bedroom Suites", "Double Height Grand Drawing Room", "Executive Dining Hall", "Media & Entertainment Room"],
+            business: ["Fiber Internet", "Smart Home Touch Panels"],
+            community: ["Downtown Dancing Fountains (3 mins)", "Botanical Gardens", "Gated Security Guard"],
+            healthcare: ["National Hospital Park View (4 mins)"],
+            nearby: ["Park View City Commercial Hub (2 mins)", "British School (5 mins)"],
+            facilities: ["3 Car Covered Porch", "2 Servant Quarters"]
+        },
+        nearbyPOIs: [
+            { category: "Shopping", name: "Downtown Park View Commercial", distance: "2 mins" },
+            { category: "Parks", name: "Park View Lake & Fountains", distance: "3 mins" },
+            { category: "Schools", name: "Choueifat International School", distance: "6 mins" }
+        ],
+        images: [
+            { driveFileId: "1pvc1", url: "assets/images/hero.png", caption: "Grand Front Elevation", isPrimary: true },
+            { driveFileId: "1pvc2", url: "assets/images/interior.png", caption: "Double Height Living Area", isPrimary: false },
+            { driveFileId: "1pvc3", url: "assets/images/bahria-villa.png", caption: "Front Lawn & Porch", isPrimary: false }
+        ],
+        videos: [],
+        documents: [],
+        agentId: "user_002",
+        agentName: "Tanzil Minhas",
+        agentPhone: "+923340091127",
+        description: `<h4>10 Marla Executive Villa in Overseas Block, Park View City</h4>
+<p>Positioned in the highly sought-after Overseas Block of Park View City Islamabad, this 10 Marla residence offers elevated luxury, panoramic Margalla views, and direct access to Downtown Commercial and dancing fountains.</p>
+<h5>Features & Finishes:</h5>
+<ul>
+    <li>5 Executive bedroom suites with Italian vanity fittings.</li>
+    <li>Double-height formal lounge with crystal chandelier.</li>
+    <li>Imported Turkish porcelain tiles throughout.</li>
+    <li>Solid ash wood doors and German kitchen fittings.</li>
+</ul>`,
+        metaTitle: "10 Marla Luxury Villa in Park View City Islamabad",
+        metaDescription: "Brand new 10 Marla house for sale in Overseas Block Park View City Islamabad.",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+    {
+        id: "1-kanal-architectural-house-park-enclave",
+        title: "1 Kanal Signature Residence in Park Enclave",
+        slug: "1-kanal-architectural-house-park-enclave",
+        type: "house",
+        purpose: "sale",
+        status: "published",
+        urgency: "hot",
+        isVerified: true,
+        agencyTier: "Titanium",
+        addedRelative: "1 day ago",
+        city: "Islamabad",
+        area: "Park Enclave",
+        sector: "Phase 1",
+        address: "Street 14, Phase 1",
+        landmark: "Near Central Lake Park",
+        coordinates: { lat: 33.6922, lng: 73.1415 },
+        price: 92000000,
+        currency: "PKR",
+        size: 20,
+        sizeUnit: "marla",
+        bedrooms: 5,
+        bathrooms: 6,
+        floors: 2,
+        facing: "North-East",
+        yearBuilt: 2024,
+        parkingSpaces: 4,
+        photoCount: 35,
+        amenities: ["security", "elevator", "park", "gated"],
+        categorizedAmenities: {
+            mainFeatures: ["Private Elevator", "Swimming Plunge Pool", "Full Smart Home Automation", "Solar Power Grid 15KW"],
+            rooms: ["5 Sprawling Suites", "Formal & Informal Lounges", "Study Room / Home Library", "2 Kitchens (Show & Dirty)"],
+            business: ["Cat6 Network Wiring", "Video Surveillance 16 Channel"],
+            community: ["CDA Central Lake Park (100m)", "Underground Electrification"],
+            healthcare: ["Chatha Hospital Park Road (6 mins)"],
+            nearby: ["Islamabad Club (8 mins)", "Serena Hotel (12 mins)"],
+            facilities: ["4 Car Porch", "Dual Guard Room with Bath"]
+        },
+        nearbyPOIs: [
+            { category: "Parks", name: "Park Enclave Central Park & Lake", distance: "2 mins" },
+            { category: "Restaurants", name: "Park Road Food Valley", distance: "4 mins" },
+            { category: "Hospitals", name: "NIH & Chatha Hospital", distance: "6 mins" }
+        ],
+        images: [
+            { driveFileId: "1pe1", url: "assets/images/embassy.png", caption: "Modern Front Façade", isPrimary: true },
+            { driveFileId: "1pe2", url: "assets/images/interior.png", caption: "Minimalist Master Lounge", isPrimary: false },
+            { driveFileId: "1pe3", url: "assets/images/bahria-villa.png", caption: "Rear Garden & Patio", isPrimary: false }
+        ],
+        videos: [],
+        documents: [],
+        agentId: "user_001",
+        agentName: "Ali Khan",
+        agentPhone: "+923340091127",
+        description: `<h4>1 Kanal Masterpiece in CDA Park Enclave Islamabad</h4>
+<p>Located in CDA's flagship gated scheme 'Park Enclave' on Park Road. Designed with clean architectural lines, open garden courtyards, smart home automation, and energy-efficient double glazing.</p>
+<h5>Property Highlights:</h5>
+<ul>
+    <li>5 sprawling bedrooms with walk-in dressing rooms and spa baths.</li>
+    <li>Swimming plunge pool and landscaped side lawn.</li>
+    <li>Fully automated smart home lighting, climate, and security.</li>
+    <li>100% CDA transferred clear title property.</li>
+</ul>`,
+        metaTitle: "1 Kanal Signature House in Park Enclave Islamabad",
+        metaDescription: "Luxury 1 Kanal residence for sale in CDA Park Enclave Islamabad.",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+    {
+        id: "contemporary-residence-margalla-enclave",
+        title: "8 Marla Modern Mountain View House in Margalla Enclave",
+        slug: "contemporary-residence-margalla-enclave",
+        type: "house",
+        purpose: "sale",
+        status: "published",
+        urgency: "hot",
+        isVerified: true,
+        agencyTier: "Titanium",
+        addedRelative: "2 days ago",
+        city: "Islamabad",
+        area: "Margalla Enclave",
+        sector: "Main Boulevard",
+        address: "Plot 42, Main Boulevard",
+        landmark: "Direct Margalla Avenue Access",
+        coordinates: { lat: 33.7250, lng: 72.9680 },
+        price: 39500000,
+        currency: "PKR",
+        size: 8,
+        sizeUnit: "marla",
+        bedrooms: 4,
+        bathrooms: 5,
+        floors: 2,
+        facing: "North",
+        yearBuilt: 2024,
+        parkingSpaces: 2,
+        photoCount: 22,
+        amenities: ["security", "generator", "park", "gated"],
+        categorizedAmenities: {
+            mainFeatures: ["Mountain View Terraces", "A-Grade Construction Warranty", "Double Glazed Windows"],
+            rooms: ["4 Master Bedrooms", "Spacious Hall", "Custom Italian Wardrobes"],
+            business: ["Fiber Internet Ready"],
+            community: ["Margalla Hiking Trail Entry", "Gated Security"],
+            nearby: ["Sector D-12 & E-11 (5 mins)", "Margalla Avenue Express Access (1 min)"],
+            facilities: ["2 Car Garage", "Water Bore & Storage Tanks"]
+        },
+        nearbyPOIs: [
+            { category: "Parks", name: "Margalla Foothills Park", distance: "1 min" },
+            { category: "Shopping", name: "D-12 Markaz Commercial", distance: "4 mins" }
+        ],
+        images: [
+            { driveFileId: "1me1", url: "assets/images/bahria-villa.png", caption: "Mountain Front Elevation", isPrimary: true },
+            { driveFileId: "1me2", url: "assets/images/interior.png", caption: "Formal Dining & Drawing", isPrimary: false }
+        ],
+        videos: [],
+        documents: [],
+        agentId: "user_002",
+        agentName: "Tanzil Minhas",
+        agentPhone: "+923340091127",
+        description: `<h4>8 Marla Contemporary Residence in Margalla Enclave</h4>
+<p>Savor pristine mountain air and direct connection to Margalla Avenue. This newly finished 8 Marla designer house features bespoke architectural woodwork, open-plan spaces, and private balcony vistas.</p>`,
+        metaTitle: "8 Marla Modern Mountain View House in Margalla Enclave",
+        metaDescription: "Brand new 8 Marla house for sale in Margalla Enclave Islamabad.",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+    {
+        id: "agro-luxury-farmhouse-margalla-orchards",
+        title: "4 Kanal Agro-Luxury Farmhouse Estate in Margalla Orchards",
+        slug: "agro-luxury-farmhouse-margalla-orchards",
+        type: "house",
+        purpose: "sale",
+        status: "published",
+        urgency: "hot",
+        isVerified: true,
+        agencyTier: "Titanium",
+        addedRelative: "3 days ago",
+        city: "Islamabad",
+        area: "Margalla Orchards",
+        sector: "Phase 1 Farmhouses",
+        address: "Farm 12, Valley Road",
+        landmark: "Surrounded by Margalla Hills",
+        coordinates: { lat: 33.7550, lng: 73.0450 },
+        price: 145000000,
+        currency: "PKR",
+        size: 80,
+        sizeUnit: "marla",
+        bedrooms: 6,
+        bathrooms: 7,
+        floors: 2,
+        facing: "North-West",
+        yearBuilt: 2024,
+        parkingSpaces: 6,
+        photoCount: 38,
+        amenities: ["security", "generator", "park", "gated"],
+        categorizedAmenities: {
+            mainFeatures: ["Private Organic Fruit Orchard", "Fresh Mountain Spring Bore", "Infinity Lawn Deck", "Solar Power Station 30KW"],
+            rooms: ["6 Sprawling Suites with Panoramic Glass", "Formal Banquet Hall", "Chef's Kitchen", "Outdoor Patio"],
+            community: ["Gated Agro Community", "Horse Riding Track"],
+            facilities: ["Staff Quarters (3 Rooms)", "Security Watchtower"]
+        },
+        nearbyPOIs: [
+            { category: "Parks", name: "Margalla Ridge Reserve", distance: "2 mins" },
+            { category: "Shopping", name: "Sector E-11 Markaz", distance: "14 mins" }
+        ],
+        images: [
+            { driveFileId: "1mo1", url: "assets/images/hero.png", caption: "Estate Exterior & Grounds", isPrimary: true },
+            { driveFileId: "1mo2", url: "assets/images/interior.png", caption: "Banquet Hall & Lounges", isPrimary: false }
+        ],
+        videos: [],
+        documents: [],
+        agentId: "user_001",
+        agentName: "Ali Khan",
+        agentPhone: "+923340091127",
+        description: `<h4>4 Kanal Agro Farmhouse Estate in Margalla Orchards</h4>
+<p>An exceptional countryside retreat in Islamabad featuring organic citrus orchards, fresh mountain spring water supply, private infinity lawn, and contemporary living spaces.</p>`,
+        metaTitle: "4 Kanal Luxury Farmhouse in Margalla Orchards Islamabad",
+        metaDescription: "Luxury agro farmhouse for sale in Margalla Orchards Islamabad.",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+    {
+        id: "mountain-view-suite-murree-hills",
+        title: "Panoramic 2-Bed Serviced Suite in Murree Hills",
+        slug: "mountain-view-suite-murree-hills",
+        type: "apartment",
+        purpose: "sale",
+        status: "published",
+        urgency: "hot",
+        isVerified: true,
+        agencyTier: "Titanium",
+        addedRelative: "4 days ago",
+        city: "Murree",
+        area: "Murree",
+        sector: "Bhurban / Patriata Corridor",
+        address: "Suite 402, Pine Crest Heights",
+        landmark: "Near PC Bhurban",
+        coordinates: { lat: 33.9070, lng: 73.3907 },
+        price: 16500000,
+        currency: "PKR",
+        size: 4,
+        sizeUnit: "marla",
+        bedrooms: 2,
+        bathrooms: 2,
+        floors: 1,
+        facing: "East",
+        yearBuilt: 2024,
+        parkingSpaces: 1,
+        photoCount: 26,
+        amenities: ["elevator", "security", "generator"],
+        categorizedAmenities: {
+            mainFeatures: ["Double Glazed Pine Valley View", "Central Radiator Heating", "Full Hotel Rental Pool"],
+            rooms: ["2 Ensuite Bedrooms", "Dining Nook", "Open Kitchenette"],
+            facilities: ["Heated Water Supply", "24/7 Security & Concierge"]
+        },
+        nearbyPOIs: [
+            { category: "Parks", name: "PC Bhurban Golf Course", distance: "4 mins" },
+            { category: "Restaurants", name: "Bhurban Valley Terrace", distance: "3 mins" }
+        ],
+        images: [
+            { driveFileId: "1mur1", url: "assets/images/mideast-view1.png", caption: "Pine Valley Panoramic View", isPrimary: true },
+            { driveFileId: "1mur2", url: "assets/images/interior.png", caption: "Warm Alpine Interior", isPrimary: false }
+        ],
+        videos: [],
+        documents: [],
+        agentId: "user_002",
+        agentName: "Tanzil Minhas",
+        agentPhone: "+923340091127",
+        description: `<h4>2-Bedroom Luxury Vacation Suite in Murree</h4>
+<p>Experience alpine serenity with high rental yields. Fully furnished with central heating, private pine-facing balcony, and dedicated hospitality management by Kaghan Properties.</p>`,
+        metaTitle: "2 Bedroom Vacation Suite in Murree Hills",
+        metaDescription: "Serviced apartment for sale in Murree Hills with guaranteed seasonal rental returns.",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
     }
 ];
 
@@ -348,7 +834,7 @@ const DEFAULT_USERS = [
         phone: "+923340091127",
         role: "admin",
         photoUrl: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80",
-        specializedAreas: ["DHA Islamabad", "Bahria Town", "CDA Sector G-11"],
+        specializedAreas: ["Bahria Enclave Islamabad", "Park Enclave", "Margalla Orchards"],
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -361,7 +847,7 @@ const DEFAULT_USERS = [
         phone: "+923340091127",
         role: "agent",
         photoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
-        specializedAreas: ["Bahria Enclave", "Nathia Gali"],
+        specializedAreas: ["Bahria Enclave Islamabad", "Park View City", "Margalla Enclave", "Murree", "Nathia Gali"],
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -386,7 +872,7 @@ const DEFAULT_SITE_SETTINGS = {
     },
     seoDefaults: {
         defaultMetaTitleTemplate: "{pageTitle} – Kaghan Properties",
-        defaultMetaDescription: "Find trusted property listings in Islamabad and Kaghan Valley with Kaghan Properties."
+        defaultMetaDescription: "Find trusted property listings in Islamabad, Murree, and Nathia Gali with Kaghan Properties."
     },
     features: {
         showBlog: true,
@@ -412,16 +898,16 @@ let localStore = {
     blogPosts: [
         {
             id: "market-update-2026",
-            title: "Islamabad Property Market Update 2026",
+            title: "Islamabad & Galyat Property Market Update 2026",
             slug: "islamabad-property-market-update-2026",
-            content: "<p>The Islamabad real estate sector is witnessing substantial momentum across DHA Phase 2, Bahria Enclave, and CDA Sector G-11. Investors are focusing on high-yield commercial outlets and turnkey residential homes.</p>",
-            excerpt: "Key investment insights and high-demand sectors in Islamabad for 2026.",
+            content: "<p>The capital real estate sector is witnessing substantial momentum across Bahria Enclave, Park View City, Margalla Enclave, and Park Enclave. Concurrently, vacation retreats and serviced suites in Murree and Nathia Gali continue to yield record-high tourist rental returns.</p>",
+            excerpt: "Key investment insights and high-demand sectors in Islamabad, Murree, and Nathia Gali for 2026.",
             featuredImage: { driveFileId: "", url: "assets/images/mideast-view1.png" },
             category: "market_update",
             authorId: "user_001",
             authorName: "Ali Khan",
-            metaTitle: "Islamabad Real Estate Market Trends 2026",
-            metaDescription: "In-depth analysis of Islamabad real estate demand and capital growth projections.",
+            metaTitle: "Islamabad, Murree & Nathia Gali Market Trends 2026",
+            metaDescription: "In-depth analysis of Bahria Enclave, Park View City, Margalla Enclave, Murree, and Nathia Gali real estate demand.",
             status: "published",
             publishedAt: new Date().toISOString(),
             createdAt: new Date().toISOString(),
@@ -441,25 +927,31 @@ async function seedFirestoreIfNeeded() {
             await settingsRef.set({ doc: 'main', ...DEFAULT_SITE_SETTINGS });
         }
         
-        // Check societies
+        // Sync curated societies and remove obsolete societies if present
         const socRef = getSubcollectionRef('societies');
         if (socRef) {
-            const sSnap = await socRef.limit(1).get();
-            if (sSnap.empty) {
-                for (const s of DEFAULT_SOCIETIES) {
-                    await socRef.doc(s.id).set(s);
-                }
+            const obsoleteSocieties = ["dha-islamabad", "bahria-town-islamabad", "g11-sector-islamabad", "nathia-gali-kaghan"];
+            for (const obsId of obsoleteSocieties) {
+                try {
+                    await socRef.doc(obsId).delete();
+                } catch (err) {}
+            }
+            for (const s of DEFAULT_SOCIETIES) {
+                await socRef.doc(s.id).set(s, { merge: true });
             }
         }
 
-        // Check properties
+        // Sync properties and remove obsolete properties if present
         const propRef = getSubcollectionRef('properties');
         if (propRef) {
-            const pSnap = await propRef.limit(1).get();
-            if (pSnap.empty) {
-                for (const p of DEFAULT_PROPERTIES) {
-                    await propRef.doc(p.id).set(p);
-                }
+            const obsoleteProps = ["islamabad-dha-phase2-house-123", "mideast-plaza-g11-commercial-office"];
+            for (const obsId of obsoleteProps) {
+                try {
+                    await propRef.doc(obsId).delete();
+                } catch (err) {}
+            }
+            for (const p of DEFAULT_PROPERTIES) {
+                await propRef.doc(p.id).set(p, { merge: true });
             }
         }
 
@@ -487,6 +979,23 @@ window.KaghanDB = {
     extractYouTubeId,
     uploadImageToCloudinary: window.CloudinaryService.uploadImage,
     cloudinary: window.CloudinaryService,
+
+    formatPriceWithMagnitude: (priceInPKR) => {
+        if (window.KaghanSharedUI && window.KaghanSharedUI.formatPrice) {
+            return window.KaghanSharedUI.formatPrice(priceInPKR);
+        }
+        if (!priceInPKR) return 'Call for Price';
+        if (priceInPKR >= 10000000) return `PKR ${(priceInPKR / 10000000).toFixed(2)} Crore`;
+        if (priceInPKR >= 100000) return `PKR ${(priceInPKR / 100000).toFixed(2)} Lakh`;
+        return `PKR ${priceInPKR.toLocaleString()}`;
+    },
+
+    convertAreaUnit: (marla) => {
+        if (window.KaghanSharedUI && window.KaghanSharedUI.formatArea) {
+            return window.KaghanSharedUI.formatArea(marla);
+        }
+        return `${marla} Marla`;
+    },
 
     // Site Settings API
     getSiteSettings: async () => {

@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pine Valley Serviced Resort Suites & Chalets | New Project by Kaghan Properties</title>
+    <meta name="description" content="Discover Pine Valley Serviced Resort Suites & Chalets in Nathia Gali. A luxury alpine mixed-use development featuring studio suites, chalets, duplex penthouses, and retail promenade on 36-month flexible payment plans.">
+    <meta name="keywords" content="Pine Valley Nathia Gali, New Projects Islamabad, Serviced Suites Galyat, Murree Apartments for Sale, Luxury Chalets Pakistan, Real Estate Investments">
+    <meta name="author" content="Kaghan Properties">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#077943">
+    <link rel="canonical" href="https://kaghanproperties.com/project-detail.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Pine Valley Serviced Resort Suites & Chalets | Kaghan Properties">
+    <meta property="og:description" content="Pre-launch serviced luxury chalets and suites in Nathia Gali with 12-16% annual net rental yields and 36-month installment plans.">
+    <meta property="og:image" content="https://kaghanproperties.com/assets/images/parkview.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
+
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS (for grid & utility layout) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#e8f5ed',
+                            600: '#077943',
+                            700: '#055e34',
+                            800: '#044827'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Token Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <!-- App Data Store & Shared UI Engine -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/shared.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Header (Dynamic Shared Two-Tier Navigation) -->
+    <div id="site-header"></div>
+
+    <!-- ==========================================================================
+         BREADCRUMBS ROW (§2)
+         Zameen → New Projects → City → Project Name
+         ========================================================================== -->
+    <div class="bg-white border-b border-slate-200/80 py-3">
+        <div class="market-container">
+            <nav class="flex items-center text-xs text-slate-600 font-bold overflow-x-auto whitespace-nowrap">
+                <a href="index.html" class="hover:text-emerald-700 hover:underline flex items-center gap-1.5 font-bold transition-all">
+                    <i class="fa-solid fa-house text-[11px] text-emerald-600"></i> Kaghan Properties
+                </a>
+                <span class="mx-2.5 text-slate-300 font-normal">/</span>
+                <a href="projects.html?isNewProject=true" class="hover:text-emerald-700 hover:underline font-bold transition-all">New Projects</a>
+                <span class="mx-2.5 text-slate-300 font-normal">/</span>
+                <a href="projects.html" id="breadcrumb-city-link" class="hover:text-emerald-700 hover:underline font-bold transition-all"><span id="breadcrumb-city" class="text-slate-700 font-bold hover:text-emerald-700">Nathia Gali</span></a>
+                <span class="mx-2.5 text-slate-300 font-normal">/</span>
+                <span id="breadcrumb-title" class="text-emerald-800 font-black truncate">Pine Valley Resort Suites & Chalets</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         HERO / IDENTITY BLOCK (§3)
+         Project Logo, H1, Location, Price Range, Share Row, Media Badges, Gallery
+         ========================================================================== -->
+    <header class="bg-white border-b border-slate-200/90 pt-8 pb-10">
+        <div class="market-container space-y-6">
+            
+            <!-- Top Row: Project Brand Logo Crest, Title, Price Range & Share Tools -->
+            <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+                
+                <!-- Left: Project Wordmark & Identity -->
+                <div class="space-y-3 max-w-3xl">
+                    <div class="flex items-center gap-3">
+                        <!-- Project Distinct Brand Mark / Crest (§3) -->
+                        <div class="project-brand-badge flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-black text-lg shadow">
+                                <i id="project-brand-icon" class="fa-solid fa-mountain-sun"></i>
+                            </div>
+                            <div class="leading-none">
+                                <div id="project-brand-tagline" class="text-[9px] tracking-[0.25em] font-extrabold uppercase text-[#D4AF37]">Signature Alpine Living</div>
+                                <div id="project-brand-name" class="text-sm font-black tracking-wider text-white outfit uppercase">Pine Valley</div>
+                            </div>
+                        </div>
+
+                        <!-- Status Tags -->
+                        <span class="badge-premium-new text-[10px] px-2.5 py-1 rounded-full shadow-sm">
+                            <i class="fa-solid fa-sparkles mr-1"></i> Developer Launch
+                        </span>
+                        <span id="hero-noc-badge" class="badge-verified text-[10px] px-2.5 py-1 rounded-full">
+                            <i class="fa-solid fa-circle-check mr-1"></i> Approved NOC
+                        </span>
+                    </div>
+
+                    <!-- H1 — Project Name Only (§3) -->
+                    <h1 id="hero-project-title" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold outfit text-slate-900 leading-tight">
+                        Pine Valley Serviced Resort Suites & Chalets
+                    </h1>
+
+                    <!-- Location Subline (§3) -->
+                    <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 font-medium">
+                        <i class="fa-solid fa-location-dot text-emerald-600"></i>
+                        <span id="hero-project-location">Governor House Ridge Road, Nathia Gali, KPK • 7,200 ft Altitude</span>
+                        <span class="text-slate-300">•</span>
+                        <span class="text-emerald-700 font-bold">100% Land Clear</span>
+                    </div>
+                </div>
+
+                <!-- Right: Price Range & Utility Share Row -->
+                <div class="lg:text-right space-y-3 shrink-0">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-slate-400 tracking-wider block">Unit Price Range</span>
+                        <!-- Bold Oversized Price Range Line (§3, §15) -->
+                        <div id="hero-price-range" class="text-2xl sm:text-3xl lg:text-4xl font-black text-emerald-800 outfit tracking-tight">
+                            PKR 95 Lakh to 2.95 Crore
+                        </div>
+                        <div class="text-xs text-slate-500 font-semibold mt-0.5">
+                            Booking with 15% • 36 Monthly Installments
+                        </div>
+                    </div>
+
+                    <!-- Social Share & Utility Action Row (§3) -->
+                    <div class="flex items-center lg:justify-end gap-1.5 pt-1">
+                        <span class="text-[11px] text-slate-400 font-semibold mr-1">Share:</span>
+                        <a href="javascript:void(0)" onclick="shareProject('facebook')" title="Share on Facebook" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-blue-600 hover:text-white flex items-center justify-center text-slate-600 transition-colors text-xs">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="javascript:void(0)" onclick="shareProject('twitter')" title="Share on X" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-900 hover:text-white flex items-center justify-center text-slate-600 transition-colors text-xs">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <a href="javascript:void(0)" onclick="shareProject('whatsapp')" title="Share via WhatsApp" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-emerald-600 hover:text-white flex items-center justify-center text-slate-600 transition-colors text-xs">
+                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                        </a>
+                        <a href="javascript:void(0)" onclick="shareProject('email')" title="Email Project" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-rose-600 hover:text-white flex items-center justify-center text-slate-600 transition-colors text-xs">
+                            <i class="fa-solid fa-envelope text-xs"></i>
+                        </a>
+                        <button onclick="copyProjectLink()" title="Copy Link" id="copy-link-btn" class="px-2.5 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1 transition-colors">
+                            <i class="fa-solid fa-link text-[11px]"></i>
+                            <span id="copy-text">Copy Link</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Component: Photography + 3D Architectural Renders + Filmstrip (§3) -->
+            <div class="space-y-3">
+                <!-- Master Shot Render Viewport -->
+                <div class="relative h-[320px] sm:h-[440px] lg:h-[540px] rounded-2xl overflow-hidden bg-slate-950 group cursor-pointer" onclick="openLightbox(currentGalleryIndex)">
+                    <img id="primary-gallery-img" src="assets/images/parkview.png" alt="Pine Valley Architectural Render" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-slate-950/20"></div>
+
+                    <!-- Top Floating Pill Badges -->
+                    <div class="absolute top-4 left-4 flex flex-wrap items-center gap-2">
+                        <span class="px-3 py-1 rounded-lg bg-slate-950/80 backdrop-blur text-white text-xs font-bold border border-white/10 flex items-center gap-1.5 shadow">
+                            <i class="fa-solid fa-compass-drafting text-[#D4AF37]"></i> Masterplan Render
+                        </span>
+                        <span class="px-3 py-1 rounded-lg bg-emerald-700 text-white text-xs font-bold shadow">
+                            Handover: Q4 2026
+                        </span>
+                    </div>
+
+                    <!-- Bottom Bar: Media Counters & Map Toggle Button (§3) -->
+                    <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+                        <div class="text-white drop-shadow">
+                            <div id="gallery-caption" class="text-sm sm:text-base font-bold">Pine Valley Resort Architectural Elevation & Alpine Ridge</div>
+                            <div class="text-[11px] text-slate-300">Click anywhere to view high-resolution fullscreen gallery</div>
+                        </div>
+
+                        <div class="flex items-center gap-2 pointer-events-auto">
+                            <!-- Photos Counter Badge (§3) -->
+                            <span class="badge-photo-count text-xs py-1.5 px-3 rounded-xl">
+                                <i class="fa-solid fa-camera"></i> <span id="gallery-photo-count">28 Photos</span>
+                            </span>
+                            <!-- Plans Counter Badge (§3) -->
+                            <span class="badge-photo-count text-xs py-1.5 px-3 rounded-xl bg-indigo-900/80 text-white border-indigo-400/30">
+                                <i class="fa-solid fa-layer-group"></i> <span>14 Plans & Media</span>
+                            </span>
+                            <!-- Map Quick-Toggle Button (§3) -->
+                            <button onclick="event.stopPropagation(); scrollToSection('location');" class="bg-white/95 hover:bg-white text-slate-900 text-xs font-bold py-1.5 px-3.5 rounded-xl shadow-lg flex items-center gap-1.5 transition-all">
+                                <i class="fa-solid fa-map-location-dot text-emerald-700"></i> Map View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Horizontal Thumbnail Filmstrip with Active Ring (§3) -->
+                <div class="filmstrip-container" id="gallery-filmstrip">
+                    <!-- Dynamic Filmstrip Thumbnails Injected by JS -->
+                </div>
+
+                <!-- Marketed By Mini-Credit Under Gallery (§3) -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 border border-slate-200/80 p-3.5 rounded-xl text-xs">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-800 text-[#D4AF37] flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 text-[10px] uppercase font-bold block">Exclusive Marketing Partner</span>
+                            <span class="font-bold text-slate-800">Kaghan Properties Corporate Development Division</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 text-slate-600">
+                        <span class="flex items-center gap-1 text-emerald-700 font-bold"><i class="fa-solid fa-circle-check"></i> State Bank RDA Enrolled</span>
+                        <span class="text-slate-300">|</span>
+                        <a href="tel:+923340091127" class="font-bold text-slate-900 hover:text-emerald-700 flex items-center gap-1">
+                            <i class="fa-solid fa-phone text-[10px]"></i> +92 334 0091127
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+         STICKY IN-PAGE TAB BAR (§2)
+         Overview | Offered Properties | Features | Location | Floor Plans | Payment Plan | Marketed By
+         Sticky on scroll, horizontally swipeable on mobile, scroll-spy active state
+         ========================================================================== -->
+    <div id="project-sticky-nav" class="sticky-project-tabbar">
+        <div class="market-container">
+            <div class="project-tabs-scroll" id="project-nav-tabs">
+                <button onclick="scrollToSection('overview')" data-target="overview" class="project-tab-btn active">Overview</button>
+                <button onclick="scrollToSection('offered-properties')" data-target="offered-properties" class="project-tab-btn">Offered Properties</button>
+                <button onclick="scrollToSection('features')" data-target="features" class="project-tab-btn">Features & Amenities</button>
+                <button onclick="scrollToSection('location')" data-target="location" class="project-tab-btn">Location & Map</button>
+                <button onclick="scrollToSection('floor-plans')" data-target="floor-plans" class="project-tab-btn">Floor Plans</button>
+                <button onclick="scrollToSection('payment-plan')" data-target="payment-plan" class="project-tab-btn">Payment Plan</button>
+                <button onclick="scrollToSection('marketed-by')" data-target="marketed-by" class="project-tab-btn">Marketed By</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         MAIN CONTENT CONTAINER (Centered Column ~1100-1200px - §2)
+         ========================================================================== -->
+    <main class="market-container py-12 md:py-16 space-y-16 md:space-y-24">
+
+        <!-- ======================================================================
+             SECTION 1: OVERVIEW (§4)
+             4a. Offering-type summary strip
+             4b. Unit-type price/spec cards (repeating unit)
+             4c. Rich editorial description
+             ====================================================================== -->
+        <section id="overview" class="scroll-mt-28 space-y-8">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl md:text-3xl font-extrabold outfit text-slate-900 tracking-tight">
+                    Project Overview & Unit Inventory
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                    Master development specifications, unit configurations, and architectural vision for Pine Valley Resort Suites.
+                </p>
+            </div>
+
+            <!-- 4a. Offering-type summary strip (§4a) -->
+            <div class="space-y-2">
+                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Inventory Categories:</div>
+                <div class="flex items-center gap-2 overflow-x-auto pb-2" id="overview-category-chips">
+                    <button onclick="filterOverviewUnits('all')" class="category-chip-btn active" data-cat="all">All Inventory (5)</button>
+                    <button onclick="filterOverviewUnits('Studio Suites')" class="category-chip-btn" data-cat="Studio Suites">Studio Suites</button>
+                    <button onclick="filterOverviewUnits('1-Bed Chalets')" class="category-chip-btn" data-cat="1-Bed Chalets">1-Bed Chalets</button>
+                    <button onclick="filterOverviewUnits('2-Bed Luxury Suites')" class="category-chip-btn" data-cat="2-Bed Luxury Suites">2-Bed Luxury Suites</button>
+                    <button onclick="filterOverviewUnits('Duplex Penthouses')" class="category-chip-btn" data-cat="Duplex Penthouses">Duplex Penthouses</button>
+                    <button onclick="filterOverviewUnits('Commercial Shops')" class="category-chip-btn" data-cat="Commercial Shops">Retail Shops</button>
+                </div>
+            </div>
+
+            <!-- 4b. Unit-type price/spec cards (repeating compact 4-field stack - §4b) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="overview-unit-cards">
+                <!-- Injected via JavaScript from UNIT_INVENTORY_DATA -->
+            </div>
+
+            <!-- 4c. Rich Editorial Description (§4c, §15) -->
+            <div class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 space-y-8 shadow-sm">
+                
+                <!-- Sub-section 1: Rise Above the Rest -->
+                <div class="editorial-prose">
+                    <h3 class="editorial-lead-heading">
+                        <i class="fa-solid fa-crown text-[#D4AF37] text-base"></i>
+                        Pine Valley: Rise Above the Rest
+                    </h3>
+                    <p>
+                        Set against the dramatic ridgelines of the Hazara pine hills at an elevation of 7,200 feet, <strong>Pine Valley Serviced Resort Suites & Chalets</strong> represents a pioneering chapter in Pakistan's luxury alpine real estate. Master-planned by the Capital Consortium in direct partnership with Kaghan Properties, this multi-tier development unites five-star hospitality standards with high-yield vacation home ownership.
+                    </p>
+                    <ul class="editorial-bullets">
+                        <li><strong>Bespoke Alpine Architecture:</strong> Constructed utilizing thermal-insulated cellular concrete, aged Siberian pine timbers, and double-glazed low-emissivity glass curtain walls.</li>
+                        <li><strong>100% GDA Approved & Clear Title:</strong> Comprehensive municipal NOC approvals, debt-free land registry, and approved environmental impact ratings.</li>
+                        <li><strong>Escrow-Protected Construction:</strong> Project development milestones backed by institutional escrow reserve accounts for on-schedule handover.</li>
+                    </ul>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- Sub-section 2: Designed for Tomorrow -->
+                <div class="editorial-prose">
+                    <h3 class="editorial-lead-heading">
+                        <i class="fa-solid fa-leaf text-emerald-600 text-base"></i>
+                        Designed for Tomorrow
+                    </h3>
+                    <p>
+                        Every square foot of Pine Valley has been engineered to withstand sub-zero alpine winters while maintaining peerless interior warmth and minimal environmental impact. The complex integrates a central biomass hydronic radiant heating network, dual backup inverters, and rainwater collection aquifers that service all residential chalets without depleting local mountain water tables.
+                    </p>
+                    <ul class="editorial-bullets">
+                        <li><strong>Seismically Engineered RCC Frame:</strong> Zone-4 earthquake-resistant reinforced structural concrete designed to endure heavy snow loads up to 4 meters.</li>
+                        <li><strong>Smart Climate Automation:</strong> Individual Nest-compatible smart thermostats allow owners to pre-heat their suites remotely via mobile app prior to arrival.</li>
+                        <li><strong>Acoustic Decibel Isolation:</strong> Triple-layered drywall with rockwool sound insulation ensures total tranquility and mountain silence inside every master suite.</li>
+                    </ul>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- Sub-section 3: A Strategic Location -->
+                <div class="editorial-prose">
+                    <h3 class="editorial-lead-heading">
+                        <i class="fa-solid fa-route text-blue-600 text-base"></i>
+                        A Strategic Location
+                    </h3>
+                    <p>
+                        Positioned strategically on Governor House Ridge Road, Pine Valley offers direct private arterial connection to Nathia Gali's Mall Road while sitting insulated from highway tourist congestion. With the newly completed Hazara Motorway and expressway expansions, the journey from Islamabad has been compressed to just 75 scenic minutes.
+                    </p>
+                    <ul class="editorial-bullets">
+                        <li><strong>3-min drive</strong> to Governor House Nathia Gali and the historic British Colonial Church.</li>
+                        <li><strong>5-min walk</strong> to the world-renowned Mukshpuri Trekking Base Camp and alpine walking trails.</li>
+                        <li><strong>4-min drive</strong> to Nathia Gali Mall Road, Sweet Tooth, Tehzeeb Bakery, and boutique hillside dining.</li>
+                        <li><strong>12-min scenic drive</strong> to Ayubia National Park and the twin chairlift adventure resort.</li>
+                        <li><strong>75 minutes</strong> travel time from Islamabad Zero Point via the newly carpeted dual expressway.</li>
+                    </ul>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- Sub-section 4: Amenities That Define Premium -->
+                <div class="editorial-prose">
+                    <h3 class="editorial-lead-heading">
+                        <i class="fa-solid fa-spa text-purple-600 text-base"></i>
+                        Amenities That Define Premium
+                    </h3>
+                    <p>
+                        As an owner at Pine Valley, your residence operates as a full-service boutique alpine lodge. Whether arriving for a private winter retreat or leasing to international tourists, our 24/7 on-site hospitality desk handles every operational nuance.
+                    </p>
+                    <ul class="editorial-bullets">
+                        <li><strong>Heated Indoor Swimming Pool & Hydrotherapy Spa:</strong> Year-round temperature-controlled swimming with ceiling-to-floor panoramic snow vistas.</li>
+                        <li><strong>24/7 Hotel-Grade Concierge & Valet:</strong> Secure heated basement parking, bellhop assistance, daily linen changes, and on-demand room dining.</li>
+                        <li><strong>High-Speed Satellite Optical Fiber:</strong> Ultra-reliable gigabit internet connection throughout suites and executive work lounges.</li>
+                        <li><strong>Panoramic Fireplace Sky Lounge:</strong> Top-floor specialty steakhouse and cafe with open-air observation viewing decks.</li>
+                    </ul>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- Sub-section 5: An Investment That Grows With You -->
+                <div class="editorial-prose">
+                    <h3 class="editorial-lead-heading">
+                        <i class="fa-solid fa-chart-line-up text-emerald-700 text-base"></i>
+                        An Investment That Grows With You
+                    </h3>
+                    <p>
+                        Galyat's severe shortage of quality four-season serviced lodging has driven record rental yields for institutional developments. Pine Valley offers owners participation in our turnkey hotel rental management pool, turning your vacation chalet into an effortless quarterly passive revenue generator.
+                    </p>
+                    <ul class="editorial-bullets">
+                        <li><strong>12% to 16% Projected Net Annual Yield:</strong> Managed pooled rental returns distributed directly into owner bank accounts on a quarterly basis.</li>
+                        <li><strong>35% to 45% Capital Appreciation:</strong> Historically demonstrated value appreciation across Galyat mountain developments over a 36-month construction cycle.</li>
+                        <li><strong>30 Days Complimentary Stays:</strong> Annual luxury personal vacation stay entitlement for owners and their immediate families without management charges.</li>
+                        <li><strong>Overseas Pakistani Roshan Digital Account (RDA) Support:</strong> Legal foreign currency remittances, official title deed repatriation, and dedicated escrow compliance.</li>
+                    </ul>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- Sub-section 6: Be Among the First -->
+                <div class="editorial-prose">
+                    <h3 class="editorial-lead-heading">
+                        <i class="fa-solid fa-flag-checkered text-[#D4AF37] text-base"></i>
+                        Be Among the First
+                    </h3>
+                    <p>
+                        Phase 1 pre-launch allocations are strictly limited to the first 40 residential suites and 12 retail promenade outlets at introductory pre-construction rates. Connect directly with Kaghan Properties development directors to review title deeds, visit the active construction ridge, and confirm your preferred floor allocation.
+                    </p>
+                    <div class="pt-2">
+                        <button onclick="scrollToSection('request-call-box')" class="btn-primary text-xs py-3 px-6 rounded-xl font-bold shadow-md inline-flex items-center gap-2">
+                            <i class="fa-solid fa-phone"></i> Inquire About Pre-Launch Allocations
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             SECTION 2: OFFERED PROPERTIES (§5)
+             Full browsable unit inventory with category filter chips
+             ====================================================================== -->
+        <section id="offered-properties" class="scroll-mt-28 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold outfit text-slate-900 tracking-tight">
+                        Offered Properties & Unit Matrix
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                        Compare floor levels, covered areas, price ranges, and milestone down payments across all unit variants.
+                    </p>
+                </div>
+                <div class="text-xs font-bold text-slate-500 bg-slate-100 py-1.5 px-3 rounded-lg self-start">
+                    <span id="offered-count-badge" class="text-emerald-700 font-extrabold">5 Unit Variants</span> Available
+                </div>
+            </div>
+
+            <!-- Category Filter Chips (§5) -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2" id="offered-category-chips">
+                <button onclick="filterOfferedInventory('all')" class="category-chip-btn active" data-offered="all">All Units</button>
+                <button onclick="filterOfferedInventory('Studio Suites')" class="category-chip-btn" data-offered="Studio Suites">Studio Suites</button>
+                <button onclick="filterOfferedInventory('1-Bed Chalets')" class="category-chip-btn" data-offered="1-Bed Chalets">1-Bed Chalets</button>
+                <button onclick="filterOfferedInventory('2-Bed Luxury Suites')" class="category-chip-btn" data-offered="2-Bed Luxury Suites">2-Bed Suites</button>
+                <button onclick="filterOfferedInventory('Duplex Penthouses')" class="category-chip-btn" data-offered="Duplex Penthouses">Penthouses</button>
+                <button onclick="filterOfferedInventory('Commercial Shops')" class="category-chip-btn" data-offered="Commercial Shops">Retail Promenade</button>
+            </div>
+
+            <!-- Inventory Matrix Cards (§5) -->
+            <div class="space-y-4" id="offered-inventory-list">
+                <!-- Injected via JavaScript from UNIT_INVENTORY_DATA -->
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             SECTION 3: FEATURES & AMENITIES (§6)
+             Grouped label:value pairs across 6 categories
+             ====================================================================== -->
+        <section id="features" class="scroll-mt-28 space-y-8">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl md:text-3xl font-extrabold outfit text-slate-900 tracking-tight">
+                    Project Features & Specifications
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                    Exhaustive architectural, electrical, mechanical, and lifestyle specifications organized by standard building modules.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="features-matrix-container">
+                
+                <!-- 1. Main Features -->
+                <div class="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+                    <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+                        <h3 class="font-extrabold text-sm outfit uppercase tracking-wider text-slate-900">Main Building Features</h3>
+                    </div>
+                    <dl class="space-y-2.5 text-xs">
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Building Height & Floors:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Ground + 8 Residential Levels + Rooftop Observation Sky Lounge</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Elevators & Lifts:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">3 Dedicated German Mitsubishi high-speed passenger & bed/service lifts</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Electricity & Power Backup:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Dual synchronized Perkins 250kVA diesel generators with 0-millisecond auto-sync</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Heating & Climate Control:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Hydronic underfloor radiant heating + Daikin VRF inverter heat pumps</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Acoustic Glazing:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">German Rehau double-glazed argon-filled acoustic soundproof windows</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <!-- 2. Rooms & Interior -->
+                <div class="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+                    <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                        <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-bed"></i>
+                        </div>
+                        <h3 class="font-extrabold text-sm outfit uppercase tracking-wider text-slate-900">Rooms & Interior Specs</h3>
+                    </div>
+                    <dl class="space-y-2.5 text-xs">
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Bedroom Suites:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Engineered solid ash hardwood flooring, custom cedar wardrobes, private balconies</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Bathrooms & Sanitary:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Imported Spanish porcelain wall tiles, Grohe thermostatic rain mixers, vanity mirrors</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Kitchenettes:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Modular acrylic cabinets, quartz countertops, Franke induction hobs & mini-bars</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Private Balconies:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Tempered glass frameless railings with uninterrupted snow & mountain vistas</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Fireplaces:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Modern stone-framed electric and clean-burning gas hearths in living lounges</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <!-- 3. Business & Telecom -->
+                <div class="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+                    <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                        <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-wifi"></i>
+                        </div>
+                        <h3 class="font-extrabold text-sm outfit uppercase tracking-wider text-slate-900">Business & Technology</h3>
+                    </div>
+                    <dl class="space-y-2.5 text-xs">
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">High-Speed Internet:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Dedicated optical fiber broadband with redundant satellite Starlink uplink backup</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Smart Intercom & Telecom:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">IP video door phone connected directly to lobby concierge and security gate</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Executive Boardroom:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">16-person video conferencing boardroom and soundproof private workstation pods</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Smart Home Touch Panels:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Wall-mounted touch panels controlling lighting scenes, motorized blinds, and heating</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <!-- 4. Community & Security -->
+                <div class="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+                    <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="font-extrabold text-sm outfit uppercase tracking-wider text-slate-900">Security & Fire Safety</h3>
+                    </div>
+                    <dl class="space-y-2.5 text-xs">
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">CCTV Surveillance:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">120+ 4K night-vision AI security cameras covering corridors, parking, and perimeter</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Access Control:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">RFID vehicle barrier, biometric lobby turnstiles, and smart keycard door locks</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Fire Protection (NFPA):</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Automated sprinkler heads in every room, smoke vents, and pressurized fire stairs</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Manned Guard Force:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">24/7 armed ex-military security personnel patrolling perimeter and checkposts</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <!-- 5. Wellness & Recreation -->
+                <div class="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+                    <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                        <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-spa"></i>
+                        </div>
+                        <h3 class="font-extrabold text-sm outfit uppercase tracking-wider text-slate-900">Healthcare & Recreation</h3>
+                    </div>
+                    <dl class="space-y-2.5 text-xs">
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Indoor Heated Swimming Pool:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">25m temperature-regulated hydrotherapy pool with glass roof snow views</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Sauna & Steam Bath:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Finnish pine wood dry sauna, Turkish steam room, and cold plunge shower</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Technogym Fitness Center:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Cardio treadmills, elliptical machines, free weights rack, and stretching studio</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Kids Gaming Zone:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Indoor soft-play activity center, table tennis, and PlayStation entertainment room</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <!-- 6. Hospitality & Services -->
+                <div class="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+                    <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                        <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-bell-concierge"></i>
+                        </div>
+                        <h3 class="font-extrabold text-sm outfit uppercase tracking-wider text-slate-900">Services & Facilities</h3>
+                    </div>
+                    <dl class="space-y-2.5 text-xs">
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Heated Basement Parking:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">2 underground parking levels with heated entrance ramp and EV fast chargers</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">24/7 Housekeeping & Laundry:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">Hotel-grade linen turnover, dry cleaning, daily maid service, and room service</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">Turnkey Rental Management:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">On-site front desk check-in, Airbnb management, and owner profit portal</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-400 font-bold uppercase text-[10px]">First Aid & Paramedic Care:</dt>
+                            <dd class="text-slate-800 font-semibold mt-0.5">24/7 emergency first-aid clinic with oxygen concentrators for high altitude</dd>
+                        </div>
+                    </dl>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             SECTION 4: LOCATION & INTERACTIVE MAP (§7)
+             Category filter pills + full-width map + POI markers
+             ====================================================================== -->
+        <section id="location" class="scroll-mt-28 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold outfit text-slate-900 tracking-tight">
+                        Strategic Location & Connectivity
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                        Explore driving distances, nearby schools, hospitals, restaurants, and mountain attractions.
+                    </p>
+                </div>
+                <!-- Category Filter Pills (§7) -->
+                <div class="flex items-center gap-1.5 overflow-x-auto pb-1" id="poi-filter-pills">
+                    <button onclick="filterPOIs('all')" class="category-chip-btn active" data-poi="all">All Nearby</button>
+                    <button onclick="filterPOIs('Attractions')" class="category-chip-btn" data-poi="Attractions">Attractions</button>
+                    <button onclick="filterPOIs('Restaurants')" class="category-chip-btn" data-poi="Restaurants">Restaurants</button>
+                    <button onclick="filterPOIs('Hospitals')" class="category-chip-btn" data-poi="Hospitals">Hospitals</button>
+                    <button onclick="filterPOIs('Schools')" class="category-chip-btn" data-poi="Schools">Schools</button>
+                </div>
+            </div>
+
+            <!-- Full-Width Map + POI Sidebar Cards (§7) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-6 shadow-sm">
+                
+                <!-- Map Container (fills primary width) -->
+                <div class="lg:col-span-8 h-[360px] sm:h-[460px] rounded-2xl overflow-hidden border border-slate-200 relative">
+                    <iframe 
+                        id="location-map-frame"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26392.2!2d73.3758!3d34.0664!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfebd8c6b738bd%3A0x67db23e9a98ef2e!2sNathia%20Gali%2C%20Khyber%20Pakhtunkhwa%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" 
+                        class="w-full h-full border-0" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+
+                    <!-- Map Overlay Pin Tag -->
+                    <div class="absolute top-4 left-4 bg-slate-900/90 backdrop-blur text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-lg border border-slate-700 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span>Pine Valley Resort Site (Governor House Ridge)</span>
+                    </div>
+                </div>
+
+                <!-- POI Points of Interest List -->
+                <div class="lg:col-span-4 flex flex-col justify-between space-y-3 max-h-[460px] overflow-y-auto pr-1" id="poi-items-list">
+                    <!-- Dynamic POI Cards Injected by JS -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             SECTION 5: PHONE-FIRST LEAD-CAPTURE / "REQUEST CALL" WIDGET (§8)
+             Positioned mid-page after Location, before Floor Plans
+             Call Now button at top + divider ---or--- + form fields + Request Call button
+             ====================================================================== -->
+        <section id="request-call-box" class="scroll-mt-28">
+            <div class="phone-first-lead-card max-w-2xl mx-auto space-y-6">
+                
+                <div class="text-center space-y-2">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200/60 inline-block">
+                        Direct Developer Desk & Allocations
+                    </span>
+                    <h3 id="lead-form-heading" class="text-2xl sm:text-3xl font-extrabold outfit text-slate-900">
+                        Speak with a Pine Valley Investment Director
+                    </h3>
+                    <p class="text-xs text-slate-500 max-w-md mx-auto">
+                        Instant phone consultation regarding pre-launch pricing, unit floor assignments, and Overseas Pakistani RDA escrow processing.
+                    </p>
+                </div>
+
+                <!-- Large "Call Now" Button at Top (§8) -->
+                <a href="tel:+923340091127" class="btn-call-large">
+                    <i class="fa-solid fa-phone-volume text-xl animate-bounce"></i>
+                    <span>Call Now: +92 334 0091127</span>
+                </a>
+
+                <!-- Visual Divider with "--- or ---" (§8) -->
+                <div class="lead-divider-text">
+                    or request an immediate call back
+                </div>
+
+                <!-- Phone-First Form (§8) -->
+                <form onsubmit="handleProjectLeadSubmit(event)" class="space-y-4 text-xs">
+                    <div>
+                        <label class="font-bold text-slate-700 uppercase text-[10px] block mb-1">Your Full Name *</label>
+                        <input type="text" id="lead-name" required placeholder="e.g. Dr. Salman Qureshi" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                    </div>
+
+                    <!-- Fused Country Code / Flag + Phone Number Input (§8) -->
+                    <div>
+                        <label class="font-bold text-slate-700 uppercase text-[10px] block mb-1">Phone Number (WhatsApp Preferred) *</label>
+                        <div class="flex rounded-xl border border-slate-300 overflow-hidden focus-within:border-emerald-600 focus-within:ring-1 focus-within:ring-emerald-600 bg-white">
+                            <select id="lead-country-code" class="bg-slate-50 border-r border-slate-200 px-3 py-3 text-slate-700 text-xs font-bold focus:outline-none shrink-0">
+                                <option value="+92">🇵🇰 Pakistan (+92)</option>
+                                <option value="+971">🇦🇪 UAE (+971)</option>
+                                <option value="+44">🇬🇧 UK (+44)</option>
+                                <option value="+1">🇺🇸 USA / CAN (+1)</option>
+                                <option value="+966">🇸🇦 Saudi Arabia (+966)</option>
+                                <option value="+974">🇶🇦 Qatar (+974)</option>
+                                <option value="+968">🇴🇲 Oman (+968)</option>
+                                <option value="+61">🇦🇺 Australia (+61)</option>
+                                <option value="+49">🇩🇪 Germany (+49)</option>
+                            </select>
+                            <input type="tel" id="lead-phone" required placeholder="334 0091127" class="w-full bg-transparent px-4 py-3 text-slate-900 text-xs focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="font-bold text-slate-700 uppercase text-[10px] block mb-1">Email Address (Optional)</label>
+                            <input type="email" id="lead-email" placeholder="salman@gmail.com" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 text-xs focus:outline-none focus:border-emerald-600">
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 uppercase text-[10px] block mb-1">Preferred Unit Type</label>
+                            <select id="lead-unit-pref" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 text-xs focus:outline-none font-medium">
+                                <option value="Studio Alpine Suite">Studio Alpine Suite (425 - 550 Sq Ft)</option>
+                                <option value="1-Bed Executive Chalet">1-Bed Executive Chalet (720 - 900 Sq Ft)</option>
+                                <option value="2-Bed Luxury Suite">2-Bed Luxury Suite (1,250 - 1,600 Sq Ft)</option>
+                                <option value="Duplex Sky Penthouse">Duplex Sky Penthouse (2,400+ Sq Ft)</option>
+                                <option value="Retail Promenade Shop">Retail Promenade Commercial Shop</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Primary Submit Button: Request Call (§8) -->
+                    <button type="submit" id="btn-submit-lead" class="w-full btn-primary bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow-lg text-sm flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                        <span>Request Call</span>
+                    </button>
+
+                    <!-- Fine-Print Consent Line (§8) -->
+                    <p class="text-[11px] text-slate-400 text-center pt-1 leading-relaxed">
+                        By submitting this form, you agree to Kaghan Properties <a href="services.html" class="text-emerald-700 underline hover:text-emerald-900">Terms of Use</a> and Privacy Policy. Our dedicated investment advisors will reach out within 15 minutes.
+                    </p>
+
+                    <div id="lead-form-feedback" class="hidden p-3 rounded-xl text-center text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200"></div>
+                </form>
+
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             SECTION 6: FLOOR PLANS (§9)
+             Tabbed document viewer: Left list of plan names (with typical floor compression) + Right large preview pane
+             ====================================================================== -->
+        <section id="floor-plans" class="scroll-mt-28 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold outfit text-slate-900 tracking-tight">
+                        Floor Plans & Architectural Blueprints
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                        Select any building level or brochure below to inspect layout dimensions, internal circulation, and balcony placements.
+                    </p>
+                </div>
+                <button onclick="downloadActiveFloorPlan()" class="btn-outline text-xs py-2 px-4 rounded-xl flex items-center gap-1.5 self-start">
+                    <i class="fa-solid fa-download text-emerald-700"></i> Download Active Plan (PDF)
+                </button>
+            </div>
+
+            <!-- Tabbed Document Viewer Grid (§9) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white border border-slate-200/90 rounded-3xl p-6 shadow-sm">
+                
+                <!-- Left/Top: Scrollable Index of Plan Documents (§9) -->
+                <div class="lg:col-span-4 space-y-2">
+                    <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex justify-between items-center">
+                        <span>Building Levels & Master Sheets:</span>
+                        <span class="text-emerald-700">9 Documents</span>
+                    </div>
+
+                    <div class="space-y-1.5 max-h-[460px] overflow-y-auto pr-1" id="floor-plans-list">
+                        <!-- Dynamic Plan Document Tabs injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Right/Bottom: Large High-Res Preview Pane (§9) -->
+                <div class="lg:col-span-8 flex flex-col justify-between space-y-4">
+                    <div class="relative bg-slate-950 rounded-2xl overflow-hidden min-h-[380px] sm:min-h-[440px] flex items-center justify-center p-4 group cursor-pointer" onclick="openFloorPlanZoom()">
+                        <img id="active-floorplan-img" src="assets/images/floorplan_masterplan.jpg" alt="Floor Plan Blueprint" class="max-h-[420px] w-auto object-contain transition-transform duration-500 group-hover:scale-105">
+                        
+                        <!-- Top Floating Metadata -->
+                        <div class="absolute top-4 left-4 bg-slate-900/90 backdrop-blur text-white px-3 py-1.5 rounded-lg text-xs font-bold border border-white/10 flex items-center gap-2">
+                            <i class="fa-solid fa-compass-drafting text-[#D4AF37]"></i>
+                            <span id="active-plan-title">2nd–5th (Typical Floor) - Studio & 1-Bed Chalets</span>
+                        </div>
+
+                        <!-- Zoom Lightbox Hint Button -->
+                        <div class="absolute bottom-4 right-4 bg-slate-900/90 hover:bg-white hover:text-slate-900 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-lg transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Zoom Fullscreen
+                        </div>
+                    </div>
+
+                    <!-- Dimension & Unit Summary Bar Under Preview -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
+                        <div class="flex items-center gap-4">
+                            <div>
+                                <span class="text-slate-400 text-[10px] uppercase font-bold block">Covered Area</span>
+                                <span id="plan-spec-area" class="font-bold text-slate-800">425 – 900 Sq Ft</span>
+                            </div>
+                            <span class="text-slate-300">|</span>
+                            <div>
+                                <span class="text-slate-400 text-[10px] uppercase font-bold block">Ceiling Height</span>
+                                <span id="plan-spec-height" class="font-bold text-slate-800">10 ft 6 in Clear</span>
+                            </div>
+                            <span class="text-slate-300">|</span>
+                            <div>
+                                <span class="text-slate-400 text-[10px] uppercase font-bold block">Balcony Orientation</span>
+                                <span id="plan-spec-view" class="font-bold text-emerald-700">East-Facing Mountain Sunrise</span>
+                            </div>
+                        </div>
+                        <button onclick="openFloorPlanZoom()" class="text-emerald-700 font-bold hover:underline">
+                            Inspect Blueprint Details →
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             SECTION 7: PAYMENT PLAN (§10)
+             Official developer milestone sheets, stacked gallery, zoomable
+             ====================================================================== -->
+        <section id="payment-plan" class="scroll-mt-28 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold outfit text-slate-900 tracking-tight">
+                        Official Payment Milestone Plan
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                        Simple 3-year milestone structure with 15% booking and quarterly balloon payments. 100% money-back escrow guarantee.
+                    </p>
+                </div>
+                <a href="calculator.html" class="btn-outline text-xs py-2 px-4 rounded-xl flex items-center gap-1.5 self-start">
+                    <i class="fa-solid fa-calculator text-emerald-700"></i> Open Installment Calculator
+                </a>
+            </div>
+
+            <!-- Milestone Overview Table & Stacked Official Sheet (§10) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Left: Official Milestone Breakdown Matrix Table -->
+                <div class="lg:col-span-6 space-y-4">
+                    <div class="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+                        <h3 class="text-base font-extrabold outfit text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-file-invoice-dollar text-emerald-700"></i>
+                            36-Month Milestone Payment Schedule
+                        </h3>
+                        <div class="divide-y divide-slate-100 text-xs">
+                            <div class="py-2.5 flex justify-between items-center">
+                                <div>
+                                    <span class="font-bold text-slate-800">Booking Fee</span>
+                                    <div class="text-[10px] text-slate-400">At time of formal registration</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="font-extrabold text-emerald-800">15%</span>
+                                    <div class="text-[10px] text-slate-500">From PKR 14.25 Lakh</div>
+                                </div>
+                            </div>
+                            <div class="py-2.5 flex justify-between items-center">
+                                <div>
+                                    <span class="font-bold text-slate-800">Confirmation Payment</span>
+                                    <div class="text-[10px] text-slate-400">Within 30 days of booking</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="font-extrabold text-emerald-800">10%</span>
+                                    <div class="text-[10px] text-slate-500">From PKR 9.50 Lakh</div>
+                                </div>
+                            </div>
+                            <div class="py-2.5 flex justify-between items-center">
+                                <div>
+                                    <span class="font-bold text-slate-800">36 Monthly Installments</span>
+                                    <div class="text-[10px] text-slate-400">1.25% per month for 3 years</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="font-extrabold text-emerald-800">45% Total</span>
+                                    <div class="text-[10px] text-slate-500">~PKR 1.18 Lakh / mo</div>
+                                </div>
+                            </div>
+                            <div class="py-2.5 flex justify-between items-center">
+                                <div>
+                                    <span class="font-bold text-slate-800">6 Bi-Annual Balloon Payments</span>
+                                    <div class="text-[10px] text-slate-400">2.5% payable every 6 months</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="font-extrabold text-emerald-800">15% Total</span>
+                                    <div class="text-[10px] text-slate-500">From PKR 2.37 Lakh / 6mo</div>
+                                </div>
+                            </div>
+                            <div class="py-2.5 flex justify-between items-center">
+                                <div>
+                                    <span class="font-bold text-slate-800">Possession & Key Handover</span>
+                                    <div class="text-[10px] text-slate-400">On structural completion & registry</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="font-extrabold text-emerald-800">15%</span>
+                                    <div class="text-[10px] text-slate-500">From PKR 14.25 Lakh</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Special Investor Incentive Callout -->
+                        <div class="bg-emerald-50 border border-emerald-200 p-3.5 rounded-xl text-xs space-y-1">
+                            <div class="font-bold text-emerald-900 flex items-center gap-1.5">
+                                <i class="fa-solid fa-gift text-emerald-700"></i> Cash Discount Rebates Available
+                            </div>
+                            <p class="text-[11px] text-emerald-800">
+                                10% instant rebate on 100% upfront lump-sum payment. 5% rebate on 50% advance booking.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Scanned / Official Designed Payment Plan Sheet (§10) -->
+                <div class="lg:col-span-6 space-y-3">
+                    <div class="relative rounded-2xl overflow-hidden border-2 border-amber-200/80 shadow-lg group cursor-pointer bg-slate-950" onclick="openPaymentPlanZoom()">
+                        <img src="assets/images/payment_plan_chart.jpg" alt="Official 3-Year Installment Schedule" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                        
+                        <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white">
+                            <div>
+                                <span class="font-bold text-sm block drop-shadow">Official 3-Year Installment Schedule</span>
+                                <span class="text-[11px] text-amber-300 drop-shadow">Signed & Certified Developer Sheet</span>
+                            </div>
+                            <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-xl shadow flex items-center gap-1">
+                                <i class="fa-solid fa-magnifying-glass-plus text-emerald-700"></i> Click to Zoom
+                            </span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <span class="text-[11px] text-slate-400 italic">Click image above to view full high-resolution PDF milestone sheet</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             SECTION 8: MARKETED BY / DEVELOPER TRUST PROFILE (§11)
+             Developer / Marketer profile card with credibility paragraph
+             ====================================================================== -->
+        <section id="marketed-by" class="scroll-mt-28 space-y-8">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl md:text-3xl font-extrabold outfit text-slate-900 tracking-tight">
+                    Marketed By & Developer Credentials
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                    Track record, escrow governance, and corporate credentials of the developer and marketing consortium.
+                </p>
+            </div>
+
+            <!-- Profile Card (§11) -->
+            <div class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 space-y-8 shadow-sm">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-slate-100 pb-6">
+                    <div class="flex items-center gap-4">
+                        <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-16 w-auto object-contain">
+                        <div>
+                            <span class="text-[10px] font-bold text-amber-600 uppercase tracking-widest block">Master Marketing Partner</span>
+                            <h3 class="text-xl sm:text-2xl font-black outfit text-slate-900">Kaghan Properties & Capital Developers</h3>
+                            <div class="text-xs text-slate-500 font-medium">Head Office: Executive Heights, Sector F-7 Markaz, Islamabad</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="tel:+923340091127" class="btn-primary text-xs py-2.5 px-4 rounded-xl font-bold flex items-center gap-1.5 shadow">
+                            <i class="fa-solid fa-phone"></i> Direct Line
+                        </a>
+                        <a href="https://wa.me/923340091127?text=Hello,%20I%20am%20inquiring%20about%20Pine%20Valley%20Resort%20Suites" target="_blank" class="btn-whatsapp text-xs py-2.5 px-4 rounded-xl font-bold flex items-center gap-1.5">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Credibility Metrics Counter Bar -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 text-center">
+                        <div class="text-2xl sm:text-3xl font-black text-emerald-800 outfit">14+</div>
+                        <div class="text-[11px] text-slate-500 font-semibold uppercase mt-0.5">Years in Operation</div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 text-center">
+                        <div class="text-2xl sm:text-3xl font-black text-emerald-800 outfit">PKR 45B+</div>
+                        <div class="text-[11px] text-slate-500 font-semibold uppercase mt-0.5">Delivered Volume</div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 text-center">
+                        <div class="text-2xl sm:text-3xl font-black text-emerald-800 outfit">12,000+</div>
+                        <div class="text-[11px] text-slate-500 font-semibold uppercase mt-0.5">Satisfied Investors</div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 text-center">
+                        <div class="text-2xl sm:text-3xl font-black text-emerald-800 outfit">100%</div>
+                        <div class="text-[11px] text-slate-500 font-semibold uppercase mt-0.5">Title & NOC Guarantee</div>
+                    </div>
+                </div>
+
+                <!-- Multi-Sentence Trust / Credibility Paragraph (§11) -->
+                <div class="editorial-prose">
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Founded in 2012, Kaghan Properties has served as the premier benchmark for corporate real estate marketing, project packaging, and property transaction security across the Islamabad Capital Territory, Murree Hills, and the Galyat region. Having successfully transacted and marketed more than PKR 45 Billion in residential master developments, luxury high-rises, and alpine vacation chalets, our organization commands unmatched consumer trust, serving over 12,000 discerning local and overseas clients worldwide.
+                    </p>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Every development within our developer portfolio undergoes an exacting 5-stage legal audit examining municipal NOC documentation, encumbrance certificates, physical boundary demarcations, and environmental clearance before being presented to the marketplace. Through direct integration with the State Bank of Pakistan's Roshan Digital Account (RDA) framework, non-resident Pakistanis in the UK, North America, and the Gulf enjoy seamless legal title ownership, automated bank repatriations, and dedicated concierge legal closing support.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================================================
+         LIGHTBOX MODAL FOR HERO GALLERY, FLOOR PLANS & PAYMENT PLAN (§3, §9, §10)
+         ========================================================================== -->
+    <div id="project-lightbox" class="lightbox-modal" onclick="if(event.target === this) closeLightbox()">
+        <div class="relative max-w-5xl w-full mx-4 flex flex-col items-center">
+            <!-- Close Button -->
+            <button onclick="closeLightbox()" class="absolute -top-12 right-0 text-white text-3xl hover:text-amber-400 transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Lightbox Image -->
+            <div class="max-h-[80vh] overflow-hidden rounded-2xl shadow-2xl">
+                <img id="lightbox-img" src="assets/images/parkview.png" alt="Fullscreen View" class="max-h-[75vh] w-auto object-contain">
+            </div>
+
+            <!-- Lightbox Caption & Controls -->
+            <div class="w-full flex items-center justify-between text-white text-xs font-semibold mt-4 px-2">
+                <button onclick="prevLightboxImage()" class="p-2.5 rounded-full bg-slate-800/80 hover:bg-slate-700 flex items-center gap-1.5 transition-colors">
+                    <i class="fa-solid fa-chevron-left"></i> Previous
+                </button>
+                <div class="text-center">
+                    <div id="lightbox-title" class="font-bold text-sm text-[#D4AF37]">Pine Valley Architectural Elevation</div>
+                    <span id="lightbox-counter" class="text-slate-400 text-[11px]">1 of 5</span>
+                </div>
+                <button onclick="nextLightboxImage()" class="p-2.5 rounded-full bg-slate-800/80 hover:bg-slate-700 flex items-center gap-1.5 transition-colors">
+                    Next <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         MOBILE STICKY BOTTOM ACTION BAR (§17)
+         Revealed on mobile viewports when hero scrolls out of view
+         ========================================================================== -->
+    <div id="mobile-bottom-bar" class="mobile-sticky-cta md:hidden">
+        <div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase block">Starting from</span>
+            <span class="text-emerald-800 font-black text-sm outfit">PKR 95 Lakh</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <a href="tel:+923340091127" class="btn-primary text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1">
+                <i class="fa-solid fa-phone"></i> Call Now
+            </a>
+            <a href="https://wa.me/923340091127?text=Hello,%20I%20am%20interested%20in%20Pine%20Valley%20Resort%20Suites" target="_blank" class="btn-whatsapp text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1">
+                <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <!-- Floating Back to Top Button -->
+    <button id="back-to-top" class="back-to-top-btn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" title="Back to top">
+        <i class="fa-solid fa-arrow-up text-xs"></i>
+    </button>
+
+    <!-- Global Footer (Rendered via Shared UI Engine) -->
+    <footer id="site-footer"></footer>
+
+    <!-- ==========================================================================
+         CLIENT-SIDE JAVASCRIPT ENGINE FOR PROJECT DETAIL PAGE
+         ========================================================================== -->
+    <script>
+        // Structured Unit Inventory Data (§4b, §5, §18)
+        let UNIT_INVENTORY_DATA = [
+            {
+                id: "unit-studio",
+                category: "Studio Suites",
+                title: "Studio Alpine Suite (Serviced)",
+                priceRange: "PKR 95 Lakh to 1.15 Crore",
+                priceMin: 9500000,
+                priceMax: 11500000,
+                areaSize: "425 – 550 Sq Ft",
+                areaMarla: "1.9 – 2.4 Marla",
+                floorLevel: "Levels 2 to 5 (Typical Floors)",
+                descriptor: "Turnkey luxury studio with scenic mountain balcony, electric stone fireplace, and built-in kitchenette.",
+                downPayment: "PKR 14.25 Lakh (15%)",
+                monthlyInstallment: "PKR 1.18 Lakh / mo",
+                availableUnits: 12,
+                image: "assets/images/interior.png"
+            },
+            {
+                id: "unit-1bed",
+                category: "1-Bed Chalets",
+                title: "1-Bed Executive Alpine Chalet",
+                priceRange: "PKR 1.45 to 1.75 Crore",
+                priceMin: 14500000,
+                priceMax: 17500000,
+                areaSize: "720 – 900 Sq Ft",
+                areaMarla: "3.2 – 4.0 Marla",
+                floorLevel: "Levels 2 to 6",
+                descriptor: "Separate king bedroom suite with private cedar wardrobe, open-concept living/dining lounge, and sunset terrace.",
+                downPayment: "PKR 21.75 Lakh (15%)",
+                monthlyInstallment: "PKR 1.81 Lakh / mo",
+                availableUnits: 8,
+                image: "assets/images/mideast-view1.png"
+            },
+            {
+                id: "unit-2bed",
+                category: "2-Bed Luxury Suites",
+                title: "2-Bed Panoramic Corner Residence",
+                priceRange: "PKR 2.40 to 2.85 Crore",
+                priceMin: 24000000,
+                priceMax: 28500000,
+                areaSize: "1,250 – 1,600 Sq Ft",
+                areaMarla: "5.5 – 7.1 Marla",
+                floorLevel: "Levels 6 to 7 (Executive Wing)",
+                descriptor: "Dual master bedrooms with ensuite baths, formal powder room, spacious living hall, and 180° valley glass balcony.",
+                downPayment: "PKR 36.00 Lakh (15%)",
+                monthlyInstallment: "PKR 3.00 Lakh / mo",
+                availableUnits: 4,
+                image: "assets/images/bahria-villa.png"
+            },
+            {
+                id: "unit-penthouse",
+                category: "Duplex Penthouses",
+                title: "3-Bed Presidential Sky Duplex",
+                priceRange: "PKR 2.85 to 2.95 Crore",
+                priceMin: 28500000,
+                priceMax: 29500000,
+                areaSize: "2,200 – 2,650 Sq Ft",
+                areaMarla: "9.8 – 11.8 Marla",
+                floorLevel: "Level 8 & Rooftop Crown",
+                descriptor: "Double-height atrium ceiling, private rooftop timber deck with hot tub provision, and dedicated express elevator access.",
+                downPayment: "PKR 42.75 Lakh (15%)",
+                monthlyInstallment: "PKR 3.56 Lakh / mo",
+                availableUnits: 2,
+                image: "assets/images/mideast-view2.png"
+            },
+            {
+                id: "unit-retail",
+                category: "Commercial Shops",
+                title: "Ground Floor Retail Outlets & Cafes",
+                priceRange: "PKR 1.25 to 1.95 Crore",
+                priceMin: 12500000,
+                priceMax: 19500000,
+                areaSize: "380 – 620 Sq Ft",
+                areaMarla: "1.7 – 2.8 Marla",
+                floorLevel: "Ground Floor Promenade",
+                descriptor: "High-footfall front boulevard retail units suitable for coffee shops, specialty grocery, apparel, or winter gear.",
+                downPayment: "PKR 18.75 Lakh (15%)",
+                monthlyInstallment: "PKR 1.56 Lakh / mo",
+                availableUnits: 3,
+                image: "assets/images/azan-arcade.png"
+            }
+        ];
+
+        // Gallery Media Set (§3)
+        let PROJECT_GALLERY = [
+            { url: "assets/images/parkview.png", caption: "Pine Valley Resort Master Architectural Elevation & Alpine Ridge" },
+            { url: "assets/images/interior.png", caption: "Fireplace Living Room & Panoramic Balcony Outlook" },
+            { url: "assets/images/mideast-view1.png", caption: "Executive Chalet Suite Master Bedroom & Timber Accents" },
+            { url: "assets/images/mideast-view2.png", caption: "Rooftop Sky Lounge Observation Deck Overlooking Snow Peaks" },
+            { url: "assets/images/floorplan_masterplan.jpg", caption: "Official 2D & Isometric Architectural Chalet Blueprint Layout" }
+        ];
+        let currentGalleryIndex = 0;
+
+        // Floor Plan Documents Set (§9) - compressed typical floors
+        const FLOOR_PLAN_DOCS = [
+            {
+                id: "plan-brochure",
+                title: "Sale Kit & Project Brochure",
+                subtitle: "Official 28-Page Investor Overview",
+                area: "Full Masterplan",
+                height: "Master Document",
+                view: "Comprehensive Specs",
+                image: "assets/images/parkview.png"
+            },
+            {
+                id: "plan-master",
+                title: "Master Plan & Site Footprint",
+                subtitle: "Topographical Ridge Allotment",
+                area: "14 Kanal Total Site",
+                height: "G + 8 Structure",
+                view: "East-West Mountain Axis",
+                image: "assets/images/mideast-view2.png"
+            },
+            {
+                id: "plan-ground",
+                title: "Ground Floor - Grand Atrium & Retail",
+                subtitle: "Reception Lobby, Valet, & Promenade",
+                area: "8,400 Sq Ft Covered",
+                height: "14 ft Double Height",
+                view: "Front Boulevard Entry",
+                image: "assets/images/azan-arcade.png"
+            },
+            {
+                id: "plan-typical-2-5",
+                title: "2nd–5th (Typical Floor) - Studio & 1-Bed Chalets",
+                subtitle: "Compressed Typical Floor Range (Floors 2 to 5)",
+                area: "425 – 900 Sq Ft per Unit",
+                height: "10 ft 6 in Clear",
+                view: "East-Facing Sunrise Glazing",
+                image: "assets/images/floorplan_masterplan.jpg"
+            },
+            {
+                id: "plan-typical-6-7",
+                title: "6th–7th (Typical Floor) - 2-Bed Luxury Suites",
+                subtitle: "Executive Wing Layout (Floors 6 and 7)",
+                area: "1,250 – 1,600 Sq Ft",
+                height: "11 ft Clear",
+                view: "180° Ridge Valley Panorama",
+                image: "assets/images/floorplan_masterplan.jpg"
+            },
+            {
+                id: "plan-penthouse",
+                title: "8th Floor - Duplex Sky Penthouses",
+                subtitle: "Top-Tier Presidential Duplex Units",
+                area: "2,200 – 2,650 Sq Ft",
+                height: "18 ft Double Height Atrium",
+                view: "360° Unobstructed Peaks",
+                image: "assets/images/interior.png"
+            },
+            {
+                id: "plan-rooftop",
+                title: "Rooftop Observation Sky Deck & Cafe",
+                subtitle: "Heated Sky Lounge & Stargazing Deck",
+                area: "4,500 Sq Ft Deck Area",
+                height: "Open Sky Pavilion",
+                view: "Mukshpuri & Miranjani Panoramas",
+                image: "assets/images/mideast-view1.png"
+            }
+        ];
+        let activeFloorPlanIndex = 3; // default to typical floor blueprint
+
+        // Nearby POIs Set (§7)
+        let NEARBY_POIS_DATA = [
+            { category: "Attractions", name: "Mukshpuri Peak Trekking Base", distance: "5 mins walk", icon: "fa-person-hiking", text: "Direct walking access to Pakistan's famed pine hiking ridge" },
+            { category: "Restaurants", name: "Sweet Tooth & Nathia Gali Mall", distance: "4 mins drive", icon: "fa-utensils", text: "Historic shopping strip, bakeries, and gourmet hillside dining" },
+            { category: "Attractions", name: "Governor House & Pine Tracks", distance: "3 mins drive", icon: "fa-landmark", text: "Protected colonial conservation pine forest and VIP sanctuary" },
+            { category: "Attractions", name: "Ayubia National Park & Chairlifts", distance: "12 mins drive", icon: "fa-cable-car", text: "Twin chairlift ski runs, pipeline walking track, and wildlife reserve" },
+            { category: "Hospitals", name: "Galyat Community Medical Complex", distance: "6 mins drive", icon: "fa-hospital", text: "Emergency trauma unit, high-altitude pharmacy, and 24/7 doctors" },
+            { category: "Schools", name: "Army Public School & College Galyat", distance: "8 mins drive", icon: "fa-graduation-cap", text: "Premier educational academy serving the cantonment ridge" }
+        ];
+
+        let currentProjectData = null;
+
+        // ======================================================================
+        // INITIALIZATION ON DOM READY
+        // ======================================================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get('slug') || params.get('id');
+
+            let all = [];
+            if (window.KaghanDB && window.KaghanDB.getProperties) {
+                try {
+                    all = await window.KaghanDB.getProperties();
+                } catch (e) {
+                    console.warn("KaghanDB getProperties fallback:", e);
+                }
+            }
+            if ((!all || all.length === 0) && typeof DEFAULT_PROPERTIES !== 'undefined') {
+                all = [...DEFAULT_PROPERTIES];
+            }
+
+            if (slug && all.length > 0) {
+                const found = all.find(p => p.slug === slug || p.id === slug);
+                if (found) {
+                    loadDynamicProject(found);
+                }
+            }
+
+            // Render gallery filmstrip
+            renderFilmstrip();
+
+            // Render Overview repeating cards (§4b)
+            renderOverviewUnitCards('all');
+
+            // Render Offered Properties full inventory matrix (§5)
+            renderOfferedInventory('all');
+
+            // Render Floor Plan document tabs (§9)
+            renderFloorPlanTabs();
+
+            // Render Nearby POIs (§7)
+            renderPOIs('all');
+
+            // Setup Scroll-Spy for Sticky Navigation (§2)
+            setupScrollSpy();
+
+            // Setup Back-to-Top and Mobile Bar Scroll triggers
+            setupScrollTriggers();
+        });
+
+        function loadDynamicProject(p) {
+            currentProjectData = p;
+            document.title = `${p.title} | Kaghan Properties`;
+            const h1 = document.getElementById('hero-project-title');
+            if (h1) h1.innerText = p.title;
+
+            const loc = document.getElementById('hero-project-location');
+            if (loc) loc.innerHTML = `<i class="fa-solid fa-location-dot text-emerald-600"></i> ${p.address || p.sector || p.area}, ${p.city} • <span class="text-emerald-700 font-bold">100% Title Clear</span>`;
+
+            const bCity = document.getElementById('breadcrumb-city');
+            if (bCity) bCity.innerText = p.city;
+
+            const bTitle = document.getElementById('breadcrumb-title');
+            if (bTitle) bTitle.innerText = p.title;
+
+            const priceHero = document.getElementById('hero-price-range');
+            if (priceHero) {
+                priceHero.innerText = p.priceRangeStr || (window.KaghanSharedUI ? 'Starting ' + window.KaghanSharedUI.formatPrice(p.price) : `PKR ${p.price.toLocaleString()}`);
+            }
+
+            const leadHeading = document.getElementById('lead-form-heading');
+            if (leadHeading) {
+                leadHeading.innerText = `Speak with a ${p.title.split(' ')[0]} Investment Director`;
+            }
+
+            // Project brand mark
+            const badgeTagline = document.getElementById('project-brand-tagline');
+            const badgeName = document.getElementById('project-brand-name');
+            const badgeIcon = document.getElementById('project-brand-icon');
+            if (badgeName) {
+                if (p.id.includes('vault') || p.slug.includes('vault')) {
+                    if (badgeTagline) badgeTagline.innerText = "Corporate Commercial Landmark";
+                    badgeName.innerText = "Kaghan Vault";
+                    if (badgeIcon) badgeIcon.className = "fa-solid fa-building-columns";
+                } else {
+                    const words = p.title.split(' ');
+                    badgeName.innerText = `${words[0]} ${words[1] || ''}`.trim();
+                }
+            }
+
+            // Images
+            if (p.images && p.images.length > 0) {
+                PROJECT_GALLERY = p.images.map(img => ({
+                    url: img.url,
+                    caption: img.caption || `${p.title} Master Elevation`
+                }));
+                const primary = document.getElementById('primary-gallery-img');
+                if (primary) primary.src = PROJECT_GALLERY[0].url;
+            }
+
+            // Dynamic Unit Inventory
+            if (p.projectUnits && p.projectUnits.length > 0) {
+                UNIT_INVENTORY_DATA = p.projectUnits.map((u, i) => {
+                    const cat = u.category || (u.type.toLowerCase().includes('shop') ? 'Shops' : u.type.toLowerCase().includes('office') ? 'Offices' : 'Apartments');
+                    return {
+                        id: `dyn-unit-${i}`,
+                        category: cat,
+                        title: u.type,
+                        priceRange: u.priceRange,
+                        priceMin: p.price,
+                        priceMax: p.price * 1.5,
+                        areaSize: u.sizeRange,
+                        areaMarla: u.sizeRange,
+                        floorLevel: `Floor Allotment Level ${i + 1}`,
+                        descriptor: u.descriptor || `Prime developer inventory unit with 15% booking allocation and scheduled milestone delivery.`,
+                        downPayment: "15% Down Payment",
+                        monthlyInstallment: "36-Month Milestone Schedule",
+                        availableUnits: Math.max(2, 10 - i * 2),
+                        image: (p.images && p.images[i % p.images.length]) ? p.images[i % p.images.length].url : 'assets/images/mideast-view2.png'
+                    };
+                });
+
+                renderDynamicCategoryChips();
+            }
+
+            // POIs
+            if (p.nearbyPOIs && p.nearbyPOIs.length > 0) {
+                NEARBY_POIS_DATA = p.nearbyPOIs.map(poi => ({
+                    category: poi.category || 'Attractions',
+                    name: poi.name,
+                    distance: poi.distance,
+                    icon: poi.category === 'Restaurants' ? 'fa-utensils' : poi.category === 'Hospitals' ? 'fa-hospital' : poi.category === 'Schools' ? 'fa-graduation-cap' : 'fa-location-dot',
+                    text: `Immediate proximity to ${poi.name} from ${p.title}.`
+                }));
+            }
+
+            populateLeadUnitOptions();
+        }
+
+        function renderDynamicCategoryChips() {
+            const categories = Array.from(new Set(UNIT_INVENTORY_DATA.map(u => u.category)));
+            const overviewChips = document.getElementById('overview-category-chips');
+            const offeredChips = document.getElementById('offered-category-chips');
+
+            if (overviewChips) {
+                overviewChips.innerHTML = `
+                    <button onclick="filterOverviewUnits('all')" class="category-chip-btn active" data-cat="all">All Inventory (${UNIT_INVENTORY_DATA.length})</button>
+                    ${categories.map(cat => `
+                        <button onclick="filterOverviewUnits('${cat}')" class="category-chip-btn" data-cat="${cat}">${cat}</button>
+                    `).join('')}
+                `;
+            }
+
+            if (offeredChips) {
+                offeredChips.innerHTML = `
+                    <button onclick="filterOfferedInventory('all')" class="category-chip-btn active" data-offered="all">All Units (${UNIT_INVENTORY_DATA.length})</button>
+                    ${categories.map(cat => `
+                        <button onclick="filterOfferedInventory('${cat}')" class="category-chip-btn" data-offered="${cat}">${cat}</button>
+                    `).join('')}
+                `;
+            }
+        }
+
+        function populateLeadUnitOptions() {
+            const select = document.getElementById('lead-unit-pref');
+            if (select && UNIT_INVENTORY_DATA.length > 0) {
+                select.innerHTML = UNIT_INVENTORY_DATA.map(u => `
+                    <option value="${u.title}">${u.title} (${u.areaSize})</option>
+                `).join('');
+            }
+        }
+
+        // ======================================================================
+        // 1. GALLERY & FILMSTRIP HANDLERS (§3)
+        // ======================================================================
+        function renderFilmstrip() {
+            const container = document.getElementById('gallery-filmstrip');
+            if (!container) return;
+            container.innerHTML = PROJECT_GALLERY.map((img, idx) => `
+                <div class="filmstrip-thumb ${idx === currentGalleryIndex ? 'active' : ''}" onclick="selectGalleryImage(${idx})">
+                    <img src="${img.url}" alt="${img.caption}" class="w-full h-full object-cover">
+                </div>
+            `).join('');
+            document.getElementById('gallery-photo-count').innerText = `${PROJECT_GALLERY.length} Media Photos`;
+        }
+
+        function selectGalleryImage(idx) {
+            currentGalleryIndex = idx;
+            const item = PROJECT_GALLERY[idx];
+            const primary = document.getElementById('primary-gallery-img');
+            primary.style.opacity = '0.7';
+            setTimeout(() => {
+                primary.src = item.url;
+                primary.style.opacity = '1';
+            }, 100);
+            document.getElementById('gallery-caption').innerText = item.caption;
+
+            // Update thumbnail active ring
+            document.querySelectorAll('.filmstrip-thumb').forEach((el, i) => {
+                el.classList.toggle('active', i === idx);
+            });
+        }
+
+        function openLightbox(idx = 0) {
+            currentGalleryIndex = idx;
+            updateLightbox();
+            document.getElementById('project-lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('project-lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close lightbox on Escape key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        function updateLightbox() {
+            const item = PROJECT_GALLERY[currentGalleryIndex];
+            document.getElementById('lightbox-img').src = item.url;
+            document.getElementById('lightbox-title').innerText = item.caption;
+            document.getElementById('lightbox-counter').innerText = `${currentGalleryIndex + 1} of ${PROJECT_GALLERY.length}`;
+        }
+
+        function nextLightboxImage() {
+            currentGalleryIndex = (currentGalleryIndex + 1) % PROJECT_GALLERY.length;
+            updateLightbox();
+        }
+
+        function prevLightboxImage() {
+            currentGalleryIndex = (currentGalleryIndex - 1 + PROJECT_GALLERY.length) % PROJECT_GALLERY.length;
+            updateLightbox();
+        }
+
+        // ======================================================================
+        // 2. STICKY TAB BAR & SCROLL-SPY (§2)
+        // ======================================================================
+        let currentActiveSectionId = 'overview';
+        let isProgrammaticScroll = false;
+        let programmaticScrollTimer = null;
+
+        function scrollToSection(sectionId) {
+            const el = document.getElementById(sectionId);
+            if (!el) return;
+
+            isProgrammaticScroll = true;
+            clearTimeout(programmaticScrollTimer);
+            programmaticScrollTimer = setTimeout(() => {
+                isProgrammaticScroll = false;
+            }, 900);
+
+            updateActiveTab(sectionId);
+
+            const offset = 135; // Header + sticky tabbar offset
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = el.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+
+        function updateActiveTab(targetId) {
+            if (currentActiveSectionId === targetId) return;
+            currentActiveSectionId = targetId;
+
+            const navContainer = document.getElementById('project-nav-tabs');
+            document.querySelectorAll('.project-tab-btn').forEach(btn => {
+                const isTarget = btn.getAttribute('data-target') === targetId;
+                btn.classList.toggle('active', isTarget);
+                
+                // Gently scroll the horizontal tab container on mobile without affecting window scroll
+                if (isTarget && navContainer) {
+                    const btnLeft = btn.offsetLeft;
+                    const btnWidth = btn.offsetWidth;
+                    const containerWidth = navContainer.clientWidth;
+                    navContainer.scrollTo({
+                        left: btnLeft - (containerWidth / 2) + (btnWidth / 2),
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+
+        function setupScrollSpy() {
+            const sections = ['overview', 'offered-properties', 'features', 'location', 'floor-plans', 'payment-plan', 'marketed-by'];
+            let ticking = false;
+
+            window.addEventListener('scroll', () => {
+                if (isProgrammaticScroll) return;
+
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const scrollPos = window.scrollY + 180;
+                        let activeSection = sections[0];
+
+                        for (let i = 0; i < sections.length; i++) {
+                            const sec = document.getElementById(sections[i]);
+                            if (sec && sec.offsetTop <= scrollPos) {
+                                activeSection = sections[i];
+                            }
+                        }
+
+                        updateActiveTab(activeSection);
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        }
+
+        function setupScrollTriggers() {
+            const backToTop = document.getElementById('back-to-top');
+            const mobileBar = document.getElementById('mobile-bottom-bar');
+            let triggerTicking = false;
+
+            window.addEventListener('scroll', () => {
+                if (!triggerTicking) {
+                    window.requestAnimationFrame(() => {
+                        const scrolled = window.scrollY > 450;
+                        if (backToTop) backToTop.classList.toggle('visible', scrolled);
+                        if (mobileBar) {
+                            mobileBar.style.transform = scrolled ? 'translateY(0)' : 'translateY(100%)';
+                            mobileBar.style.transition = 'transform 0.3s ease';
+                        }
+                        triggerTicking = false;
+                    });
+                    triggerTicking = true;
+                }
+            }, { passive: true });
+        }
+
+        // ======================================================================
+        // 3. OVERVIEW UNIT-TYPE PRICE/SPEC CARDS (§4b)
+        // Repeating compact 4-field stack: label -> price range -> description -> area range
+        // ======================================================================
+        function filterOverviewUnits(category) {
+            // Update active chip
+            document.querySelectorAll('#overview-category-chips .category-chip-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-cat') === category);
+            });
+            renderOverviewUnitCards(category);
+        }
+
+        function renderOverviewUnitCards(category) {
+            const container = document.getElementById('overview-unit-cards');
+            if (!container) return;
+
+            const list = category === 'all' 
+                ? UNIT_INVENTORY_DATA 
+                : UNIT_INVENTORY_DATA.filter(u => u.category === category);
+
+            container.innerHTML = list.map(u => `
+                <div class="unit-spec-card flex flex-col justify-between space-y-3">
+                    <div class="space-y-1">
+                        <!-- 1. Category Label / Heading (§4b) -->
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
+                                ${u.category}
+                            </span>
+                            <span class="text-[10px] text-slate-400 font-semibold">${u.floorLevel}</span>
+                        </div>
+                        <h4 class="font-extrabold text-base text-slate-900 outfit">${u.title}</h4>
+
+                        <!-- 2. Bold Price Range Line (§4b) -->
+                        <div class="text-xl font-black text-emerald-800 outfit pt-0.5">
+                            ${u.priceRange}
+                        </div>
+
+                        <!-- 3. One-line descriptor (§4b) -->
+                        <p class="text-xs text-slate-500 leading-snug line-clamp-2 pt-1">
+                            ${u.descriptor}
+                        </p>
+                    </div>
+
+                    <!-- 4. "Area Size:" label + range & Inquire CTA (§4b) -->
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                        <div>
+                            <span class="text-slate-400 font-bold uppercase text-[10px] block">Area Size</span>
+                            <span class="font-bold text-slate-800">${u.areaSize} <span class="text-slate-400 font-normal">(${u.areaMarla})</span></span>
+                        </div>
+                        <button onclick="prefillLeadUnit('${u.title}')" class="btn-primary text-xs py-1.5 px-3.5 rounded-xl font-bold flex items-center gap-1 shadow-sm">
+                            <span>Inquire</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ======================================================================
+        // 4. OFFERED PROPERTIES FULL INVENTORY MATRIX (§5)
+        // ======================================================================
+        function filterOfferedInventory(category) {
+            document.querySelectorAll('#offered-category-chips .category-chip-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-offered') === category);
+            });
+            renderOfferedInventory(category);
+        }
+
+        function renderOfferedInventory(category) {
+            const container = document.getElementById('offered-inventory-list');
+            if (!container) return;
+
+            const list = category === 'all' 
+                ? UNIT_INVENTORY_DATA 
+                : UNIT_INVENTORY_DATA.filter(u => u.category === category);
+
+            document.getElementById('offered-count-badge').innerText = `${list.length} Unit Variant${list.length > 1 ? 's' : ''}`;
+
+            container.innerHTML = list.map(u => `
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 hover:border-emerald-600 transition-all hover:shadow-md">
+                    
+                    <!-- Left: Unit Image + Meta Stack -->
+                    <div class="flex items-start gap-4">
+                        <img src="${u.image}" alt="${u.title}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover border border-slate-200 shrink-0">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                                ${u.category}
+                            </span>
+                            <h4 class="font-extrabold text-base sm:text-lg text-slate-900 outfit">${u.title}</h4>
+                            <div class="text-xs text-slate-500 font-medium">${u.floorLevel} • Available Allocations: <span class="text-emerald-700 font-bold">${u.availableUnits} units</span></div>
+                            <div class="text-xs text-slate-600 line-clamp-1 max-w-xl pt-0.5">${u.descriptor}</div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Size, Price Range & CTA Buttons -->
+                    <div class="w-full lg:w-auto flex flex-col sm:flex-row items-start sm:items-center justify-between lg:justify-end gap-6 pt-4 lg:pt-0 border-t lg:border-t-0 border-slate-100">
+                        <div class="text-left sm:text-right space-y-0.5">
+                            <div class="text-xs text-slate-400 font-semibold">Area: <strong class="text-slate-800">${u.areaSize}</strong></div>
+                            <div class="text-xl sm:text-2xl font-black text-emerald-800 outfit">${u.priceRange}</div>
+                            <div class="text-[11px] text-slate-500 font-medium">15% Booking: <strong class="text-slate-800">${u.downPayment}</strong></div>
+                        </div>
+
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <button onclick="scrollToSection('floor-plans'); selectFloorPlan(3);" class="btn-outline text-xs py-2.5 px-3.5 rounded-xl font-bold flex items-center justify-center gap-1.5 flex-1 sm:flex-initial">
+                                <i class="fa-solid fa-compass-drafting text-emerald-700"></i> Plan
+                            </button>
+                            <button onclick="prefillLeadUnit('${u.title}')" class="btn-primary text-xs py-2.5 px-5 rounded-xl font-bold flex items-center justify-center gap-1.5 flex-1 sm:flex-initial shadow">
+                                <i class="fa-solid fa-calendar-check text-[10px]"></i> Reserve Unit
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            `).join('');
+        }
+
+        // ======================================================================
+        // 5. FLOOR PLANS TABBED DOCUMENT VIEWER (§9)
+        // ======================================================================
+        function renderFloorPlanTabs() {
+            const container = document.getElementById('floor-plans-list');
+            if (!container) return;
+
+            container.innerHTML = FLOOR_PLAN_DOCS.map((doc, idx) => `
+                <div class="plan-doc-item ${idx === activeFloorPlanIndex ? 'active' : ''}" onclick="selectFloorPlan(${idx})">
+                    <div class="pr-2">
+                        <div class="font-bold text-xs leading-tight">${doc.title}</div>
+                        <div class="text-[10px] text-slate-400 mt-0.5">${doc.subtitle}</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-[10px] opacity-60"></i>
+                </div>
+            `).join('');
+        }
+
+        function selectFloorPlan(idx) {
+            activeFloorPlanIndex = idx;
+            const doc = FLOOR_PLAN_DOCS[idx];
+            
+            // Update preview pane
+            const img = document.getElementById('active-floorplan-img');
+            img.style.opacity = '0.5';
+            setTimeout(() => {
+                img.src = doc.image;
+                img.style.opacity = '1';
+            }, 100);
+
+            document.getElementById('active-plan-title').innerText = doc.title;
+            document.getElementById('plan-spec-area').innerText = doc.area;
+            document.getElementById('plan-spec-height').innerText = doc.height;
+            document.getElementById('plan-spec-view').innerText = doc.view;
+
+            // Highlight active tab
+            document.querySelectorAll('.plan-doc-item').forEach((el, i) => {
+                el.classList.toggle('active', i === idx);
+            });
+        }
+
+        function openFloorPlanZoom() {
+            const doc = FLOOR_PLAN_DOCS[activeFloorPlanIndex];
+            document.getElementById('lightbox-img').src = doc.image;
+            document.getElementById('lightbox-title').innerText = doc.title;
+            document.getElementById('lightbox-counter').innerText = doc.subtitle;
+            document.getElementById('project-lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openPaymentPlanZoom() {
+            document.getElementById('lightbox-img').src = "assets/images/payment_plan_chart.jpg";
+            document.getElementById('lightbox-title').innerText = "Official 3-Year Installment Milestone Schedule";
+            document.getElementById('lightbox-counter').innerText = "Developer Escrow Certified Sheet";
+            document.getElementById('project-lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function downloadActiveFloorPlan() {
+            const doc = FLOOR_PLAN_DOCS[activeFloorPlanIndex];
+            const a = document.createElement('a');
+            a.href = doc.image;
+            a.download = `${doc.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.jpg`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // ======================================================================
+        // 6. LOCATION & POI CATEGORY FILTER (§7)
+        // ======================================================================
+        function filterPOIs(category) {
+            document.querySelectorAll('#poi-filter-pills .category-chip-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-poi') === category);
+            });
+            renderPOIs(category);
+        }
+
+        function renderPOIs(category) {
+            const container = document.getElementById('poi-items-list');
+            if (!container) return;
+
+            const list = category === 'all'
+                ? NEARBY_POIS_DATA
+                : NEARBY_POIS_DATA.filter(p => p.category === category);
+
+            container.innerHTML = list.map(p => `
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-start gap-3 hover:bg-emerald-50/50 hover:border-emerald-300 transition-colors">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-700 text-white flex items-center justify-center shrink-0 text-xs">
+                        <i class="fa-solid ${p.icon}"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-xs text-slate-900">${p.name}</span>
+                            <span class="text-[10px] font-extrabold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">${p.distance}</span>
+                        </div>
+                        <p class="text-[10px] text-slate-500 mt-0.5 leading-snug">${p.text}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ======================================================================
+        // 7. LEAD-CAPTURE SUBMISSION HANDLER (§8)
+        // ======================================================================
+        function prefillLeadUnit(unitTitle) {
+            const select = document.getElementById('lead-unit-pref');
+            if (select) {
+                for (let i = 0; i < select.options.length; i++) {
+                    if (select.options[i].text.toLowerCase().includes(unitTitle.toLowerCase()) || unitTitle.toLowerCase().includes(select.options[i].value.toLowerCase())) {
+                        select.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+            scrollToSection('request-call-box');
+            document.getElementById('lead-name')?.focus();
+        }
+
+        async function handleProjectLeadSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-lead');
+            const feedback = document.getElementById('lead-form-feedback');
+            const name = document.getElementById('lead-name').value.trim();
+            const code = document.getElementById('lead-country-code').value;
+            const phone = document.getElementById('lead-phone').value.trim();
+            const email = document.getElementById('lead-email').value.trim();
+            const unit = document.getElementById('lead-unit-pref').value;
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Processing Request...`;
+
+            try {
+                if (window.KaghanDB && window.KaghanDB.createLead) {
+                    const projectTitle = currentProjectData ? currentProjectData.title : "Pine Valley Resort Suites";
+                    const projectId = currentProjectData ? currentProjectData.id : "pine-valley-resort-suites-project";
+                    await window.KaghanDB.createLead({
+                        name,
+                        email,
+                        phone: `${code} ${phone}`,
+                        propertyTitle: `${projectTitle} (${unit})`,
+                        propertyId: projectId,
+                        message: `Client requested instant phone call back for unit: ${unit}. Phone: ${code} ${phone}.`,
+                        sourcePage: "project-detail.html"
+                    });
+                }
+                
+                feedback.className = "p-3 rounded-xl text-center text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 block";
+                feedback.innerHTML = `✓ Request Received! A senior project director will call you at <strong>${code} ${phone}</strong> within 15 minutes.`;
+                e.target.reset();
+            } catch (err) {
+                feedback.className = "p-3 rounded-xl text-center text-xs font-bold bg-rose-50 text-rose-800 border border-rose-200 block";
+                feedback.innerText = "Error sending request. Please call directly at +92 334 0091127.";
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-paper-plane text-xs"></i> <span>Request Call</span>`;
+            }
+        }
+
+        // ======================================================================
+        // 8. SOCIAL SHARING & COPY LINK
+        // ======================================================================
+        function shareProject(platform) {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent("Pine Valley Serviced Resort Suites & Chalets - Luxury Alpine Living in Nathia Gali");
+            let target = '';
+            if (platform === 'facebook') target = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            else if (platform === 'twitter') target = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+            else if (platform === 'whatsapp') target = `https://wa.me/?text=${title}%20${url}`;
+            else if (platform === 'email') target = `mailto:?subject=${title}&body=Check%20out%20Pine%20Valley%20Resort%20Suites%20at%20${url}`;
+            if (target) window.open(target, '_blank', 'width=600,height=500');
+        }
+
+        function copyProjectLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const text = document.getElementById('copy-text');
+                const btn = document.getElementById('copy-link-btn');
+                text.innerText = 'Copied!';
+                btn.classList.add('bg-emerald-100', 'text-emerald-800');
+                setTimeout(() => {
+                    text.innerText = 'Copy Link';
+                    btn.classList.remove('bg-emerald-100', 'text-emerald-800');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

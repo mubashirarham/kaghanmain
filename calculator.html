@@ -97,37 +97,18 @@
             }
         }
     </script>
+    <!-- Token Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
         body { font-family: 'Inter', sans-serif; }
         .outfit { font-family: 'Outfit', sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .hover-lift { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .hover-lift:hover { transform: translateY(-4px); }
-        input[type=range] { accent-color: #D4AF37; }
+        input[type=range] { accent-color: #077943; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Global Navigation -->
-    <nav class="bg-slate-900/95 text-white sticky top-0 z-50 backdrop-blur-md border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
-            <a href="index.html" class="flex items-center gap-3">
-                <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-10 w-auto object-contain">
-                <span class="text-xl font-bold tracking-wider uppercase outfit">Kaghan Properties</span>
-            </a>
-            <div class="hidden lg:flex gap-7 items-center font-medium text-sm">
-                <a href="index.html" class="hover:text-gold transition-colors">Home</a>
-                <a href="projects.html" class="hover:text-gold transition-colors">Properties</a>
-                <a href="societies.html" class="hover:text-gold transition-colors">Societies</a>
-                <a href="calculator.html" class="text-gold font-bold transition-colors">Calculators</a>
-                <a href="compare.html" class="hover:text-gold transition-colors">Compare</a>
-                <a href="agents.html" class="hover:text-gold transition-colors">Agents</a>
-                <a href="blog.html" class="hover:text-gold transition-colors">Blog</a>
-                <a href="faqs.html" class="hover:text-gold transition-colors">FAQs</a>
-                <a href="contact.html" class="bg-gold text-white px-5 py-2 rounded-full hover:bg-white hover:text-slate-900 transition-all font-bold shadow-md">Contact</a>
-            </div>
-        </div>
-    </nav>
+    <!-- Global Two-Tier Navigation -->
+    <div id="site-header"></div>
 
     <!-- Header Hero Banner -->
     <header class="pt-24 pb-16 bg-slate-900 text-white relative overflow-hidden">
@@ -313,12 +294,8 @@
         </section>
     </main>
 
-    <!-- Global Footer -->
-    <footer class="bg-slate-900 text-slate-400 text-xs py-12 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 md:px-8 text-center space-y-4">
-            <p>&copy; 2026 Kaghan Properties. All Rights Reserved. Prime Real Estate in Islamabad & Kaghan Valley.</p>
-        </div>
-    </footer>
+    <!-- Shared Global Footer -->
+    <div id="site-footer"></div>
 
     <!-- Scripts -->
     <script>
