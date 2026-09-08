@@ -83,7 +83,8 @@
                 <!-- Location Field -->
                 <div class="relative shrink-0 min-w-[170px]">
                     <i class="fa-solid fa-location-dot absolute left-2.5 top-2 text-slate-400 text-[10px]"></i>
-                    <input type="text" id="filter-location" oninput="debounceApplyFilters()" placeholder="Society / Location" class="w-full bg-slate-100 border border-slate-200 rounded-lg pl-7 pr-2 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:border-emerald-600">
+                    <input type="text" id="filter-location" list="filter-location-datalist" oninput="debounceApplyFilters()" placeholder="Society / Location" class="w-full bg-slate-100 border border-slate-200 rounded-lg pl-7 pr-2 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:border-emerald-600">
+                    <datalist id="filter-location-datalist"></datalist>
                 </div>
 
                 <!-- Property Type -->
@@ -470,12 +471,55 @@
 
         // Initialize Page
         window.addEventListener('DOMContentLoaded', async () => {
+            // Hydrate Dynamic Filter Dropdowns from KaghanDB
+            if (window.KaghanDB) {
+                try {
+                    const [cities, categories, societies] = await Promise.all([
+                        window.KaghanDB.getCities(true),
+                        window.KaghanDB.getCategories(true),
+                        window.KaghanDB.getSocieties(null, true)
+                    ]);
+
+                    const cityEl = document.getElementById('filter-city');
+                    if (cityEl && cities && cities.length > 0) {
+                        cityEl.innerHTML = `<option value="all">All Cities</option>` + cities.map(c => `
+                            <option value="${c.name}">${c.name}</option>
+                        `).join('');
+                    }
+
+                    const typeEl = document.getElementById('filter-type');
+                    if (typeEl && categories && categories.length > 0) {
+                        typeEl.innerHTML = `<option value="all">All Types</option>` + categories.map(c => `
+                            <option value="${c.slug}">${c.name}</option>
+                        `).join('');
+                    }
+
+                    const locDatalist = document.getElementById('filter-location-datalist');
+                    if (locDatalist && societies && societies.length > 0) {
+                        locDatalist.innerHTML = societies.map(s => `
+                            <option value="${s.name}">
+                            <option value="${s.name}, ${s.city}">
+                        `).join('');
+                    }
+                } catch(e) {
+                    console.warn('Error populating dynamic filters in projects.html:', e);
+                }
+            }
+
             // Read URL Params
             const params = new URLSearchParams(window.location.search);
             if (params.get('purpose')) activePurpose = params.get('purpose');
             if (params.get('city')) {
                 const cityEl = document.getElementById('filter-city');
-                if (cityEl) cityEl.value = params.get('city');
+                if (cityEl) {
+                    // If city is not already an option in select, add it
+                    const exists = Array.from(cityEl.options).some(o => o.value.toLowerCase() === params.get('city').toLowerCase());
+                    if (!exists) {
+                        cityEl.innerHTML += `<option value="${params.get('city')}" selected>${params.get('city')}</option>`;
+                    } else {
+                        cityEl.value = params.get('city');
+                    }
+                }
             }
             if (params.get('area')) {
                 const areaEl = document.getElementById('filter-location');
@@ -483,7 +527,14 @@
             }
             if (params.get('type')) {
                 const typeEl = document.getElementById('filter-type');
-                if (typeEl) typeEl.value = params.get('type');
+                if (typeEl) {
+                    const exists = Array.from(typeEl.options).some(o => o.value.toLowerCase() === params.get('type').toLowerCase());
+                    if (!exists) {
+                        typeEl.innerHTML += `<option value="${params.get('type')}" selected>${params.get('type')}</option>`;
+                    } else {
+                        typeEl.value = params.get('type');
+                    }
+                }
             }
 
             if (params.get('isNewProject') === 'true') {

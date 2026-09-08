@@ -248,9 +248,13 @@
                         <i class="fa-solid fa-users-gear text-sm w-5 text-center"></i>
                         Agents & Users
                     </button>
+                    <button onclick="switchTab('categories')" id="tab-btn-categories" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                        <i class="fa-solid fa-shapes text-sm w-5 text-center"></i>
+                        Categories & Types
+                    </button>
                     <button onclick="switchTab('societies')" id="tab-btn-societies" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-map-location-dot text-sm w-5 text-center"></i>
-                        Societies & Areas
+                        Locations & Areas
                     </button>
                     <button onclick="switchTab('blogs')" id="tab-btn-blogs" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-newspaper text-sm w-5 text-center"></i>
@@ -602,31 +606,120 @@
                 </div>
             </div>
 
-            <!-- TAB 5: SOCIETIES -->
-            <div id="tab-societies" class="tab-content hidden space-y-6">
-                <div class="flex justify-between items-center">
+            <!-- TAB: CATEGORIES & TYPES -->
+            <div id="tab-categories" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h1 class="text-2xl font-bold outfit text-white">Societies & Prime Areas</h1>
-                        <p class="text-slate-400 text-xs">Path: <code class="text-[#D4AF37]">kaghan_properties/societies/</code></p>
+                        <h1 class="text-2xl font-bold outfit text-white flex items-center gap-2">
+                            <i class="fa-solid fa-shapes text-[#D4AF37]"></i> Property Categories & Types
+                        </h1>
+                        <p class="text-slate-400 text-xs">Manage property taxonomies, icons, and classification groups. Live syncs with homepage search & filters.</p>
                     </div>
-                    <button onclick="openSocietyModal()" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2">
-                        <i class="fa-solid fa-plus"></i> Add Society
+                    <button onclick="openCategoryModal()" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2 shrink-0">
+                        <i class="fa-solid fa-plus"></i> Add Category
                     </button>
                 </div>
 
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-950/70 border-b border-slate-800 text-slate-400 font-bold uppercase">
-                            <tr>
-                                <th class="p-4">Society Name</th>
-                                <th class="p-4">Type & City</th>
-                                <th class="p-4">Amenities</th>
-                                <th class="p-4">Media Links</th>
-                                <th class="p-4 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="societies-table-body" class="divide-y divide-slate-800/50"></tbody>
-                    </table>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-950/70 border-b border-slate-800 text-slate-400 font-bold uppercase">
+                                <tr>
+                                    <th class="p-4">Icon & Name</th>
+                                    <th class="p-4">Classification Group</th>
+                                    <th class="p-4">Slug / Code</th>
+                                    <th class="p-4">Order</th>
+                                    <th class="p-4">Status</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categories-table-body" class="divide-y divide-slate-800/50"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: LOCATIONS & SOCIETIES (CITIES + SECTORS) -->
+            <div id="tab-societies" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold outfit text-white flex items-center gap-2">
+                            <i class="fa-solid fa-map-location-dot text-[#D4AF37]"></i> Locations & Societies Manager
+                        </h1>
+                        <p class="text-slate-400 text-xs">Manage top cities, housing societies, CDA sectors, and alpine hill-station areas.</p>
+                    </div>
+
+                    <!-- Dual Sub-Tab Switcher -->
+                    <div class="bg-slate-900 p-1 rounded-xl border border-slate-800 flex gap-1">
+                        <button type="button" onclick="switchLocationSubTab('cities')" id="loc-subtab-btn-cities" class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all bg-[#D4AF37] text-slate-950">
+                            <i class="fa-solid fa-city mr-1"></i> Cities Catalog
+                        </button>
+                        <button type="button" onclick="switchLocationSubTab('societies')" id="loc-subtab-btn-societies" class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white">
+                            <i class="fa-solid fa-building-circle-check mr-1"></i> Societies & Sectors
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB 1: CITIES -->
+                <div id="loc-subtab-cities" class="space-y-4">
+                    <div class="flex justify-between items-center bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        <div class="text-xs text-slate-400">
+                            Active cities displayed on the public site search bar, mega-blocks, and footer.
+                        </div>
+                        <button onclick="openCityModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> Add New City
+                        </button>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead class="bg-slate-950/70 border-b border-slate-800 text-slate-400 font-bold uppercase">
+                                    <tr>
+                                        <th class="p-4">City</th>
+                                        <th class="p-4">Province / Region</th>
+                                        <th class="p-4">Estimated Ads</th>
+                                        <th class="p-4">Featured</th>
+                                        <th class="p-4">Status</th>
+                                        <th class="p-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cities-table-body" class="divide-y divide-slate-800/50"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB 2: SOCIETIES & SECTORS -->
+                <div id="loc-subtab-societies" class="hidden space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <label class="text-slate-400 text-xs font-bold whitespace-nowrap">Filter by City:</label>
+                            <select id="soc-filter-city" onchange="renderSocietiesTable()" class="bg-slate-950 border border-slate-800 text-white rounded-xl px-3 py-1.5 text-xs">
+                                <option value="all">All Cities</option>
+                            </select>
+                        </div>
+                        <button onclick="openSocietyModal()" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> Add Society / Area
+                        </button>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead class="bg-slate-950/70 border-b border-slate-800 text-slate-400 font-bold uppercase">
+                                    <tr>
+                                        <th class="p-4">Society / Area</th>
+                                        <th class="p-4">City & Type</th>
+                                        <th class="p-4">Amenities</th>
+                                        <th class="p-4">Media</th>
+                                        <th class="p-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="societies-table-body" class="divide-y divide-slate-800/50"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -910,6 +1003,125 @@
                         </div>
                     </div>
 
+                    <!-- DYNAMIC HOMEPAGE CONTENT & PROMOTIONAL MODULES -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-5 space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+                            <div>
+                                <label class="text-white font-bold text-xs flex items-center gap-2">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-[#D4AF37]"></i> Dynamic Homepage Modules & Banners
+                                </label>
+                                <p class="text-slate-400 text-[11px] mt-0.5">Control live promo banners, decision tools tiles, and partner banks without touching code.</p>
+                            </div>
+                        </div>
+
+                        <!-- 1. Secondary Promotional Banner Strip -->
+                        <div class="space-y-4 bg-slate-900/60 p-4 rounded-xl border border-slate-800/60">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-300 font-bold text-xs flex items-center gap-2">
+                                    <i class="fa-solid fa-bullhorn text-amber-400"></i> Promotional Banner Strip (Hero Secondary)
+                                </span>
+                                <label class="flex items-center gap-2 cursor-pointer text-slate-300 text-xs">
+                                    <input type="checkbox" id="promo-banner-active" class="w-4 h-4 rounded text-[#D4AF37]" checked>
+                                    <span>Active on Public Site</span>
+                                </label>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="md:col-span-2">
+                                    <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Banner Title</label>
+                                    <input type="text" id="promo-banner-title" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white text-xs" placeholder="e.g. Pine Valley Mountain Chalets & Resort Suites">
+                                </div>
+                                <div>
+                                    <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Badge Text</label>
+                                    <input type="text" id="promo-banner-badge" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white text-xs" placeholder="New / Hot / Exclusive">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Description / Subtitle</label>
+                                <input type="text" id="promo-banner-subtitle" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white text-xs" placeholder="Pre-launch investment opportunity...">
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">CTA Button Text</label>
+                                    <input type="text" id="promo-banner-cta-text" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white text-xs" placeholder="View Development">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">CTA Destination URL</label>
+                                    <input type="text" id="promo-banner-cta-url" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white text-xs" placeholder="project-detail.html?slug=pine-valley-resort-suites-project">
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end">
+                                <button type="button" onclick="savePromoBannerForm()" class="bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-slate-950 font-bold px-4 py-2 rounded-xl text-xs border border-amber-500/40 transition-all flex items-center gap-1.5">
+                                    <i class="fa-solid fa-check"></i> Save Promotional Banner
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 2. Decision Tools & Interactive Portals -->
+                        <div class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800/60">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-slate-300 font-bold text-xs flex items-center gap-2">
+                                        <i class="fa-solid fa-cubes text-emerald-400"></i> Decision Tools & Intelligence Tiles (6 Tiles)
+                                    </span>
+                                    <p class="text-slate-500 text-[10px]">Displayed on homepage below search bar.</p>
+                                </div>
+                                <button type="button" onclick="openDecisionToolModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5">
+                                    <i class="fa-solid fa-plus"></i> Add Tool Tile
+                                </button>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs">
+                                    <thead class="bg-slate-950/60 text-slate-400 font-bold uppercase text-[10px]">
+                                        <tr>
+                                            <th class="p-2.5">Icon & Title</th>
+                                            <th class="p-2.5">Subtitle</th>
+                                            <th class="p-2.5">Destination Link</th>
+                                            <th class="p-2.5">Badge</th>
+                                            <th class="p-2.5">Status</th>
+                                            <th class="p-2.5 text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="decision-tools-tbody" class="divide-y divide-slate-800/40"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 3. Our Home Finance & Banking Partners -->
+                        <div class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800/60">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-slate-300 font-bold text-xs flex items-center gap-2">
+                                        <i class="fa-solid fa-building-columns text-blue-400"></i> Home Finance & Banking Partners
+                                    </span>
+                                    <p class="text-slate-500 text-[10px]">Strip displayed above the homepage footer.</p>
+                                </div>
+                                <button type="button" onclick="openHomePartnerModal()" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5">
+                                    <i class="fa-solid fa-plus"></i> Add Banking Partner
+                                </button>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs">
+                                    <thead class="bg-slate-950/60 text-slate-400 font-bold uppercase text-[10px]">
+                                        <tr>
+                                            <th class="p-2.5">Bank / Institution Name</th>
+                                            <th class="p-2.5">Type</th>
+                                            <th class="p-2.5">Indicative Financing Rate</th>
+                                            <th class="p-2.5">Status</th>
+                                            <th class="p-2.5 text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="home-partners-tbody" class="divide-y divide-slate-800/40"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="pt-4 border-t border-slate-800 flex items-center gap-6">
                         <label class="flex items-center gap-2 cursor-pointer text-slate-300">
                             <input type="checkbox" id="set-feat-blog" class="w-4 h-4 rounded text-[#D4AF37]">
@@ -990,7 +1202,14 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label class="text-slate-400 uppercase font-bold block mb-1">City</label>
-                        <input type="text" id="form-prop-city" value="Islamabad" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                        <select id="form-prop-city" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                            <option value="Islamabad">Islamabad</option>
+                            <option value="Rawalpindi">Rawalpindi</option>
+                            <option value="Murree">Murree</option>
+                            <option value="Nathia Gali">Nathia Gali</option>
+                            <option value="Lahore">Lahore</option>
+                            <option value="Kaghan Valley">Kaghan Valley</option>
+                        </select>
                     </div>
                     <div>
                         <label class="text-slate-400 uppercase font-bold block mb-1">Area / Society</label>
@@ -1410,6 +1629,120 @@
         </div>
     </div>
 
+    <!-- MODAL: ADD/EDIT CATEGORY -->
+    <div id="modal-category" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 id="modal-cat-title" class="text-lg font-bold text-white outfit">Add Category / Property Type</h3>
+                <button onclick="closeCategoryModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form onsubmit="saveCategoryForm(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="form-cat-id">
+                <div>
+                    <label class="text-slate-400 uppercase font-bold block mb-1">Category / Type Name *</label>
+                    <input type="text" id="form-cat-name" required placeholder="e.g. Luxury Chalets & Suites" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Slug / Code</label>
+                        <input type="text" id="form-cat-slug" placeholder="e.g. chalets" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Classification Group</label>
+                        <select id="form-cat-group" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                            <option value="Homes & Living">Homes & Living</option>
+                            <option value="Plots & Land">Plots & Land</option>
+                            <option value="Commercial & Retail">Commercial & Retail</option>
+                            <option value="Vacation & Alpine">Vacation & Alpine</option>
+                            <option value="Specialty">Specialty</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">FontAwesome Icon Class</label>
+                        <input type="text" id="form-cat-icon" placeholder="fa-solid fa-mountain" value="fa-solid fa-house" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Sort Order</label>
+                        <input type="number" id="form-cat-order" value="1" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                </div>
+                <div>
+                    <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                        <input type="checkbox" id="form-cat-active" class="w-4 h-4 rounded text-[#D4AF37]" checked>
+                        <span>Active (Available in public site search & filters)</span>
+                    </label>
+                </div>
+
+                <div class="pt-3 flex justify-end gap-3 border-t border-slate-800">
+                    <button type="button" onclick="closeCategoryModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300">Cancel</button>
+                    <button type="submit" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-5 py-2 rounded-xl">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD/EDIT CITY -->
+    <div id="modal-city" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 id="modal-city-title" class="text-lg font-bold text-white outfit">Add / Edit City</h3>
+                <button onclick="closeCityModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form onsubmit="saveCityForm(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="form-city-id">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">City Name *</label>
+                        <input type="text" id="form-city-name" required placeholder="e.g. Kaghan Valley" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Slug</label>
+                        <input type="text" id="form-city-slug" placeholder="e.g. kaghan-valley" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Province / Region</label>
+                        <input type="text" id="form-city-province" placeholder="e.g. Khyber Pakhtunkhwa" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Estimated Ads / Inventory</label>
+                        <input type="number" id="form-city-count" value="120" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-slate-400 uppercase font-bold block mb-1">Cover Image URL</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="form-city-image" placeholder="https://..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                        <label class="cursor-pointer bg-slate-800 hover:bg-[#D4AF37] hover:text-slate-950 text-slate-300 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 transition-all border border-slate-700">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <input type="file" accept="image/*" class="hidden" onchange="uploadCityCoverImage(event)">
+                        </label>
+                    </div>
+                </div>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                        <input type="checkbox" id="form-city-featured" class="w-4 h-4 rounded text-[#D4AF37]" checked>
+                        <span>Featured City (Show on home cards)</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                        <input type="checkbox" id="form-city-active" class="w-4 h-4 rounded text-emerald-500" checked>
+                        <span>Active</span>
+                    </label>
+                </div>
+
+                <div class="pt-3 flex justify-end gap-3 border-t border-slate-800">
+                    <button type="button" onclick="closeCityModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300">Cancel</button>
+                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2 rounded-xl">Save City</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL: ADD/EDIT SOCIETY -->
     <div id="modal-society" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4">
@@ -1421,25 +1754,49 @@
             <form onsubmit="saveSocietyForm(event)" class="space-y-3 text-xs">
                 <input type="hidden" id="form-soc-id">
                 <div>
-                    <label class="text-slate-400 uppercase font-bold block mb-1">Society Name *</label>
+                    <label class="text-slate-400 uppercase font-bold block mb-1">Society / Area Name *</label>
                     <input type="text" id="form-soc-name" required placeholder="e.g. DHA Islamabad" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="text-slate-400 uppercase font-bold block mb-1">City</label>
-                        <input type="text" id="form-soc-city" value="Islamabad" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                        <label class="text-slate-400 uppercase font-bold block mb-1">City *</label>
+                        <select id="form-soc-city" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                            <!-- Populated dynamically from KaghanDB.getCities() -->
+                        </select>
                     </div>
                     <div>
-                        <label class="text-slate-400 uppercase font-bold block mb-1">Type</label>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Classification Type</label>
                         <select id="form-soc-type" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
-                            <option value="society">Society</option>
+                            <option value="society">Housing Society</option>
                             <option value="sector">CDA Sector</option>
                             <option value="scheme">Scheme / Area</option>
+                            <option value="alpine">Alpine Hill Station</option>
                         </select>
                     </div>
                 </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">NOC / Legal Status</label>
+                        <select id="form-soc-noc" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                            <option value="Approved">Approved</option>
+                            <option value="Under Review">Under Review</option>
+                            <option value="CDA Registered">CDA Registered</option>
+                            <option value="RDA Registered">RDA Registered</option>
+                            <option value="TMA Approved">TMA Approved</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Active Status</label>
+                        <div class="pt-2">
+                            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                                <input type="checkbox" id="form-soc-active" class="w-4 h-4 rounded text-[#D4AF37]" checked>
+                                <span>Active in Search</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <div>
-                    <label class="text-slate-400 uppercase font-bold block mb-1">Description</label>
+                    <label class="text-slate-400 uppercase font-bold block mb-1">Description / Key Highlights</label>
                     <textarea id="form-soc-desc" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white"></textarea>
                 </div>
                 <div>
@@ -1450,6 +1807,108 @@
                 <div class="pt-3 flex justify-end gap-3 border-t border-slate-800">
                     <button type="button" onclick="closeSocietyModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300">Cancel</button>
                     <button type="submit" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-5 py-2 rounded-xl">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD/EDIT DECISION TOOL -->
+    <div id="modal-decision-tool" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 id="modal-tool-title" class="text-lg font-bold text-white outfit">Add / Edit Decision Tool Tile</h3>
+                <button onclick="closeDecisionToolModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form onsubmit="saveDecisionToolForm(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="form-tool-id">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Tile Title *</label>
+                        <input type="text" id="form-tool-title-input" required placeholder="e.g. Plot Finder" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Badge Tag</label>
+                        <input type="text" id="form-tool-badge" placeholder="e.g. Interactive" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-slate-400 uppercase font-bold block mb-1">Subtitle / Summary</label>
+                    <input type="text" id="form-tool-subtitle" placeholder="e.g. Interactive sector maps & plots" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Icon Class</label>
+                        <input type="text" id="form-tool-icon" value="fa-solid fa-calculator" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Destination URL</label>
+                        <input type="text" id="form-tool-link" value="calculator.html" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                </div>
+                <div>
+                    <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                        <input type="checkbox" id="form-tool-active" class="w-4 h-4 rounded text-emerald-500" checked>
+                        <span>Active on Homepage</span>
+                    </label>
+                </div>
+
+                <div class="pt-3 flex justify-end gap-3 border-t border-slate-800">
+                    <button type="button" onclick="closeDecisionToolModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300">Cancel</button>
+                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2 rounded-xl">Save Tool Tile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD/EDIT HOME PARTNER BANK -->
+    <div id="modal-home-partner" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 id="modal-partner-title" class="text-lg font-bold text-white outfit">Add / Edit Banking Partner</h3>
+                <button onclick="closeHomePartnerModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form onsubmit="saveHomePartnerForm(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="form-partner-id">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Bank / Institution Name *</label>
+                        <input type="text" id="form-partner-name" required placeholder="e.g. Meezan Bank" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Institution Type</label>
+                        <select id="form-partner-type" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                            <option value="Islamic Banking">Islamic Banking</option>
+                            <option value="Commercial Bank">Commercial Bank</option>
+                            <option value="Microfinance">Microfinance</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Indicative Financing Rate</label>
+                        <input type="text" id="form-partner-rate" placeholder="From 12.5% p.a." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">FontAwesome Icon / Logo Class</label>
+                        <input type="text" id="form-partner-icon" value="fa-solid fa-landmark" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-slate-400 uppercase font-bold block mb-1">Website / Partner Link</label>
+                    <input type="text" id="form-partner-link" value="#" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                </div>
+                <div>
+                    <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                        <input type="checkbox" id="form-partner-active" class="w-4 h-4 rounded text-[#D4AF37]" checked>
+                        <span>Active on Homepage Strip</span>
+                    </label>
+                </div>
+
+                <div class="pt-3 flex justify-end gap-3 border-t border-slate-800">
+                    <button type="button" onclick="closeHomePartnerModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300">Cancel</button>
+                    <button type="submit" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-5 py-2 rounded-xl">Save Partner</button>
                 </div>
             </form>
         </div>
@@ -1613,13 +2072,17 @@
                 else renderLeadsTable();
             }
             if (tabId === 'users') renderUsersTable();
-            if (tabId === 'societies') renderSocietiesTable();
+            if (tabId === 'categories') renderCategoriesTable();
+            if (tabId === 'societies') renderLocationsAndSocieties();
             if (tabId === 'blogs') renderBlogsTable();
             if (tabId === 'calculators') runInstallmentCalc();
             if (tabId === 'tools') {
                 if (window.AdminTools) window.AdminTools.renderAuditLogsTable();
             }
-            if (tabId === 'settings') loadSettingsForm();
+            if (tabId === 'settings') {
+                loadSettingsForm();
+                loadDynamicSiteContent();
+            }
         }
 
         async function loadAllAdminData() {
@@ -2267,6 +2730,7 @@
         function openPropertyModal(prop = null) {
             document.getElementById('modal-property').classList.remove('hidden');
             populateAgentDropdowns();
+            populateDynamicPropertySelects(prop ? prop.type : 'house', prop ? prop.city : 'Islamabad');
             initTinyMCEEditors();
 
             if (prop) {
@@ -2773,42 +3237,697 @@
             }
         }
 
-        // SOCIETIES
-        async function renderSocietiesTable() {
-            const societies = await window.KaghanDB.getSocieties();
-            const tbody = document.getElementById('societies-table-body');
-            tbody.innerHTML = societies.map(s => `
-                <tr class="hover:bg-slate-900/50">
-                    <td class="p-4 font-bold text-white">${s.name}</td>
-                    <td class="p-4 text-slate-300 uppercase">${s.type} • ${s.city}</td>
-                    <td class="p-4 text-slate-400">${(s.amenities || []).join(', ')}</td>
-                    <td class="p-4 text-[#D4AF37]">${s.introVideoId ? 'Video Included' : 'No Video'}</td>
-                    <td class="p-4 text-right">
-                        <button onclick="deleteSociety('${s.id}')" class="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg"><i class="fa-solid fa-trash"></i></button>
+        // ==========================================
+        // DYNAMIC SELECTS FOR PROPERTY MODAL
+        // ==========================================
+        async function populateDynamicPropertySelects(selectedType = null, selectedCity = null) {
+            try {
+                const categories = await window.KaghanDB.getCategories(true);
+                const typeSelect = document.getElementById('form-prop-type');
+                if (typeSelect && categories && categories.length > 0) {
+                    const currentVal = selectedType || typeSelect.value || 'house';
+                    typeSelect.innerHTML = categories.map(c => `
+                        <option value="${c.slug}" ${c.slug === currentVal ? 'selected' : ''}>${c.name} (${c.group || 'Category'})</option>
+                    `).join('');
+                    if (!categories.some(c => c.slug === currentVal) && currentVal) {
+                        typeSelect.innerHTML += `<option value="${currentVal}" selected>${currentVal.toUpperCase()}</option>`;
+                    }
+                }
+
+                const cities = await window.KaghanDB.getCities(true);
+                const cityEl = document.getElementById('form-prop-city');
+                if (cityEl && cities && cities.length > 0) {
+                    const currentCity = selectedCity || cityEl.value || 'Islamabad';
+                    cityEl.innerHTML = cities.map(c => `
+                        <option value="${c.name}" ${c.name.toLowerCase() === currentCity.toLowerCase() ? 'selected' : ''}>${c.name}</option>
+                    `).join('');
+                    if (!cities.some(c => c.name.toLowerCase() === currentCity.toLowerCase()) && currentCity) {
+                        cityEl.innerHTML += `<option value="${currentCity}" selected>${currentCity}</option>`;
+                    }
+                }
+            } catch(e) {
+                console.warn('Error populating dynamic property selects:', e);
+            }
+        }
+
+        // ==========================================
+        // CATEGORIES & PROPERTY TYPES CRUD
+        // ==========================================
+        let allCategoriesCache = [];
+
+        async function renderCategoriesTable() {
+            allCategoriesCache = await window.KaghanDB.getCategories(false);
+            const tbody = document.getElementById('categories-table-body');
+            if (!tbody) return;
+
+            if (!allCategoriesCache || allCategoriesCache.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-500">No categories found. Click "Add Category" to create one.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = allCategoriesCache.map(c => `
+                <tr class="hover:bg-slate-900/50 transition-colors">
+                    <td class="p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-slate-800 text-[#D4AF37] flex items-center justify-center text-xs">
+                                <i class="${c.iconClass || 'fa-solid fa-house'}"></i>
+                            </div>
+                            <span class="font-bold text-white">${c.name}</span>
+                        </div>
+                    </td>
+                    <td class="p-4 text-slate-300">${c.group || 'General'}</td>
+                    <td class="p-4 font-mono text-xs text-slate-400">${c.slug}</td>
+                    <td class="p-4 text-slate-400 font-bold">${c.order || 1}</td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${c.isActive !== false ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-500'}">
+                            ${c.isActive !== false ? 'Active' : 'Disabled'}
+                        </span>
+                    </td>
+                    <td class="p-4 text-right space-x-2">
+                        <button onclick="openCategoryModal('${c.id}')" class="p-2 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-all" title="Edit Category">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button onclick="deleteCategory('${c.id}')" class="p-2 text-rose-400 hover:text-white hover:bg-rose-600 rounded-lg transition-all" title="Delete Category">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
                     </td>
                 </tr>
             `).join('');
         }
-        function openSocietyModal() { document.getElementById('modal-society').classList.remove('hidden'); }
-        function closeSocietyModal() { document.getElementById('modal-society').classList.add('hidden'); }
+
+        function openCategoryModal(catIdOrObj = null) {
+            let cat = null;
+            if (typeof catIdOrObj === 'string') {
+                cat = allCategoriesCache.find(c => c.id === catIdOrObj);
+            } else if (catIdOrObj && typeof catIdOrObj === 'object') {
+                cat = catIdOrObj;
+            }
+
+            document.getElementById('modal-category').classList.remove('hidden');
+
+            if (cat) {
+                document.getElementById('modal-cat-title').innerText = 'Edit Category / Property Type';
+                document.getElementById('form-cat-id').value = cat.id || '';
+                document.getElementById('form-cat-name').value = cat.name || '';
+                document.getElementById('form-cat-slug').value = cat.slug || '';
+                document.getElementById('form-cat-group').value = cat.group || 'Homes & Living';
+                document.getElementById('form-cat-icon').value = cat.iconClass || 'fa-solid fa-house';
+                document.getElementById('form-cat-order').value = cat.order || 1;
+                document.getElementById('form-cat-active').checked = cat.isActive !== false;
+            } else {
+                document.getElementById('modal-cat-title').innerText = 'Add Category / Property Type';
+                document.getElementById('form-cat-id').value = '';
+                document.getElementById('form-cat-name').value = '';
+                document.getElementById('form-cat-slug').value = '';
+                document.getElementById('form-cat-group').value = 'Homes & Living';
+                document.getElementById('form-cat-icon').value = 'fa-solid fa-house';
+                document.getElementById('form-cat-order').value = (allCategoriesCache.length + 1);
+                document.getElementById('form-cat-active').checked = true;
+            }
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('modal-category').classList.add('hidden');
+        }
+
+        async function saveCategoryForm(e) {
+            e.preventDefault();
+            const id = document.getElementById('form-cat-id').value || null;
+            const name = document.getElementById('form-cat-name').value.trim();
+            let slug = document.getElementById('form-cat-slug').value.trim();
+            if (!slug) slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            const group = document.getElementById('form-cat-group').value;
+            const iconClass = document.getElementById('form-cat-icon').value.trim() || 'fa-solid fa-house';
+            const order = parseInt(document.getElementById('form-cat-order').value, 10) || 1;
+            const isActive = document.getElementById('form-cat-active').checked;
+
+            await window.KaghanDB.saveCategory({
+                id, name, slug, group, iconClass, order, isActive
+            });
+
+            closeCategoryModal();
+            renderCategoriesTable();
+        }
+
+        async function deleteCategory(id) {
+            if (confirm("Are you sure you want to delete this category?")) {
+                await window.KaghanDB.deleteCategory(id);
+                renderCategoriesTable();
+            }
+        }
+
+        // ==========================================
+        // LOCATIONS & SOCIETIES (DUAL MANAGER)
+        // ==========================================
+        let currentLocSubTab = 'cities';
+        let allCitiesCache = [];
+        let allSocietiesCache = [];
+
+        function switchLocationSubTab(subTab) {
+            currentLocSubTab = subTab;
+            const btnCities = document.getElementById('loc-subtab-btn-cities');
+            const btnSocieties = document.getElementById('loc-subtab-btn-societies');
+            const panelCities = document.getElementById('loc-subtab-cities');
+            const panelSocieties = document.getElementById('loc-subtab-societies');
+
+            if (subTab === 'cities') {
+                btnCities.className = "px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all bg-[#D4AF37] text-slate-950";
+                btnSocieties.className = "px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white";
+                panelCities.classList.remove('hidden');
+                panelSocieties.classList.add('hidden');
+                renderCitiesTable();
+            } else {
+                btnSocieties.className = "px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all bg-[#D4AF37] text-slate-950";
+                btnCities.className = "px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white";
+                panelSocieties.classList.remove('hidden');
+                panelCities.classList.add('hidden');
+                renderSocietiesTable();
+            }
+        }
+
+        async function renderLocationsAndSocieties() {
+            if (currentLocSubTab === 'cities') {
+                await renderCitiesTable();
+            } else {
+                await renderSocietiesTable();
+            }
+        }
+
+        // --- CITIES CRUD ---
+        async function renderCitiesTable() {
+            allCitiesCache = await window.KaghanDB.getCities(false);
+            const tbody = document.getElementById('cities-table-body');
+            if (!tbody) return;
+
+            if (!allCitiesCache || allCitiesCache.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-500">No cities found. Click "Add New City" to add one.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = allCitiesCache.map(city => {
+                const img = city.coverImage || city.image || '';
+                const slug = city.slug || (city.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                const count = city.estimatedCount || city.adCount || 0;
+                const isFeat = (city.isFeatured === true || city.featured === true);
+                return `
+                <tr class="hover:bg-slate-900/50 transition-colors">
+                    <td class="p-4">
+                        <div class="flex items-center gap-3">
+                            ${img ? `<img src="${img}" class="w-10 h-7 object-cover rounded-md border border-slate-800" onerror="this.style.display='none'">` : `<div class="w-10 h-7 bg-slate-800 rounded-md flex items-center justify-center text-slate-500 text-xs"><i class="fa-solid fa-city"></i></div>`}
+                            <div>
+                                <span class="font-bold text-white block">${city.name}</span>
+                                <span class="text-[10px] text-slate-400 font-mono">${slug}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="p-4 text-slate-300">${city.province || 'Pakistan'}</td>
+                    <td class="p-4 text-slate-400 font-mono">${count ? `${count.toLocaleString()}+` : '0+'}</td>
+                    <td class="p-4">
+                        ${isFeat ? `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30">Featured</span>` : `<span class="text-slate-600 text-xs">—</span>`}
+                    </td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${city.isActive !== false ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-500'}">
+                            ${city.isActive !== false ? 'Active' : 'Hidden'}
+                        </span>
+                    <td class="p-4 text-right space-x-2">
+                        <button onclick="openCityModal('${city.id}')" class="p-2 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-all" title="Edit City">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button onclick="deleteCity('${city.id}')" class="p-2 text-rose-400 hover:text-white hover:bg-rose-600 rounded-lg transition-all" title="Delete City">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+            }).join('');
+        }
+
+        function openCityModal(cityIdOrObj = null) {
+            let city = null;
+            if (typeof cityIdOrObj === 'string') {
+                city = allCitiesCache.find(c => c.id === cityIdOrObj);
+            } else if (cityIdOrObj && typeof cityIdOrObj === 'object') {
+                city = cityIdOrObj;
+            }
+
+            document.getElementById('modal-city').classList.remove('hidden');
+
+            if (city) {
+                document.getElementById('modal-city-title').innerText = 'Edit City';
+                document.getElementById('form-city-id').value = city.id || '';
+                document.getElementById('form-city-name').value = city.name || '';
+                document.getElementById('form-city-slug').value = city.slug || '';
+                document.getElementById('form-city-province').value = city.province || '';
+                document.getElementById('form-city-count').value = city.estimatedCount || 100;
+                document.getElementById('form-city-image').value = city.coverImage || '';
+                document.getElementById('form-city-featured').checked = city.isFeatured !== false;
+                document.getElementById('form-city-active').checked = city.isActive !== false;
+            } else {
+                document.getElementById('modal-city-title').innerText = 'Add New City';
+                document.getElementById('form-city-id').value = '';
+                document.getElementById('form-city-name').value = '';
+                document.getElementById('form-city-slug').value = '';
+                document.getElementById('form-city-province').value = 'Federal Capital';
+                document.getElementById('form-city-count').value = 100;
+                document.getElementById('form-city-image').value = '';
+                document.getElementById('form-city-featured').checked = true;
+                document.getElementById('form-city-active').checked = true;
+            }
+        }
+
+        function closeCityModal() {
+            document.getElementById('modal-city').classList.add('hidden');
+        }
+
+        async function saveCityForm(e) {
+            e.preventDefault();
+            const id = document.getElementById('form-city-id').value || null;
+            const name = document.getElementById('form-city-name').value.trim();
+            let slug = document.getElementById('form-city-slug').value.trim();
+            if (!slug) slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            const province = document.getElementById('form-city-province').value.trim();
+            const estimatedCount = parseInt(document.getElementById('form-city-count').value, 10) || 0;
+            const coverImage = document.getElementById('form-city-image').value.trim();
+            const isFeatured = document.getElementById('form-city-featured').checked;
+            const isActive = document.getElementById('form-city-active').checked;
+
+            await window.KaghanDB.saveCity({
+                id, name, slug, province, estimatedCount, coverImage, isFeatured, isActive
+            });
+
+            closeCityModal();
+            renderCitiesTable();
+        }
+
+        async function deleteCity(id) {
+            if (confirm("Delete this city record?")) {
+                await window.KaghanDB.deleteCity(id);
+                renderCitiesTable();
+            }
+        }
+
+        async function uploadCityCoverImage(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const input = document.getElementById('form-city-image');
+            input.placeholder = "Uploading to Cloudinary...";
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', 'kaghan_properties');
+                const resp = await fetch('https://api.cloudinary.com/v1_1/dis1ptaip/image/upload', {
+                    method: 'POST', body: formData
+                });
+                const data = await resp.json();
+                if (data.secure_url) {
+                    input.value = data.secure_url;
+                }
+            } catch(err) {
+                alert("Upload failed: " + err.message);
+            } finally {
+                input.placeholder = "https://...";
+                e.target.value = '';
+            }
+        }
+
+        // --- SOCIETIES & SECTORS CRUD ---
+        async function renderSocietiesTable() {
+            allCitiesCache = await window.KaghanDB.getCities(true);
+            const filterCityEl = document.getElementById('soc-filter-city');
+            if (filterCityEl) {
+                const prevVal = filterCityEl.value || 'all';
+                filterCityEl.innerHTML = `<option value="all">All Cities</option>` + allCitiesCache.map(c => `
+                    <option value="${c.name}" ${c.name.toLowerCase() === prevVal.toLowerCase() ? 'selected' : ''}>${c.name}</option>
+                `).join('');
+            }
+
+            const currentFilter = filterCityEl ? filterCityEl.value : 'all';
+            allSocietiesCache = await window.KaghanDB.getSocieties(currentFilter === 'all' ? null : currentFilter, false);
+            const tbody = document.getElementById('societies-table-body');
+            if (!tbody) return;
+
+            if (!allSocietiesCache || allSocietiesCache.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-500">No societies found for this filter.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = allSocietiesCache.map(s => `
+                <tr class="hover:bg-slate-900/50 transition-colors">
+                    <td class="p-4">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-white">${s.name}</span>
+                            ${s.nocStatus ? `<span class="px-2 py-0.5 rounded text-[8px] font-bold ${s.nocStatus.toLowerCase().includes('approved') ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}">${s.nocStatus}</span>` : ''}
+                        </div>
+                        ${s.description ? `<p class="text-[11px] text-slate-400 line-clamp-1 mt-0.5">${s.description}</p>` : ''}
+                    </td>
+                    <td class="p-4 text-slate-300 uppercase text-xs font-semibold">${s.type || 'Society'} • <span class="text-white font-bold">${s.city}</span></td>
+                    <td class="p-4 text-slate-400 text-xs">${(s.amenities || []).slice(0, 3).join(', ') || 'Prime Access, Utilities'}</td>
+                    <td class="p-4 text-[#D4AF37] text-xs">${s.introVideoId ? '<i class="fa-brands fa-youtube text-red-400 mr-1"></i> Video Active' : '<span class="text-slate-500">No Video</span>'}</td>
+                    <td class="p-4 text-right space-x-2">
+                        <button onclick="openSocietyModal('${s.id}')" class="p-2 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-all" title="Edit Society">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button onclick="deleteSociety('${s.id}')" class="p-2 text-rose-400 hover:text-white hover:bg-rose-600 rounded-lg transition-all" title="Delete Society">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function openSocietyModal(socIdOrObj = null) {
+            let soc = null;
+            if (typeof socIdOrObj === 'string') {
+                soc = allSocietiesCache.find(s => s.id === socIdOrObj);
+            } else if (socIdOrObj && typeof socIdOrObj === 'object') {
+                soc = socIdOrObj;
+            }
+
+            // Populate dynamic cities into #form-soc-city
+            const cities = await window.KaghanDB.getCities(true);
+            const citySelect = document.getElementById('form-soc-city');
+            if (citySelect && cities && cities.length > 0) {
+                const targetCity = soc ? soc.city : (cities[0].name || 'Islamabad');
+                citySelect.innerHTML = cities.map(c => `
+                    <option value="${c.name}" ${c.name.toLowerCase() === targetCity.toLowerCase() ? 'selected' : ''}>${c.name}</option>
+                `).join('');
+            }
+
+            document.getElementById('modal-society').classList.remove('hidden');
+
+            if (soc) {
+                document.getElementById('modal-soc-title').innerText = 'Edit Society / Area';
+                document.getElementById('form-soc-id').value = soc.id || '';
+                document.getElementById('form-soc-name').value = soc.name || '';
+                if (citySelect) citySelect.value = soc.city || 'Islamabad';
+                document.getElementById('form-soc-type').value = soc.type || 'society';
+                const nocEl = document.getElementById('form-soc-noc');
+                if (nocEl) nocEl.value = soc.nocStatus || 'Approved';
+                const activeEl = document.getElementById('form-soc-active');
+                if (activeEl) activeEl.checked = soc.isActive !== false;
+                document.getElementById('form-soc-desc').value = soc.description || '';
+                document.getElementById('form-soc-video').value = soc.introVideoId || '';
+            } else {
+                document.getElementById('modal-soc-title').innerText = 'Add Society / Area';
+                document.getElementById('form-soc-id').value = '';
+                document.getElementById('form-soc-name').value = '';
+                document.getElementById('form-soc-type').value = 'society';
+                const nocEl = document.getElementById('form-soc-noc');
+                if (nocEl) nocEl.value = 'Approved';
+                const activeEl = document.getElementById('form-soc-active');
+                if (activeEl) activeEl.checked = true;
+                document.getElementById('form-soc-desc').value = '';
+                document.getElementById('form-soc-video').value = '';
+            }
+        }
+
+        function closeSocietyModal() {
+            document.getElementById('modal-society').classList.add('hidden');
+        }
+
         async function saveSocietyForm(e) {
             e.preventDefault();
-            const name = document.getElementById('form-soc-name').value;
+            const id = document.getElementById('form-soc-id').value || null;
+            const name = document.getElementById('form-soc-name').value.trim();
             const city = document.getElementById('form-soc-city').value;
             const type = document.getElementById('form-soc-type').value;
-            const description = document.getElementById('form-soc-desc').value;
-            const videoId = document.getElementById('form-soc-video').value;
+            const nocStatus = document.getElementById('form-soc-noc') ? document.getElementById('form-soc-noc').value : 'Approved';
+            const isActive = document.getElementById('form-soc-active') ? document.getElementById('form-soc-active').checked : true;
+            const description = document.getElementById('form-soc-desc').value.trim();
+            const videoId = document.getElementById('form-soc-video').value.trim();
 
             await window.KaghanDB.saveSociety({
-                name, slug: name.toLowerCase().replace(/[^a-z0-9]+/g,'-'), city, type, description, introVideoId: videoId, isActive: true
+                id,
+                name,
+                slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+                city,
+                type,
+                nocStatus,
+                description,
+                introVideoId: videoId,
+                isActive
             });
+
             closeSocietyModal();
             renderSocietiesTable();
         }
+
         async function deleteSociety(id) {
             if (confirm("Delete society record?")) {
                 await window.KaghanDB.deleteSociety(id);
                 renderSocietiesTable();
+            }
+        }
+
+        // ==========================================
+        // DYNAMIC HOMEPAGE MODULES (SITE CONTENT)
+        // ==========================================
+        let liveSiteContentCache = null;
+
+        async function loadDynamicSiteContent() {
+            liveSiteContentCache = await window.KaghanDB.getSiteContent();
+            if (!liveSiteContentCache) return;
+
+            // 1. Promotional Banner Strip
+            const promo = liveSiteContentCache.promoBanner || {};
+            const promoTitleEl = document.getElementById('promo-banner-title');
+            if (promoTitleEl) promoTitleEl.value = promo.title || '';
+            const promoBadgeEl = document.getElementById('promo-banner-badge');
+            if (promoBadgeEl) promoBadgeEl.value = promo.badge || 'New';
+            const promoSubEl = document.getElementById('promo-banner-subtitle');
+            if (promoSubEl) promoSubEl.value = promo.subtitle || '';
+            const promoCtaTxtEl = document.getElementById('promo-banner-cta-text');
+            if (promoCtaTxtEl) promoCtaTxtEl.value = promo.ctaText || 'View Development';
+            const promoCtaUrlEl = document.getElementById('promo-banner-cta-url');
+            if (promoCtaUrlEl) promoCtaUrlEl.value = promo.ctaUrl || 'projects.html';
+            const promoActiveEl = document.getElementById('promo-banner-active');
+            if (promoActiveEl) promoActiveEl.checked = promo.isActive !== false;
+
+            // 2. Decision Tools
+            renderDecisionToolsList();
+
+            // 3. Home Banking Partners
+            renderHomePartnersList();
+        }
+
+        async function savePromoBannerForm() {
+            if (!liveSiteContentCache) liveSiteContentCache = await window.KaghanDB.getSiteContent();
+            liveSiteContentCache.promoBanner = {
+                title: document.getElementById('promo-banner-title').value.trim(),
+                badge: document.getElementById('promo-banner-badge').value.trim(),
+                subtitle: document.getElementById('promo-banner-subtitle').value.trim(),
+                ctaText: document.getElementById('promo-banner-cta-text').value.trim(),
+                ctaUrl: document.getElementById('promo-banner-cta-url').value.trim(),
+                isActive: document.getElementById('promo-banner-active').checked
+            };
+
+            await window.KaghanDB.saveSiteContent(liveSiteContentCache);
+            alert("Promotional banner configurations saved!");
+        }
+
+        // --- DECISION TOOLS ---
+        function renderDecisionToolsList() {
+            const tbody = document.getElementById('decision-tools-tbody');
+            if (!tbody || !liveSiteContentCache) return;
+            const tools = liveSiteContentCache.decisionTools || [];
+
+            tbody.innerHTML = tools.map((t, idx) => `
+                <tr class="hover:bg-slate-900/50 transition-colors">
+                    <td class="p-2.5">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-slate-800 text-emerald-400 flex items-center justify-center text-xs">
+                                <i class="${t.iconClass || 'fa-solid fa-cube'}"></i>
+                            </div>
+                            <span class="font-bold text-white">${t.title}</span>
+                        </div>
+                    </td>
+                    <td class="p-2.5 text-slate-400 text-[11px] max-w-xs truncate">${t.subtitle || ''}</td>
+                    <td class="p-2.5 font-mono text-[10px] text-slate-400">${t.link || '#'}</td>
+                    <td class="p-2.5">
+                        ${t.badge ? `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-400">${t.badge}</span>` : '<span class="text-slate-600 text-xs">—</span>'}
+                    </td>
+                    <td class="p-2.5">
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold ${t.isActive !== false ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-500'}">
+                            ${t.isActive !== false ? 'Active' : 'Off'}
+                        </span>
+                    </td>
+                    <td class="p-2.5 text-right space-x-1">
+                        <button type="button" onclick="openDecisionToolModal(${idx})" class="p-1.5 text-slate-400 hover:text-white bg-slate-800 rounded">
+                            <i class="fa-solid fa-pen text-xs"></i>
+                        </button>
+                        <button type="button" onclick="deleteDecisionTool(${idx})" class="p-1.5 text-rose-400 hover:text-white hover:bg-rose-600 rounded">
+                            <i class="fa-solid fa-trash text-xs"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openDecisionToolModal(toolIndex = null) {
+            document.getElementById('modal-decision-tool').classList.remove('hidden');
+            const tools = (liveSiteContentCache && liveSiteContentCache.decisionTools) ? liveSiteContentCache.decisionTools : [];
+
+            if (toolIndex !== null && tools[toolIndex]) {
+                const t = tools[toolIndex];
+                document.getElementById('modal-tool-title').innerText = 'Edit Decision Tool Tile';
+                document.getElementById('form-tool-id').value = toolIndex;
+                document.getElementById('form-tool-title-input').value = t.title || '';
+                document.getElementById('form-tool-badge').value = t.badge || '';
+                document.getElementById('form-tool-subtitle').value = t.subtitle || '';
+                document.getElementById('form-tool-icon').value = t.iconClass || 'fa-solid fa-calculator';
+                document.getElementById('form-tool-link').value = t.link || 'calculator.html';
+                document.getElementById('form-tool-active').checked = t.isActive !== false;
+            } else {
+                document.getElementById('modal-tool-title').innerText = 'Add Decision Tool Tile';
+                document.getElementById('form-tool-id').value = '';
+                document.getElementById('form-tool-title-input').value = '';
+                document.getElementById('form-tool-badge').value = 'Interactive';
+                document.getElementById('form-tool-subtitle').value = '';
+                document.getElementById('form-tool-icon').value = 'fa-solid fa-chart-line';
+                document.getElementById('form-tool-link').value = 'calculator.html';
+                document.getElementById('form-tool-active').checked = true;
+            }
+        }
+
+        function closeDecisionToolModal() {
+            document.getElementById('modal-decision-tool').classList.add('hidden');
+        }
+
+        async function saveDecisionToolForm(e) {
+            e.preventDefault();
+            if (!liveSiteContentCache) liveSiteContentCache = await window.KaghanDB.getSiteContent();
+            if (!liveSiteContentCache.decisionTools) liveSiteContentCache.decisionTools = [];
+
+            const indexVal = document.getElementById('form-tool-id').value;
+            const toolData = {
+                id: indexVal !== '' ? (liveSiteContentCache.decisionTools[indexVal]?.id || 'tool_' + Date.now()) : 'tool_' + Date.now(),
+                title: document.getElementById('form-tool-title-input').value.trim(),
+                badge: document.getElementById('form-tool-badge').value.trim(),
+                subtitle: document.getElementById('form-tool-subtitle').value.trim(),
+                iconClass: document.getElementById('form-tool-icon').value.trim(),
+                link: document.getElementById('form-tool-link').value.trim(),
+                isActive: document.getElementById('form-tool-active').checked
+            };
+
+            if (indexVal !== '') {
+                liveSiteContentCache.decisionTools[parseInt(indexVal, 10)] = toolData;
+            } else {
+                liveSiteContentCache.decisionTools.push(toolData);
+            }
+
+            await window.KaghanDB.saveSiteContent(liveSiteContentCache);
+            closeDecisionToolModal();
+            renderDecisionToolsList();
+        }
+
+        async function deleteDecisionTool(index) {
+            if (confirm("Delete this decision tool tile?")) {
+                if (!liveSiteContentCache) liveSiteContentCache = await window.KaghanDB.getSiteContent();
+                liveSiteContentCache.decisionTools.splice(index, 1);
+                await window.KaghanDB.saveSiteContent(liveSiteContentCache);
+                renderDecisionToolsList();
+            }
+        }
+
+        // --- HOME BANKING PARTNERS ---
+        function renderHomePartnersList() {
+            const tbody = document.getElementById('home-partners-tbody');
+            if (!tbody || !liveSiteContentCache) return;
+            const partners = liveSiteContentCache.homePartners || [];
+
+            tbody.innerHTML = partners.map((p, idx) => `
+                <tr class="hover:bg-slate-900/50 transition-colors">
+                    <td class="p-2.5">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-slate-800 text-[#D4AF37] flex items-center justify-center text-xs">
+                                <i class="${p.iconClass || 'fa-solid fa-landmark'}"></i>
+                            </div>
+                            <span class="font-bold text-white">${p.name}</span>
+                        </div>
+                    </td>
+                    <td class="p-2.5 text-slate-400 text-xs">${p.type || 'Bank'}</td>
+                    <td class="p-2.5 font-semibold text-emerald-400 text-xs">${p.rate || 'Competitive'}</td>
+                    <td class="p-2.5">
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold ${p.isActive !== false ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-500'}">
+                            ${p.isActive !== false ? 'Active' : 'Off'}
+                        </span>
+                    </td>
+                    <td class="p-2.5 text-right space-x-1">
+                        <button type="button" onclick="openHomePartnerModal(${idx})" class="p-1.5 text-slate-400 hover:text-white bg-slate-800 rounded">
+                            <i class="fa-solid fa-pen text-xs"></i>
+                        </button>
+                        <button type="button" onclick="deleteHomePartner(${idx})" class="p-1.5 text-rose-400 hover:text-white hover:bg-rose-600 rounded">
+                            <i class="fa-solid fa-trash text-xs"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openHomePartnerModal(partnerIndex = null) {
+            document.getElementById('modal-home-partner').classList.remove('hidden');
+            const partners = (liveSiteContentCache && liveSiteContentCache.homePartners) ? liveSiteContentCache.homePartners : [];
+
+            if (partnerIndex !== null && partners[partnerIndex]) {
+                const p = partners[partnerIndex];
+                document.getElementById('modal-partner-title').innerText = 'Edit Banking Partner';
+                document.getElementById('form-partner-id').value = partnerIndex;
+                document.getElementById('form-partner-name').value = p.name || '';
+                document.getElementById('form-partner-type').value = p.type || 'Islamic Banking';
+                document.getElementById('form-partner-rate').value = p.rate || '';
+                document.getElementById('form-partner-icon').value = p.iconClass || 'fa-solid fa-landmark';
+                document.getElementById('form-partner-link').value = p.link || '#';
+                document.getElementById('form-partner-active').checked = p.isActive !== false;
+            } else {
+                document.getElementById('modal-partner-title').innerText = 'Add Banking Partner';
+                document.getElementById('form-partner-id').value = '';
+                document.getElementById('form-partner-name').value = '';
+                document.getElementById('form-partner-type').value = 'Islamic Banking';
+                document.getElementById('form-partner-rate').value = 'From 12.5% p.a.';
+                document.getElementById('form-partner-icon').value = 'fa-solid fa-landmark';
+                document.getElementById('form-partner-link').value = '#';
+                document.getElementById('form-partner-active').checked = true;
+            }
+        }
+
+        function closeHomePartnerModal() {
+            document.getElementById('modal-home-partner').classList.add('hidden');
+        }
+
+        async function saveHomePartnerForm(e) {
+            e.preventDefault();
+            if (!liveSiteContentCache) liveSiteContentCache = await window.KaghanDB.getSiteContent();
+            if (!liveSiteContentCache.homePartners) liveSiteContentCache.homePartners = [];
+
+            const indexVal = document.getElementById('form-partner-id').value;
+            const partnerData = {
+                id: indexVal !== '' ? (liveSiteContentCache.homePartners[indexVal]?.id || 'partner_' + Date.now()) : 'partner_' + Date.now(),
+                name: document.getElementById('form-partner-name').value.trim(),
+                type: document.getElementById('form-partner-type').value,
+                rate: document.getElementById('form-partner-rate').value.trim(),
+                iconClass: document.getElementById('form-partner-icon').value.trim(),
+                link: document.getElementById('form-partner-link').value.trim(),
+                isActive: document.getElementById('form-partner-active').checked
+            };
+
+            if (indexVal !== '') {
+                liveSiteContentCache.homePartners[parseInt(indexVal, 10)] = partnerData;
+            } else {
+                liveSiteContentCache.homePartners.push(partnerData);
+            }
+
+            await window.KaghanDB.saveSiteContent(liveSiteContentCache);
+            closeHomePartnerModal();
+            renderHomePartnersList();
+        }
+
+        async function deleteHomePartner(index) {
+            if (confirm("Delete this banking partner?")) {
+                if (!liveSiteContentCache) liveSiteContentCache = await window.KaghanDB.getSiteContent();
+                liveSiteContentCache.homePartners.splice(index, 1);
+                await window.KaghanDB.saveSiteContent(liveSiteContentCache);
+                renderHomePartnersList();
             }
         }
 

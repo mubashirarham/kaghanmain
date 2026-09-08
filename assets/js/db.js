@@ -110,6 +110,254 @@ window.CloudinaryService = {
     }
 };
 
+// Initial Dynamic Categories Taxonomy
+const DEFAULT_CATEGORIES = [
+    {
+        id: "house",
+        name: "Houses & Luxury Villas",
+        slug: "house",
+        group: "Homes",
+        icon: "fa-solid fa-house-chimney",
+        description: "Independent designer villas, modern family homes, and duplex residences.",
+        isActive: true,
+        sortOrder: 1
+    },
+    {
+        id: "apartment",
+        name: "Flats & Luxury Suites",
+        slug: "apartment",
+        group: "Homes",
+        icon: "fa-solid fa-building",
+        description: "High-rise serviced apartments, residential flats, and alpine suites.",
+        isActive: true,
+        sortOrder: 2
+    },
+    {
+        id: "commercial",
+        name: "Commercial Units & Shops",
+        slug: "commercial",
+        group: "Commercial",
+        icon: "fa-solid fa-shop",
+        description: "Retail boulevard shops, corporate office floors, and shopping plaza units.",
+        isActive: true,
+        sortOrder: 3
+    },
+    {
+        id: "plot",
+        name: "Plots & Land Allotments",
+        slug: "plot",
+        group: "Plots",
+        icon: "fa-solid fa-layer-group",
+        description: "Residential, commercial, and agro-farm plots ready for construction.",
+        isActive: true,
+        sortOrder: 4
+    },
+    {
+        id: "penthouse",
+        name: "Duplex Sky Penthouses",
+        slug: "penthouse",
+        group: "Homes",
+        icon: "fa-solid fa-cloud",
+        description: "Ultra-luxury top-floor penthouses with panoramic terraces and private elevators.",
+        isActive: true,
+        sortOrder: 5
+    },
+    {
+        id: "chalet",
+        name: "Alpine Resort Chalets",
+        slug: "chalet",
+        group: "Alpine Stays",
+        icon: "fa-solid fa-mountain",
+        description: "Scenic mountain vacation chalets with hotel-managed tourist rental pools.",
+        isActive: true,
+        sortOrder: 6
+    },
+    {
+        id: "farmhouse",
+        name: "Agro Luxury Farmhouses",
+        slug: "farmhouse",
+        group: "Plots",
+        icon: "fa-solid fa-tree",
+        description: "Serene country estates, fruit orchards, and weekend luxury farmhouses.",
+        isActive: true,
+        sortOrder: 7
+    }
+];
+
+// Initial Dynamic Cities Catalog
+const DEFAULT_CITIES = [
+    {
+        id: "islamabad",
+        name: "Islamabad",
+        slug: "islamabad",
+        province: "Federal Capital",
+        image: "assets/images/parkview.png",
+        adCount: 14322,
+        featured: true,
+        isActive: true,
+        sortOrder: 1
+    },
+    {
+        id: "rawalpindi",
+        name: "Rawalpindi",
+        slug: "rawalpindi",
+        province: "Punjab",
+        image: "assets/images/azan-arcade.png",
+        adCount: 11480,
+        featured: true,
+        isActive: true,
+        sortOrder: 2
+    },
+    {
+        id: "nathia-gali",
+        name: "Nathia Gali",
+        slug: "nathia-gali",
+        province: "KPK (Galyat)",
+        image: "assets/images/interior.png",
+        adCount: 2180,
+        featured: true,
+        isActive: true,
+        sortOrder: 3
+    },
+    {
+        id: "murree",
+        name: "Murree",
+        slug: "murree",
+        province: "Punjab (Hills)",
+        image: "assets/images/mideast-view2.png",
+        adCount: 3240,
+        featured: true,
+        isActive: true,
+        sortOrder: 4
+    },
+    {
+        id: "lahore",
+        name: "Lahore",
+        slug: "lahore",
+        province: "Punjab",
+        image: "assets/images/hero.png",
+        adCount: 18940,
+        featured: true,
+        isActive: true,
+        sortOrder: 5
+    },
+    {
+        id: "karachi",
+        name: "Karachi",
+        slug: "karachi",
+        province: "Sindh",
+        image: "assets/images/embassy.png",
+        adCount: 22400,
+        featured: false,
+        isActive: true,
+        sortOrder: 6
+    },
+    {
+        id: "peshawar",
+        name: "Peshawar",
+        slug: "peshawar",
+        province: "KPK",
+        image: "assets/images/bahria-villa.png",
+        adCount: 4350,
+        featured: false,
+        isActive: true,
+        sortOrder: 7
+    },
+    {
+        id: "abbottabad",
+        name: "Abbottabad",
+        slug: "abbottabad",
+        province: "KPK",
+        image: "assets/images/mideast-view1.png",
+        adCount: 1950,
+        featured: false,
+        isActive: true,
+        sortOrder: 8
+    }
+];
+
+// Dynamic Homepage Site Content Modules
+const DEFAULT_SITE_CONTENT = {
+    promoBanner: {
+        isActive: true,
+        title: "Pine Valley Mountain Chalets & Resort Suites",
+        badge: "New",
+        description: "Pre-launch investment opportunity in Nathia Gali. 18% projected tourist rental yield with managed stays.",
+        link: "project-detail.html?slug=pine-valley-resort-suites-project",
+        buttonText: "View Development",
+        icon: "fa-solid fa-tree"
+    },
+    decisionTools: [
+        {
+            id: "plot-finder",
+            title: "Plot Finder",
+            description: "Interactive sector maps & plot plots",
+            icon: "fa-solid fa-map-location-dot",
+            link: "projects.html?tool=plot-finder",
+            colorTheme: "emerald",
+            isActive: true,
+            sortOrder: 1
+        },
+        {
+            id: "area-guides",
+            title: "Area Guides",
+            description: "Society reviews, CDA sectors & rates",
+            icon: "fa-solid fa-compass",
+            link: "area.html",
+            colorTheme: "blue",
+            isActive: true,
+            sortOrder: 2
+        },
+        {
+            id: "new-projects",
+            title: "New Projects",
+            description: "Off-plan villas, malls & suites",
+            icon: "fa-solid fa-city",
+            link: "projects.html?isNewProject=true",
+            colorTheme: "purple",
+            isActive: true,
+            sortOrder: 3
+        },
+        {
+            id: "home-loans",
+            title: "Home Loans",
+            description: "Conventional & Islamic finance",
+            icon: "fa-solid fa-calculator",
+            link: "calculator.html",
+            colorTheme: "amber",
+            isActive: true,
+            sortOrder: 4
+        },
+        {
+            id: "land-records",
+            title: "Land Records",
+            description: "Online registry & title verification",
+            icon: "fa-solid fa-file-contract",
+            link: "societies.html#land-records",
+            colorTheme: "rose",
+            isActive: true,
+            sortOrder: 5
+        },
+        {
+            id: "construction-cost",
+            title: "Construction Cost",
+            description: "Turnkey Grey structure & finishes",
+            icon: "fa-solid fa-trowel-bricks",
+            link: "calculator.html#construction",
+            colorTheme: "teal",
+            isActive: true,
+            sortOrder: 6
+        }
+    ],
+    homePartners: [
+        { id: "p1", name: "Meezan Bank", icon: "fa-solid fa-landmark", link: "#", isActive: true },
+        { id: "p2", name: "HBL Islamic", icon: "fa-solid fa-building-columns", link: "#", isActive: true },
+        { id: "p3", name: "Bank Alfalah", icon: "fa-solid fa-vault", link: "#", isActive: true },
+        { id: "p4", name: "Faysal Bank", icon: "fa-solid fa-scale-balanced", link: "#", isActive: true },
+        { id: "p5", name: "Habib Metro Sirat", icon: "fa-solid fa-coins", link: "#", isActive: true }
+    ]
+};
+
 // Initial Data Seeding for Firestore 'kaghan_properties'
 const DEFAULT_SOCIETIES = [
     {
@@ -999,6 +1247,9 @@ let localStore = {
     properties: [...DEFAULT_PROPERTIES],
     leads: [],
     societies: [...DEFAULT_SOCIETIES],
+    categories: [...DEFAULT_CATEGORIES],
+    cities: [...DEFAULT_CITIES],
+    siteContent: { ...DEFAULT_SITE_CONTENT },
     blogPosts: [
         {
             id: "market-update-2026",
@@ -1021,6 +1272,23 @@ let localStore = {
     siteSettings: { ...DEFAULT_SITE_SETTINGS }
 };
 
+// Hydrate from localStorage if available
+try {
+    const savedCats = localStorage.getItem('kaghan_categories');
+    if (savedCats) localStore.categories = JSON.parse(savedCats);
+
+    const savedCities = localStorage.getItem('kaghan_cities');
+    if (savedCities) localStore.cities = JSON.parse(savedCities);
+
+    const savedSocs = localStorage.getItem('kaghan_societies');
+    if (savedSocs) localStore.societies = JSON.parse(savedSocs);
+
+    const savedContent = localStorage.getItem('kaghan_site_content');
+    if (savedContent) localStore.siteContent = JSON.parse(savedContent);
+} catch (e) {
+    console.warn("Could not read from localStorage fallback cache:", e);
+}
+
 // Auto-seed Firestore on module load
 async function seedFirestoreIfNeeded() {
     if (!db) return;
@@ -1029,6 +1297,31 @@ async function seedFirestoreIfNeeded() {
         const snap = await settingsRef.get();
         if (!snap.exists) {
             await settingsRef.set({ doc: 'main', ...DEFAULT_SITE_SETTINGS });
+        }
+
+        // Sync siteContent document
+        try {
+            const contentRef = db.collection('kaghan_properties').doc('siteContent');
+            const contentSnap = await contentRef.get();
+            if (!contentSnap.exists) {
+                await contentRef.set({ doc: 'main', ...DEFAULT_SITE_CONTENT });
+            }
+        } catch (e) {}
+
+        // Sync categories
+        const catRef = getSubcollectionRef('categories');
+        if (catRef) {
+            for (const c of DEFAULT_CATEGORIES) {
+                await catRef.doc(c.id).set(c, { merge: true });
+            }
+        }
+
+        // Sync cities
+        const cityRef = getSubcollectionRef('cities');
+        if (cityRef) {
+            for (const c of DEFAULT_CITIES) {
+                await cityRef.doc(c.id).set(c, { merge: true });
+            }
         }
         
         // Sync curated societies and remove obsolete societies if present
@@ -1331,8 +1624,142 @@ window.KaghanDB = {
         return true;
     },
 
-    // Societies API
-    getSocieties: async () => {
+    // =========================================================================
+    // Dynamic Categories & Property Types API
+    // =========================================================================
+    getCategories: async (onlyActive = false) => {
+        let list = [];
+        try {
+            if (db) {
+                const snap = await getSubcollectionRef('categories').get();
+                snap.forEach(doc => list.push(doc.data()));
+            }
+        } catch (e) {
+            console.error("Error getting categories:", e);
+        }
+        if (list.length === 0) list = localStore.categories;
+        if (onlyActive) {
+            list = list.filter(c => c.isActive !== false);
+        }
+        return list.sort((a, b) => (a.sortOrder || 99) - (b.sortOrder || 99));
+    },
+
+    getCategoryByIdOrSlug: async (idOrSlug) => {
+        const all = await window.KaghanDB.getCategories(false);
+        return all.find(c => c.id === idOrSlug || c.slug === idOrSlug) || null;
+    },
+
+    saveCategory: async (category) => {
+        category.updatedAt = new Date().toISOString();
+        if (!category.createdAt) category.createdAt = new Date().toISOString();
+        if (!category.id) category.id = category.slug || `cat_${Date.now()}`;
+        if (!category.slug) category.slug = category.id;
+        if (typeof category.isActive === 'undefined') category.isActive = true;
+
+        try {
+            if (db) {
+                await getSubcollectionRef('categories').doc(category.id).set(category, { merge: true });
+            }
+        } catch (e) {
+            console.error("Error saving category:", e);
+        }
+
+        const idx = localStore.categories.findIndex(c => c.id === category.id);
+        if (idx >= 0) localStore.categories[idx] = category;
+        else localStore.categories.push(category);
+
+        try {
+            localStorage.setItem('kaghan_categories', JSON.stringify(localStore.categories));
+        } catch (err) {}
+
+        return { success: true, id: category.id };
+    },
+
+    deleteCategory: async (id) => {
+        try {
+            if (db) {
+                await getSubcollectionRef('categories').doc(id).delete();
+            }
+        } catch (e) {
+            console.error("Error deleting category:", e);
+        }
+        localStore.categories = localStore.categories.filter(c => c.id !== id);
+        try {
+            localStorage.setItem('kaghan_categories', JSON.stringify(localStore.categories));
+        } catch (err) {}
+        return true;
+    },
+
+    // =========================================================================
+    // Dynamic Locations / Cities API
+    // =========================================================================
+    getCities: async (onlyActive = false) => {
+        let list = [];
+        try {
+            if (db) {
+                const snap = await getSubcollectionRef('cities').get();
+                snap.forEach(doc => list.push(doc.data()));
+            }
+        } catch (e) {
+            console.error("Error getting cities:", e);
+        }
+        if (list.length === 0) list = localStore.cities;
+        if (onlyActive) {
+            list = list.filter(c => c.isActive !== false);
+        }
+        return list.sort((a, b) => (a.sortOrder || 99) - (b.sortOrder || 99));
+    },
+
+    getCityByIdOrSlug: async (idOrSlug) => {
+        const all = await window.KaghanDB.getCities(false);
+        return all.find(c => c.id === idOrSlug || c.slug === idOrSlug || c.name.toLowerCase() === idOrSlug.toLowerCase()) || null;
+    },
+
+    saveCity: async (city) => {
+        city.updatedAt = new Date().toISOString();
+        if (!city.createdAt) city.createdAt = new Date().toISOString();
+        if (!city.id) city.id = city.slug || `city_${Date.now()}`;
+        if (!city.slug) city.slug = city.id;
+        if (typeof city.isActive === 'undefined') city.isActive = true;
+
+        try {
+            if (db) {
+                await getSubcollectionRef('cities').doc(city.id).set(city, { merge: true });
+            }
+        } catch (e) {
+            console.error("Error saving city:", e);
+        }
+
+        const idx = localStore.cities.findIndex(c => c.id === city.id);
+        if (idx >= 0) localStore.cities[idx] = city;
+        else localStore.cities.push(city);
+
+        try {
+            localStorage.setItem('kaghan_cities', JSON.stringify(localStore.cities));
+        } catch (err) {}
+
+        return { success: true, id: city.id };
+    },
+
+    deleteCity: async (id) => {
+        try {
+            if (db) {
+                await getSubcollectionRef('cities').doc(id).delete();
+            }
+        } catch (e) {
+            console.error("Error deleting city:", e);
+        }
+        localStore.cities = localStore.cities.filter(c => c.id !== id);
+        try {
+            localStorage.setItem('kaghan_cities', JSON.stringify(localStore.cities));
+        } catch (err) {}
+        return true;
+    },
+
+    // =========================================================================
+    // Societies & Prime Areas API
+    // =========================================================================
+    getSocieties: async (filterCity = null, onlyActive = false) => {
         let list = [];
         try {
             if (db) {
@@ -1343,6 +1770,12 @@ window.KaghanDB = {
             console.error("Error getting societies:", e);
         }
         if (list.length === 0) list = localStore.societies;
+        if (filterCity && filterCity !== 'all') {
+            list = list.filter(s => (s.city || '').toLowerCase() === filterCity.toLowerCase());
+        }
+        if (onlyActive) {
+            list = list.filter(s => s.isActive !== false);
+        }
         return list;
     },
 
@@ -1351,6 +1784,7 @@ window.KaghanDB = {
         if (!society.createdAt) society.createdAt = new Date().toISOString();
         if (!society.id) society.id = society.slug || `soc_${Date.now()}`;
         if (!society.slug) society.slug = society.id;
+        if (typeof society.isActive === 'undefined') society.isActive = true;
 
         try {
             if (db) {
@@ -1363,6 +1797,11 @@ window.KaghanDB = {
         const idx = localStore.societies.findIndex(s => s.id === society.id);
         if (idx >= 0) localStore.societies[idx] = society;
         else localStore.societies.push(society);
+
+        try {
+            localStorage.setItem('kaghan_societies', JSON.stringify(localStore.societies));
+        } catch (err) {}
+
         return { success: true, id: society.id };
     },
 
@@ -1375,7 +1814,45 @@ window.KaghanDB = {
             console.error("Error deleting society:", e);
         }
         localStore.societies = localStore.societies.filter(s => s.id !== id);
+        try {
+            localStorage.setItem('kaghan_societies', JSON.stringify(localStore.societies));
+        } catch (err) {}
         return true;
+    },
+
+    // =========================================================================
+    // Site Content & Homepage Modules API
+    // =========================================================================
+    getSiteContent: async () => {
+        try {
+            if (db) {
+                const snap = await db.collection('kaghan_properties').doc('siteContent').get();
+                if (snap.exists) {
+                    const data = snap.data();
+                    localStore.siteContent = { ...DEFAULT_SITE_CONTENT, ...data };
+                    return localStore.siteContent;
+                }
+            }
+        } catch (e) {
+            console.error("Error reading siteContent from Firestore:", e);
+        }
+        return localStore.siteContent || { ...DEFAULT_SITE_CONTENT };
+    },
+
+    saveSiteContent: async (content) => {
+        content.updatedAt = new Date().toISOString();
+        try {
+            if (db) {
+                await db.collection('kaghan_properties').doc('siteContent').set(content, { merge: true });
+            }
+        } catch (e) {
+            console.error("Error saving siteContent:", e);
+        }
+        localStore.siteContent = { ...localStore.siteContent, ...content };
+        try {
+            localStorage.setItem('kaghan_site_content', JSON.stringify(localStore.siteContent));
+        } catch (err) {}
+        return { success: true };
     },
 
     // Blog API
