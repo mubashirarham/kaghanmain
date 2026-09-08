@@ -1177,6 +1177,94 @@
                     </div>
                 </div>
 
+                <!-- FLOOR PLANS & ARCHITECTURAL BLUEPRINTS BUILDER -->
+                <div id="section-project-floorplans" class="hidden bg-slate-950/90 border border-emerald-900/40 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2 flex-wrap gap-2">
+                        <div>
+                            <label class="text-emerald-400 font-bold text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-compass-drafting text-emerald-400"></i> Floor Plans & Architectural Blueprints
+                            </label>
+                            <p class="text-[10px] text-slate-400">Add building levels, master sheets, layout specs, and upload blueprint renders / PDFs</p>
+                        </div>
+                        <button type="button" onclick="addProjectFloorPlanRow()" class="bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1 transition-all shadow">
+                            <i class="fa-solid fa-plus text-xs"></i> Add Floor Plan Sheet
+                        </button>
+                    </div>
+
+                    <div id="project-floorplans-list" class="space-y-3">
+                        <!-- Dynamic Floor Plan Document cards injected here -->
+                    </div>
+                </div>
+
+                <!-- OFFICIAL PAYMENT MILESTONE PLAN BUILDER -->
+                <div id="section-project-paymentplan" class="hidden bg-slate-950/90 border border-amber-900/40 rounded-2xl p-4 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2 flex-wrap gap-2">
+                        <div>
+                            <label class="text-[#D4AF37] font-bold text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-file-invoice-dollar text-[#D4AF37]"></i> Official Payment Milestone Plan & Certified Sheet
+                            </label>
+                            <p class="text-[10px] text-slate-400">Upload signed installment schedule chart image, configure milestone percentages and rebate terms</p>
+                        </div>
+                    </div>
+
+                    <!-- Payment Plan Chart Image Upload & Preview -->
+                    <div class="bg-slate-900/70 border border-slate-800 p-3.5 rounded-xl space-y-3">
+                        <label class="text-white font-bold text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-image text-[#D4AF37]"></i> Official Milestone Schedule Chart Image
+                        </label>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+                            <div class="md:col-span-8 space-y-2">
+                                <div class="flex gap-2">
+                                    <input type="text" id="form-prop-payplan-img" placeholder="assets/images/payment_plan_chart.jpg or Cloudinary URL" class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white text-xs" oninput="updatePaymentPlanImagePreview(this.value)">
+                                    <label class="cursor-pointer bg-slate-800 hover:bg-[#D4AF37] hover:text-slate-950 text-slate-300 font-bold px-3 py-2 rounded-lg text-xs flex items-center gap-1.5 transition-all whitespace-nowrap">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                                        <input type="file" accept="image/*" class="hidden" onchange="uploadPaymentPlanChartImage(event)">
+                                    </label>
+                                </div>
+                                <p class="text-[10px] text-slate-400">Signed & Certified Developer Sheet displayed in click-to-zoom interactive viewer on project showcase</p>
+                            </div>
+                            <div class="md:col-span-4 flex justify-center">
+                                <div class="w-full h-24 max-w-[160px] bg-slate-950 rounded-lg border border-slate-800 overflow-hidden flex items-center justify-center p-1">
+                                    <img id="payplan-preview-img" src="assets/images/payment_plan_chart.jpg" alt="Payment Plan Preview" class="max-h-full max-w-full object-contain" onerror="this.src='assets/images/placeholder.png'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Milestone Percentages & Schedule Breakdown -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        <div>
+                            <label class="text-slate-400 font-bold text-[10px] uppercase block mb-1">Booking Fee (e.g. 15%)</label>
+                            <input type="text" id="form-prop-pay-booking" value="15% - At time of formal registration" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 font-bold text-[10px] uppercase block mb-1">Confirmation (e.g. 10%)</label>
+                            <input type="text" id="form-prop-pay-confirm" value="10% - Within 30 days of booking" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 font-bold text-[10px] uppercase block mb-1">Monthly Installments (e.g. 45%)</label>
+                            <input type="text" id="form-prop-pay-monthly" value="45% - 36 Monthly Installments (1.25% / mo)" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 font-bold text-[10px] uppercase block mb-1">Balloon Payments (e.g. 15%)</label>
+                            <input type="text" id="form-prop-pay-balloon" value="15% - 6 Bi-Annual Balloon Payments (2.5% / 6mo)" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 font-bold text-[10px] uppercase block mb-1">Possession on Handover (e.g. 15%)</label>
+                            <input type="text" id="form-prop-pay-possession" value="15% - On structural completion & registry" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 font-bold text-[10px] uppercase block mb-1">Schedule Duration Headline</label>
+                            <input type="text" id="form-prop-pay-duration" value="36-Month Milestone Payment Schedule" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-slate-400 font-bold text-[10px] uppercase block mb-1">Cash Discount Rebates Available</label>
+                        <input type="text" id="form-prop-pay-rebates" value="10% instant rebate on 100% upfront lump-sum payment. 5% rebate on 50% advance booking." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs">
+                    </div>
+                </div>
+
                 <!-- CATEGORIZED AMENITIES TAXONOMY (7 MODULES) -->
                 <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-4 space-y-3">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-2">
@@ -1721,15 +1809,139 @@
         // Helpers for Project Units Matrix & Nearby POIs
         function toggleProjectUnitsSection() {
             const isChecked = document.getElementById('form-prop-isnewproject').checked;
-            const sec = document.getElementById('section-project-units');
+            const secUnits = document.getElementById('section-project-units');
+            const secFloors = document.getElementById('section-project-floorplans');
+            const secPay = document.getElementById('section-project-paymentplan');
             if (isChecked) {
-                sec.classList.remove('hidden');
-                if (document.getElementById('project-units-list').children.length === 0) {
+                if (secUnits) secUnits.classList.remove('hidden');
+                if (secFloors) secFloors.classList.remove('hidden');
+                if (secPay) secPay.classList.remove('hidden');
+                if (document.getElementById('project-units-list') && document.getElementById('project-units-list').children.length === 0) {
                     addProjectUnitRow();
                 }
+                if (document.getElementById('project-floorplans-list') && document.getElementById('project-floorplans-list').children.length === 0) {
+                    addProjectFloorPlanRow();
+                }
             } else {
-                sec.classList.add('hidden');
+                if (secUnits) secUnits.classList.add('hidden');
+                if (secFloors) secFloors.classList.add('hidden');
+                if (secPay) secPay.classList.add('hidden');
             }
+        }
+
+        function addProjectFloorPlanRow(plan = null) {
+            const list = document.getElementById('project-floorplans-list');
+            if (!list) return;
+            const cardId = 'fp_card_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+            const div = document.createElement('div');
+            div.id = cardId;
+            div.className = 'floorplan-card bg-slate-900/80 border border-slate-800 p-3.5 rounded-xl space-y-2.5';
+            
+            const title = plan ? (plan.title || '') : 'Typical Floor Plan (Floors 2 to 5)';
+            const subtitle = plan ? (plan.subtitle || '') : 'Studio & 1-Bed Luxury Chalets';
+            const area = plan ? (plan.area || '') : '425 – 900 Sq Ft';
+            const height = plan ? (plan.height || '') : '10 ft 6 in Clear';
+            const view = plan ? (plan.view || '') : 'Sunrise Valley Glazing';
+            const image = plan ? (plan.image || '') : 'assets/images/floorplan_masterplan.jpg';
+
+            div.innerHTML = `
+                <div class="flex justify-between items-center pb-2 border-b border-slate-800/80">
+                    <span class="text-[11px] font-bold text-emerald-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-layer-group"></i> Floor Plan Document Sheet
+                    </span>
+                    <button type="button" onclick="document.getElementById('${cardId}').remove()" class="text-rose-400 hover:text-rose-300 text-xs px-2 py-0.5 rounded hover:bg-rose-500/10 transition-all">
+                        <i class="fa-solid fa-trash mr-1"></i> Remove
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+                    <div class="md:col-span-8 space-y-2">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-slate-400 text-[9px] uppercase font-bold block mb-0.5">Plan Title *</label>
+                                <input type="text" class="fp-title w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-white text-xs" placeholder="e.g. 2nd–5th Floor - 1-Bed Chalets" value="${title}">
+                            </div>
+                            <div>
+                                <label class="text-slate-400 text-[9px] uppercase font-bold block mb-0.5">Subtitle / Level Range</label>
+                                <input type="text" class="fp-subtitle w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-white text-xs" placeholder="e.g. Compressed Typical Floor Range" value="${subtitle}">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="text-slate-400 text-[9px] uppercase font-bold block mb-0.5">Covered Area</label>
+                                <input type="text" class="fp-area w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-1.5 text-white text-xs" placeholder="425 – 900 Sq Ft" value="${area}">
+                            </div>
+                            <div>
+                                <label class="text-slate-400 text-[9px] uppercase font-bold block mb-0.5">Ceiling Height</label>
+                                <input type="text" class="fp-height w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-1.5 text-white text-xs" placeholder="10 ft 6 in Clear" value="${height}">
+                            </div>
+                            <div>
+                                <label class="text-slate-400 text-[9px] uppercase font-bold block mb-0.5">Balcony / View</label>
+                                <input type="text" class="fp-view w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-1.5 text-white text-xs" placeholder="Valley View" value="${view}">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-slate-400 text-[9px] uppercase font-bold block mb-0.5">Blueprint Sheet Image URL (Cloudinary / File)</label>
+                            <div class="flex gap-2">
+                                <input type="text" class="fp-image w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-white text-xs" placeholder="assets/images/floorplan_masterplan.jpg or Cloudinary URL" value="${image}" oninput="this.closest('.floorplan-card').querySelector('.fp-thumb').src = this.value">
+                                <label class="cursor-pointer bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white font-bold px-2.5 py-1.5 rounded-lg text-xs flex items-center gap-1 transition-all whitespace-nowrap">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                                    <input type="file" accept="image/*" class="hidden" onchange="uploadSingleFloorPlanImage(event, this)">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-4 flex justify-center items-center">
+                        <div class="w-full h-28 max-w-[170px] bg-slate-950 rounded-lg border border-slate-800 overflow-hidden flex items-center justify-center p-1">
+                            <img class="fp-thumb max-h-full max-w-full object-contain" src="${image}" onerror="this.src='assets/images/placeholder.png'">
+                        </div>
+                    </div>
+                </div>
+            `;
+            list.appendChild(div);
+        }
+
+        async function uploadSingleFloorPlanImage(e, fileInput) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const card = fileInput.closest('.floorplan-card');
+            const imgInput = card.querySelector('.fp-image');
+            const thumb = card.querySelector('.fp-thumb');
+            try {
+                fileInput.parentElement.classList.add('opacity-50', 'pointer-events-none');
+                const res = await window.CloudinaryService.uploadImage(file);
+                if (res && res.url) {
+                    if (imgInput) imgInput.value = res.url;
+                    if (thumb) thumb.src = res.url;
+                }
+            } catch (err) {
+                alert("Upload failed: " + err.message);
+            } finally {
+                fileInput.parentElement.classList.remove('opacity-50', 'pointer-events-none');
+                fileInput.value = '';
+            }
+        }
+
+        async function uploadPaymentPlanChartImage(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            try {
+                e.target.parentElement.classList.add('opacity-50', 'pointer-events-none');
+                const res = await window.CloudinaryService.uploadImage(file);
+                if (res && res.url) {
+                    document.getElementById('form-prop-payplan-img').value = res.url;
+                    document.getElementById('payplan-preview-img').src = res.url;
+                }
+            } catch (err) {
+                alert("Payment plan chart upload failed: " + err.message);
+            } finally {
+                e.target.parentElement.classList.remove('opacity-50', 'pointer-events-none');
+                e.target.value = '';
+            }
+        }
+
+        function updatePaymentPlanImagePreview(url) {
+            const preview = document.getElementById('payplan-preview-img');
+            if (preview) preview.src = url || 'assets/images/payment_plan_chart.jpg';
         }
 
         function addProjectUnitRow(unit = null) {
@@ -2096,6 +2308,34 @@
                     addProjectUnitRow();
                 }
 
+                // Populate Floor Plans & Architectural Blueprints
+                const floorplansList = document.getElementById('project-floorplans-list');
+                floorplansList.innerHTML = '';
+                if (prop.floorPlans && Array.isArray(prop.floorPlans) && prop.floorPlans.length > 0) {
+                    prop.floorPlans.forEach(fp => addProjectFloorPlanRow(fp));
+                } else if (prop.isNewProject) {
+                    addProjectFloorPlanRow({
+                        title: "Typical Floor Plan (2nd–5th Floor)",
+                        subtitle: "Studio & 1-Bed Luxury Chalets",
+                        area: "425 – 900 Sq Ft",
+                        height: "10 ft 6 in Clear",
+                        view: "Sunrise Valley Glazing",
+                        image: "assets/images/floorplan_masterplan.jpg"
+                    });
+                }
+
+                // Populate Official Payment Milestone Plan
+                const pp = prop.paymentPlan || {};
+                document.getElementById('form-prop-payplan-img').value = pp.image || 'assets/images/payment_plan_chart.jpg';
+                updatePaymentPlanImagePreview(pp.image || 'assets/images/payment_plan_chart.jpg');
+                document.getElementById('form-prop-pay-booking').value = pp.booking || '15% - At time of formal registration';
+                document.getElementById('form-prop-pay-confirm').value = pp.confirmation || '10% - Within 30 days of booking';
+                document.getElementById('form-prop-pay-monthly').value = pp.monthly || '45% - 36 Monthly Installments (1.25% / mo)';
+                document.getElementById('form-prop-pay-balloon').value = pp.balloon || '15% - 6 Bi-Annual Balloon Payments (2.5% / 6mo)';
+                document.getElementById('form-prop-pay-possession').value = pp.possession || '15% - On structural completion & registry';
+                document.getElementById('form-prop-pay-duration').value = pp.duration || '36-Month Milestone Payment Schedule';
+                document.getElementById('form-prop-pay-rebates').value = pp.rebates || '10% instant rebate on 100% upfront lump-sum payment. 5% rebate on 50% advance booking.';
+
                 // Populate Categorized Amenities (7 Modules)
                 const catAmen = prop.categorizedAmenities || {};
                 document.getElementById('form-prop-amen-main').value = (catAmen.mainFeatures || []).join(', ');
@@ -2162,6 +2402,17 @@
                 toggleProjectUnitsSection();
 
                 document.getElementById('project-units-list').innerHTML = '';
+                document.getElementById('project-floorplans-list').innerHTML = '';
+                document.getElementById('form-prop-payplan-img').value = 'assets/images/payment_plan_chart.jpg';
+                updatePaymentPlanImagePreview('assets/images/payment_plan_chart.jpg');
+                document.getElementById('form-prop-pay-booking').value = '15% - At time of formal registration';
+                document.getElementById('form-prop-pay-confirm').value = '10% - Within 30 days of booking';
+                document.getElementById('form-prop-pay-monthly').value = '45% - 36 Monthly Installments (1.25% / mo)';
+                document.getElementById('form-prop-pay-balloon').value = '15% - 6 Bi-Annual Balloon Payments (2.5% / 6mo)';
+                document.getElementById('form-prop-pay-possession').value = '15% - On structural completion & registry';
+                document.getElementById('form-prop-pay-duration').value = '36-Month Milestone Payment Schedule';
+                document.getElementById('form-prop-pay-rebates').value = '10% instant rebate on 100% upfront lump-sum payment. 5% rebate on 50% advance booking.';
+
                 document.getElementById('form-prop-amen-main').value = '';
                 document.getElementById('form-prop-amen-rooms').value = '';
                 document.getElementById('form-prop-amen-biz').value = '';
@@ -2248,6 +2499,44 @@
                 });
             }
 
+            // Extract Floor Plans & Architectural Blueprints
+            const floorPlans = [];
+            if (isNewProject) {
+                document.querySelectorAll('#project-floorplans-list > .floorplan-card').forEach(card => {
+                    const fpTitle = card.querySelector('.fp-title')?.value?.trim();
+                    const subtitle = card.querySelector('.fp-subtitle')?.value?.trim();
+                    const area = card.querySelector('.fp-area')?.value?.trim();
+                    const height = card.querySelector('.fp-height')?.value?.trim();
+                    const view = card.querySelector('.fp-view')?.value?.trim();
+                    const image = card.querySelector('.fp-image')?.value?.trim();
+                    if (fpTitle || image) {
+                        floorPlans.push({
+                            title: fpTitle || 'Floor Plan Sheet',
+                            subtitle: subtitle || 'Typical Layout',
+                            area: area || 'Custom Area',
+                            height: height || 'Standard Clear',
+                            view: view || 'Scenic View',
+                            image: image || 'assets/images/floorplan_masterplan.jpg'
+                        });
+                    }
+                });
+            }
+
+            // Extract Official Payment Milestone Plan
+            let paymentPlan = null;
+            if (isNewProject) {
+                paymentPlan = {
+                    image: document.getElementById('form-prop-payplan-img')?.value?.trim() || 'assets/images/payment_plan_chart.jpg',
+                    duration: document.getElementById('form-prop-pay-duration')?.value?.trim() || '36-Month Milestone Payment Schedule',
+                    booking: document.getElementById('form-prop-pay-booking')?.value?.trim() || '15% - At time of formal registration',
+                    confirmation: document.getElementById('form-prop-pay-confirm')?.value?.trim() || '10% - Within 30 days of booking',
+                    monthly: document.getElementById('form-prop-pay-monthly')?.value?.trim() || '45% - 36 Monthly Installments (1.25% / mo)',
+                    balloon: document.getElementById('form-prop-pay-balloon')?.value?.trim() || '15% - 6 Bi-Annual Balloon Payments (2.5% / 6mo)',
+                    possession: document.getElementById('form-prop-pay-possession')?.value?.trim() || '15% - On structural completion & registry',
+                    rebates: document.getElementById('form-prop-pay-rebates')?.value?.trim() || '10% instant rebate on 100% upfront lump-sum payment. 5% rebate on 50% advance booking.'
+                };
+            }
+
             // Extract Categorized Amenities (7 Standard Modules)
             const splitAmen = (val) => val ? val.split(',').map(s => s.trim()).filter(Boolean) : [];
             const categorizedAmenities = {
@@ -2304,7 +2593,8 @@
                 title, slug, type, purpose, status, price, city, area, sector, address,
                 size, sizeUnit, bedrooms, bathrooms,
                 urgency, agencyTier, addedRelative, isVerified, isNewProject,
-                projectUnits, categorizedAmenities, nearbyPOIs,
+                projectUnits, floorPlans, paymentPlan,
+                categorizedAmenities, nearbyPOIs,
                 amenities: flatAmenities.length > 0 ? flatAmenities : ['security', 'gated'],
                 description,
                 images: finalImages.length > 0 ? finalImages : (manualImageUrl ? [{ url: manualImageUrl, isPrimary: true }] : []),

@@ -408,6 +408,66 @@ const DEFAULT_PROPERTIES = [
             { type: "1-Bed Executive Chalet", priceRange: "PKR 1.45 - 1.75 Crore", sizeRange: "720 - 900 Sq Ft" },
             { type: "2-Bed Duplex Penthouse", priceRange: "PKR 2.40 - 2.95 Crore", sizeRange: "1,250 - 1,600 Sq Ft" }
         ],
+        floorPlans: [
+            {
+                title: "Sale Kit & Project Brochure",
+                subtitle: "Official 28-Page Investor Overview",
+                area: "Full Masterplan",
+                height: "Master Document",
+                view: "Comprehensive Specs",
+                image: "assets/images/parkview.png"
+            },
+            {
+                title: "Master Plan & Site Footprint",
+                subtitle: "Topographical Ridge Allotment",
+                area: "14 Kanal Total Site",
+                height: "G + 8 Structure",
+                view: "East-West Mountain Axis",
+                image: "assets/images/mideast-view2.png"
+            },
+            {
+                title: "Ground Floor - Grand Atrium & Retail",
+                subtitle: "Reception Lobby, Valet, & Promenade",
+                area: "8,400 Sq Ft Covered",
+                height: "14 ft Double Height",
+                view: "Front Boulevard Entry",
+                image: "assets/images/azan-arcade.png"
+            },
+            {
+                title: "2nd–5th (Typical Floor) - Studio & 1-Bed Chalets",
+                subtitle: "Compressed Typical Floor Range (Floors 2 to 5)",
+                area: "425 – 900 Sq Ft per Unit",
+                height: "10 ft 6 in Clear",
+                view: "East-Facing Sunrise Glazing",
+                image: "assets/images/floorplan_masterplan.jpg"
+            },
+            {
+                title: "6th–7th (Typical Floor) - 2-Bed Luxury Suites",
+                subtitle: "Executive Wing Layout (Floors 6 and 7)",
+                area: "1,250 – 1,600 Sq Ft",
+                height: "11 ft Clear",
+                view: "180° Ridge Valley Panorama",
+                image: "assets/images/floorplan_masterplan.jpg"
+            },
+            {
+                title: "8th Floor - Duplex Sky Penthouses",
+                subtitle: "Top-Tier Presidential Duplex Units",
+                area: "2,200 – 2,650 Sq Ft",
+                height: "18 ft Double Height Atrium",
+                view: "360° Unobstructed Peaks",
+                image: "assets/images/interior.png"
+            }
+        ],
+        paymentPlan: {
+            image: "assets/images/payment_plan_chart.jpg",
+            duration: "36-Month Milestone Payment Schedule",
+            booking: "15% - From PKR 14.25 Lakh",
+            confirmation: "10% - From PKR 9.50 Lakh",
+            monthly: "45% - ~PKR 1.18 Lakh / mo (1.25%/mo for 3 years)",
+            balloon: "15% - From PKR 2.37 Lakh / 6mo (6 Bi-Annual Balloon)",
+            possession: "15% - From PKR 14.25 Lakh (On structural completion)",
+            rebates: "10% instant rebate on 100% upfront lump-sum payment. 5% rebate on 50% advance booking."
+        },
         categorizedAmenities: {
             mainFeatures: ["Hotel Managed Stays", "Central Water Heating & Fireplace", "Panoramic Snow Valley Views", "Elevator Access to All Floors"],
             rooms: ["Serviced Luxury Bedrooms", "Kitchenette with Appliances", "Glass Framed Balcony"],
@@ -484,6 +544,50 @@ const DEFAULT_PROPERTIES = [
             { type: "Sky Business Suites", priceRange: "PKR 2.95 - 4.50 Crore", sizeRange: "2.8 - 4.2 Marla (630 - 950 Sq Ft)", category: "Commercial", descriptor: "Consulting and tech firm executive office spaces with Margalla hills vistas." },
             { type: "Luxury Penthouses & Lofts", priceRange: "PKR 6.50 - 9.80 Crore", sizeRange: "8.0 - 12.5 Marla (1,800 - 2,800 Sq Ft)", category: "Flats", descriptor: "Ultra-luxury executive residences on levels 28-32 with private express elevators." }
         ],
+        floorPlans: [
+            {
+                title: "Tower Architectural Section & Master Elevation",
+                subtitle: "32-Storey Landmark Architectural Blueprint",
+                area: "35,000 Sq Ft Ground Footprint",
+                height: "LEED Gold Certified Clear Heights",
+                view: "Jinnah Avenue Commercial Boulevard",
+                image: "assets/images/mideast-view2.png"
+            },
+            {
+                title: "Ground & Mezzanine - Luxury Retail Promenade",
+                subtitle: "High-Visibility Front Boulevard Retail Outlets",
+                area: "920 – 1,300 Sq Ft Outlets",
+                height: "18 ft Double Height Ceilings",
+                view: "Centaurus Facing Promenade & Drop-off",
+                image: "assets/images/azan-arcade.png"
+            },
+            {
+                title: "Floors 4–18 - Grade-A Corporate Office Suites",
+                subtitle: "Column-Free Modular Executive Office Floorplate",
+                area: "800 – 1,400 Sq Ft per Office",
+                height: "11 ft Clear Finished Ceilings",
+                view: "Margalla Hills & City Skyline View",
+                image: "assets/images/floorplan_masterplan.jpg"
+            },
+            {
+                title: "Floors 28–32 - Sky Penthouses & Helipad Deck",
+                subtitle: "Presidential Sky Suites & Private Helipad Access",
+                area: "1,800 – 2,800 Sq Ft Duplex",
+                height: "14 ft Full Glass Panorama",
+                view: "360° Islamabad Horizon",
+                image: "assets/images/interior.png"
+            }
+        ],
+        paymentPlan: {
+            image: "assets/images/payment_plan_chart.jpg",
+            duration: "48-Month Institutional Milestone Schedule",
+            booking: "20% - Down Payment on Formal Registration",
+            confirmation: "10% - On Ground-Breaking & Excavation",
+            monthly: "40% - 48 Flexible Monthly Installments",
+            balloon: "15% - 8 Semi-Annual Milestone Balloons",
+            possession: "15% - On Key Handover & Deed Registration",
+            rebates: "12% instant developer rebate on 100% upfront lump-sum payment. 6% rebate on 50% advance commitment."
+        },
         categorizedAmenities: {
             mainFeatures: ["32-Storey Landmark Tower", "High-Speed Mitsubishi Destination Elevators", "4-Level Underground Dedicated Parking", "Double-Glazed Low-E Glass Facade"],
             rooms: ["Double Height Reception Atrium", "Executive Boardrooms", "Panoramic Terrace Balconies"],
