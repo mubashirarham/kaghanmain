@@ -283,55 +283,7 @@
 
                     <!-- Neighborhood Checkbox List with Counts -->
                     <div id="locations-checkbox-list" class="space-y-1 max-h-56 overflow-y-auto pr-1 scrollbar-thin text-xs">
-                        <label class="custom-checkbox-row">
-                            <span class="flex items-center gap-2">
-                                <input type="checkbox" value="Bahria Enclave" onchange="handleLocationCheck(this)">
-                                <span>Bahria Enclave</span>
-                            </span>
-                            <span class="text-slate-400 tabular-nums">(4,230)</span>
-                        </label>
-                        <label class="custom-checkbox-row">
-                            <span class="flex items-center gap-2">
-                                <input type="checkbox" value="Park View City" onchange="handleLocationCheck(this)">
-                                <span>Park View City</span>
-                            </span>
-                            <span class="text-slate-400 tabular-nums">(2,190)</span>
-                        </label>
-                        <label class="custom-checkbox-row">
-                            <span class="flex items-center gap-2">
-                                <input type="checkbox" value="Park Enclave" onchange="handleLocationCheck(this)">
-                                <span>Park Enclave</span>
-                            </span>
-                            <span class="text-slate-400 tabular-nums">(1,840)</span>
-                        </label>
-                        <label class="custom-checkbox-row">
-                            <span class="flex items-center gap-2">
-                                <input type="checkbox" value="Margalla Enclave" onchange="handleLocationCheck(this)">
-                                <span>Margalla Enclave</span>
-                            </span>
-                            <span class="text-slate-400 tabular-nums">(940)</span>
-                        </label>
-                        <label class="custom-checkbox-row">
-                            <span class="flex items-center gap-2">
-                                <input type="checkbox" value="Margalla Orchards" onchange="handleLocationCheck(this)">
-                                <span>Margalla Orchards</span>
-                            </span>
-                            <span class="text-slate-400 tabular-nums">(680)</span>
-                        </label>
-                        <label class="custom-checkbox-row">
-                            <span class="flex items-center gap-2">
-                                <input type="checkbox" value="Nathia Gali" onchange="handleLocationCheck(this)">
-                                <span>Nathia Gali / Pine Valley</span>
-                            </span>
-                            <span class="text-slate-400 tabular-nums">(1,420)</span>
-                        </label>
-                        <label class="custom-checkbox-row">
-                            <span class="flex items-center gap-2">
-                                <input type="checkbox" value="Murree" onchange="handleLocationCheck(this)">
-                                <span>Murree Hills</span>
-                            </span>
-                            <span class="text-slate-400 tabular-nums">(1,150)</span>
-                        </label>
+                        <div class="text-slate-400 py-3 text-center text-[11px]"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Loading locations...</div>
                     </div>
 
                     <a href="societies.html" class="text-xs text-emerald-700 hover:underline font-bold block pt-1">
@@ -464,10 +416,20 @@
     <script>
         let allProperties = [];
         let filteredProperties = [];
+        let globalSocieties = [];
         let activePurpose = 'sale';
         let isSavedSearch = false;
         let selectedLocations = [];
         let locationSortAsc = true;
+        let currentPage = 1;
+        const itemsPerPage = 6;
+
+        function goToPage(page) {
+            currentPage = page;
+            renderPropertyCards();
+            const topEl = document.getElementById('properties-card-list');
+            if (topEl) topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
 
         // Initialize Page
         window.addEventListener('DOMContentLoaded', async () => {
@@ -479,6 +441,7 @@
                         window.KaghanDB.getCategories(true),
                         window.KaghanDB.getSocieties(null, true)
                     ]);
+                    globalSocieties = societies || [];
 
                     const cityEl = document.getElementById('filter-city');
                     if (cityEl && cities && cities.length > 0) {
@@ -549,12 +512,15 @@
 
             syncPurposeUI();
 
-            // Load Data
+            // Load Data strictly from KaghanDB / Firestore
             if (window.KaghanDB && window.KaghanDB.getProperties) {
                 allProperties = await window.KaghanDB.getProperties();
             } else if (typeof DEFAULT_PROPERTIES !== 'undefined') {
                 allProperties = [...DEFAULT_PROPERTIES];
             }
+
+            // Dynamically render location checkboxes with live Firestore counts
+            renderLocationCheckboxes(globalSocieties, allProperties);
 
             // Listen to currency or unit changes from header
             window.addEventListener('marketStateChanged', () => {
@@ -659,17 +625,70 @@
             }
         }
 
+        function renderLocationCheckboxes(societies, properties) {
+            const container = document.getElementById('locations-checkbox-list');
+            if (!container) return;
+
+            const locMap = new Map();
+
+            (societies || []).forEach(s => {
+                locMap.set(s.name, {
+                    name: s.name,
+                    displayName: s.name + (s.city ? ` (${s.city})` : ''),
+                    count: 0
+                });
+            });
+
+            (properties || []).forEach(p => {
+                const area = (p.area || '').trim();
+                if (area && !locMap.has(area)) {
+                    locMap.set(area, {
+                        name: area,
+                        displayName: area + (p.city ? ` (${p.city})` : ''),
+                        count: 0
+                    });
+                }
+            });
+
+            locMap.forEach((val, key) => {
+                const kLower = key.toLowerCase();
+                const matched = (properties || []).filter(p => 
+                    (p.area && p.area.toLowerCase().includes(kLower)) ||
+                    (p.sector && p.sector.toLowerCase().includes(kLower))
+                );
+                val.count = matched.length;
+            });
+
+            const locList = Array.from(locMap.values());
+            if (locationSortAsc) {
+                locList.sort((a, b) => a.name.localeCompare(b.name));
+            } else {
+                locList.sort((a, b) => b.count - a.count);
+            }
+
+            if (locList.length === 0) {
+                container.innerHTML = `<div class="text-slate-400 py-3 text-center text-[11px]">No verified locations found</div>`;
+                return;
+            }
+
+            container.innerHTML = locList.map(loc => {
+                const isChecked = selectedLocations.includes(loc.name);
+                return `
+                    <label class="custom-checkbox-row flex items-center justify-between py-1 px-1.5 hover:bg-slate-50 rounded cursor-pointer transition-colors">
+                        <span class="flex items-center gap-2">
+                            <input type="checkbox" value="${loc.name}" ${isChecked ? 'checked' : ''} onchange="handleLocationCheck(this)" class="accent-emerald-700 rounded cursor-pointer">
+                            <span class="truncate max-w-[150px] font-medium text-slate-700" title="${loc.displayName}">${loc.name}</span>
+                        </span>
+                        <span class="text-slate-400 tabular-nums text-[10px] font-bold">(${loc.count})</span>
+                    </label>
+                `;
+            }).join('');
+        }
+
         function toggleSortLocations() {
             locationSortAsc = !locationSortAsc;
             document.getElementById('loc-sort-label').innerText = locationSortAsc ? 'Sort A-Z' : 'Sort by Count';
-            const list = document.getElementById('locations-checkbox-list');
-            const items = Array.from(list.children);
-            items.sort((a, b) => {
-                const textA = a.innerText.trim();
-                const textB = b.innerText.trim();
-                return locationSortAsc ? textA.localeCompare(textB) : textB.localeCompare(textA);
-            });
-            items.forEach(el => list.appendChild(el));
+            renderLocationCheckboxes(globalSocieties, allProperties);
         }
 
         function resetAllFilters() {
@@ -691,6 +710,7 @@
 
         // Apply all filters to allProperties
         function applyFilters() {
+            currentPage = 1;
             const city = document.getElementById('filter-city').value;
             const locQuery = document.getElementById('filter-location').value.trim().toLowerCase();
             const type = document.getElementById('filter-type').value;
@@ -757,7 +777,6 @@
             document.getElementById('h1-count').innerText = count.toLocaleString();
             document.getElementById('h1-city').innerText = city !== 'all' ? city : 'Pakistan';
             document.getElementById('breadcrumb-city').innerText = city !== 'all' ? city : 'Pakistan';
-            document.getElementById('toolbar-range-text').innerText = count > 0 ? `1 to ${count} of ${count}` : '0 results';
 
             applySortAndRender();
         }
@@ -786,10 +805,57 @@
                         <button onclick="resetAllFilters()" class="btn-primary text-xs py-2 px-4 rounded-xl">Clear All Filters</button>
                     </div>
                 `;
+                const pagContainer = document.getElementById('pagination-links-container');
+                if (pagContainer) pagContainer.innerHTML = '';
+                const rangeEl = document.getElementById('toolbar-range-text');
+                if (rangeEl) rangeEl.innerText = '0 results';
+                const curPageEl = document.getElementById('current-page-num');
+                if (curPageEl) curPageEl.innerText = '1';
+                const totPageEl = document.getElementById('total-pages-num');
+                if (totPageEl) totPageEl.innerText = '1';
                 return;
             }
 
-            container.innerHTML = filteredProperties.map(p => {
+            const totalCount = filteredProperties.length;
+            const totalPages = Math.max(1, Math.ceil(totalCount / itemsPerPage));
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const endIdx = Math.min(startIdx + itemsPerPage, totalCount);
+            const pageItems = filteredProperties.slice(startIdx, endIdx);
+
+            // Update UI headers & pagination indicators
+            const rangeText = `${startIdx + 1} to ${endIdx} of ${totalCount}`;
+            const rangeEl = document.getElementById('toolbar-range-text');
+            if (rangeEl) rangeEl.innerText = rangeText;
+
+            const curPageEl = document.getElementById('current-page-num');
+            if (curPageEl) curPageEl.innerText = currentPage;
+
+            const totPageEl = document.getElementById('total-pages-num');
+            if (totPageEl) totPageEl.innerText = totalPages;
+
+            // Render pagination links
+            const pagContainer = document.getElementById('pagination-links-container');
+            if (pagContainer) {
+                if (totalPages <= 1) {
+                    pagContainer.innerHTML = `<button class="w-8 h-8 rounded-lg bg-emerald-700 text-white font-bold flex items-center justify-center shadow-xs">1</button>`;
+                } else {
+                    let pagHtml = '';
+                    if (currentPage > 1) {
+                        pagHtml += `<button onclick="goToPage(${currentPage - 1})" class="px-2.5 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 flex items-center gap-1 font-bold" title="Previous Page"><i class="fa-solid fa-chevron-left text-[9px]"></i> Prev</button>`;
+                    }
+                    for (let i = 1; i <= totalPages; i++) {
+                        pagHtml += `<button onclick="goToPage(${i})" class="w-8 h-8 rounded-lg ${i === currentPage ? 'bg-emerald-700 text-white font-bold shadow-xs' : 'bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold'} flex items-center justify-center">${i}</button>`;
+                    }
+                    if (currentPage < totalPages) {
+                        pagHtml += `<button onclick="goToPage(${currentPage + 1})" class="px-2.5 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 flex items-center gap-1 font-bold" title="Next Page">Next <i class="fa-solid fa-chevron-right text-[9px]"></i></button>`;
+                    }
+                    pagContainer.innerHTML = pagHtml;
+                }
+            }
+
+            container.innerHTML = pageItems.map(p => {
                 const formattedPrice = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${p.price.toLocaleString()}`;
                 const formattedArea = window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : `${p.size} Marla`;
                 const primaryImage = (p.images && p.images[0] && p.images[0].url) ? p.images[0].url : 'assets/images/bahria-villa.png';

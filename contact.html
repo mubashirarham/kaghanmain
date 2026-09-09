@@ -348,8 +348,21 @@
             statusBanner.className = 'hidden p-4 rounded-xl text-center text-sm font-semibold';
             
             try {
-                const res = await CorporateDB.addInquiry({ name, phone, email, inquiryType, message });
-                if (res.success) {
+                const leadPayload = {
+                    name,
+                    phone,
+                    email,
+                    propertyTitle: inquiryType ? `Inquiry: ${inquiryType}` : 'General Contact Inquiry',
+                    message: inquiryType ? `[${inquiryType}] ${message}` : message,
+                    sourcePage: 'contact.html'
+                };
+                let res;
+                if (window.KaghanDB && window.KaghanDB.createLead) {
+                    res = await window.KaghanDB.createLead(leadPayload);
+                } else if (window.CorporateDB && window.CorporateDB.addInquiry) {
+                    res = await window.CorporateDB.addInquiry(leadPayload);
+                }
+                if (res && (res.success || res.id)) {
                     statusBanner.innerText = 'Thank you! Your inquiry has been received. Our senior consultant will contact you shortly.';
                     statusBanner.className = 'p-4 rounded-xl text-center text-sm font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200 mt-4 block';
                     document.getElementById('contact-form').reset();
@@ -360,6 +373,8 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email, name, inquiryType, message })
                     }).catch(err => console.error("Auto SMTP dispatch failed:", err));
+                } else {
+                    throw new Error("Lead could not be saved");
                 }
             } catch (error) {
                 console.error("Form submit error:", error);

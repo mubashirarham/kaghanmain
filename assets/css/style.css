@@ -808,3 +808,419 @@ h1, h2, h3, h4, h5, h6, .outfit {
     justify-content: space-between;
     gap: 0.75rem;
 }
+
+/* ==========================================================================
+   Ultra-Luxury Hero Search Dropdown Engine (§18)
+   High-end interactive popover controls, custom typography & brand accents
+   ========================================================================== */
+
+.hero-search-card {
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(15, 23, 42, 0.05);
+    border-radius: 1.5rem;
+    position: relative;
+    z-index: 30;
+}
+
+.hero-dropdown-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.hero-dropdown-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: 58px;
+    padding: 0.55rem 0.85rem;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    user-select: none;
+    text-align: left;
+    outline: none;
+}
+
+.hero-dropdown-btn:hover {
+    background: #ffffff;
+    border-color: var(--color-brand-primary);
+    box-shadow: 0 4px 14px rgba(7, 121, 67, 0.12);
+}
+
+.hero-dropdown-btn.active,
+.hero-dropdown-btn:focus-visible {
+    background: #ffffff;
+    border-color: var(--color-brand-primary);
+    box-shadow: 0 0 0 3px rgba(7, 121, 67, 0.15), 0 4px 12px rgba(7, 121, 67, 0.1);
+}
+
+.hero-dropdown-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 2px;
+}
+
+.hero-dropdown-label i {
+    font-size: 0.7rem;
+    color: var(--color-brand-primary);
+}
+
+.hero-dropdown-val-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    width: 100%;
+}
+
+.hero-dropdown-val {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+.hero-dropdown-chevron {
+    font-size: 0.65rem;
+    color: #94a3b8;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+
+.hero-dropdown-btn.active .hero-dropdown-chevron {
+    transform: rotate(180deg);
+    color: var(--color-brand-primary);
+}
+
+/* Floating Popover Panel */
+.hero-dropdown-popover {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 300px;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    border-radius: 18px;
+    box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.25), 0 4px 12px rgba(15, 23, 42, 0.06);
+    z-index: 100;
+    padding: 0.9rem;
+    display: none;
+    transform-origin: top center;
+    animation: heroDropdownPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-dropdown-popover.open {
+    display: block;
+}
+
+.hero-dropdown-popover.align-right {
+    left: auto;
+    right: 0;
+}
+
+@keyframes heroDropdownPop {
+    from {
+        opacity: 0;
+        transform: translateY(6px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Sleek Scrollbar inside Dropdowns */
+.hero-dropdown-popover .custom-scroll {
+    max-height: 240px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.hero-dropdown-popover .custom-scroll::-webkit-scrollbar {
+    width: 5px;
+}
+.hero-dropdown-popover .custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+.hero-dropdown-popover .custom-scroll::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+.hero-dropdown-popover .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Option Items */
+.hero-dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 0.75rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    gap: 0.5rem;
+}
+
+.hero-dropdown-item:hover {
+    background: #f0fdf4;
+    color: var(--color-brand-primary);
+}
+
+.hero-dropdown-item.selected {
+    background: #e8f5ed;
+    color: var(--color-brand-primary);
+    font-weight: 800;
+}
+
+.hero-dropdown-item.selected .check-icon {
+    display: inline-block;
+}
+
+.hero-dropdown-item .check-icon {
+    display: none;
+    color: var(--color-brand-primary);
+    font-size: 0.75rem;
+}
+
+/* Quick Selection Chip Pills */
+.hero-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    white-space: nowrap;
+}
+
+.hero-chip:hover {
+    border-color: var(--color-brand-primary);
+    color: var(--color-brand-primary);
+    background: #f0fdf4;
+}
+
+.hero-chip.active {
+    background: var(--color-brand-primary);
+    color: #ffffff;
+    border-color: var(--color-brand-primary);
+    box-shadow: 0 2px 8px rgba(7, 121, 67, 0.25);
+}
+
+/* Input Search Box inside Dropdown */
+.hero-dropdown-search {
+    width: 100%;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.45rem 0.65rem 0.45rem 2rem;
+    font-size: 0.78rem;
+    color: #0f172a;
+    font-weight: 600;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.hero-dropdown-search:focus {
+    border-color: var(--color-brand-primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(7, 121, 67, 0.12);
+}
+
+/* Property Type Grid Tiles */
+.hero-type-card {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.6rem 0.75rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.hero-type-card:hover {
+    border-color: var(--color-brand-primary);
+    background: #f0fdf4;
+    transform: translateY(-1px);
+}
+
+.hero-type-card.selected {
+    border-color: var(--color-brand-primary);
+    background: #e8f5ed;
+    box-shadow: 0 2px 8px rgba(7, 121, 67, 0.15);
+}
+
+/* Dual Range Input Fields */
+.hero-range-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.hero-range-box {
+    flex: 1;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.45rem 0.65rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-range-box span {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #64748b;
+}
+
+.hero-range-box select,
+.hero-range-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0f172a;
+    width: 100%;
+    cursor: pointer;
+}
+
+/* Browse Properties Directory Matrix */
+.browse-cat-btn {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.browse-matrix-link {
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.browse-matrix-link:hover {
+    border-left-color: #077943;
+    transform: translateY(-1px);
+}
+
+.browse-subtab-btn {
+    transition: all 0.2s ease;
+}
+
+.browse-subtab-btn.active {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS ENHANCEMENTS (Hero Search, Popovers & Browse Matrix)
+   ========================================================================== */
+@media (max-width: 640px) {
+    /* Hero card padding */
+    .hero-search-card {
+        padding: 1rem !important;
+        border-radius: 18px;
+    }
+
+    /* Popover panels: full-width alignment inside search card without overflow */
+    .hero-dropdown-popover {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        min-width: unset !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+        border-radius: 16px;
+        padding: 0.85rem;
+        box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.22);
+    }
+
+    .hero-dropdown-popover.align-right {
+        left: 0 !important;
+        right: 0 !important;
+    }
+
+    /* Range inputs inside popovers */
+    .hero-range-inputs {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    .hero-range-box {
+        padding: 0.35rem 0.5rem;
+    }
+
+    .hero-range-box select,
+    .hero-range-box input {
+        font-size: 0.75rem;
+    }
+
+    /* Quick chips touch targets */
+    .hero-chip {
+        padding: 0.35rem 0.55rem;
+        font-size: 0.7rem;
+    }
+
+    /* Property type 2-column grid inside popover */
+    #hero-type-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.4rem;
+    }
+
+    .hero-type-card {
+        padding: 0.5rem 0.6rem;
+    }
+
+    /* Browse Properties directory links on mobile */
+    .browse-matrix-link {
+        padding: 0.6rem 0.65rem;
+        border-radius: 10px;
+    }
+
+    .browse-matrix-link span {
+        font-size: 0.72rem;
+    }
+
+    /* Hero button minimum touch target */
+    .hero-dropdown-btn {
+        min-height: 52px;
+        padding: 0.45rem 0.75rem;
+    }
+
+    #hero-submit-btn {
+        min-height: 50px;
+    }
+}
+
+
+

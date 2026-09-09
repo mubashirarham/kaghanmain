@@ -661,18 +661,25 @@
             const params = new URLSearchParams(window.location.search);
             const slug = params.get('slug') || params.get('id');
 
-            let all = [];
-            if (window.KaghanDB && window.KaghanDB.getProperties) {
-                all = await window.KaghanDB.getProperties();
-            } else if (typeof DEFAULT_PROPERTIES !== 'undefined') {
-                all = [...DEFAULT_PROPERTIES];
+            if (slug && window.KaghanDB && window.KaghanDB.getPropertyBySlugOrId) {
+                currentProperty = await window.KaghanDB.getPropertyBySlugOrId(slug);
             }
 
-            if (slug) {
-                currentProperty = all.find(p => p.slug === slug || p.id === slug);
-            }
-            if (!currentProperty && all.length > 0) {
-                currentProperty = all[0];
+            if (!currentProperty) {
+                let all = [];
+                if (window.KaghanDB && window.KaghanDB.getProperties) {
+                    all = await window.KaghanDB.getProperties();
+                } else if (typeof DEFAULT_PROPERTIES !== 'undefined') {
+                    all = [...DEFAULT_PROPERTIES];
+                }
+
+                if (slug) {
+                    const normSlug = slug.toLowerCase().trim();
+                    currentProperty = all.find(p => (p.slug && p.slug.toLowerCase() === normSlug) || (p.id && String(p.id).toLowerCase() === normSlug));
+                }
+                if (!currentProperty && all.length > 0) {
+                    currentProperty = all[0];
+                }
             }
 
             if (currentProperty) {
@@ -855,13 +862,18 @@
         // Amenities Checklist Multi-Column Grid (§6)
         function renderAmenitiesGrid(p) {
             const acc = document.getElementById('property-amenities-accordion');
-            const cat = p.categorizedAmenities || {
-                mainFeatures: ["Built in 2024", "Double Glazed Windows", "Underground Electricity Backup", "Gas Pipeline Connected"],
-                rooms: ["Master Bedrooms with Attached Bath", "Open Concept Kitchen", "Spacious Family Lounge"],
-                business: ["High Speed Fiber Internet", "Satellite TV Wiring"],
-                community: ["Gated Boundary Wall", "Community Parks Nearby", "Jamia Mosque"],
-                facilities: ["24/7 Security Guards", "Dedicated Parking"]
-            };
+            let cat = p.categorizedAmenities;
+            if (!cat || Object.keys(cat).length === 0) {
+                if (p.features && Array.isArray(p.features) && p.features.length > 0) {
+                    cat = {
+                        mainFeatures: p.features
+                    };
+                } else {
+                    cat = {
+                        mainFeatures: ["Electricity Supply", "Water Supply", "Security Surveillance", "Dedicated Parking"]
+                    };
+                }
+            }
 
             const labels = {
                 mainFeatures: { title: "Main Features", icon: "fa-sliders" },
@@ -902,12 +914,12 @@
         // Nearby POIs Rendering
         function renderNearbyPOIs(p) {
             const grid = document.getElementById('nearby-pois-grid');
-            const pois = p.nearbyPOIs || [
-                { category: "Schools", name: "Roots Millennium School", distance: "4 mins" },
-                { category: "Hospitals", name: "Shifa Medical Complex", distance: "8 mins" },
-                { category: "Shopping", name: "Civic Mall Commercial", distance: "2 mins" },
-                { category: "Parks", name: "Enclave Central Bird Park", distance: "5 mins" },
-                { category: "Banks", name: "Meezan & HBL Hub", distance: "3 mins" }
+            const pois = (p.nearbyPOIs && p.nearbyPOIs.length > 0) ? p.nearbyPOIs : [
+                { category: "Schools", name: `${p.area || 'Society'} Education Campus`, distance: "4 mins" },
+                { category: "Healthcare", name: `${p.area || 'Sector'} Medical Center`, distance: "7 mins" },
+                { category: "Shopping", name: `${p.area || 'Central'} Commercial Civic Hub`, distance: "3 mins" },
+                { category: "Recreation", name: `${p.area || 'Community'} Park & Sports Grounds`, distance: "5 mins" },
+                { category: "Transit", name: `${p.city || 'Expressway'} Main Access Boulevard`, distance: "2 mins" }
             ];
 
             grid.innerHTML = pois.map(poi => `
@@ -1008,11 +1020,55 @@
             document.getElementById('donut-pct-i').innerText = `${interestPct}%`;
         }
 
-        function handleLeadSubmit(e) {
+        async function handleLeadSubmit(e) {
             e.preventDefault();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn ? submitBtn.innerHTML : 'Send Email Inquiry';
             const fb = document.getElementById('lead-feedback');
-            fb.classList.remove('hidden');
-            setTimeout(() => fb.classList.add('hidden'), 4000);
+
+            const name = document.getElementById('lead-name')?.value.trim();
+            const email = document.getElementById('lead-email')?.value.trim();
+            const phone = document.getElementById('lead-phone')?.value.trim();
+            const message = document.getElementById('lead-message')?.value.trim();
+            const roleEl = document.querySelector('input[name="lead-role"]:checked');
+            const role = roleEl ? roleEl.value : 'buyer';
+            const keepInformed = document.getElementById('lead-keep-informed')?.checked;
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Sending...';
+            }
+
+            try {
+                if (window.KaghanDB && window.KaghanDB.createLead) {
+                    await window.KaghanDB.createLead({
+                        name,
+                        email,
+                        phone,
+                        propertyId: currentProperty ? currentProperty.id : '',
+                        propertyTitle: currentProperty ? currentProperty.title : 'Property Listing',
+                        agentId: currentProperty ? (currentProperty.agentId || 'user_001') : 'user_001',
+                        message: `Client Role: ${role.toUpperCase()}.\nMessage: ${message}\nKeep Informed: ${keepInformed ? 'Yes' : 'No'}`,
+                        sourcePage: window.location.href,
+                        status: 'new'
+                    });
+                }
+                fb.classList.remove('hidden');
+                fb.className = 'text-center text-xs font-bold text-emerald-700 bg-emerald-50 p-2.5 rounded-lg border border-emerald-200 block';
+                fb.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> Inquiry successfully submitted! Our property specialist will reach out shortly.';
+                e.target.reset();
+                setTimeout(() => fb.classList.add('hidden'), 5000);
+            } catch (err) {
+                console.error('Error submitting lead from property.html:', err);
+                fb.classList.remove('hidden');
+                fb.className = 'text-center text-xs font-bold text-rose-700 bg-rose-50 p-2.5 rounded-lg border border-rose-200 block';
+                fb.innerHTML = '<i class="fa-solid fa-circle-exclamation mr-1"></i> Submission error. Please call directly at +92 334 0091127.';
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                }
+            }
         }
 
         function shareLink(platform) {

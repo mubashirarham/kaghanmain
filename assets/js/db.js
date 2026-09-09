@@ -355,8 +355,84 @@ const DEFAULT_SITE_CONTENT = {
         { id: "p3", name: "Bank Alfalah", icon: "fa-solid fa-vault", link: "#", isActive: true },
         { id: "p4", name: "Faysal Bank", icon: "fa-solid fa-scale-balanced", link: "#", isActive: true },
         { id: "p5", name: "Habib Metro Sirat", icon: "fa-solid fa-coins", link: "#", isActive: true }
+    ],
+    browseProperties: [
+        // Homes - Popular
+        { id: "bp_1", category: "homes", subTab: "popular", title: "On Instalments Houses", link: "projects.html?type=house&keywords=instalment", badge: "Installments", isActive: true, sortOrder: 1 },
+        { id: "bp_2", category: "homes", subTab: "popular", title: "1 Bedroom Flats", link: "projects.html?type=apartment&bedrooms=1", badge: "1 Bed", isActive: true, sortOrder: 2 },
+        { id: "bp_3", category: "homes", subTab: "popular", title: "2 Bedroom Flats", link: "projects.html?type=apartment&bedrooms=2", badge: "2 Bed", isActive: true, sortOrder: 3 },
+        { id: "bp_4", category: "homes", subTab: "popular", title: "3 Bedroom Flats", link: "projects.html?type=apartment&bedrooms=3", badge: "3 Bed", isActive: true, sortOrder: 4 },
+        { id: "bp_5", category: "homes", subTab: "popular", title: "On Instalments Flats", link: "projects.html?type=apartment&keywords=instalment", badge: "Installments", isActive: true, sortOrder: 5 },
+        { id: "bp_6", category: "homes", subTab: "popular", title: "New Houses", link: "projects.html?type=house&keywords=new", badge: "New", isActive: true, sortOrder: 6 },
+        { id: "bp_7", category: "homes", subTab: "popular", title: "Low Price All Homes", link: "projects.html?type=house&sort=price_asc", badge: "Budget", isActive: true, sortOrder: 7 },
+        { id: "bp_8", category: "homes", subTab: "popular", title: "Small Houses", link: "projects.html?type=house&area_max=5", badge: "Compact", isActive: true, sortOrder: 8 },
+
+        // Homes - Type
+        { id: "bp_9", category: "homes", subTab: "type", title: "Houses & Luxury Villas", link: "projects.html?type=house", badge: "Villas", isActive: true, sortOrder: 1 },
+        { id: "bp_10", category: "homes", subTab: "type", title: "Flats & Luxury Apartments", link: "projects.html?type=apartment", badge: "Flats", isActive: true, sortOrder: 2 },
+        { id: "bp_11", category: "homes", subTab: "type", title: "Mountain Vacation Chalets", link: "projects.html?type=chalet", badge: "Alpine", isActive: true, sortOrder: 3 },
+        { id: "bp_12", category: "homes", subTab: "type", title: "Penthouse Suites", link: "projects.html?type=apartment&keywords=penthouse", badge: "Luxury", isActive: true, sortOrder: 4 },
+        { id: "bp_13", category: "homes", subTab: "type", title: "Upper Portion Homes", link: "projects.html?type=house&keywords=upper", badge: "Portion", isActive: true, sortOrder: 5 },
+        { id: "bp_14", category: "homes", subTab: "type", title: "Lower Portion Homes", link: "projects.html?type=house&keywords=lower", badge: "Portion", isActive: true, sortOrder: 6 },
+        { id: "bp_15", category: "homes", subTab: "type", title: "Farm Houses & Agro Land", link: "projects.html?type=house&keywords=farmhouse", badge: "Farmhouse", isActive: true, sortOrder: 7 },
+
+        // Homes - Area Size
+        { id: "bp_16", category: "homes", subTab: "area_size", title: "3 Marla Houses", link: "projects.html?type=house&size=3", badge: "3 Marla", isActive: true, sortOrder: 1 },
+        { id: "bp_17", category: "homes", subTab: "area_size", title: "5 Marla Houses", link: "projects.html?type=house&size=5", badge: "5 Marla", isActive: true, sortOrder: 2 },
+        { id: "bp_18", category: "homes", subTab: "area_size", title: "10 Marla Houses", link: "projects.html?type=house&size=10", badge: "10 Marla", isActive: true, sortOrder: 3 },
+        { id: "bp_19", category: "homes", subTab: "area_size", title: "1 Kanal Houses", link: "projects.html?type=house&size=20", badge: "1 Kanal", isActive: true, sortOrder: 4 },
+        { id: "bp_20", category: "homes", subTab: "area_size", title: "2 Kanal Luxury Mansions", link: "projects.html?type=house&size=40", badge: "2 Kanal", isActive: true, sortOrder: 5 },
+
+        // Plots - Popular
+        { id: "bp_21", category: "plots", subTab: "popular", title: "Developed Residential Plots", link: "projects.html?type=plot&keywords=developed", badge: "Developed", isActive: true, sortOrder: 1 },
+        { id: "bp_22", category: "plots", subTab: "popular", title: "Corner Residential Plots", link: "projects.html?type=plot&keywords=corner", badge: "Corner", isActive: true, sortOrder: 2 },
+        { id: "bp_23", category: "plots", subTab: "popular", title: "Low Price Residential Plots", link: "projects.html?type=plot&sort=price_asc", badge: "Budget", isActive: true, sortOrder: 3 },
+        { id: "bp_24", category: "plots", subTab: "popular", title: "Park Facing Residential Plots", link: "projects.html?type=plot&keywords=park+facing", badge: "Park Facing", isActive: true, sortOrder: 4 },
+        { id: "bp_25", category: "plots", subTab: "popular", title: "On Instalments Residential Plots", link: "projects.html?type=plot&keywords=instalment", badge: "Installments", isActive: true, sortOrder: 5 },
+        { id: "bp_26", category: "plots", subTab: "popular", title: "With Possession Commercial Plots", link: "projects.html?type=commercial&keywords=possession", badge: "Possession", isActive: true, sortOrder: 6 },
+
+        // Plots - Type
+        { id: "bp_27", category: "plots", subTab: "type", title: "Residential Plots", link: "projects.html?type=plot", badge: "Residential", isActive: true, sortOrder: 1 },
+        { id: "bp_28", category: "plots", subTab: "type", title: "Commercial Plots", link: "projects.html?type=commercial", badge: "Commercial", isActive: true, sortOrder: 2 },
+        { id: "bp_29", category: "plots", subTab: "type", title: "Agricultural Land", link: "projects.html?type=plot&keywords=land", badge: "Agro", isActive: true, sortOrder: 3 },
+        { id: "bp_30", category: "plots", subTab: "type", title: "Plot Files & Allocation", link: "projects.html?type=plot&keywords=file", badge: "Files", isActive: true, sortOrder: 4 },
+
+        // Plots - Area Size
+        { id: "bp_31", category: "plots", subTab: "area_size", title: "3 Marla Residential Plots", link: "projects.html?type=plot&size=3", badge: "3 Marla", isActive: true, sortOrder: 1 },
+        { id: "bp_32", category: "plots", subTab: "area_size", title: "5 Marla Residential Plots", link: "projects.html?type=plot&size=5", badge: "5 Marla", isActive: true, sortOrder: 2 },
+        { id: "bp_33", category: "plots", subTab: "area_size", title: "10 Marla Residential Plots", link: "projects.html?type=plot&size=10", badge: "10 Marla", isActive: true, sortOrder: 3 },
+        { id: "bp_34", category: "plots", subTab: "area_size", title: "1 Kanal Residential Plots", link: "projects.html?type=plot&size=20", badge: "1 Kanal", isActive: true, sortOrder: 4 },
+        { id: "bp_35", category: "plots", subTab: "area_size", title: "2 Kanal Commercial & Res", link: "projects.html?type=plot&size=40", badge: "2 Kanal", isActive: true, sortOrder: 5 },
+        { id: "bp_36", category: "plots", subTab: "area_size", title: "4 Kanal+ Farm Plots", link: "projects.html?type=plot&size=80", badge: "4 Kanal+", isActive: true, sortOrder: 6 },
+
+        // Commercial - Popular
+        { id: "bp_37", category: "commercial", subTab: "popular", title: "Small Offices", link: "projects.html?type=commercial&keywords=office", badge: "Offices", isActive: true, sortOrder: 1 },
+        { id: "bp_38", category: "commercial", subTab: "popular", title: "New Offices", link: "projects.html?type=commercial&keywords=new", badge: "New", isActive: true, sortOrder: 2 },
+        { id: "bp_39", category: "commercial", subTab: "popular", title: "On Instalments Shops", link: "projects.html?type=commercial&keywords=instalment", badge: "Installments", isActive: true, sortOrder: 3 },
+        { id: "bp_40", category: "commercial", subTab: "popular", title: "Small Shops", link: "projects.html?type=commercial&keywords=shop", badge: "Shops", isActive: true, sortOrder: 4 },
+        { id: "bp_41", category: "commercial", subTab: "popular", title: "New Shops", link: "projects.html?type=commercial&keywords=new+shop", badge: "New", isActive: true, sortOrder: 5 },
+        { id: "bp_42", category: "commercial", subTab: "popular", title: "Running Shops", link: "projects.html?type=commercial&keywords=running", badge: "Running", isActive: true, sortOrder: 6 },
+
+        // Commercial - Type
+        { id: "bp_43", category: "commercial", subTab: "type", title: "Commercial Offices", link: "projects.html?type=commercial&keywords=office", badge: "Offices", isActive: true, sortOrder: 1 },
+        { id: "bp_44", category: "commercial", subTab: "type", title: "Retail Boulevard Shops", link: "projects.html?type=commercial&keywords=shop", badge: "Boulevard", isActive: true, sortOrder: 2 },
+        { id: "bp_45", category: "commercial", subTab: "type", title: "Commercial Plazas & Buildings", link: "projects.html?type=commercial&keywords=plaza", badge: "Plazas", isActive: true, sortOrder: 3 },
+        { id: "bp_46", category: "commercial", subTab: "type", title: "Food Court Outlets", link: "projects.html?type=commercial&keywords=food+court", badge: "Food Court", isActive: true, sortOrder: 4 },
+
+        // Commercial - Area Size
+        { id: "bp_47", category: "commercial", subTab: "area_size", title: "Under 250 Sq. Ft. Shops", link: "projects.html?type=commercial&area_max=250", badge: "Shops", isActive: true, sortOrder: 1 },
+        { id: "bp_48", category: "commercial", subTab: "area_size", title: "500 - 1000 Sq. Ft. Offices", link: "projects.html?type=commercial&keywords=office", badge: "Mid Size", isActive: true, sortOrder: 2 },
+        { id: "bp_49", category: "commercial", subTab: "area_size", title: "Full Floor Commercial Suites", link: "projects.html?type=commercial&keywords=floor", badge: "Full Floor", isActive: true, sortOrder: 3 }
     ]
 };
+
+// Normalize DEFAULT_SITE_CONTENT browseProperties to guarantee both url and link properties
+if (DEFAULT_SITE_CONTENT.browseProperties) {
+    DEFAULT_SITE_CONTENT.browseProperties = DEFAULT_SITE_CONTENT.browseProperties.map(item => {
+        const u = item.url || item.link || 'projects.html';
+        return { ...item, url: u, link: u };
+    });
+}
 
 // Initial Data Seeding for Firestore 'kaghan_properties'
 const DEFAULT_SOCIETIES = [
@@ -1284,15 +1360,30 @@ try {
     if (savedSocs) localStore.societies = JSON.parse(savedSocs);
 
     const savedContent = localStorage.getItem('kaghan_site_content');
-    if (savedContent) localStore.siteContent = JSON.parse(savedContent);
+    if (savedContent) {
+        localStore.siteContent = JSON.parse(savedContent);
+        if (localStore.siteContent && localStore.siteContent.browseProperties) {
+            localStore.siteContent.browseProperties = localStore.siteContent.browseProperties.map(item => {
+                const u = item.url || item.link || 'projects.html';
+                return { ...item, url: u, link: u };
+            });
+        }
+    }
 } catch (e) {
     console.warn("Could not read from localStorage fallback cache:", e);
 }
 
-// Auto-seed Firestore on module load
+// Auto-seed Firestore on module load ONLY if collections are completely empty AND caller has admin privileges
 async function seedFirestoreIfNeeded() {
     if (!db) return;
     try {
+        // Only run seeding if explicitly requested or if auth indicates admin to prevent unauthenticated console errors
+        const isAuthAdmin = auth && auth.currentUser && (auth.currentUser.email === 'admin@kaghanproperties.com' || auth.currentUser.email === 'ali@kaghanproperties.com');
+        const isAdminPage = typeof window !== 'undefined' && window.location.pathname.includes('/admin/');
+        if (!isAuthAdmin && !isAdminPage) {
+            return; // Skip write operations for anonymous public visitors
+        }
+
         const settingsRef = db.collection('kaghan_properties').doc('siteSettings');
         const snap = await settingsRef.get();
         if (!snap.exists) {
@@ -1308,51 +1399,51 @@ async function seedFirestoreIfNeeded() {
             }
         } catch (e) {}
 
-        // Sync categories
+        // Check categories - ONLY seed if empty
         const catRef = getSubcollectionRef('categories');
         if (catRef) {
-            for (const c of DEFAULT_CATEGORIES) {
-                await catRef.doc(c.id).set(c, { merge: true });
+            const cSnap = await catRef.limit(1).get();
+            if (cSnap.empty) {
+                for (const c of DEFAULT_CATEGORIES) {
+                    await catRef.doc(c.id).set(c, { merge: true });
+                }
             }
         }
 
-        // Sync cities
+        // Check cities - ONLY seed if empty
         const cityRef = getSubcollectionRef('cities');
         if (cityRef) {
-            for (const c of DEFAULT_CITIES) {
-                await cityRef.doc(c.id).set(c, { merge: true });
+            const ciSnap = await cityRef.limit(1).get();
+            if (ciSnap.empty) {
+                for (const c of DEFAULT_CITIES) {
+                    await cityRef.doc(c.id).set(c, { merge: true });
+                }
             }
         }
         
-        // Sync curated societies and remove obsolete societies if present
+        // Check societies - ONLY seed if empty
         const socRef = getSubcollectionRef('societies');
         if (socRef) {
-            const obsoleteSocieties = ["dha-islamabad", "bahria-town-islamabad", "g11-sector-islamabad", "nathia-gali-kaghan"];
-            for (const obsId of obsoleteSocieties) {
-                try {
-                    await socRef.doc(obsId).delete();
-                } catch (err) {}
-            }
-            for (const s of DEFAULT_SOCIETIES) {
-                await socRef.doc(s.id).set(s, { merge: true });
+            const sSnap = await socRef.limit(1).get();
+            if (sSnap.empty) {
+                for (const s of DEFAULT_SOCIETIES) {
+                    await socRef.doc(s.id).set(s, { merge: true });
+                }
             }
         }
 
-        // Sync properties and remove obsolete properties if present
+        // Check properties - ONLY seed if empty! NEVER overwrite live Firestore properties!
         const propRef = getSubcollectionRef('properties');
         if (propRef) {
-            const obsoleteProps = ["islamabad-dha-phase2-house-123", "mideast-plaza-g11-commercial-office"];
-            for (const obsId of obsoleteProps) {
-                try {
-                    await propRef.doc(obsId).delete();
-                } catch (err) {}
-            }
-            for (const p of DEFAULT_PROPERTIES) {
-                await propRef.doc(p.id).set(p, { merge: true });
+            const pSnap = await propRef.limit(1).get();
+            if (pSnap.empty) {
+                for (const p of DEFAULT_PROPERTIES) {
+                    await propRef.doc(p.id).set(p, { merge: true });
+                }
             }
         }
 
-        // Check users
+        // Check users - ONLY seed if empty
         const usrRef = getSubcollectionRef('users');
         if (usrRef) {
             const uSnap = await usrRef.limit(1).get();
@@ -1362,8 +1453,19 @@ async function seedFirestoreIfNeeded() {
                 }
             }
         }
+
+        // Check blog posts - ONLY seed if empty
+        const blogRef = getSubcollectionRef('blogPosts');
+        if (blogRef) {
+            const bSnap = await blogRef.limit(1).get();
+            if (bSnap.empty && localStore.blogPosts && localStore.blogPosts.length > 0) {
+                for (const b of localStore.blogPosts) {
+                    await blogRef.doc(b.id).set(b, { merge: true });
+                }
+            }
+        }
     } catch (e) {
-        console.warn("Firestore auto-seeding skipped or failed (using fallback store):", e);
+        console.warn("Firestore auto-seeding skipped:", e);
     }
 }
 seedFirestoreIfNeeded();
@@ -1478,6 +1580,12 @@ window.KaghanDB = {
             if (db) {
                 const snap = await getSubcollectionRef('properties').get();
                 snap.forEach(doc => list.push(doc.data()));
+                if (list.length > 0) {
+                    localStore.properties = list;
+                    try {
+                        localStorage.setItem('kaghan_properties', JSON.stringify(list));
+                    } catch (err) {}
+                }
             }
         } catch (e) {
             console.error("Error getting properties from Firestore:", e);
@@ -1501,8 +1609,10 @@ window.KaghanDB = {
     },
 
     getPropertyBySlugOrId: async (slugOrId) => {
+        if (!slugOrId) return null;
+        const norm = String(slugOrId).toLowerCase().trim();
         const all = await window.KaghanDB.getProperties();
-        return all.find(p => p.slug === slugOrId || p.id === slugOrId) || null;
+        return all.find(p => (p.slug && p.slug.toLowerCase() === norm) || (p.id && String(p.id).toLowerCase() === norm)) || null;
     },
 
     saveProperty: async (property) => {
@@ -1523,6 +1633,11 @@ window.KaghanDB = {
         const idx = localStore.properties.findIndex(p => p.id === property.id);
         if (idx >= 0) localStore.properties[idx] = property;
         else localStore.properties.push(property);
+
+        try {
+            localStorage.setItem('kaghan_properties', JSON.stringify(localStore.properties));
+        } catch (err) {}
+
         return { success: true, id: property.id };
     },
 
@@ -1535,7 +1650,26 @@ window.KaghanDB = {
             console.error("Error deleting property:", e);
         }
         localStore.properties = localStore.properties.filter(p => p.id !== id);
+        try {
+            localStorage.setItem('kaghan_properties', JSON.stringify(localStore.properties));
+        } catch (err) {}
         return true;
+    },
+
+    getLocationListingCounts: async () => {
+        const properties = await window.KaghanDB.getProperties();
+        const counts = {};
+        for (const p of properties) {
+            if (p.area) {
+                const a = p.area.trim();
+                counts[a] = (counts[a] || 0) + 1;
+            }
+            if (p.city) {
+                const c = p.city.trim();
+                counts[c] = (counts[c] || 0) + 1;
+            }
+        }
+        return counts;
     },
 
     // Leads API
@@ -1579,6 +1713,9 @@ window.KaghanDB = {
         }
 
         localStore.leads.unshift(leadDoc);
+        try {
+            localStorage.setItem('kaghan_leads', JSON.stringify(localStore.leads));
+        } catch (err) {}
         return { success: true, id: leadDoc.id };
     },
 
@@ -1829,18 +1966,39 @@ window.KaghanDB = {
                 const snap = await db.collection('kaghan_properties').doc('siteContent').get();
                 if (snap.exists) {
                     const data = snap.data();
-                    localStore.siteContent = { ...DEFAULT_SITE_CONTENT, ...data };
+                    const merged = { ...DEFAULT_SITE_CONTENT, ...data };
+                    if (!merged.browseProperties || merged.browseProperties.length === 0) {
+                        merged.browseProperties = [...DEFAULT_SITE_CONTENT.browseProperties];
+                    }
+                    merged.browseProperties = (merged.browseProperties || []).map(item => {
+                        const u = item.url || item.link || 'projects.html';
+                        return { ...item, url: u, link: u };
+                    });
+                    localStore.siteContent = merged;
                     return localStore.siteContent;
                 }
             }
         } catch (e) {
             console.error("Error reading siteContent from Firestore:", e);
         }
-        return localStore.siteContent || { ...DEFAULT_SITE_CONTENT };
+        const res = localStore.siteContent || { ...DEFAULT_SITE_CONTENT };
+        if (res && res.browseProperties) {
+            res.browseProperties = res.browseProperties.map(item => {
+                const u = item.url || item.link || 'projects.html';
+                return { ...item, url: u, link: u };
+            });
+        }
+        return res;
     },
 
     saveSiteContent: async (content) => {
         content.updatedAt = new Date().toISOString();
+        if (content.browseProperties) {
+            content.browseProperties = content.browseProperties.map(item => {
+                const u = item.url || item.link || 'projects.html';
+                return { ...item, url: u, link: u };
+            });
+        }
         try {
             if (db) {
                 await db.collection('kaghan_properties').doc('siteContent').set(content, { merge: true });
@@ -1969,6 +2127,7 @@ window.KaghanDB = {
 
 // Backward Compatibility Aliases for CorporateDB
 window.CorporateDB = {
+    ...(window.CorporateDB || {}),
     ...window.KaghanDB,
     addInquiry: window.KaghanDB.createLead,
     getInquiries: window.KaghanDB.getLeads,

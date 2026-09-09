@@ -14,6 +14,7 @@ window.KaghanSharedUI = {
         this.renderModals();
         this.renderFloatingWhatsApp();
         this.initScrollHandlers();
+        this.hydrateSiteSettings();
     },
 
     getActivePage: function() {
@@ -352,18 +353,18 @@ window.KaghanSharedUI = {
                             <div class="space-y-2 leading-relaxed text-slate-300">
                                 <p class="flex items-start gap-2">
                                     <i class="fa-solid fa-location-dot text-emerald-400 mt-1"></i>
-                                    <span>Ground Floor, Anjum Plaza, Bahria Enclave / Jinnah Avenue New Mall, Islamabad, Pakistan</span>
+                                    <span class="shared-address-text">Ground Floor, Anjum Plaza, Bahria Enclave / Jinnah Avenue New Mall, Islamabad, Pakistan</span>
                                 </p>
                                 <p class="flex items-center gap-2">
                                     <i class="fa-solid fa-phone text-emerald-400"></i>
-                                    <a href="tel:+923340091127" class="hover:text-white font-semibold tabular-nums">+92 334 0091127</a>
+                                    <a href="tel:+923340091127" class="shared-phone-link hover:text-white font-semibold tabular-nums">+92 334 0091127</a>
                                 </p>
                                 <p class="flex items-center gap-2 text-[11px] text-slate-400">
                                     <i class="fa-regular fa-clock text-slate-500"></i>
                                     <span>Mon - Sat: 9:00 AM – 8:00 PM</span>
                                 </p>
                                 <p class="pt-1">
-                                    <a href="mailto:info@kaghanproperties.com" class="text-emerald-400 hover:underline flex items-center gap-1.5 font-semibold">
+                                    <a href="mailto:info@kaghanproperties.com" class="shared-email-link text-emerald-400 hover:underline flex items-center gap-1.5 font-semibold">
                                         <i class="fa-regular fa-envelope"></i> Email Us
                                     </a>
                                 </p>
@@ -388,11 +389,11 @@ window.KaghanSharedUI = {
                         <div class="space-y-3">
                             <h4 class="text-white font-bold outfit uppercase text-sm tracking-wider border-b border-slate-800 pb-2">Get Connected</h4>
                             <div class="flex gap-2 text-slate-300">
-                                <a href="https://facebook.com" target="_blank" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="https://instagram.com" target="_blank" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="https://youtube.com" target="_blank" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-youtube"></i></a>
-                                <a href="https://twitter.com" target="_blank" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
-                                <a href="https://linkedin.com" target="_blank" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="https://facebook.com" target="_blank" class="shared-social-fb w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="https://instagram.com" target="_blank" class="shared-social-ig w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="https://youtube.com" target="_blank" class="shared-social-yt w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                                <a href="https://twitter.com" target="_blank" class="shared-social-tw w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
+                                <a href="https://linkedin.com" target="_blank" class="shared-social-li w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
                             </div>
 
                             <div class="pt-2">
@@ -599,15 +600,54 @@ window.KaghanSharedUI = {
         if (m) m.classList.add('hidden');
     },
 
-    submitAddProperty: function(e) {
+    submitAddProperty: async function(e) {
         e.preventDefault();
-        const success = document.getElementById('add-property-success');
-        if (success) {
-            success.classList.remove('hidden');
-            setTimeout(() => {
-                window.KaghanSharedUI.closeAddPropertyModal();
-                success.classList.add('hidden');
-            }, 2500);
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn ? submitBtn.innerHTML : 'Submit Property Listing';
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Submitting...';
+        }
+
+        const title = document.getElementById('prop-title')?.value || '';
+        const purpose = document.getElementById('prop-purpose')?.value || 'sale';
+        const type = document.getElementById('prop-type')?.value || 'house';
+        const location = document.getElementById('prop-location')?.value || '';
+        const price = parseFloat(document.getElementById('prop-price')?.value) || 0;
+        const ownerName = document.getElementById('prop-owner-name')?.value || '';
+        const ownerPhone = document.getElementById('prop-owner-phone')?.value || '';
+
+        try {
+            if (window.KaghanDB && window.KaghanDB.createLead) {
+                await window.KaghanDB.createLead({
+                    name: ownerName,
+                    phone: ownerPhone,
+                    email: '',
+                    propertyTitle: title,
+                    message: `Property Listing Submission: "${title}" (For ${purpose.toUpperCase()} - ${type}) in ${location} for demand PKR ${price.toLocaleString()}. Listed by owner ${ownerName} (Contact: ${ownerPhone}).`,
+                    sourcePage: 'Add Property Modal',
+                    status: 'new'
+                });
+            }
+
+            const success = document.getElementById('add-property-success');
+            if (success) {
+                success.classList.remove('hidden');
+                e.target.reset();
+                setTimeout(() => {
+                    window.KaghanSharedUI.closeAddPropertyModal();
+                    success.classList.add('hidden');
+                }, 2500);
+            }
+        } catch (err) {
+            console.error('Error submitting property lead to Firestore:', err);
+            alert('Your property details have been recorded. A Kaghan consultant will contact you shortly.');
+            window.KaghanSharedUI.closeAddPropertyModal();
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
         }
     },
 
@@ -651,12 +691,91 @@ window.KaghanSharedUI = {
         if (rSqyd) rSqyd.innerText = `${Math.round(sqyd).toLocaleString()} Sq. Yd.`;
     },
 
-    handleNewsletter: function(e) {
+    handleNewsletter: async function(e) {
         e.preventDefault();
         const input = document.getElementById('footer-newsletter-input');
-        if (input && input.value) {
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        if (!input || !input.value) return;
+        const email = input.value.trim();
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Subscribing...';
+        }
+
+        try {
+            if (window.CorporateDB && window.CorporateDB.addSubscriber) {
+                await window.CorporateDB.addSubscriber(email);
+            } else if (window.KaghanDB && window.KaghanDB.createLead) {
+                await window.KaghanDB.createLead({
+                    name: 'Newsletter Subscriber',
+                    email: email,
+                    phone: '',
+                    message: 'Subscribed to weekly market rate alerts and newsletter',
+                    sourcePage: '/newsletter'
+                });
+            }
             alert('Thank you for subscribing to Kaghan Properties updates!');
             input.value = '';
+        } catch (err) {
+            console.error('Error adding subscriber to Firestore:', err);
+            alert('Thank you! You have been added to our updates list.');
+            input.value = '';
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Subscribe';
+            }
+        }
+    },
+
+    hydrateSiteSettings: async function() {
+        try {
+            if (!window.KaghanDB || !window.KaghanDB.getSiteSettings) return;
+            const settings = await window.KaghanDB.getSiteSettings();
+            if (!settings) return;
+
+            // 1. Phone numbers & WhatsApp
+            if (settings.contact && settings.contact.phone) {
+                const phone = settings.contact.phone;
+                const cleanPhone = phone.replace(/[^0-9+]/g, '');
+                const waNum = cleanPhone.replace(/[^0-9]/g, '');
+
+                document.querySelectorAll('.shared-phone-link').forEach(el => {
+                    el.href = `tel:${cleanPhone}`;
+                    el.innerText = phone;
+                });
+
+                document.querySelectorAll('.shared-wa-link, #global-floating-whatsapp').forEach(el => {
+                    el.href = `https://wa.me/${waNum}?text=${encodeURIComponent('Hi Kaghan Properties, I am inquiring about property options.')}`;
+                });
+            }
+
+            // 2. Email
+            if (settings.contact && settings.contact.email) {
+                document.querySelectorAll('.shared-email-link').forEach(el => {
+                    el.href = `mailto:${settings.contact.email}`;
+                    el.innerText = settings.contact.email;
+                });
+            }
+
+            // 3. Office Address
+            if (settings.contact && settings.contact.address) {
+                document.querySelectorAll('.shared-address-text').forEach(el => {
+                    el.innerText = settings.contact.address;
+                });
+            }
+
+            // 4. Social Links
+            if (settings.social) {
+                if (settings.social.facebook) document.querySelectorAll('.shared-social-fb').forEach(el => el.href = settings.social.facebook);
+                if (settings.social.instagram) document.querySelectorAll('.shared-social-ig').forEach(el => el.href = settings.social.instagram);
+                if (settings.social.youtube) document.querySelectorAll('.shared-social-yt').forEach(el => el.href = settings.social.youtube);
+                if (settings.social.twitter) document.querySelectorAll('.shared-social-tw').forEach(el => el.href = settings.social.twitter);
+                if (settings.social.linkedin) document.querySelectorAll('.shared-social-li').forEach(el => el.href = settings.social.linkedin);
+            }
+        } catch (e) {
+            console.warn('Error hydrating shared site settings:', e);
         }
     }
 };

@@ -1120,6 +1120,47 @@
                                 </table>
                             </div>
                         </div>
+
+                        <!-- 4. Browse Properties Directory Matrix -->
+                        <div class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800/60">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <span class="text-slate-300 font-bold text-xs flex items-center gap-2">
+                                        <i class="fa-solid fa-list-check text-emerald-400"></i> Browse Properties Directory Matrix (Homepage)
+                                    </span>
+                                    <p class="text-slate-500 text-[10px]">Manage directory links categorized by Homes, Plots, Commercial and sub-tabs (Popular, Type, Area Size).</p>
+                                </div>
+                                <button type="button" onclick="openBrowsePropertyModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all shadow">
+                                    <i class="fa-solid fa-plus"></i> Add Browse Link
+                                </button>
+                            </div>
+
+                            <!-- Filter Pills for Admin Table -->
+                            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-800/50">
+                                <span class="text-[10px] font-bold uppercase text-slate-500">Filter Category:</span>
+                                <button type="button" onclick="filterBrowseAdminList('all')" id="filter-browse-all" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-700 text-white">All (<span id="count-browse-all">0</span>)</button>
+                                <button type="button" onclick="filterBrowseAdminList('homes')" id="filter-browse-homes" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Homes (<span id="count-browse-homes">0</span>)</button>
+                                <button type="button" onclick="filterBrowseAdminList('plots')" id="filter-browse-plots" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Plots (<span id="count-browse-plots">0</span>)</button>
+                                <button type="button" onclick="filterBrowseAdminList('commercial')" id="filter-browse-commercial" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Commercial (<span id="count-browse-commercial">0</span>)</button>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs">
+                                    <thead class="bg-slate-950/60 text-slate-400 font-bold uppercase text-[10px]">
+                                        <tr>
+                                            <th class="p-2.5">Category & Sub-Tab</th>
+                                            <th class="p-2.5">Link Title</th>
+                                            <th class="p-2.5">Destination URL</th>
+                                            <th class="p-2.5">Badge / Tag</th>
+                                            <th class="p-2.5">Order</th>
+                                            <th class="p-2.5">Status</th>
+                                            <th class="p-2.5 text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="browse-properties-tbody" class="divide-y divide-slate-800/40"></tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="pt-4 border-t border-slate-800 flex items-center gap-6">
@@ -1909,6 +1950,73 @@
                 <div class="pt-3 flex justify-end gap-3 border-t border-slate-800">
                     <button type="button" onclick="closeHomePartnerModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300">Cancel</button>
                     <button type="submit" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-5 py-2 rounded-xl">Save Partner</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD/EDIT BROWSE PROPERTY LINK -->
+    <div id="modal-browse-property" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 id="modal-browse-modal-title" class="text-lg font-bold text-white outfit">Add / Edit Browse Property Link</h3>
+                <button onclick="closeBrowsePropertyModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form onsubmit="saveBrowsePropertyForm(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="form-browse-index">
+                <input type="hidden" id="form-browse-id">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Main Category *</label>
+                        <select id="form-browse-category" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                            <option value="homes">Homes</option>
+                            <option value="plots">Plots</option>
+                            <option value="commercial">Commercial</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Sub-Tab *</label>
+                        <select id="form-browse-subtab" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                            <option value="popular">Popular</option>
+                            <option value="type">Type</option>
+                            <option value="area_size">Area Size</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-slate-400 uppercase font-bold block mb-1">Link Title *</label>
+                    <input type="text" id="form-browse-title" required placeholder="e.g. On Instalments Houses, 5 Marla Plots" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                </div>
+
+                <div>
+                    <label class="text-slate-400 uppercase font-bold block mb-1">Target Search URL *</label>
+                    <input type="text" id="form-browse-url" required placeholder="projects.html?type=house&keywords=instalment" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white font-mono text-[11px]">
+                    <p class="text-[10px] text-slate-500 mt-0.5">Tip: Points to projects.html with query parameters (e.g. type=house, size=5, keywords=new)</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Badge Tag (Optional)</label>
+                        <input type="text" id="form-browse-badge" placeholder="e.g. Installments, New, Hot" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 uppercase font-bold block mb-1">Sort Order</label>
+                        <input type="number" id="form-browse-sort" value="1" min="1" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                        <input type="checkbox" id="form-browse-active" class="w-4 h-4 rounded text-emerald-500" checked>
+                        <span>Active in Homepage Browse Directory</span>
+                    </label>
+                </div>
+
+                <div class="pt-3 flex justify-end gap-3 border-t border-slate-800">
+                    <button type="button" onclick="closeBrowsePropertyModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300">Cancel</button>
+                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2 rounded-xl">Save Link</button>
                 </div>
             </form>
         </div>
@@ -3709,6 +3817,9 @@
 
             // 3. Home Banking Partners
             renderHomePartnersList();
+
+            // 4. Browse Properties Directory Matrix
+            renderBrowsePropertiesList();
         }
 
         async function savePromoBannerForm() {
@@ -3928,6 +4039,188 @@
                 liveSiteContentCache.homePartners.splice(index, 1);
                 await window.KaghanDB.saveSiteContent(liveSiteContentCache);
                 renderHomePartnersList();
+            }
+        }
+
+        // --- BROWSE PROPERTIES DIRECTORY MATRIX ---
+        let currentBrowseFilter = 'all';
+
+        function filterBrowseAdminList(cat) {
+            currentBrowseFilter = cat;
+            const buttons = [
+                { id: 'filter-browse-all', active: cat === 'all' },
+                { id: 'filter-browse-homes', active: cat === 'homes' },
+                { id: 'filter-browse-plots', active: cat === 'plots' },
+                { id: 'filter-browse-commercial', active: cat === 'commercial' }
+            ];
+            buttons.forEach(b => {
+                const el = document.getElementById(b.id);
+                if (!el) return;
+                if (b.active) {
+                    el.className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-700 text-white';
+                } else {
+                    el.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700';
+                }
+            });
+            renderBrowsePropertiesList();
+        }
+
+        function renderBrowsePropertiesList() {
+            const tbody = document.getElementById('browse-properties-tbody');
+            if (!tbody || !liveSiteContentCache) return;
+            const allItems = liveSiteContentCache.browseProperties || [];
+
+            // Update count badges
+            const countAll = allItems.length;
+            const countHomes = allItems.filter(i => (i.category || '').toLowerCase() === 'homes').length;
+            const countPlots = allItems.filter(i => (i.category || '').toLowerCase() === 'plots').length;
+            const countComm = allItems.filter(i => (i.category || '').toLowerCase() === 'commercial').length;
+
+            const countAllEl = document.getElementById('count-browse-all');
+            if (countAllEl) countAllEl.innerText = countAll;
+            const countHomesEl = document.getElementById('count-browse-homes');
+            if (countHomesEl) countHomesEl.innerText = countHomes;
+            const countPlotsEl = document.getElementById('count-browse-plots');
+            if (countPlotsEl) countPlotsEl.innerText = countPlots;
+            const countCommEl = document.getElementById('count-browse-commercial');
+            if (countCommEl) countCommEl.innerText = countComm;
+
+            // Filter items for display
+            let filteredWithIdx = allItems.map((item, originalIndex) => ({ ...item, _originalIndex: originalIndex }));
+            if (currentBrowseFilter !== 'all') {
+                filteredWithIdx = filteredWithIdx.filter(i => (i.category || '').toLowerCase() === currentBrowseFilter);
+            }
+
+            if (filteredWithIdx.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500 text-xs">No links found in this category. Click "+ Add Browse Link" to create one.</td></tr>`;
+                return;
+            }
+
+            const subTabLabels = {
+                popular: 'Popular',
+                type: 'Type',
+                area_size: 'Area Size'
+            };
+
+            const catColors = {
+                homes: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+                plots: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+                commercial: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
+            };
+
+            tbody.innerHTML = filteredWithIdx.map(item => {
+                const catClass = catColors[item.category] || 'bg-slate-800 text-slate-300 border-slate-700';
+                const subLabel = subTabLabels[item.subTab] || item.subTab || 'Popular';
+                const linkTarget = item.url || item.link || '';
+                const badgeHtml = item.badge ? `<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30">${item.badge}</span>` : '<span class="text-slate-600">-</span>';
+                const statusHtml = item.isActive !== false ? `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Active</span>` : `<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-slate-800 text-slate-500">Hidden</span>`;
+
+                return `
+                    <tr class="hover:bg-slate-900/50 transition-colors">
+                        <td class="p-2.5">
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase border ${catClass}">${item.category || 'homes'}</span>
+                                <span class="text-[10px] text-slate-400 font-medium">/ ${subLabel}</span>
+                            </div>
+                        </td>
+                        <td class="p-2.5 font-bold text-white">${item.title || ''}</td>
+                        <td class="p-2.5">
+                            <span class="text-slate-400 font-mono text-[10px] truncate max-w-[180px] inline-block hover:text-white" title="${linkTarget}">${linkTarget}</span>
+                        </td>
+                        <td class="p-2.5">${badgeHtml}</td>
+                        <td class="p-2.5 text-slate-400 font-mono text-[11px]">${item.sortOrder || 1}</td>
+                        <td class="p-2.5">${statusHtml}</td>
+                        <td class="p-2.5 text-right space-x-1.5 whitespace-nowrap">
+                            <button type="button" onclick="openBrowsePropertyModal(${item._originalIndex})" class="p-1.5 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg text-xs" title="Edit">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button type="button" onclick="deleteBrowseProperty(${item._originalIndex})" class="p-1.5 text-rose-400 hover:bg-rose-500/20 bg-slate-800 rounded-lg text-xs" title="Delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function openBrowsePropertyModal(index = null) {
+            const modal = document.getElementById('modal-browse-property');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+
+            const allItems = liveSiteContentCache?.browseProperties || [];
+
+            if (index !== null && index !== undefined && allItems[index]) {
+                const item = allItems[index];
+                document.getElementById('modal-browse-modal-title').innerText = 'Edit Browse Property Link';
+                document.getElementById('form-browse-index').value = index;
+                document.getElementById('form-browse-id').value = item.id || '';
+                document.getElementById('form-browse-category').value = item.category || 'homes';
+                document.getElementById('form-browse-subtab').value = item.subTab || 'popular';
+                document.getElementById('form-browse-title').value = item.title || '';
+                document.getElementById('form-browse-url').value = item.url || item.link || '';
+                document.getElementById('form-browse-badge').value = item.badge || '';
+                document.getElementById('form-browse-sort').value = item.sortOrder !== undefined ? item.sortOrder : index + 1;
+                document.getElementById('form-browse-active').checked = item.isActive !== false;
+            } else {
+                document.getElementById('modal-browse-modal-title').innerText = 'Add Browse Property Link';
+                document.getElementById('form-browse-index').value = '';
+                document.getElementById('form-browse-id').value = 'bp_' + Date.now();
+                document.getElementById('form-browse-category').value = currentBrowseFilter !== 'all' ? currentBrowseFilter : 'homes';
+                document.getElementById('form-browse-subtab').value = 'popular';
+                document.getElementById('form-browse-title').value = '';
+                document.getElementById('form-browse-url').value = 'projects.html?type=house&keywords=';
+                document.getElementById('form-browse-badge').value = '';
+                document.getElementById('form-browse-sort').value = allItems.length + 1;
+                document.getElementById('form-browse-active').checked = true;
+            }
+        }
+
+        function closeBrowsePropertyModal() {
+            const modal = document.getElementById('modal-browse-property');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        async function saveBrowsePropertyForm(e) {
+            e.preventDefault();
+            if (!liveSiteContentCache) liveSiteContentCache = await window.KaghanDB.getSiteContent();
+            if (!liveSiteContentCache.browseProperties) liveSiteContentCache.browseProperties = [];
+
+            const indexVal = document.getElementById('form-browse-index').value;
+            const idVal = document.getElementById('form-browse-id').value || ('bp_' + Date.now());
+            const targetUrl = document.getElementById('form-browse-url').value.trim();
+
+            const itemData = {
+                id: idVal,
+                category: document.getElementById('form-browse-category').value,
+                subTab: document.getElementById('form-browse-subtab').value,
+                title: document.getElementById('form-browse-title').value.trim(),
+                url: targetUrl,
+                link: targetUrl,
+                badge: document.getElementById('form-browse-badge').value.trim(),
+                sortOrder: parseInt(document.getElementById('form-browse-sort').value, 10) || 1,
+                isActive: document.getElementById('form-browse-active').checked
+            };
+
+            if (indexVal !== '') {
+                const idx = parseInt(indexVal, 10);
+                liveSiteContentCache.browseProperties[idx] = itemData;
+            } else {
+                liveSiteContentCache.browseProperties.push(itemData);
+            }
+
+            await window.KaghanDB.saveSiteContent(liveSiteContentCache);
+            closeBrowsePropertyModal();
+            renderBrowsePropertiesList();
+        }
+
+        async function deleteBrowseProperty(index) {
+            if (confirm("Delete this browse link from directory?")) {
+                if (!liveSiteContentCache) liveSiteContentCache = await window.KaghanDB.getSiteContent();
+                if (!liveSiteContentCache.browseProperties) return;
+                liveSiteContentCache.browseProperties.splice(index, 1);
+                await window.KaghanDB.saveSiteContent(liveSiteContentCache);
+                renderBrowsePropertiesList();
             }
         }
 

@@ -310,7 +310,7 @@
             </div>
 
             <!-- 4c. Rich Editorial Description (§4c, §15) -->
-            <div class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 space-y-8 shadow-sm">
+            <div class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 space-y-8 shadow-sm" id="project-editorial-container">
                 
                 <!-- Sub-section 1: Rise Above the Rest -->
                 <div class="editorial-prose">
@@ -1309,23 +1309,41 @@
             const params = new URLSearchParams(window.location.search);
             const slug = params.get('slug') || params.get('id');
 
-            let all = [];
-            if (window.KaghanDB && window.KaghanDB.getProperties) {
+            let found = null;
+            if (window.KaghanDB && window.KaghanDB.getPropertyBySlugOrId) {
                 try {
-                    all = await window.KaghanDB.getProperties();
+                    if (slug) {
+                        found = await window.KaghanDB.getPropertyBySlugOrId(slug);
+                    }
+                    if (!found) {
+                        found = await window.KaghanDB.getPropertyBySlugOrId('pine-valley-resort-suites-project');
+                    }
                 } catch (e) {
-                    console.warn("KaghanDB getProperties fallback:", e);
+                    console.warn("KaghanDB getPropertyBySlugOrId fallback:", e);
                 }
-            }
-            if ((!all || all.length === 0) && typeof DEFAULT_PROPERTIES !== 'undefined') {
-                all = [...DEFAULT_PROPERTIES];
             }
 
-            if (slug && all.length > 0) {
-                const found = all.find(p => p.slug === slug || p.id === slug);
-                if (found) {
-                    loadDynamicProject(found);
+            if (!found) {
+                let all = [];
+                if (window.KaghanDB && window.KaghanDB.getProperties) {
+                    try {
+                        all = await window.KaghanDB.getProperties();
+                    } catch (e) {}
                 }
+                if ((!all || all.length === 0) && typeof DEFAULT_PROPERTIES !== 'undefined') {
+                    all = [...DEFAULT_PROPERTIES];
+                }
+                if (slug && all.length > 0) {
+                    const sClean = slug.toLowerCase().trim();
+                    found = all.find(p => (p.slug && p.slug.toLowerCase().trim() === sClean) || (p.id && p.id.toLowerCase().trim() === sClean));
+                }
+                if (!found && all.length > 0) {
+                    found = all.find(p => p.type === 'project' || p.category === 'Projects' || p.featuredProject) || all[0];
+                }
+            }
+
+            if (found) {
+                loadDynamicProject(found);
             }
 
             // Render gallery filmstrip
@@ -1390,6 +1408,67 @@
                 }
             }
 
+            // Dynamic Project Overview Editorial
+            if (p.description) {
+                const edContainer = document.getElementById('project-editorial-container');
+                if (edContainer) {
+                    edContainer.innerHTML = `
+                        <div class="editorial-prose text-slate-700 leading-relaxed space-y-4">
+                            ${p.description}
+                        </div>
+                        <div class="pt-6 border-t border-slate-100 flex items-center justify-between flex-wrap gap-3">
+                            <button onclick="scrollToSection('request-call-box')" class="btn-primary text-xs py-3 px-6 rounded-xl font-bold shadow-md inline-flex items-center gap-2">
+                                <i class="fa-solid fa-phone"></i> Inquire About ${p.title.split(' ')[0]} Allocations
+                            </button>
+                            <a href="projects.html" class="btn-outline text-xs py-2.5 px-4 rounded-xl font-bold">
+                                &laquo; Back to All Developments
+                            </a>
+                        </div>
+                    `;
+                }
+            }
+
+            // Dynamic Features & Specs Matrix
+            if (p.categorizedAmenities && Object.keys(p.categorizedAmenities).length > 0) {
+                const fContainer = document.getElementById('features-matrix-container');
+                if (fContainer) {
+                    const labels = {
+                        mainFeatures: { title: "Main Building Features", icon: "fa-building" },
+                        rooms: { title: "Rooms & Interior Specs", icon: "fa-bed" },
+                        business: { title: "Business & Technology", icon: "fa-wifi" },
+                        community: { title: "Community & Amenities", icon: "fa-users" },
+                        facilities: { title: "Security & Facilities", icon: "fa-shield-halved" },
+                        healthcare: { title: "Healthcare & Recreation", icon: "fa-heart-pulse" },
+                        nearby: { title: "Nearby Infrastructure", icon: "fa-map-location-dot" }
+                    };
+                    const catKeys = Object.keys(p.categorizedAmenities).filter(k => Array.isArray(p.categorizedAmenities[k]) && p.categorizedAmenities[k].length > 0);
+                    if (catKeys.length > 0) {
+                        fContainer.innerHTML = catKeys.map(k => {
+                            const info = labels[k] || { title: k, icon: "fa-check" };
+                            const items = p.categorizedAmenities[k];
+                            return `
+                                <div class="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+                                    <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                                        <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-sm">
+                                            <i class="fa-solid ${info.icon}"></i>
+                                        </div>
+                                        <h3 class="font-extrabold text-sm outfit uppercase tracking-wider text-slate-900">${info.title}</h3>
+                                    </div>
+                                    <ul class="space-y-2.5 text-xs text-slate-700">
+                                        ${items.map(item => `
+                                            <li class="flex items-start gap-2">
+                                                <i class="fa-solid fa-circle-check text-emerald-600 text-[11px] mt-0.5 shrink-0"></i>
+                                                <span class="font-medium">${item}</span>
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                            `;
+                        }).join('');
+                    }
+                }
+            }
+
             // Images
             if (p.images && p.images.length > 0) {
                 PROJECT_GALLERY = p.images.map(img => ({
@@ -1421,9 +1500,25 @@
                         image: (p.images && p.images[i % p.images.length]) ? p.images[i % p.images.length].url : 'assets/images/mideast-view2.png'
                     };
                 });
-
-                renderDynamicCategoryChips();
+            } else {
+                UNIT_INVENTORY_DATA = [{
+                    id: `unit-main`,
+                    category: p.type ? (p.type.charAt(0).toUpperCase() + p.type.slice(1)) : "Suites",
+                    title: p.title,
+                    priceRange: p.priceRangeStr || (window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${p.price.toLocaleString()}`),
+                    priceMin: p.price,
+                    priceMax: p.price,
+                    areaSize: `${p.size} ${p.sizeUnit || 'Marla'}`,
+                    areaMarla: `${p.size} Marla`,
+                    floorLevel: "Prime Allocation",
+                    descriptor: p.description ? p.description.replace(/<[^>]*>?/gm, '').substring(0, 160) + '...' : 'Verified developer inventory unit with structured milestone delivery.',
+                    downPayment: "Available on Booking",
+                    monthlyInstallment: "Scheduled Payment Milestone",
+                    availableUnits: 1,
+                    image: (p.images && p.images[0] && p.images[0].url) ? p.images[0].url : 'assets/images/bahria-villa.png'
+                }];
             }
+            renderDynamicCategoryChips();
 
             // POIs
             if (p.nearbyPOIs && p.nearbyPOIs.length > 0) {
@@ -1434,6 +1529,11 @@
                     icon: poi.category === 'Restaurants' ? 'fa-utensils' : poi.category === 'Hospitals' ? 'fa-hospital' : poi.category === 'Schools' ? 'fa-graduation-cap' : 'fa-location-dot',
                     text: `Immediate proximity to ${poi.name} from ${p.title}.`
                 }));
+            } else {
+                NEARBY_POIS_DATA = [
+                    { category: "Location", name: `${p.sector || p.area}, ${p.city}`, distance: "Prime Zone", icon: "fa-location-dot", text: `Situated centrally in ${p.area} with direct arterial access.` },
+                    { category: "Security", name: "Gated Enclave Checkpost", distance: "2 mins", icon: "fa-shield", text: "24/7 round-the-clock secured perimeter surveillance." }
+                ];
             }
 
             // Dynamic Floor Plans & Architectural Blueprints
@@ -1447,12 +1547,22 @@
                     view: fp.view || 'Scenic Orientation',
                     image: fp.image || 'assets/images/floorplan_masterplan.jpg'
                 }));
-                activeFloorPlanIndex = 0;
-                const countBadge = document.querySelector('#floor-plans span.text-emerald-700');
-                if (countBadge) countBadge.innerText = `${FLOOR_PLAN_DOCS.length} Documents`;
-                renderFloorPlanTabs();
-                selectFloorPlan(0);
+            } else {
+                FLOOR_PLAN_DOCS = [{
+                    id: "fp-master",
+                    title: "Project Master Layout",
+                    subtitle: "Approved Topographical Site Plan",
+                    area: `${p.size} ${p.sizeUnit || 'Marla'} Covered`,
+                    height: `${p.floors || 1} Level(s)`,
+                    view: `${p.facing || 'Prime'} Facing`,
+                    image: (p.images && p.images[0] && p.images[0].url) ? p.images[0].url : 'assets/images/floorplan_masterplan.jpg'
+                }];
             }
+            activeFloorPlanIndex = 0;
+            const countBadge = document.querySelector('#floor-plans span.text-emerald-700');
+            if (countBadge) countBadge.innerText = `${FLOOR_PLAN_DOCS.length} Documents`;
+            renderFloorPlanTabs();
+            selectFloorPlan(0);
 
             // Dynamic Official Payment Milestone Plan
             if (p.paymentPlan) {
