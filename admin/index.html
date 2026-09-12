@@ -8,10 +8,13 @@
     <meta name="theme-color" content="#0B0F19">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Favicon & PWA Icons -->
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/png" href="../assets/images/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="../favicon.ico">
     <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo.png">
-    <link rel="apple-touch-icon" href="../assets/images/logo.png">
     <link rel="manifest" href="../site.webmanifest">
     
     <!-- Tailwind CSS -->
@@ -184,14 +187,14 @@
                     <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Email Address</label>
                     <div class="relative">
                         <i class="fa-solid fa-envelope absolute left-4 top-4 text-slate-500 text-sm"></i>
-                        <input type="email" id="login-email" required placeholder="admin@kaghanproperties.com" value="admin@kaghanproperties.com" class="w-full bg-slate-900/50 border border-slate-800 focus:border-[#D4AF37] rounded-xl pl-12 pr-5 py-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all">
+                        <input type="email" id="login-email" required placeholder="admin@kp.com" value="admin@kp.com" class="w-full bg-slate-900/50 border border-slate-800 focus:border-[#D4AF37] rounded-xl pl-12 pr-5 py-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all">
                     </div>
                 </div>
                 <div>
                     <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Password</label>
                     <div class="relative">
                         <i class="fa-solid fa-lock absolute left-4 top-4 text-slate-500 text-sm"></i>
-                        <input type="password" id="login-password" required placeholder="••••••••" value="admin123" class="w-full bg-slate-900/50 border border-slate-800 focus:border-[#D4AF37] rounded-xl pl-12 pr-5 py-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all">
+                        <input type="password" id="login-password" required placeholder="••••••••" value="admin1122" class="w-full bg-slate-900/50 border border-slate-800 focus:border-[#D4AF37] rounded-xl pl-12 pr-5 py-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all">
                     </div>
                 </div>
                 
@@ -943,6 +946,8 @@
                                 <select id="set-default-unit" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
                                     <option value="marla">Marla (1 Marla = 225 Sq Ft)</option>
                                     <option value="sqft">Square Feet (Sq. Ft.)</option>
+                                    <option value="sqyd">Square Yards (Sq. Yd. / Gaz)</option>
+                                    <option value="sqm">Square Meters (Sq. M.)</option>
                                     <option value="kanal">Kanal (1 Kanal = 20 Marla)</option>
                                 </select>
                             </div>
@@ -1209,12 +1214,30 @@
                     <div>
                         <label class="text-slate-400 uppercase font-bold block mb-1">Type</label>
                         <select id="form-prop-type" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
-                            <option value="house">House</option>
-                            <option value="plot">Plot</option>
-                            <option value="apartment">Apartment</option>
-                            <option value="commercial">Commercial</option>
-                            <option value="shop">Shop</option>
-                            <option value="office">Office</option>
+                            <optgroup label="Home">
+                                <option value="house">House</option>
+                                <option value="flat">Flat</option>
+                                <option value="penthouse">Penthouse</option>
+                                <option value="upper_portion">Upper portion</option>
+                                <option value="lower_portion">Lower portion</option>
+                                <option value="farmhouse">Farm House</option>
+                                <option value="room">Room</option>
+                            </optgroup>
+                            <optgroup label="Plots">
+                                <option value="commercial_plot">Commercial plots</option>
+                                <option value="residential_plot">Residential Plots</option>
+                                <option value="industrial_land">Industrial land</option>
+                                <option value="agricultural_land">Agricultural Land</option>
+                            </optgroup>
+                            <optgroup label="Commercial">
+                                <option value="shop">Shop</option>
+                                <option value="office">Office</option>
+                                <option value="factory">Factory</option>
+                                <option value="warehouse">Warehouse</option>
+                                <option value="building">Building</option>
+                                <option value="plaza">Plaza</option>
+                                <option value="other_commercial">Other</option>
+                            </optgroup>
                         </select>
                     </div>
                     <div>
@@ -1240,29 +1263,62 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div>
-                        <label class="text-slate-400 uppercase font-bold block mb-1">City</label>
-                        <select id="form-prop-city" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
-                            <option value="Islamabad">Islamabad</option>
-                            <option value="Rawalpindi">Rawalpindi</option>
-                            <option value="Murree">Murree</option>
-                            <option value="Nathia Gali">Nathia Gali</option>
-                            <option value="Lahore">Lahore</option>
-                            <option value="Kaghan Valley">Kaghan Valley</option>
-                        </select>
+                <!-- Location Fields with Interactive Suggestions & Quick Picks -->
+                <div class="space-y-2.5">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="text-slate-400 uppercase font-bold text-xs block mb-1">City *</label>
+                            <select id="form-prop-city" onchange="onAdminCityChange(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white focus:border-[#D4AF37] focus:outline-none text-xs">
+                                <option value="Islamabad">Islamabad</option>
+                                <option value="Rawalpindi">Rawalpindi</option>
+                                <option value="Murree">Murree</option>
+                                <option value="Nathia Gali">Nathia Gali</option>
+                                <option value="Lahore">Lahore</option>
+                                <option value="Kaghan Valley">Kaghan Valley</option>
+                            </select>
+                        </div>
+                        <div class="relative">
+                            <label class="text-slate-400 uppercase font-bold text-xs block mb-1 flex items-center justify-between">
+                                <span>Area / Society *</span>
+                                <span class="text-[10px] text-[#D4AF37] font-normal lowercase"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i>suggestions</span>
+                            </label>
+                            <div class="relative">
+                                <input type="text" id="form-prop-area" placeholder="e.g. Bahria Enclave, DHA Phase 2..." list="admin-prop-area-datalist" autocomplete="off" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 pr-8 text-white focus:border-[#D4AF37] focus:outline-none text-xs" oninput="filterAdminAreaSuggestions(this.value)" onfocus="openAdminAreaSuggestions()" onblur="hideAdminAreaSuggestionsDelayed()">
+                                <i class="fa-solid fa-tree-city absolute right-3 top-3 text-slate-500 text-xs pointer-events-none"></i>
+                            </div>
+                            <datalist id="admin-prop-area-datalist"></datalist>
+                            <!-- Interactive Floating Suggestions Dropdown -->
+                            <div id="admin-area-suggestions-dropdown" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-slate-900/98 backdrop-blur-md border border-slate-700 rounded-xl shadow-2xl max-h-60 overflow-y-auto z-50 p-1.5 space-y-1 divide-y divide-slate-800/60">
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <label class="text-slate-400 uppercase font-bold text-xs block mb-1 flex items-center justify-between">
+                                <span>Sector / Phase</span>
+                                <span class="text-[10px] text-slate-500 font-normal">e.g. Sector C</span>
+                            </label>
+                            <div class="relative">
+                                <input type="text" id="form-prop-sector" placeholder="e.g. Sector C, Phase 2..." list="admin-prop-sector-datalist" autocomplete="off" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 pr-8 text-white focus:border-[#D4AF37] focus:outline-none text-xs" oninput="filterAdminSectorSuggestions(this.value)" onfocus="openAdminSectorSuggestions()" onblur="hideAdminSectorSuggestionsDelayed()">
+                                <i class="fa-solid fa-compass absolute right-3 top-3 text-slate-500 text-xs pointer-events-none"></i>
+                            </div>
+                            <datalist id="admin-prop-sector-datalist"></datalist>
+                            <!-- Interactive Sector Floating Dropdown -->
+                            <div id="admin-sector-suggestions-dropdown" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-slate-900/98 backdrop-blur-md border border-slate-700 rounded-xl shadow-2xl max-h-52 overflow-y-auto z-50 p-1.5 space-y-1">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-slate-400 uppercase font-bold text-xs block mb-1">Address / Street</label>
+                            <input type="text" id="form-prop-address" placeholder="Street 5, House 12" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white focus:border-[#D4AF37] focus:outline-none text-xs">
+                        </div>
                     </div>
-                    <div>
-                        <label class="text-slate-400 uppercase font-bold block mb-1">Area / Society</label>
-                        <input type="text" id="form-prop-area" placeholder="e.g. DHA Islamabad" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
-                    </div>
-                    <div>
-                        <label class="text-slate-400 uppercase font-bold block mb-1">Sector / Phase</label>
-                        <input type="text" id="form-prop-sector" placeholder="e.g. Phase 2" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
-                    </div>
-                    <div>
-                        <label class="text-slate-400 uppercase font-bold block mb-1">Address</label>
-                        <input type="text" id="form-prop-address" placeholder="Street 5, House 12" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+
+                    <!-- Quick-Pick Popular Society Chips Tray -->
+                    <div class="bg-slate-950/80 border border-slate-800/80 rounded-xl px-3 py-2 flex flex-wrap items-center gap-1.5 text-xs">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 flex items-center gap-1 shrink-0">
+                            <i class="fa-solid fa-location-dot text-[#D4AF37]"></i> Suggested Locations:
+                        </span>
+                        <div id="admin-quick-location-chips" class="flex flex-wrap gap-1.5">
+                            <!-- Populated dynamically based on selected city -->
+                        </div>
                     </div>
                 </div>
 
@@ -1275,8 +1331,10 @@
                         <label class="text-slate-400 uppercase font-bold block mb-1">Size Unit</label>
                         <select id="form-prop-sizeunit" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
                             <option value="marla">Marla</option>
+                            <option value="sqft">Square Feet</option>
+                            <option value="sqyd">Square Yards</option>
+                            <option value="sqm">Square Meters</option>
                             <option value="kanal">Kanal</option>
-                            <option value="sqft">Sq. Ft.</option>
                         </select>
                     </div>
                     <div>
@@ -2024,7 +2082,7 @@
 
     <!-- MODAL: ADD/EDIT USER -->
     <div id="modal-user" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                 <h3 id="modal-usr-title" class="text-lg font-bold text-white outfit">Add Staff / Agent User</h3>
                 <button onclick="closeUserModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
@@ -2039,6 +2097,21 @@
                 <div>
                     <label class="text-slate-400 uppercase font-bold block mb-1">Email *</label>
                     <input type="email" id="form-usr-email" required placeholder="ali@kaghanproperties.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="text-slate-400 uppercase font-bold block">User Password</label>
+                        <button type="button" onclick="generateRandomUserPassword('form-usr-password')" class="text-[10px] text-[#D4AF37] hover:underline font-mono">
+                            <i class="fa-solid fa-dice mr-1"></i> Generate
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <input type="password" id="form-usr-password" placeholder="Set password (e.g. admin123)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white pr-10">
+                        <button type="button" onclick="togglePasswordVisibility('form-usr-password', 'eye-usr-pass')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white">
+                            <i id="eye-usr-pass" class="fa-solid fa-eye text-xs"></i>
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-1">Admin can set/change password anytime. Defaults to "admin" if empty.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -2062,6 +2135,61 @@
                 <div class="pt-3 flex justify-end gap-3 border-t border-slate-800">
                     <button type="button" onclick="closeUserModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300">Cancel</button>
                     <button type="submit" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-5 py-2 rounded-xl">Save User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: QUICK SET/CHANGE USER PASSWORD -->
+    <div id="modal-set-password" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-8 h-8 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37]">
+                        <i class="fa-solid fa-key text-xs"></i>
+                    </span>
+                    <div>
+                        <h3 class="text-base font-bold text-white outfit">Set User Password</h3>
+                        <p class="text-[10px] text-slate-400">Admin credentials manager for portal & CRM</p>
+                    </div>
+                </div>
+                <button onclick="closeSetPasswordModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form onsubmit="submitSetUserPassword(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="modal-pass-usr-id">
+                
+                <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-white uppercase text-sm" id="modal-pass-avatar-letter">U</div>
+                    <div class="overflow-hidden">
+                        <div id="modal-pass-usr-name" class="font-bold text-white truncate text-sm">User Name</div>
+                        <div id="modal-pass-usr-email" class="text-[11px] text-slate-400 truncate font-mono">user@email.com</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="text-slate-400 uppercase font-bold block">New Password *</label>
+                        <button type="button" onclick="generateRandomUserPassword('modal-pass-new')" class="text-[10px] text-[#D4AF37] hover:underline font-mono">
+                            <i class="fa-solid fa-dice mr-1"></i> Auto-Generate
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <input type="password" id="modal-pass-new" required minlength="3" placeholder="Enter new password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white pr-10 focus:border-[#D4AF37] focus:outline-none">
+                        <button type="button" onclick="togglePasswordVisibility('modal-pass-new', 'eye-modal-pass')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white">
+                            <i id="eye-modal-pass" class="fa-solid fa-eye text-xs"></i>
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-1">This updates the login password in Firestore immediately.</p>
+                </div>
+
+                <div id="modal-pass-alert" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+
+                <div class="pt-3 flex justify-end gap-3 border-t border-slate-800">
+                    <button type="button" onclick="closeSetPasswordModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">Cancel</button>
+                    <button type="submit" id="btn-save-pwd" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-5 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Password
+                    </button>
                 </div>
             </form>
         </div>
@@ -2197,6 +2325,7 @@
             await renderOverview();
             if (window.AdminAnalytics) window.AdminAnalytics.initOverviewCharts();
             await populateAgentDropdowns();
+            await initAdminLocationSuggestions();
         }
 
         async function populateAgentDropdowns() {
@@ -2835,10 +2964,232 @@
             }
         }
 
+        // =========================================================================
+        // DYNAMIC LOCATION & SOCIETY SUGGESTIONS ENGINE (Add / Edit Property Form)
+        // =========================================================================
+        let adminSocietiesCache = [];
+        let adminPropertiesCache = [];
+
+        async function initAdminLocationSuggestions(preferredCity = null) {
+            try {
+                if (window.KaghanDB) {
+                    if (window.KaghanDB.getSocieties) {
+                        adminSocietiesCache = await window.KaghanDB.getSocieties() || [];
+                    }
+                    if (window.KaghanDB.getProperties) {
+                        adminPropertiesCache = await window.KaghanDB.getProperties() || [];
+                    }
+                }
+            } catch (e) {
+                console.warn("Could not cache societies for location suggestions:", e);
+            }
+            populateAdminLocationDatalists(preferredCity);
+            renderAdminQuickLocationChips(preferredCity);
+        }
+
+        function onAdminCityChange(city) {
+            renderAdminQuickLocationChips(city);
+            populateAdminLocationDatalists(city);
+        }
+
+        function populateAdminLocationDatalists(filterCity = null) {
+            const currentCity = (filterCity || document.getElementById('form-prop-city')?.value || 'Islamabad').toLowerCase();
+            const areaDatalist = document.getElementById('admin-prop-area-datalist');
+            const sectorDatalist = document.getElementById('admin-prop-sector-datalist');
+
+            // Unique Areas / Societies
+            const areaSet = new Set();
+            (adminSocietiesCache || []).forEach(s => {
+                if (!filterCity || (s.city && s.city.toLowerCase() === currentCity)) {
+                    areaSet.add(s.name);
+                }
+            });
+            (adminPropertiesCache || []).forEach(p => {
+                if (p.area && (!filterCity || (p.city && p.city.toLowerCase() === currentCity))) {
+                    areaSet.add(p.area);
+                }
+            });
+
+            if (areaDatalist) {
+                areaDatalist.innerHTML = Array.from(areaSet).map(name => `<option value="${name}">`).join('');
+            }
+
+            // Common Sector Presets & extracted sectors
+            const sectorSet = new Set([
+                "Sector A", "Sector B", "Sector C", "Sector D", "Sector E", "Sector F", "Sector G", "Sector H", "Sector J", "Sector K",
+                "Phase 1", "Phase 2", "Phase 3", "Phase 4", "Phase 5", "Phase 6", "Phase 7", "Phase 8",
+                "Block A", "Block B", "Block C", "Block D", "Block E", "Block F",
+                "Executive Block", "Overseas Block", "Commercial Zone", "Main Boulevard", "Hill View Block", "Civic Center"
+            ]);
+            (adminPropertiesCache || []).forEach(p => {
+                if (p.sector) sectorSet.add(p.sector);
+            });
+
+            if (sectorDatalist) {
+                sectorDatalist.innerHTML = Array.from(sectorSet).map(s => `<option value="${s}">`).join('');
+            }
+        }
+
+        function renderAdminQuickLocationChips(selectedCity = null) {
+            const city = (selectedCity || document.getElementById('form-prop-city')?.value || 'Islamabad').toLowerCase();
+            const container = document.getElementById('admin-quick-location-chips');
+            if (!container) return;
+
+            // Gather societies for this city
+            let matches = (adminSocietiesCache || []).filter(s => (s.city || '').toLowerCase() === city);
+            if (matches.length === 0) {
+                matches = (adminSocietiesCache || []).slice(0, 8);
+            }
+
+            if (matches.length === 0) {
+                const defaults = [
+                    { name: 'Bahria Enclave', city: 'Islamabad' },
+                    { name: 'DHA Islamabad', city: 'Islamabad' },
+                    { name: 'Park View City', city: 'Islamabad' },
+                    { name: 'Gulberg Greens', city: 'Islamabad' },
+                    { name: 'Eighteen', city: 'Islamabad' },
+                    { name: 'B-17 Multi Gardens', city: 'Islamabad' },
+                    { name: 'Pine Valley Nathia Gali', city: 'Nathia Gali' }
+                ];
+                matches = defaults;
+            }
+
+            container.innerHTML = matches.slice(0, 8).map(s => `
+                <button type="button" onclick="selectAdminLocationSuggestion('${s.name}', '${s.city || 'Islamabad'}')" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-[#D4AF37] text-slate-300 hover:text-slate-950 text-[11px] font-semibold transition-all border border-slate-800 hover:border-[#D4AF37] flex items-center gap-1 group">
+                    <i class="fa-solid fa-plus text-[9px] text-[#D4AF37] group-hover:text-slate-950"></i>
+                    <span>${s.name}</span>
+                </button>
+            `).join('');
+        }
+
+        function filterAdminAreaSuggestions(query) {
+            const dropdown = document.getElementById('admin-area-suggestions-dropdown');
+            if (!dropdown) return;
+            const q = (query || '').trim().toLowerCase();
+            const city = (document.getElementById('form-prop-city')?.value || '').toLowerCase();
+
+            // Match societies
+            let matches = (adminSocietiesCache || []).filter(s => {
+                const matchName = (s.name || '').toLowerCase().includes(q);
+                const matchCity = !city || (s.city || '').toLowerCase() === city;
+                return matchName && (q.length > 0 || matchCity);
+            });
+
+            // If query typed, also search across property areas
+            if (q.length > 0) {
+                const extraAreas = (adminPropertiesCache || [])
+                    .filter(p => (p.area || '').toLowerCase().includes(q) && !matches.some(m => m.name.toLowerCase() === p.area.toLowerCase()))
+                    .map(p => ({ name: p.area, city: p.city || city, type: 'Property Area' }));
+                matches = [...matches, ...extraAreas];
+            }
+
+            if (matches.length === 0) {
+                dropdown.innerHTML = `<div class="p-2 text-slate-500 text-xs text-center"><i class="fa-solid fa-circle-info mr-1 text-[#D4AF37]"></i>No matching societies found. You can still type custom location.</div>`;
+                dropdown.classList.remove('hidden');
+                return;
+            }
+
+            dropdown.innerHTML = matches.slice(0, 10).map(s => `
+                <div class="p-2 hover:bg-slate-800 rounded-lg cursor-pointer transition-colors flex items-center justify-between text-xs" onmousedown="selectAdminLocationSuggestion('${s.name}', '${s.city || ''}')">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-tree-city text-[#D4AF37]"></i>
+                        <div>
+                            <div class="font-bold text-white">${s.name}</div>
+                            <div class="text-[10px] text-slate-400">${s.city || 'Pakistan'}</div>
+                        </div>
+                    </div>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-950 text-[#D4AF37] border border-[#D4AF37]/30 uppercase font-extrabold">${s.type || 'Society'}</span>
+                </div>
+            `).join('');
+
+            dropdown.classList.remove('hidden');
+        }
+
+        function openAdminAreaSuggestions() {
+            const input = document.getElementById('form-prop-area');
+            filterAdminAreaSuggestions(input?.value || '');
+        }
+
+        function hideAdminAreaSuggestionsDelayed() {
+            setTimeout(() => {
+                const dropdown = document.getElementById('admin-area-suggestions-dropdown');
+                if (dropdown) dropdown.classList.add('hidden');
+            }, 250);
+        }
+
+        function selectAdminLocationSuggestion(areaName, cityName = '') {
+            const areaInput = document.getElementById('form-prop-area');
+            const citySelect = document.getElementById('form-prop-city');
+            if (areaInput) areaInput.value = areaName;
+
+            if (cityName && citySelect) {
+                const exists = Array.from(citySelect.options).some(o => o.value.toLowerCase() === cityName.toLowerCase());
+                if (exists) {
+                    citySelect.value = cityName;
+                    onAdminCityChange(cityName);
+                }
+            }
+
+            const dropdown = document.getElementById('admin-area-suggestions-dropdown');
+            if (dropdown) dropdown.classList.add('hidden');
+
+            populateAdminLocationDatalists(cityName);
+        }
+
+        function filterAdminSectorSuggestions(query) {
+            const dropdown = document.getElementById('admin-sector-suggestions-dropdown');
+            if (!dropdown) return;
+            const q = (query || '').trim().toLowerCase();
+
+            const commonSectors = [
+                "Sector A", "Sector B", "Sector C", "Sector D", "Sector E", "Sector F", "Sector G", "Sector H", "Sector J", "Sector K",
+                "Phase 1", "Phase 2", "Phase 3", "Phase 4", "Phase 5", "Phase 6", "Phase 7", "Phase 8",
+                "Block A", "Block B", "Block C", "Block D", "Block E", "Block F",
+                "Executive Block", "Overseas Block", "Commercial Zone", "Main Boulevard", "Hill View Block"
+            ];
+
+            const matches = commonSectors.filter(s => !q || s.toLowerCase().includes(q));
+
+            if (matches.length === 0) {
+                dropdown.innerHTML = `<div class="p-2 text-slate-500 text-xs text-center">Type custom sector or phase.</div>`;
+                dropdown.classList.remove('hidden');
+                return;
+            }
+
+            dropdown.innerHTML = matches.slice(0, 8).map(s => `
+                <div class="p-1.5 hover:bg-slate-800 rounded-lg cursor-pointer transition-colors text-xs text-white font-medium flex items-center justify-between" onmousedown="selectAdminSectorSuggestion('${s}')">
+                    <span><i class="fa-solid fa-layer-group text-emerald-400 mr-2 text-[10px]"></i>${s}</span>
+                    <i class="fa-solid fa-check text-[10px] text-slate-500"></i>
+                </div>
+            `).join('');
+
+            dropdown.classList.remove('hidden');
+        }
+
+        function openAdminSectorSuggestions() {
+            const input = document.getElementById('form-prop-sector');
+            filterAdminSectorSuggestions(input?.value || '');
+        }
+
+        function hideAdminSectorSuggestionsDelayed() {
+            setTimeout(() => {
+                const dropdown = document.getElementById('admin-sector-suggestions-dropdown');
+                if (dropdown) dropdown.classList.add('hidden');
+            }, 250);
+        }
+
+        function selectAdminSectorSuggestion(sectorName) {
+            const sectorInput = document.getElementById('form-prop-sector');
+            if (sectorInput) sectorInput.value = sectorName;
+            const dropdown = document.getElementById('admin-sector-suggestions-dropdown');
+            if (dropdown) dropdown.classList.add('hidden');
+        }
+
         function openPropertyModal(prop = null) {
             document.getElementById('modal-property').classList.remove('hidden');
             populateAgentDropdowns();
             populateDynamicPropertySelects(prop ? prop.type : 'house', prop ? prop.city : 'Islamabad');
+            initAdminLocationSuggestions(prop ? prop.city : 'Islamabad');
             initTinyMCEEditors();
 
             if (prop) {
@@ -3297,47 +3648,207 @@
             openLeadModal(currentActiveLeadId);
         }
 
+        // Password Visibility & Generator Helpers
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (!input || !icon) return;
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function generateRandomUserPassword(inputId) {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#$%';
+            let pass = '';
+            for (let i = 0; i < 10; i++) {
+                pass += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.value = pass;
+                input.type = 'text';
+                const eyeId = inputId === 'form-usr-password' ? 'eye-usr-pass' : 'eye-modal-pass';
+                const icon = document.getElementById(eyeId);
+                if (icon) {
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                }
+            }
+        }
+
         // USERS & AGENTS
         async function renderUsersTable() {
             const users = await window.KaghanDB.getUsers();
             const tbody = document.getElementById('users-table-body');
-            tbody.innerHTML = users.map(u => `
-                <tr class="hover:bg-slate-900/50">
+            if (!tbody) return;
+            tbody.innerHTML = users.map(u => {
+                const hasPassword = !!u.password;
+                return `
+                <tr class="hover:bg-slate-900/50 transition-colors">
                     <td class="p-4 flex items-center gap-3">
-                        <img src="${u.photoUrl || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80'}" class="w-10 h-10 rounded-full object-cover border border-slate-800">
+                        <img src="${u.photoUrl || 'assets/images/logo.png'}" class="w-10 h-10 rounded-full object-cover border border-slate-800">
                         <div>
-                            <div class="font-bold text-white">${u.name}</div>
-                            <div class="text-[10px] text-slate-400">${u.email} • ${u.phone}</div>
+                            <div class="font-bold text-white flex items-center gap-2">
+                                <span>${u.name}</span>
+                                ${hasPassword ? '<span class="text-[10px] text-amber-400/90 font-mono bg-amber-400/10 px-1.5 py-0.5 rounded border border-amber-400/20" title="Password Configured"><i class="fa-solid fa-lock text-[9px] mr-0.5"></i> Protected</span>' : '<span class="text-[10px] text-slate-500 font-mono bg-slate-800 px-1.5 py-0.5 rounded">Default Pass</span>'}
+                            </div>
+                            <div class="text-[10px] text-slate-400 font-mono">${u.email} • ${u.phone || 'No phone'}</div>
                         </div>
                     </td>
                     <td class="p-4"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/20">${u.role}</span></td>
-                    <td class="p-4 text-slate-300">${(u.specializedAreas || []).join(', ')}</td>
-                    <td class="p-4"><span class="text-emerald-400 font-bold">Active</span></td>
+                    <td class="p-4 text-slate-300 text-xs">${(u.specializedAreas || []).join(', ') || 'General Markets'}</td>
+                    <td class="p-4"><span class="text-emerald-400 font-bold text-xs"><i class="fa-solid fa-circle text-[8px] mr-1"></i>Active</span></td>
                     <td class="p-4 text-right">
-                        <button onclick="deleteUser('${u.id}')" class="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg"><i class="fa-solid fa-trash"></i></button>
+                        <div class="flex items-center justify-end gap-1.5">
+                            <button onclick="openSetPasswordModal('${u.id}')" title="Set / Change Password" class="p-2 text-amber-400 hover:bg-amber-400/10 rounded-lg transition-colors cursor-pointer">
+                                <i class="fa-solid fa-key"></i>
+                            </button>
+                            <button onclick="openUserModal('${u.id}')" title="Edit User" class="p-2 text-cyan-400 hover:bg-cyan-400/10 rounded-lg transition-colors cursor-pointer">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button onclick="deleteUser('${u.id}')" title="Delete User" class="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
-            `).join('');
+            `}).join('');
         }
 
-        function openUserModal() {
-            document.getElementById('modal-user').classList.remove('hidden');
+        async function openUserModal(userId = null) {
+            const modal = document.getElementById('modal-user');
+            const title = document.getElementById('modal-usr-title');
+            document.getElementById('form-usr-id').value = '';
+            document.getElementById('form-usr-name').value = '';
+            document.getElementById('form-usr-email').value = '';
+            document.getElementById('form-usr-phone').value = '';
+            document.getElementById('form-usr-role').value = 'agent';
+            document.getElementById('form-usr-areas').value = '';
+            document.getElementById('form-usr-password').value = '';
+
+            if (userId) {
+                title.innerText = "Edit User / Agent";
+                const users = await window.KaghanDB.getUsers();
+                const u = users.find(x => x.id === userId);
+                if (u) {
+                    document.getElementById('form-usr-id').value = u.id;
+                    document.getElementById('form-usr-name').value = u.name || '';
+                    document.getElementById('form-usr-email').value = u.email || '';
+                    document.getElementById('form-usr-phone').value = u.phone || '';
+                    document.getElementById('form-usr-role').value = u.role || 'agent';
+                    document.getElementById('form-usr-areas').value = (u.specializedAreas || []).join(', ');
+                    document.getElementById('form-usr-password').value = u.password || '';
+                }
+            } else {
+                title.innerText = "Add Staff / Agent User";
+            }
+            modal.classList.remove('hidden');
         }
+
         function closeUserModal() {
             document.getElementById('modal-user').classList.add('hidden');
         }
+
         async function saveUserForm(e) {
             e.preventDefault();
-            const name = document.getElementById('form-usr-name').value;
-            const email = document.getElementById('form-usr-email').value;
-            const phone = document.getElementById('form-usr-phone').value;
+            const id = document.getElementById('form-usr-id').value || null;
+            const name = document.getElementById('form-usr-name').value.trim();
+            const email = document.getElementById('form-usr-email').value.trim();
+            const phone = document.getElementById('form-usr-phone').value.trim();
             const role = document.getElementById('form-usr-role').value;
+            const password = document.getElementById('form-usr-password').value.trim();
             const areas = document.getElementById('form-usr-areas').value.split(',').map(s=>s.trim()).filter(s=>s);
             
-            await window.KaghanDB.saveUser({ name, email, phone, role, specializedAreas: areas, isActive: true });
+            const payload = {
+                name,
+                email,
+                phone,
+                role,
+                specializedAreas: areas,
+                isActive: true
+            };
+            if (id) payload.id = id;
+            if (password) payload.password = password;
+
+            await window.KaghanDB.saveUser(payload);
             closeUserModal();
             renderUsersTable();
         }
+
+        async function openSetPasswordModal(userId) {
+            const users = await window.KaghanDB.getUsers();
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+
+            document.getElementById('modal-pass-usr-id').value = user.id;
+            document.getElementById('modal-pass-usr-name').innerText = user.name || 'Staff User';
+            document.getElementById('modal-pass-usr-email').innerText = user.email || '';
+            document.getElementById('modal-pass-avatar-letter').innerText = (user.name || 'U').charAt(0).toUpperCase();
+            document.getElementById('modal-pass-new').value = user.password || '';
+            document.getElementById('modal-pass-new').type = 'password';
+
+            const alertBox = document.getElementById('modal-pass-alert');
+            alertBox.classList.add('hidden');
+            alertBox.innerText = '';
+
+            const eyeIcon = document.getElementById('eye-modal-pass');
+            if (eyeIcon) {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+
+            document.getElementById('modal-set-password').classList.remove('hidden');
+        }
+
+        function closeSetPasswordModal() {
+            document.getElementById('modal-set-password').classList.add('hidden');
+        }
+
+        async function submitSetUserPassword(e) {
+            e.preventDefault();
+            const userId = document.getElementById('modal-pass-usr-id').value;
+            const newPassword = document.getElementById('modal-pass-new').value.trim();
+            const alertBox = document.getElementById('modal-pass-alert');
+            const btn = document.getElementById('btn-save-pwd');
+
+            if (!newPassword || newPassword.length < 3) {
+                alertBox.className = "p-3 rounded-xl text-xs font-semibold bg-red-950/80 text-red-300 border border-red-800 block";
+                alertBox.innerText = "Password must be at least 3 characters long.";
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
+
+            try {
+                const res = await window.KaghanDB.setUserPassword(userId, newPassword);
+                if (res.success) {
+                    alertBox.className = "p-3 rounded-xl text-xs font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-800 block";
+                    alertBox.innerText = res.message || "Password updated successfully in Firestore!";
+                    setTimeout(() => {
+                        closeSetPasswordModal();
+                        renderUsersTable();
+                    }, 1200);
+                } else {
+                    alertBox.className = "p-3 rounded-xl text-xs font-semibold bg-red-950/80 text-red-300 border border-red-800 block";
+                    alertBox.innerText = res.message || "Failed to update password.";
+                }
+            } catch (err) {
+                alertBox.className = "p-3 rounded-xl text-xs font-semibold bg-red-950/80 text-red-300 border border-red-800 block";
+                alertBox.innerText = "Error: " + err.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Save Password`;
+            }
+        }
+
         async function deleteUser(id) {
             if (confirm("Delete this user document?")) {
                 await window.KaghanDB.deleteUser(id);
@@ -3354,9 +3865,16 @@
                 const typeSelect = document.getElementById('form-prop-type');
                 if (typeSelect && categories && categories.length > 0) {
                     const currentVal = selectedType || typeSelect.value || 'house';
-                    typeSelect.innerHTML = categories.map(c => `
-                        <option value="${c.slug}" ${c.slug === currentVal ? 'selected' : ''}>${c.name} (${c.group || 'Category'})</option>
-                    `).join('');
+                    const homeOpts = categories.filter(c => (c.group || '').toLowerCase() === 'home' || (c.group || '').toLowerCase() === 'homes');
+                    const plotOpts = categories.filter(c => (c.group || '').toLowerCase() === 'plots' || (c.group || '').toLowerCase() === 'plot');
+                    const commOpts = categories.filter(c => (c.group || '').toLowerCase() === 'commercial');
+
+                    let html = '';
+                    if (homeOpts.length > 0) html += `<optgroup label="Home">` + homeOpts.map(c => `<option value="${c.slug}" ${c.slug === currentVal ? 'selected' : ''}>${c.name}</option>`).join('') + `</optgroup>`;
+                    if (plotOpts.length > 0) html += `<optgroup label="Plots">` + plotOpts.map(c => `<option value="${c.slug}" ${c.slug === currentVal ? 'selected' : ''}>${c.name}</option>`).join('') + `</optgroup>`;
+                    if (commOpts.length > 0) html += `<optgroup label="Commercial">` + commOpts.map(c => `<option value="${c.slug}" ${c.slug === currentVal ? 'selected' : ''}>${c.name}</option>`).join('') + `</optgroup>`;
+
+                    typeSelect.innerHTML = html;
                     if (!categories.some(c => c.slug === currentVal) && currentVal) {
                         typeSelect.innerHTML += `<option value="${currentVal}" selected>${currentVal.toUpperCase()}</option>`;
                     }

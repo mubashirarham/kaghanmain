@@ -17,11 +17,15 @@
     <meta property="og:description" content="Pre-launch serviced luxury chalets and suites in Nathia Gali with 12-16% annual net rental yields and 36-month installment plans.">
     <meta property="og:image" content="https://kaghanproperties.com/assets/images/parkview.png">
 
-    <!-- Favicon -->
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
-
-    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="manifest" href="site.webmanifest">
+<!-- Google Fonts & Font Awesome Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -1126,181 +1130,17 @@
          CLIENT-SIDE JAVASCRIPT ENGINE FOR PROJECT DETAIL PAGE
          ========================================================================== -->
     <script>
-        // Structured Unit Inventory Data (§4b, §5, §18)
-        let UNIT_INVENTORY_DATA = [
-            {
-                id: "unit-studio",
-                category: "Studio Suites",
-                title: "Studio Alpine Suite (Serviced)",
-                priceRange: "PKR 95 Lakh to 1.15 Crore",
-                priceMin: 9500000,
-                priceMax: 11500000,
-                areaSize: "425 – 550 Sq Ft",
-                areaMarla: "1.9 – 2.4 Marla",
-                floorLevel: "Levels 2 to 5 (Typical Floors)",
-                descriptor: "Turnkey luxury studio with scenic mountain balcony, electric stone fireplace, and built-in kitchenette.",
-                downPayment: "PKR 14.25 Lakh (15%)",
-                monthlyInstallment: "PKR 1.18 Lakh / mo",
-                availableUnits: 12,
-                image: "assets/images/interior.png"
-            },
-            {
-                id: "unit-1bed",
-                category: "1-Bed Chalets",
-                title: "1-Bed Executive Alpine Chalet",
-                priceRange: "PKR 1.45 to 1.75 Crore",
-                priceMin: 14500000,
-                priceMax: 17500000,
-                areaSize: "720 – 900 Sq Ft",
-                areaMarla: "3.2 – 4.0 Marla",
-                floorLevel: "Levels 2 to 6",
-                descriptor: "Separate king bedroom suite with private cedar wardrobe, open-concept living/dining lounge, and sunset terrace.",
-                downPayment: "PKR 21.75 Lakh (15%)",
-                monthlyInstallment: "PKR 1.81 Lakh / mo",
-                availableUnits: 8,
-                image: "assets/images/mideast-view1.png"
-            },
-            {
-                id: "unit-2bed",
-                category: "2-Bed Luxury Suites",
-                title: "2-Bed Panoramic Corner Residence",
-                priceRange: "PKR 2.40 to 2.85 Crore",
-                priceMin: 24000000,
-                priceMax: 28500000,
-                areaSize: "1,250 – 1,600 Sq Ft",
-                areaMarla: "5.5 – 7.1 Marla",
-                floorLevel: "Levels 6 to 7 (Executive Wing)",
-                descriptor: "Dual master bedrooms with ensuite baths, formal powder room, spacious living hall, and 180° valley glass balcony.",
-                downPayment: "PKR 36.00 Lakh (15%)",
-                monthlyInstallment: "PKR 3.00 Lakh / mo",
-                availableUnits: 4,
-                image: "assets/images/bahria-villa.png"
-            },
-            {
-                id: "unit-penthouse",
-                category: "Duplex Penthouses",
-                title: "3-Bed Presidential Sky Duplex",
-                priceRange: "PKR 2.85 to 2.95 Crore",
-                priceMin: 28500000,
-                priceMax: 29500000,
-                areaSize: "2,200 – 2,650 Sq Ft",
-                areaMarla: "9.8 – 11.8 Marla",
-                floorLevel: "Level 8 & Rooftop Crown",
-                descriptor: "Double-height atrium ceiling, private rooftop timber deck with hot tub provision, and dedicated express elevator access.",
-                downPayment: "PKR 42.75 Lakh (15%)",
-                monthlyInstallment: "PKR 3.56 Lakh / mo",
-                availableUnits: 2,
-                image: "assets/images/mideast-view2.png"
-            },
-            {
-                id: "unit-retail",
-                category: "Commercial Shops",
-                title: "Ground Floor Retail Outlets & Cafes",
-                priceRange: "PKR 1.25 to 1.95 Crore",
-                priceMin: 12500000,
-                priceMax: 19500000,
-                areaSize: "380 – 620 Sq Ft",
-                areaMarla: "1.7 – 2.8 Marla",
-                floorLevel: "Ground Floor Promenade",
-                descriptor: "High-footfall front boulevard retail units suitable for coffee shops, specialty grocery, apparel, or winter gear.",
-                downPayment: "PKR 18.75 Lakh (15%)",
-                monthlyInstallment: "PKR 1.56 Lakh / mo",
-                availableUnits: 3,
-                image: "assets/images/azan-arcade.png"
-            }
-        ];
-
-        // Gallery Media Set (§3)
-        let PROJECT_GALLERY = [
-            { url: "assets/images/parkview.png", caption: "Pine Valley Resort Master Architectural Elevation & Alpine Ridge" },
-            { url: "assets/images/interior.png", caption: "Fireplace Living Room & Panoramic Balcony Outlook" },
-            { url: "assets/images/mideast-view1.png", caption: "Executive Chalet Suite Master Bedroom & Timber Accents" },
-            { url: "assets/images/mideast-view2.png", caption: "Rooftop Sky Lounge Observation Deck Overlooking Snow Peaks" },
-            { url: "assets/images/floorplan_masterplan.jpg", caption: "Official 2D & Isometric Architectural Chalet Blueprint Layout" }
-        ];
+        // Structured Unit Inventory Data - dynamically loaded from database
+        let UNIT_INVENTORY_DATA = [];
+        let PROJECT_GALLERY = [];
         let currentGalleryIndex = 0;
-
-        // Floor Plan Documents Set (§9) - compressed typical floors
-        let FLOOR_PLAN_DOCS = [
-            {
-                id: "plan-brochure",
-                title: "Sale Kit & Project Brochure",
-                subtitle: "Official 28-Page Investor Overview",
-                area: "Full Masterplan",
-                height: "Master Document",
-                view: "Comprehensive Specs",
-                image: "assets/images/parkview.png"
-            },
-            {
-                id: "plan-master",
-                title: "Master Plan & Site Footprint",
-                subtitle: "Topographical Ridge Allotment",
-                area: "14 Kanal Total Site",
-                height: "G + 8 Structure",
-                view: "East-West Mountain Axis",
-                image: "assets/images/mideast-view2.png"
-            },
-            {
-                id: "plan-ground",
-                title: "Ground Floor - Grand Atrium & Retail",
-                subtitle: "Reception Lobby, Valet, & Promenade",
-                area: "8,400 Sq Ft Covered",
-                height: "14 ft Double Height",
-                view: "Front Boulevard Entry",
-                image: "assets/images/azan-arcade.png"
-            },
-            {
-                id: "plan-typical-2-5",
-                title: "2nd–5th (Typical Floor) - Studio & 1-Bed Chalets",
-                subtitle: "Compressed Typical Floor Range (Floors 2 to 5)",
-                area: "425 – 900 Sq Ft per Unit",
-                height: "10 ft 6 in Clear",
-                view: "East-Facing Sunrise Glazing",
-                image: "assets/images/floorplan_masterplan.jpg"
-            },
-            {
-                id: "plan-typical-6-7",
-                title: "6th–7th (Typical Floor) - 2-Bed Luxury Suites",
-                subtitle: "Executive Wing Layout (Floors 6 and 7)",
-                area: "1,250 – 1,600 Sq Ft",
-                height: "11 ft Clear",
-                view: "180° Ridge Valley Panorama",
-                image: "assets/images/floorplan_masterplan.jpg"
-            },
-            {
-                id: "plan-penthouse",
-                title: "8th Floor - Duplex Sky Penthouses",
-                subtitle: "Top-Tier Presidential Duplex Units",
-                area: "2,200 – 2,650 Sq Ft",
-                height: "18 ft Double Height Atrium",
-                view: "360° Unobstructed Peaks",
-                image: "assets/images/interior.png"
-            },
-            {
-                id: "plan-rooftop",
-                title: "Rooftop Observation Sky Deck & Cafe",
-                subtitle: "Heated Sky Lounge & Stargazing Deck",
-                area: "4,500 Sq Ft Deck Area",
-                height: "Open Sky Pavilion",
-                view: "Mukshpuri & Miranjani Panoramas",
-                image: "assets/images/mideast-view1.png"
-            }
-        ];
-        let activeFloorPlanIndex = 3; // default to typical floor blueprint
-
-        // Nearby POIs Set (§7)
-        let NEARBY_POIS_DATA = [
-            { category: "Attractions", name: "Mukshpuri Peak Trekking Base", distance: "5 mins walk", icon: "fa-person-hiking", text: "Direct walking access to Pakistan's famed pine hiking ridge" },
-            { category: "Restaurants", name: "Sweet Tooth & Nathia Gali Mall", distance: "4 mins drive", icon: "fa-utensils", text: "Historic shopping strip, bakeries, and gourmet hillside dining" },
-            { category: "Attractions", name: "Governor House & Pine Tracks", distance: "3 mins drive", icon: "fa-landmark", text: "Protected colonial conservation pine forest and VIP sanctuary" },
-            { category: "Attractions", name: "Ayubia National Park & Chairlifts", distance: "12 mins drive", icon: "fa-cable-car", text: "Twin chairlift ski runs, pipeline walking track, and wildlife reserve" },
-            { category: "Hospitals", name: "Galyat Community Medical Complex", distance: "6 mins drive", icon: "fa-hospital", text: "Emergency trauma unit, high-altitude pharmacy, and 24/7 doctors" },
-            { category: "Schools", name: "Army Public School & College Galyat", distance: "8 mins drive", icon: "fa-graduation-cap", text: "Premier educational academy serving the cantonment ridge" }
-        ];
+        let FLOOR_PLAN_DOCS = [];
+        let activeFloorPlanIndex = 0;
+        let NEARBY_POIS_DATA = [];
 
         let currentProjectData = null;
         let currentPaymentPlanImage = "assets/images/payment_plan_chart.jpg";
-        let currentPaymentPlanTitle = "Official 3-Year Installment Milestone Schedule";
+        let currentPaymentPlanTitle = "Official Installment Milestone Schedule";
 
         // ======================================================================
         // INITIALIZATION ON DOM READY
@@ -1310,16 +1150,11 @@
             const slug = params.get('slug') || params.get('id');
 
             let found = null;
-            if (window.KaghanDB && window.KaghanDB.getPropertyBySlugOrId) {
+            if (window.KaghanDB && window.KaghanDB.getPropertyBySlugOrId && slug) {
                 try {
-                    if (slug) {
-                        found = await window.KaghanDB.getPropertyBySlugOrId(slug);
-                    }
-                    if (!found) {
-                        found = await window.KaghanDB.getPropertyBySlugOrId('pine-valley-resort-suites-project');
-                    }
+                    found = await window.KaghanDB.getPropertyBySlugOrId(slug);
                 } catch (e) {
-                    console.warn("KaghanDB getPropertyBySlugOrId fallback:", e);
+                    console.warn("KaghanDB getPropertyBySlugOrId:", e);
                 }
             }
 
@@ -1330,42 +1165,60 @@
                         all = await window.KaghanDB.getProperties();
                     } catch (e) {}
                 }
-                if ((!all || all.length === 0) && typeof DEFAULT_PROPERTIES !== 'undefined') {
-                    all = [...DEFAULT_PROPERTIES];
-                }
                 if (slug && all.length > 0) {
                     const sClean = slug.toLowerCase().trim();
                     found = all.find(p => (p.slug && p.slug.toLowerCase().trim() === sClean) || (p.id && p.id.toLowerCase().trim() === sClean));
                 }
                 if (!found && all.length > 0) {
-                    found = all.find(p => p.type === 'project' || p.category === 'Projects' || p.featuredProject) || all[0];
+                    found = all.find(p => p.type === 'project' || p.isNewProject || p.category === 'Projects' || p.featuredProject);
                 }
             }
 
             if (found) {
                 loadDynamicProject(found);
+                // Render gallery filmstrip
+                renderFilmstrip();
+                // Render Overview repeating cards (§4b)
+                renderOverviewUnitCards('all');
+                // Render Offered Properties full inventory matrix (§5)
+                renderOfferedInventory('all');
+                // Render Floor Plan document tabs (§9)
+                renderFloorPlanTabs();
+                // Render Nearby POIs (§7)
+                renderPOIs('all');
+                // Setup Scroll-Spy for Sticky Navigation (§2)
+                setupScrollSpy();
+                // Setup Back-to-Top and Mobile Bar Scroll triggers
+                setupScrollTriggers();
+            } else {
+                // Show clean Not Found state
+                const heroSection = document.getElementById('project-hero') || document.querySelector('section');
+                if (heroSection) {
+                    heroSection.innerHTML = `
+                        <div class="market-container py-24 text-center">
+                            <div class="max-w-xl mx-auto bg-slate-900/90 border border-slate-700/80 p-10 rounded-3xl text-white space-y-4 shadow-2xl">
+                                <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-2xl">
+                                    <i class="fa-solid fa-city"></i>
+                                </div>
+                                <h1 class="text-2xl font-bold outfit">Development Project Not Found</h1>
+                                <p class="text-xs text-slate-300 leading-relaxed">The project you are looking for is currently unavailable or has not yet been published. Please browse our active portfolio of luxury properties and off-plan developments.</p>
+                                <div class="pt-4">
+                                    <a href="projects.html" class="btn-primary text-xs py-3 px-6 rounded-xl font-bold inline-flex items-center gap-2">
+                                        <i class="fa-solid fa-arrow-left"></i> View All Developments
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    let sibling = heroSection.nextElementSibling;
+                    while (sibling) {
+                        if (sibling.id !== 'site-footer' && sibling.tagName !== 'FOOTER') {
+                            sibling.style.display = 'none';
+                        }
+                        sibling = sibling.nextElementSibling;
+                    }
+                }
             }
-
-            // Render gallery filmstrip
-            renderFilmstrip();
-
-            // Render Overview repeating cards (§4b)
-            renderOverviewUnitCards('all');
-
-            // Render Offered Properties full inventory matrix (§5)
-            renderOfferedInventory('all');
-
-            // Render Floor Plan document tabs (§9)
-            renderFloorPlanTabs();
-
-            // Render Nearby POIs (§7)
-            renderPOIs('all');
-
-            // Setup Scroll-Spy for Sticky Navigation (§2)
-            setupScrollSpy();
-
-            // Setup Back-to-Top and Mobile Bar Scroll triggers
-            setupScrollTriggers();
         });
 
         function loadDynamicProject(p) {
@@ -2070,8 +1923,8 @@
 
             try {
                 if (window.KaghanDB && window.KaghanDB.createLead) {
-                    const projectTitle = currentProjectData ? currentProjectData.title : "Pine Valley Resort Suites";
-                    const projectId = currentProjectData ? currentProjectData.id : "pine-valley-resort-suites-project";
+                    const projectTitle = currentProjectData ? currentProjectData.title : "Off-Plan Development";
+                    const projectId = currentProjectData ? currentProjectData.id : "";
                     await window.KaghanDB.createLead({
                         name,
                         email,

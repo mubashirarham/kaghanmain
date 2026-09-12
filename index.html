@@ -11,9 +11,14 @@
     <meta name="theme-color" content="#077943">
     <link rel="canonical" href="https://kaghanproperties.com/index.html">
 
-    <!-- Favicon -->
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
+    <link rel="manifest" href="site.webmanifest">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -123,6 +128,7 @@
                         <input type="hidden" name="priceRange" id="hidden-search-price-range" value="all">
                         <input type="hidden" name="minArea" id="hidden-search-min-area" value="">
                         <input type="hidden" name="maxArea" id="hidden-search-max-area" value="">
+                        <input type="hidden" name="areaUnit" id="hidden-search-area-unit" value="marla">
                         <input type="hidden" name="bedrooms" id="hidden-search-beds" value="0">
                         
                         <!-- Fallback selects for backwards compatibility with dynamic scripts -->
@@ -256,59 +262,208 @@
                                     <i class="fa-solid fa-chevron-down hero-dropdown-chevron"></i>
                                 </div>
                             </button>
-                            <div class="hero-dropdown-popover w-full sm:w-[330px]" id="popover-type">
+                            <div class="hero-dropdown-popover w-full sm:w-[380px]" id="popover-type">
                                 <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-100">
-                                    <span class="text-xs font-bold text-slate-800 outfit">Property Category</span>
-                                    <span class="text-[10px] text-slate-400">Verified Units</span>
+                                    <span class="text-xs font-bold text-slate-800 outfit">Select Property Type</span>
+                                    <span class="text-[10px] text-slate-400 font-semibold">Verified Units</span>
                                 </div>
-                                <div class="grid grid-cols-2 gap-2 mb-2" id="hero-type-grid">
-                                    <div class="hero-type-card selected" data-type="all" onclick="selectHeroType('all', 'All Types')">
-                                        <div class="flex items-center justify-between">
-                                            <i class="fa-solid fa-shapes text-emerald-600 text-sm"></i>
-                                            <i class="fa-solid fa-check check-icon"></i>
+
+                                <!-- Category Switcher Tabs: Home / Plots / Commercial -->
+                                <div class="flex bg-slate-100 p-1 rounded-xl gap-1 mb-3">
+                                    <button type="button" onclick="switchHeroTypeCategory('homes', event)" id="hero-type-tab-homes" class="hero-type-tab-btn flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all bg-white text-emerald-700 shadow-sm flex items-center justify-center gap-1.5">
+                                        <i class="fa-solid fa-house-chimney text-[11px]"></i> Home
+                                    </button>
+                                    <button type="button" onclick="switchHeroTypeCategory('plots', event)" id="hero-type-tab-plots" class="hero-type-tab-btn flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1.5">
+                                        <i class="fa-solid fa-border-all text-[11px]"></i> Plots
+                                    </button>
+                                    <button type="button" onclick="switchHeroTypeCategory('commercial', event)" id="hero-type-tab-commercial" class="hero-type-tab-btn flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1.5">
+                                        <i class="fa-solid fa-briefcase text-[11px]"></i> Commercial
+                                    </button>
+                                </div>
+
+                                <!-- 1. HOME PANEL -->
+                                <div id="hero-type-panel-homes" class="hero-type-panel space-y-2">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="hero-type-card selected" data-type="all_homes" data-cat="homes" onclick="selectHeroType('all_homes', 'All Homes', 'homes')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-house-chimney text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">All Homes</div>
+                                            <div class="text-[9px] text-slate-500">Every Home Type</div>
                                         </div>
-                                        <div class="font-bold text-xs text-slate-900">All Types</div>
-                                        <div class="text-[9px] text-slate-500">Every Property</div>
+                                        <div class="hero-type-card" data-type="penthouse" data-cat="homes" onclick="selectHeroType('penthouse', 'Penthouse', 'homes')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-cloud text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Penthouse</div>
+                                            <div class="text-[9px] text-slate-500">Top Floor Luxury</div>
+                                        </div>
+                                        <div class="hero-type-card" data-type="house" data-cat="homes" onclick="selectHeroType('house', 'House', 'homes')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-house text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">House</div>
+                                            <div class="text-[9px] text-slate-500">Villas & Single Homes</div>
+                                        </div>
+                                        <div class="hero-type-card" data-type="flat" data-cat="homes" onclick="selectHeroType('flat', 'Flat', 'homes')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-building text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Flat</div>
+                                            <div class="text-[9px] text-slate-500">Apartments & Suites</div>
+                                        </div>
+                                        <div class="hero-type-card" data-type="upper_portion" data-cat="homes" onclick="selectHeroType('upper_portion', 'Upper portion', 'homes')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-stairs text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Upper portion</div>
+                                            <div class="text-[9px] text-slate-500">Upper Independent Unit</div>
+                                        </div>
+                                        <div class="hero-type-card" data-type="lower_portion" data-cat="homes" onclick="selectHeroType('lower_portion', 'Lower portion', 'homes')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-door-open text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Lower portion</div>
+                                            <div class="text-[9px] text-slate-500">Ground Living Unit</div>
+                                        </div>
+                                        <div class="hero-type-card" data-type="farmhouse" data-cat="homes" onclick="selectHeroType('farmhouse', 'Farm House', 'homes')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-tree text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Farm House</div>
+                                            <div class="text-[9px] text-slate-500">Agro Country Estate</div>
+                                        </div>
+                                        <div class="hero-type-card" data-type="room" data-cat="homes" onclick="selectHeroType('room', 'Room', 'homes')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-bed text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Room</div>
+                                            <div class="text-[9px] text-slate-500">Single & Studio Room</div>
+                                        </div>
                                     </div>
-                                    <div class="hero-type-card" data-type="house" onclick="selectHeroType('house', 'Houses & Villas')">
-                                        <div class="flex items-center justify-between">
-                                            <i class="fa-solid fa-house-chimney text-emerald-600 text-sm"></i>
-                                            <i class="fa-solid fa-check check-icon"></i>
+                                </div>
+
+                                <!-- 2. PLOTS PANEL -->
+                                <div id="hero-type-panel-plots" class="hero-type-panel hidden space-y-2">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="hero-type-card" data-type="all_plots" data-cat="plots" onclick="selectHeroType('all_plots', 'All Plots', 'plots')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-border-all text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">All Plots</div>
+                                            <div class="text-[9px] text-slate-500">Every Land & Plot</div>
                                         </div>
-                                        <div class="font-bold text-xs text-slate-900">Houses & Villas</div>
-                                        <div class="text-[9px] text-slate-500">Luxury Homes & Duplex</div>
+                                        <div class="hero-type-card" data-type="commercial_plot" data-cat="plots" onclick="selectHeroType('commercial_plot', 'Commercial plots', 'plots')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-store text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Commercial plots</div>
+                                            <div class="text-[9px] text-slate-500">Markaz & Boulevard</div>
+                                        </div>
+                                        <div class="hero-type-card" data-type="residential_plot" data-cat="plots" onclick="selectHeroType('residential_plot', 'Residential Plots', 'plots')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-map-location-dot text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Residential Plots</div>
+                                            <div class="text-[9px] text-slate-500">Ready to Build</div>
+                                        </div>
+                                        <div class="hero-type-card" data-type="industrial_land" data-cat="plots" onclick="selectHeroType('industrial_land', 'Industrial land', 'plots')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-industry text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Industrial land</div>
+                                            <div class="text-[9px] text-slate-500">Factory & Heavy Zone</div>
+                                        </div>
+                                        <div class="hero-type-card col-span-2" data-type="agricultural_land" data-cat="plots" onclick="selectHeroType('agricultural_land', 'Agricultural Land', 'plots')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-wheat-awn text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Agricultural Land</div>
+                                            <div class="text-[9px] text-slate-500">Farms, Orchards & Cultivation Land</div>
+                                        </div>
                                     </div>
-                                    <div class="hero-type-card" data-type="plot" onclick="selectHeroType('plot', 'Plots & Land')">
-                                        <div class="flex items-center justify-between">
-                                            <i class="fa-solid fa-border-all text-emerald-600 text-sm"></i>
-                                            <i class="fa-solid fa-check check-icon"></i>
+                                </div>
+
+                                <!-- 3. COMMERCIAL PANEL -->
+                                <div id="hero-type-panel-commercial" class="hero-type-panel hidden space-y-2">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="hero-type-card" data-type="all_commercial" data-cat="commercial" onclick="selectHeroType('all_commercial', 'All Commercial', 'commercial')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-briefcase text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">All Commercial</div>
+                                            <div class="text-[9px] text-slate-500">Every Business Unit</div>
                                         </div>
-                                        <div class="font-bold text-xs text-slate-900">Plots & Land</div>
-                                        <div class="text-[9px] text-slate-500">Residential & Comm</div>
-                                    </div>
-                                    <div class="hero-type-card" data-type="apartment" onclick="selectHeroType('apartment', 'Flats & Apartments')">
-                                        <div class="flex items-center justify-between">
-                                            <i class="fa-solid fa-building text-emerald-600 text-sm"></i>
-                                            <i class="fa-solid fa-check check-icon"></i>
+                                        <div class="hero-type-card" data-type="shop" data-cat="commercial" onclick="selectHeroType('shop', 'Shop', 'commercial')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-shop text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Shop</div>
+                                            <div class="text-[9px] text-slate-500">Retail & Mall Outlets</div>
                                         </div>
-                                        <div class="font-bold text-xs text-slate-900">Flats & Apartments</div>
-                                        <div class="text-[9px] text-slate-500">High-Rise Suites</div>
-                                    </div>
-                                    <div class="hero-type-card" data-type="commercial" onclick="selectHeroType('commercial', 'Commercial Units')">
-                                        <div class="flex items-center justify-between">
-                                            <i class="fa-solid fa-shop text-emerald-600 text-sm"></i>
-                                            <i class="fa-solid fa-check check-icon"></i>
+                                        <div class="hero-type-card" data-type="office" data-cat="commercial" onclick="selectHeroType('office', 'Office', 'commercial')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-laptop-code text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Office</div>
+                                            <div class="text-[9px] text-slate-500">Corporate Workspaces</div>
                                         </div>
-                                        <div class="font-bold text-xs text-slate-900">Commercial</div>
-                                        <div class="text-[9px] text-slate-500">Shops, Plazas & Floors</div>
-                                    </div>
-                                    <div class="hero-type-card" data-type="chalet" onclick="selectHeroType('chalet', 'Mountain Chalets')">
-                                        <div class="flex items-center justify-between">
-                                            <i class="fa-solid fa-tree text-emerald-600 text-sm"></i>
-                                            <i class="fa-solid fa-check check-icon"></i>
+                                        <div class="hero-type-card" data-type="factory" data-cat="commercial" onclick="selectHeroType('factory', 'Factory', 'commercial')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-industry text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Factory</div>
+                                            <div class="text-[9px] text-slate-500">Manufacturing Plants</div>
                                         </div>
-                                        <div class="font-bold text-xs text-slate-900">Alpine Chalets</div>
-                                        <div class="text-[9px] text-slate-500">Nathia Gali / Murree</div>
+                                        <div class="hero-type-card" data-type="warehouse" data-cat="commercial" onclick="selectHeroType('warehouse', 'Warehouse', 'commercial')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-warehouse text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Warehouse</div>
+                                            <div class="text-[9px] text-slate-500">Logistics & Storage</div>
+                                        </div>
+                                        <div class="hero-type-card" data-type="building" data-cat="commercial" onclick="selectHeroType('building', 'Building', 'commercial')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-city text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Building</div>
+                                            <div class="text-[9px] text-slate-500">Complete Commercial Block</div>
+                                        </div>
+                                        <div class="hero-type-card" data-type="plaza" data-cat="commercial" onclick="selectHeroType('plaza', 'Plaza', 'commercial')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-monument text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Plaza</div>
+                                            <div class="text-[9px] text-slate-500">Shopping Centers</div>
+                                        </div>
+                                        <div class="hero-type-card" data-type="other_commercial" data-cat="commercial" onclick="selectHeroType('other_commercial', 'Other', 'commercial')">
+                                            <div class="flex items-center justify-between">
+                                                <i class="fa-solid fa-ellipsis text-emerald-600 text-sm"></i>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                            </div>
+                                            <div class="font-bold text-xs text-slate-900">Other</div>
+                                            <div class="text-[9px] text-slate-500">Specialty Ventures</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -385,9 +540,18 @@
                                 <div class="mb-3">
                                     <div class="flex items-center justify-between mb-1.5">
                                         <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Area Size</span>
-                                        <span class="text-[10px] text-slate-500 font-semibold" id="area-unit-tag">Marla / Kanal</span>
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="text-[10px] text-slate-400 font-semibold">Unit:</span>
+                                            <select id="hero-area-unit-select" onchange="switchHeroAreaUnit(this.value)" class="bg-slate-100 border border-slate-200 rounded px-2 py-0.5 text-[10px] font-bold text-slate-700 focus:outline-none cursor-pointer">
+                                                <option value="marla">Marla</option>
+                                                <option value="sqft">Square Feet</option>
+                                                <option value="sqyd">Square Yards</option>
+                                                <option value="sqm">Square Meters</option>
+                                                <option value="kanal">Kanal</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="flex flex-wrap gap-1 mb-2.5">
+                                    <div class="flex flex-wrap gap-1 mb-2.5" id="hero-area-presets-container">
                                         <button type="button" onclick="selectHeroAreaPreset('', '', 'Any Size')" class="hero-chip active" data-area-chip="all">Any Size</button>
                                         <button type="button" onclick="selectHeroAreaPreset('5', '5', '5 Marla')" class="hero-chip" data-area-chip="5">5 Marla</button>
                                         <button type="button" onclick="selectHeroAreaPreset('8', '8', '8 Marla')" class="hero-chip" data-area-chip="8">8 Marla</button>
@@ -450,7 +614,7 @@
                 </div>
 
                 <!-- Secondary Promotional Banner Strip (§4) -->
-                <div id="hero-promo-banner-strip" class="bg-gradient-to-r from-slate-900/90 via-slate-800/90 to-slate-900/90 border border-white/15 rounded-2xl p-3.5 sm:p-4 text-white flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xl text-left">
+                <div id="hero-promo-banner-strip" class="hidden bg-gradient-to-r from-slate-900/90 via-slate-800/90 to-slate-900/90 border border-white/15 rounded-2xl p-3.5 sm:p-4 text-white flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xl text-left">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-indigo-600/30 border border-indigo-400/40 flex items-center justify-center text-indigo-400 text-lg shrink-0">
                             <i id="promo-display-icon" class="fa-solid fa-tree"></i>
@@ -475,70 +639,87 @@
         <!-- ==========================================================================
              2. "EXPLORE MORE ON KAGHAN PROPERTIES" (6 Icon Tiles Grid - §4)
              ========================================================================== -->
-        <section class="relative z-10 py-14 bg-white border-b border-slate-200">
+        <section class="relative z-10 py-14 bg-gradient-to-b from-white via-slate-50/50 to-white border-b border-slate-200">
             <div class="market-container">
-                <div class="flex items-center justify-between mb-8">
-                    <div>
-                        <span class="text-emerald-700 font-bold text-xs uppercase tracking-wider block">Decision Tools</span>
-                        <h2 class="text-2xl font-bold outfit text-slate-900">Explore more on Kaghan Properties</h2>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-700 to-slate-900 text-white flex items-center justify-center text-xl shadow-lg shadow-emerald-900/15 shrink-0 border border-emerald-400/20">
+                            <i class="fa-solid fa-compass-drafting"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-0.5">
+                                <span class="text-emerald-700 font-bold text-xs uppercase tracking-wider">Decision Tools</span>
+                                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">Interactive Suite</span>
+                            </div>
+                            <h2 class="text-2xl font-bold outfit text-slate-900">Explore more on Kaghan Properties</h2>
+                        </div>
                     </div>
-                    <span class="text-xs text-slate-500 font-medium hidden sm:inline">Essential real estate intelligence</span>
+                    <span class="text-xs text-slate-600 font-medium hidden sm:inline-flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-full border border-slate-200 shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Essential real estate intelligence
+                    </span>
                 </div>
 
                 <!-- Responsive 6-Tile Grid (6 on desktop, 3 tablet, 2 mobile) -->
                 <div id="decision-tools-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
                     <!-- Tile 1: Plot Finder -->
-                    <a href="projects.html?tool=plot-finder" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all text-center group flex flex-col items-center">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                    <a href="projects.html?tool=plot-finder" class="relative p-4 rounded-2xl bg-white border border-slate-200/80 hover:border-emerald-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center group flex flex-col items-center">
+                        <span class="absolute top-2.5 right-2.5 px-1.5 py-0.5 rounded-md text-[8px] font-extrabold uppercase tracking-wide bg-emerald-50 text-emerald-700 border border-emerald-200/60">GIS Maps</span>
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-100/60 text-emerald-700 border border-emerald-200/50 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-emerald-600 group-hover:to-teal-700 group-hover:text-white group-hover:shadow-md group-hover:shadow-emerald-600/30 transition-all duration-300">
                             <i class="fa-solid fa-map-location-dot"></i>
                         </div>
-                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-emerald-700">Plot Finder</h3>
-                        <p class="text-[11px] text-slate-500 leading-snug">Interactive sector maps & plot plots</p>
+                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-emerald-700 transition-colors">Plot Finder</h3>
+                        <p class="text-[11px] text-slate-500 leading-snug">Interactive sector maps & plot layouts</p>
                     </a>
 
                     <!-- Tile 2: Area Guides -->
-                    <a href="area.html" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all text-center group flex flex-col items-center">
-                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                    <a href="area.html" class="relative p-4 rounded-2xl bg-white border border-slate-200/80 hover:border-blue-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center group flex flex-col items-center">
+                        <span class="absolute top-2.5 right-2.5 px-1.5 py-0.5 rounded-md text-[8px] font-extrabold uppercase tracking-wide bg-blue-50 text-blue-700 border border-blue-200/60">CDA & Galyat</span>
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-100/60 text-blue-700 border border-blue-200/50 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-blue-600 group-hover:to-indigo-700 group-hover:text-white group-hover:shadow-md group-hover:shadow-blue-600/30 transition-all duration-300">
                             <i class="fa-solid fa-compass"></i>
                         </div>
-                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-blue-700">Area Guides</h3>
+                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-blue-700 transition-colors">Area Guides</h3>
                         <p class="text-[11px] text-slate-500 leading-snug">Society reviews, CDA sectors & rates</p>
                     </a>
 
                     <!-- Tile 3: New Projects -->
-                    <a href="projects.html?isNewProject=true" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all text-center group flex flex-col items-center">
-                        <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all">
+                    <a href="projects.html?isNewProject=true" class="relative p-4 rounded-2xl bg-white border border-slate-200/80 hover:border-purple-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center group flex flex-col items-center">
+                        <span class="absolute top-2.5 right-2.5 px-1.5 py-0.5 rounded-md text-[8px] font-extrabold uppercase tracking-wide bg-purple-50 text-purple-700 border border-purple-200/60">Launches</span>
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-50 to-fuchsia-100/60 text-purple-700 border border-purple-200/50 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-purple-600 group-hover:to-pink-700 group-hover:text-white group-hover:shadow-md group-hover:shadow-purple-600/30 transition-all duration-300">
                             <i class="fa-solid fa-city"></i>
                         </div>
-                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-purple-700">New Projects</h3>
-                        <p class="text-[11px] text-slate-500 leading-snug">Off-plan villas, malls & suites</p>
+                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-purple-700 transition-colors">New Projects</h3>
+                        <p class="text-[11px] text-slate-500 leading-snug">Off-plan villas, malls & luxury suites</p>
                     </a>
 
                     <!-- Tile 4: Home Loan Calculator -->
-                    <a href="calculator.html" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all text-center group flex flex-col items-center">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-amber-600 group-hover:text-white transition-all">
+                    <a href="calculator.html" class="relative p-4 rounded-2xl bg-white border border-slate-200/80 hover:border-amber-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center group flex flex-col items-center">
+                        <span class="absolute top-2.5 right-2.5 px-1.5 py-0.5 rounded-md text-[8px] font-extrabold uppercase tracking-wide bg-amber-50 text-amber-700 border border-amber-200/60">EMI Calc</span>
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-100/60 text-amber-700 border border-amber-200/50 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-amber-600 group-hover:to-orange-700 group-hover:text-white group-hover:shadow-md group-hover:shadow-amber-600/30 transition-all duration-300">
                             <i class="fa-solid fa-calculator"></i>
                         </div>
-                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-amber-700">Home Loans</h3>
-                        <p class="text-[11px] text-slate-500 leading-snug">Conventional & Islamic finance</p>
+                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-amber-700 transition-colors">Home Loans</h3>
+                        <p class="text-[11px] text-slate-500 leading-snug">Conventional & Islamic bank finance</p>
                     </a>
 
                     <!-- Tile 5: Land Records -->
-                    <a href="societies.html#land-records" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all text-center group flex flex-col items-center">
-                        <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-700 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-rose-600 group-hover:text-white transition-all">
+                    <a href="societies.html#land-records" class="relative p-4 rounded-2xl bg-white border border-slate-200/80 hover:border-rose-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center group flex flex-col items-center">
+                        <span class="absolute top-2.5 right-2.5 px-1.5 py-0.5 rounded-md text-[8px] font-extrabold uppercase tracking-wide bg-rose-50 text-rose-700 border border-rose-200/60">Verification</span>
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-50 to-red-100/60 text-rose-700 border border-rose-200/50 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-rose-600 group-hover:to-red-700 group-hover:text-white group-hover:shadow-md group-hover:shadow-rose-600/30 transition-all duration-300">
                             <i class="fa-solid fa-file-contract"></i>
                         </div>
-                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-rose-700">Land Records</h3>
-                        <p class="text-[11px] text-slate-500 leading-snug">Online registry & title verification</p>
+                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-rose-700 transition-colors">Land Records</h3>
+                        <p class="text-[11px] text-slate-500 leading-snug">Online registry & title deed portal</p>
                     </a>
 
                     <!-- Tile 6: Construction Cost -->
-                    <a href="calculator.html#construction" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all text-center group flex flex-col items-center">
-                        <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-teal-600 group-hover:text-white transition-all">
+                    <a href="calculator.html#construction" class="relative p-4 rounded-2xl bg-white border border-slate-200/80 hover:border-teal-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center group flex flex-col items-center">
+                        <span class="absolute top-2.5 right-2.5 px-1.5 py-0.5 rounded-md text-[8px] font-extrabold uppercase tracking-wide bg-teal-50 text-teal-700 border border-teal-200/60">2026 Rates</span>
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-50 to-emerald-100/60 text-teal-700 border border-teal-200/50 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-teal-600 group-hover:to-emerald-700 group-hover:text-white group-hover:shadow-md group-hover:shadow-teal-600/30 transition-all duration-300">
                             <i class="fa-solid fa-trowel-bricks"></i>
                         </div>
-                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-teal-700">Construction Cost</h3>
-                        <p class="text-[11px] text-slate-500 leading-snug">Turnkey Grey structure & finishes</p>
+                        <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 group-hover:text-teal-700 transition-colors">Construction Cost</h3>
+                        <p class="text-[11px] text-slate-500 leading-snug">Turnkey grey structure & finishes</p>
                     </a>
                 </div>
             </div>
@@ -859,8 +1040,30 @@
             }
         }
 
-        // Property Type Selection
-        function selectHeroType(slug, name) {
+        // Property Type Category & Sub-Type Selection
+        function switchHeroTypeCategory(category, event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            const categories = ['homes', 'plots', 'commercial'];
+            categories.forEach(cat => {
+                const btn = document.getElementById(`hero-type-tab-${cat}`);
+                const panel = document.getElementById(`hero-type-panel-${cat}`);
+                if (btn) {
+                    if (cat === category) {
+                        btn.className = 'hero-type-tab-btn flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all bg-white text-emerald-700 shadow-sm flex items-center justify-center gap-1.5';
+                    } else {
+                        btn.className = 'hero-type-tab-btn flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1.5';
+                    }
+                }
+                if (panel) {
+                    panel.classList.toggle('hidden', cat !== category);
+                }
+            });
+        }
+
+        function selectHeroType(slug, name, category) {
             const hiddenType = document.getElementById('hidden-search-type');
             const displayVal = document.getElementById('hero-type-val');
             const fallbackSelect = document.getElementById('search-type');
@@ -869,10 +1072,14 @@
             if (displayVal) displayVal.innerText = name;
             if (fallbackSelect) fallbackSelect.value = slug;
 
-            // Update card selection style
-            document.querySelectorAll('#hero-type-grid .hero-type-card').forEach(card => {
+            // Update card selection style across all category panels
+            document.querySelectorAll('.hero-type-card').forEach(card => {
                 card.classList.toggle('selected', card.getAttribute('data-type') === slug);
             });
+
+            if (category) {
+                switchHeroTypeCategory(category);
+            }
 
             closeHeroDropdowns();
         }
@@ -925,7 +1132,182 @@
             return n.toLocaleString();
         }
 
-        // Area & Beds Selection
+        // Area & Beds Selection with 5 Global Units
+        let currentHeroAreaUnit = localStorage.getItem('kaghan_area_unit') || 'marla';
+
+        const HERO_AREA_UNIT_OPTIONS = {
+            marla: {
+                label: 'Marla',
+                presets: [
+                    { min: '', max: '', label: 'Any Size', key: 'all' },
+                    { min: '5', max: '5', label: '5 Marla', key: '5' },
+                    { min: '8', max: '8', label: '8 Marla', key: '8' },
+                    { min: '10', max: '10', label: '10 Marla', key: '10' },
+                    { min: '20', max: '20', label: '1 Kanal', key: '20' },
+                    { min: '40', max: '80', label: '2-4 Kanal+', key: '40' }
+                ],
+                mins: [
+                    { val: '', label: 'Min' },
+                    { val: '3', label: '3 Marla' },
+                    { val: '5', label: '5 Marla' },
+                    { val: '8', label: '8 Marla' },
+                    { val: '10', label: '10 Marla' },
+                    { val: '20', label: '1 Kanal' }
+                ],
+                maxs: [
+                    { val: '', label: 'Max' },
+                    { val: '5', label: '5 Marla' },
+                    { val: '10', label: '10 Marla' },
+                    { val: '20', label: '1 Kanal' },
+                    { val: '40', label: '2 Kanal' },
+                    { val: '80', label: '4 Kanal+' }
+                ]
+            },
+            sqft: {
+                label: 'Square Feet',
+                presets: [
+                    { min: '', max: '', label: 'Any Size', key: 'all' },
+                    { min: '1125', max: '1125', label: '1,125 Sq. Ft.', key: '1125' },
+                    { min: '1800', max: '1800', label: '1,800 Sq. Ft.', key: '1800' },
+                    { min: '2250', max: '2250', label: '2,250 Sq. Ft.', key: '2250' },
+                    { min: '4500', max: '4500', label: '4,500 Sq. Ft.', key: '4500' },
+                    { min: '9000', max: '18000', label: '9,000+ Sq. Ft.', key: '9000' }
+                ],
+                mins: [
+                    { val: '', label: 'Min' },
+                    { val: '675', label: '675 Sq. Ft.' },
+                    { val: '1125', label: '1,125 Sq. Ft.' },
+                    { val: '1800', label: '1,800 Sq. Ft.' },
+                    { val: '2250', label: '2,250 Sq. Ft.' },
+                    { val: '4500', label: '4,500 Sq. Ft.' }
+                ],
+                maxs: [
+                    { val: '', label: 'Max' },
+                    { val: '1125', label: '1,125 Sq. Ft.' },
+                    { val: '2250', label: '2,250 Sq. Ft.' },
+                    { val: '4500', label: '4,500 Sq. Ft.' },
+                    { val: '9000', label: '9,000 Sq. Ft.' },
+                    { val: '18000', label: '18,000+ Sq. Ft.' }
+                ]
+            },
+            sqyd: {
+                label: 'Square Yards',
+                presets: [
+                    { min: '', max: '', label: 'Any Size', key: 'all' },
+                    { min: '125', max: '125', label: '125 Sq. Yd.', key: '125' },
+                    { min: '200', max: '200', label: '200 Sq. Yd.', key: '200' },
+                    { min: '250', max: '250', label: '250 Sq. Yd.', key: '250' },
+                    { min: '500', max: '500', label: '500 Sq. Yd.', key: '500' },
+                    { min: '1000', max: '2000', label: '1,000+ Sq. Yd.', key: '1000' }
+                ],
+                mins: [
+                    { val: '', label: 'Min' },
+                    { val: '75', label: '75 Sq. Yd.' },
+                    { val: '125', label: '125 Sq. Yd.' },
+                    { val: '200', label: '200 Sq. Yd.' },
+                    { val: '250', label: '250 Sq. Yd.' },
+                    { val: '500', label: '500 Sq. Yd.' }
+                ],
+                maxs: [
+                    { val: '', label: 'Max' },
+                    { val: '125', label: '125 Sq. Yd.' },
+                    { val: '250', label: '250 Sq. Yd.' },
+                    { val: '500', label: '500 Sq. Yd.' },
+                    { val: '1000', label: '1,000 Sq. Yd.' },
+                    { val: '2000', label: '2,000+ Sq. Yd.' }
+                ]
+            },
+            sqm: {
+                label: 'Square Meters',
+                presets: [
+                    { min: '', max: '', label: 'Any Size', key: 'all' },
+                    { min: '105', max: '105', label: '105 Sq. M.', key: '105' },
+                    { min: '167', max: '167', label: '167 Sq. M.', key: '167' },
+                    { min: '209', max: '209', label: '209 Sq. M.', key: '209' },
+                    { min: '418', max: '418', label: '418 Sq. M.', key: '418' },
+                    { min: '836', max: '1672', label: '836+ Sq. M.', key: '836' }
+                ],
+                mins: [
+                    { val: '', label: 'Min' },
+                    { val: '63', label: '63 Sq. M.' },
+                    { val: '105', label: '105 Sq. M.' },
+                    { val: '167', label: '167 Sq. M.' },
+                    { val: '209', label: '209 Sq. M.' },
+                    { val: '418', label: '418 Sq. M.' }
+                ],
+                maxs: [
+                    { val: '', label: 'Max' },
+                    { val: '105', label: '105 Sq. M.' },
+                    { val: '209', label: '209 Sq. M.' },
+                    { val: '418', label: '418 Sq. M.' },
+                    { val: '836', label: '836 Sq. M.' },
+                    { val: '1672', label: '1,672+ Sq. M.' }
+                ]
+            },
+            kanal: {
+                label: 'Kanal',
+                presets: [
+                    { min: '', max: '', label: 'Any Size', key: 'all' },
+                    { min: '0.25', max: '0.25', label: '0.25 Kanal', key: '0.25' },
+                    { min: '0.5', max: '0.5', label: '0.5 Kanal', key: '0.5' },
+                    { min: '1', max: '1', label: '1 Kanal', key: '1' },
+                    { min: '2', max: '2', label: '2 Kanal', key: '2' },
+                    { min: '4', max: '8', label: '4-8 Kanal+', key: '4' }
+                ],
+                mins: [
+                    { val: '', label: 'Min' },
+                    { val: '0.25', label: '0.25 Kanal' },
+                    { val: '0.5', label: '0.5 Kanal' },
+                    { val: '1', label: '1 Kanal' },
+                    { val: '2', label: '2 Kanal' },
+                    { val: '4', label: '4 Kanal' }
+                ],
+                maxs: [
+                    { val: '', label: 'Max' },
+                    { val: '0.5', label: '0.5 Kanal' },
+                    { val: '1', label: '1 Kanal' },
+                    { val: '2', label: '2 Kanal' },
+                    { val: '4', label: '4 Kanal' },
+                    { val: '8', label: '8 Kanal+' }
+                ]
+            }
+        };
+
+        function switchHeroAreaUnit(unit) {
+            currentHeroAreaUnit = (unit || 'marla').toLowerCase();
+            const hiddenUnit = document.getElementById('hidden-search-area-unit');
+            if (hiddenUnit) hiddenUnit.value = currentHeroAreaUnit;
+            const selectEl = document.getElementById('hero-area-unit-select');
+            if (selectEl) selectEl.value = currentHeroAreaUnit;
+
+            const config = HERO_AREA_UNIT_OPTIONS[currentHeroAreaUnit] || HERO_AREA_UNIT_OPTIONS.marla;
+
+            // Render presets
+            const presetsContainer = document.getElementById('hero-area-presets-container');
+            if (presetsContainer) {
+                presetsContainer.innerHTML = config.presets.map(p => `
+                    <button type="button" onclick="selectHeroAreaPreset('${p.min}', '${p.max}', '${p.label}')" class="hero-chip ${p.key === 'all' ? 'active' : ''}" data-area-chip="${p.key}">${p.label}</button>
+                `).join('');
+            }
+
+            // Render min / max options
+            const minSelect = document.getElementById('hero-custom-min-area');
+            const maxSelect = document.getElementById('hero-custom-max-area');
+            if (minSelect) {
+                minSelect.innerHTML = config.mins.map(m => `<option value="${m.val}">${m.label}</option>`).join('');
+            }
+            if (maxSelect) {
+                maxSelect.innerHTML = config.maxs.map(m => `<option value="${m.val}">${m.label}</option>`).join('');
+            }
+
+            selectHeroAreaPreset('', '', 'Any Size');
+
+            // Sync global area unit if KaghanSharedUI is loaded
+            if (window.KaghanSharedUI && window.KaghanSharedUI.areaUnit !== currentHeroAreaUnit) {
+                window.KaghanSharedUI.setAreaUnit(currentHeroAreaUnit);
+            }
+        }
+
         function selectHeroAreaPreset(min, max, label) {
             const hiddenMin = document.getElementById('hidden-search-min-area');
             const hiddenMax = document.getElementById('hidden-search-max-area');
@@ -958,8 +1340,9 @@
 
             let label = 'Any Size';
             if (min || max) {
-                const minLabel = min ? `${min}M` : 'Min';
-                const maxLabel = max ? `${max}M` : 'Max';
+                const unitSuffix = currentHeroAreaUnit === 'marla' ? 'M' : (currentHeroAreaUnit === 'kanal' ? ' Kanal' : ` ${currentHeroAreaUnit}`);
+                const minLabel = min ? `${min}${unitSuffix}` : 'Min';
+                const maxLabel = max ? `${max}${unitSuffix}` : 'Max';
                 label = `${minLabel} - ${maxLabel}`;
             }
 
@@ -1227,36 +1610,22 @@
                 const categories = await window.KaghanDB.getCategories(true);
                 const searchTypeSelect = document.getElementById('search-type');
                 if (categories && categories.length > 0) {
-                    const currentType = document.getElementById('hidden-search-type').value || 'all';
+                    const currentType = document.getElementById('hidden-search-type').value || 'all_homes';
                     if (searchTypeSelect) {
-                        searchTypeSelect.innerHTML = `<option value="all">All Types</option>` + categories.map(c => `
-                            <option value="${c.slug}">${c.name}</option>
-                        `).join('');
+                        const homeOpts = categories.filter(c => (c.group || '').toLowerCase() === 'home' || (c.group || '').toLowerCase() === 'homes');
+                        const plotOpts = categories.filter(c => (c.group || '').toLowerCase() === 'plots' || (c.group || '').toLowerCase() === 'plot');
+                        const commOpts = categories.filter(c => (c.group || '').toLowerCase() === 'commercial');
+
+                        searchTypeSelect.innerHTML = `<option value="all">All Types</option>` +
+                            `<optgroup label="Home">` + homeOpts.map(c => `<option value="${c.slug}">${c.name}</option>`).join('') + `</optgroup>` +
+                            `<optgroup label="Plots">` + plotOpts.map(c => `<option value="${c.slug}">${c.name}</option>`).join('') + `</optgroup>` +
+                            `<optgroup label="Commercial">` + commOpts.map(c => `<option value="${c.slug}">${c.name}</option>`).join('') + `</optgroup>`;
                     }
 
-                    // Update custom type grid
-                    const typeGrid = document.getElementById('hero-type-grid');
-                    if (typeGrid) {
-                        typeGrid.innerHTML = `
-                            <div class="hero-type-card ${currentType === 'all' ? 'selected' : ''}" data-type="all" onclick="selectHeroType('all', 'All Types')">
-                                <div class="flex items-center justify-between">
-                                    <i class="fa-solid fa-shapes text-emerald-600 text-sm"></i>
-                                    <i class="fa-solid fa-check check-icon"></i>
-                                </div>
-                                <div class="font-bold text-xs text-slate-900">All Types</div>
-                                <div class="text-[9px] text-slate-500">Every Property</div>
-                            </div>
-                        ` + categories.map(c => `
-                            <div class="hero-type-card ${c.slug === currentType ? 'selected' : ''}" data-type="${c.slug}" onclick="selectHeroType('${c.slug}', '${c.name.replace(/'/g, "\\'")}')">
-                                <div class="flex items-center justify-between">
-                                    <i class="${c.icon || 'fa-solid fa-house'} text-emerald-600 text-sm"></i>
-                                    <i class="fa-solid fa-check check-icon"></i>
-                                </div>
-                                <div class="font-bold text-xs text-slate-900 line-clamp-1">${c.name}</div>
-                                <div class="text-[9px] text-slate-500 line-clamp-1">${c.group || 'Property'}</div>
-                            </div>
-                        `).join('');
-                    }
+                    // Sync card active states across panels
+                    document.querySelectorAll('.hero-type-card').forEach(card => {
+                        card.classList.toggle('selected', card.getAttribute('data-type') === currentType);
+                    });
                 }
 
                 // 3. Dynamic Societies / Locations (Hero Search Datalist)
@@ -1275,8 +1644,8 @@
                     // Promotional Banner Strip
                     const promo = siteContent.promoBanner;
                     const promoStrip = document.getElementById('hero-promo-banner-strip');
-                    if (promoStrip && promo) {
-                        if (promo.isActive === false) {
+                    if (promoStrip) {
+                        if (!promo || promo.isActive === false || !promo.title) {
                             promoStrip.classList.add('hidden');
                         } else {
                             promoStrip.classList.remove('hidden');
@@ -1292,18 +1661,70 @@
                     const decisionGrid = document.getElementById('decision-tools-grid');
                     const tools = (siteContent.decisionTools || []).filter(t => t.isActive !== false);
                     if (decisionGrid && tools.length > 0) {
-                        decisionGrid.innerHTML = tools.map(tool => `
-                            <a href="${tool.link || '#'}" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all text-center group flex flex-col items-center">
-                                <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white transition-all">
-                                    <i class="${tool.iconClass || 'fa-solid fa-cube'}"></i>
-                                </div>
-                                <div class="flex items-center justify-center gap-1.5 mb-1">
-                                    <h3 class="font-bold text-xs sm:text-sm text-slate-800 group-hover:text-emerald-700">${tool.title}</h3>
-                                    ${tool.badge ? `<span class="px-1.5 py-0.2 rounded text-[8px] font-bold bg-emerald-100 text-emerald-800">${tool.badge}</span>` : ''}
-                                </div>
-                                <p class="text-[11px] text-slate-500 leading-snug">${tool.subtitle || ''}</p>
-                            </a>
-                        `).join('');
+                        const themeStyles = {
+                            emerald: {
+                                border: 'hover:border-emerald-500',
+                                badge: 'bg-emerald-50 text-emerald-700 border-emerald-200/60',
+                                iconBg: 'bg-gradient-to-br from-emerald-50 to-teal-100/60 text-emerald-700 border-emerald-200/50',
+                                iconHover: 'group-hover:bg-gradient-to-br group-hover:from-emerald-600 group-hover:to-teal-700 group-hover:text-white group-hover:shadow-emerald-600/30',
+                                titleHover: 'group-hover:text-emerald-700'
+                            },
+                            blue: {
+                                border: 'hover:border-blue-500',
+                                badge: 'bg-blue-50 text-blue-700 border-blue-200/60',
+                                iconBg: 'bg-gradient-to-br from-blue-50 to-indigo-100/60 text-blue-700 border-blue-200/50',
+                                iconHover: 'group-hover:bg-gradient-to-br group-hover:from-blue-600 group-hover:to-indigo-700 group-hover:text-white group-hover:shadow-blue-600/30',
+                                titleHover: 'group-hover:text-blue-700'
+                            },
+                            purple: {
+                                border: 'hover:border-purple-500',
+                                badge: 'bg-purple-50 text-purple-700 border-purple-200/60',
+                                iconBg: 'bg-gradient-to-br from-purple-50 to-fuchsia-100/60 text-purple-700 border-purple-200/50',
+                                iconHover: 'group-hover:bg-gradient-to-br group-hover:from-purple-600 group-hover:to-pink-700 group-hover:text-white group-hover:shadow-purple-600/30',
+                                titleHover: 'group-hover:text-purple-700'
+                            },
+                            amber: {
+                                border: 'hover:border-amber-500',
+                                badge: 'bg-amber-50 text-amber-700 border-amber-200/60',
+                                iconBg: 'bg-gradient-to-br from-amber-50 to-orange-100/60 text-amber-700 border-amber-200/50',
+                                iconHover: 'group-hover:bg-gradient-to-br group-hover:from-amber-600 group-hover:to-orange-700 group-hover:text-white group-hover:shadow-amber-600/30',
+                                titleHover: 'group-hover:text-amber-700'
+                            },
+                            rose: {
+                                border: 'hover:border-rose-500',
+                                badge: 'bg-rose-50 text-rose-700 border-rose-200/60',
+                                iconBg: 'bg-gradient-to-br from-rose-50 to-red-100/60 text-rose-700 border-rose-200/50',
+                                iconHover: 'group-hover:bg-gradient-to-br group-hover:from-rose-600 group-hover:to-red-700 group-hover:text-white group-hover:shadow-rose-600/30',
+                                titleHover: 'group-hover:text-rose-700'
+                            },
+                            teal: {
+                                border: 'hover:border-teal-500',
+                                badge: 'bg-teal-50 text-teal-700 border-teal-200/60',
+                                iconBg: 'bg-gradient-to-br from-teal-50 to-emerald-100/60 text-teal-700 border-teal-200/50',
+                                iconHover: 'group-hover:bg-gradient-to-br group-hover:from-teal-600 group-hover:to-emerald-700 group-hover:text-white group-hover:shadow-teal-600/30',
+                                titleHover: 'group-hover:text-teal-700'
+                            }
+                        };
+                        const defaultTheme = themeStyles.emerald;
+
+                        decisionGrid.innerHTML = tools.map((tool, idx) => {
+                            const themeKey = tool.colorTheme || Object.keys(themeStyles)[idx % 6] || 'emerald';
+                            const style = themeStyles[themeKey] || defaultTheme;
+                            const iconClass = tool.iconClass || tool.icon || 'fa-solid fa-cube';
+                            const subtitle = tool.subtitle || tool.description || '';
+                            const badge = tool.badge || '';
+
+                            return `
+                                <a href="${tool.link || '#'}" class="relative p-4 rounded-2xl bg-white border border-slate-200/80 ${style.border} hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center group flex flex-col items-center">
+                                    ${badge ? `<span class="absolute top-2.5 right-2.5 px-1.5 py-0.5 rounded-md text-[8px] font-extrabold uppercase tracking-wide border ${style.badge}">${badge}</span>` : ''}
+                                    <div class="w-12 h-12 rounded-2xl ${style.iconBg} border flex items-center justify-center text-xl mb-3 group-hover:scale-110 ${style.iconHover} group-hover:shadow-md transition-all duration-300">
+                                        <i class="${iconClass}"></i>
+                                    </div>
+                                    <h3 class="font-bold text-xs sm:text-sm text-slate-800 mb-1 ${style.titleHover} transition-colors">${tool.title}</h3>
+                                    <p class="text-[11px] text-slate-500 leading-snug">${subtitle}</p>
+                                </a>
+                            `;
+                        }).join('');
                     }
 
                     // Banking Partners Strip
@@ -1421,6 +1842,14 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             hydrateDynamicHomePage();
+            switchHeroAreaUnit(currentHeroAreaUnit);
+
+            // Listen for global unit changes
+            window.addEventListener('marketStateChanged', (e) => {
+                if (e.detail && e.detail.areaUnit && e.detail.areaUnit !== currentHeroAreaUnit) {
+                    switchHeroAreaUnit(e.detail.areaUnit);
+                }
+            });
 
             // Ensure hero background video autoplay is triggered seamlessly
             const heroVid = document.getElementById('hero-bg-video');

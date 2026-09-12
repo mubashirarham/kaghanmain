@@ -12,10 +12,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="canonical" href="https://kaghanproperties.com/blog.html">
 
-    <!-- Favicon & PWA Icons -->
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
-    <link rel="apple-touch-icon" href="assets/images/logo.png">
     <link rel="manifest" href="site.webmanifest">
 
     <!-- Open Graph / Facebook -->
@@ -217,7 +220,7 @@
             <div>
                 <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-sm outfit">Headquarters</h4>
                 <p class="text-xs leading-relaxed mb-6">
-                    Ground Floor, Anjum Plaza, Near TCS Bahria Enclave / Jinnah Avenue New Mall, Islamabad, Pakistan
+                    Office 203, 2nd Floor, Asian Arcade, opposite Zoo, C Avenue, Sector C, Bahria Enclave, Islamabad, Pakistan
                 </p>
                 <div class="space-y-3 text-xs">
                     <p class="flex items-center gap-3">
@@ -247,51 +250,11 @@
 
         async function initBlog() {
             try {
-                allBlogs = await CorporateDB.getBlogs();
-                
-                // Seed dynamic default blog posts if Firestore collection is empty
-                if (allBlogs.length === 0) {
-                    await seedDefaultBlogs();
-                    allBlogs = await CorporateDB.getBlogs();
-                }
-
+                allBlogs = (await CorporateDB.getBlogs()) || [];
                 checkHashRoute();
             } catch(e) {
                 console.error("Fail to load blog engine:", e);
                 document.getElementById('blog-grid').innerHTML = `<div class="col-span-3 text-center text-rose-500 py-12">Failed to load articles from database.</div>`;
-            }
-        }
-
-        // Default SEO Seeds for Blogs
-        async function seedDefaultBlogs() {
-            const defaults = [
-                {
-                    title: "Shifting Markets: Why speculation is dying in Pakistan 2026",
-                    slug: "shifting-markets-pakistan-2026",
-                    excerpt: "An in-depth review on why speculatve plot flipping is yielding to yield-generating serviced apartments and tech-driven models.",
-                    content: `<p>For the past three decades, Pakistan's real estate sector operated on a simple speculative model: purchase a plot files, wait for announcement, flip the files, and repeat. This speculation-driven economy created artificial pricing bubbles without providing any tangible recurring values.</p>
-                              <p>In 2026, the macroeconomic landscape of Pakistan has fundamentally adjusted. Speculation models are dying due to increased tax regulations, transparency requirements, and higher construction costs. Expat investors are leading a shift towards cash-flow producing residential and commercial assets.</p>
-                              <p>At Kaghan Properties, under Tanzil Minhas's strategic leadership, we emphasize yield-based property management models. By targeting an 8-12% annual rental returns on serviced apartments in Bahria Enclave, investors secure monthly cash flow alongside genuine capital appreciation, leaving speculative bubbles behind.</p>`,
-                    author: "Tanzil Minhas",
-                    imageUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80",
-                    category: "Market Shifts",
-                    portal: "corporate"
-                },
-                {
-                    title: "Turnkey Construction costs: A builder's reality in Islamabad",
-                    slug: "turnkey-construction-costs-islamabad",
-                    excerpt: "Explore the structural cost analysis for 5 Marla and 10 Marla houses, structural choices, and turnkey contractor formulas.",
-                    content: `<p>Building a home in Islamabad has become a balancing act of financial feasibility and supply-chain logistics. Rising steel, concrete, and energy tariffs directly impact construction margins, making turnkey design solutions more valuable than ever.</p>
-                              <p>A typical 5 Marla A-category residential grey structure cost in 2026 oscillates between PKR 2,800 to 3,250 per square foot. When entering the premium turnkey finish sector (wood floors, custom cabinetry, smart automation), builders expect finishing costs to match or exceed the basic gray structure price.</p>
-                              <p>Our turnkey construction models in Bahria Enclave utilize a fixed-margin schedule of rate framework. This ensures that expat developers get transparency without mid-project price spikes, ensuring built properties command top dollar in the rental and resale markets.</p>`,
-                    author: "Tanzil Minhas",
-                    imageUrl: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
-                    category: "Construction",
-                    portal: "corporate"
-                }
-            ];
-            for (const b of defaults) {
-                await CorporateDB.addBlog(b);
             }
         }
 

@@ -11,13 +11,19 @@
       "src": "/assets/images/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
       "src": "/assets/images/logo.png",
-      "sizes": "512x512",
+      "sizes": "1117x640",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }

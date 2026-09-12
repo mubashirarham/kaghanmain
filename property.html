@@ -11,11 +11,15 @@
     <meta name="theme-color" content="#077943">
     <link rel="canonical" href="https://kaghanproperties.com/property.html">
 
-    <!-- Favicon -->
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
-
-    <!-- Open Graph -->
+    <link rel="manifest" href="site.webmanifest">
+<!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="og-title" content="Property Details | Kaghan Properties">
     <meta property="og:description" id="og-desc" content="View verified property photos, specifications, amenities, and agent contacts.">
@@ -669,16 +673,11 @@
                 let all = [];
                 if (window.KaghanDB && window.KaghanDB.getProperties) {
                     all = await window.KaghanDB.getProperties();
-                } else if (typeof DEFAULT_PROPERTIES !== 'undefined') {
-                    all = [...DEFAULT_PROPERTIES];
                 }
 
-                if (slug) {
+                if (slug && all.length > 0) {
                     const normSlug = slug.toLowerCase().trim();
                     currentProperty = all.find(p => (p.slug && p.slug.toLowerCase() === normSlug) || (p.id && String(p.id).toLowerCase() === normSlug));
-                }
-                if (!currentProperty && all.length > 0) {
-                    currentProperty = all[0];
                 }
             }
 
@@ -688,6 +687,24 @@
                     return;
                 }
                 populatePropertyUI(currentProperty);
+            } else {
+                const main = document.querySelector('main');
+                if (main) {
+                    main.innerHTML = `
+                        <div class="bg-white p-12 text-center rounded-3xl border border-slate-200 max-w-xl mx-auto my-12 space-y-4 shadow-sm">
+                            <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto text-2xl">
+                                <i class="fa-solid fa-house-chimney-crack"></i>
+                            </div>
+                            <h2 class="text-xl font-bold outfit text-slate-800">Property Listing Not Found</h2>
+                            <p class="text-xs text-slate-500 leading-relaxed">The requested property is currently unavailable or has been unlisted. Browse our active verified developments in Islamabad and Galyat.</p>
+                            <div class="pt-2">
+                                <a href="projects.html" class="btn-primary text-xs py-2.5 px-6 rounded-xl font-bold inline-flex items-center gap-2">
+                                    <i class="fa-solid fa-magnifying-glass"></i> Explore Active Listings
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }
             }
 
             // Listen to currency changes

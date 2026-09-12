@@ -11,11 +11,15 @@
     <meta name="theme-color" content="#077943">
     <link rel="canonical" href="https://kaghanproperties.com/projects.html">
 
-    <!-- Favicon -->
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
-
-    <!-- Google Fonts & Font Awesome -->
+    <link rel="manifest" href="site.webmanifest">
+<!-- Google Fonts & Font Awesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -91,22 +95,53 @@
                 <div class="shrink-0">
                     <select id="filter-type" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
                         <option value="all">All Types</option>
-                        <option value="house">Houses & Villas</option>
-                        <option value="plot">Plots</option>
-                        <option value="apartment">Apartments</option>
-                        <option value="commercial">Commercial</option>
+                        <optgroup label="Home">
+                            <option value="all_homes">All Homes</option>
+                            <option value="penthouse">Penthouse</option>
+                            <option value="house">House</option>
+                            <option value="flat">Flat</option>
+                            <option value="upper_portion">Upper portion</option>
+                            <option value="lower_portion">Lower portion</option>
+                            <option value="farmhouse">Farm House</option>
+                            <option value="room">Room</option>
+                        </optgroup>
+                        <optgroup label="Plots">
+                            <option value="all_plots">All Plots</option>
+                            <option value="commercial_plot">Commercial plots</option>
+                            <option value="residential_plot">Residential Plots</option>
+                            <option value="industrial_land">Industrial land</option>
+                            <option value="agricultural_land">Agricultural Land</option>
+                        </optgroup>
+                        <optgroup label="Commercial">
+                            <option value="all_commercial">All Commercial</option>
+                            <option value="shop">Shop</option>
+                            <option value="office">Office</option>
+                            <option value="factory">Factory</option>
+                            <option value="warehouse">Warehouse</option>
+                            <option value="building">Building</option>
+                            <option value="plaza">Plaza</option>
+                            <option value="other_commercial">Other</option>
+                        </optgroup>
                     </select>
                 </div>
 
-                <!-- Area Range Filter -->
-                <div class="shrink-0">
+                <!-- Area Range Filter & Unit Selector -->
+                <div class="shrink-0 flex items-center gap-1">
                     <select id="filter-area-range" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
                         <option value="all">Area: Any Size</option>
                         <option value="5">5 Marla</option>
                         <option value="8">8 Marla</option>
                         <option value="10">10 Marla</option>
                         <option value="20">1 Kanal (20 Marla)</option>
+                        <option value="40">2 Kanal (40 Marla)</option>
                         <option value="80">4 Kanal+ Estate</option>
+                    </select>
+                    <select id="filter-area-unit" onchange="changeFilterAreaUnit(this.value)" class="bg-slate-100 border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none focus:border-emerald-600" title="Area Unit">
+                        <option value="marla">Marla</option>
+                        <option value="sqft">Square Feet</option>
+                        <option value="sqyd">Square Yards</option>
+                        <option value="sqm">Square Meters</option>
+                        <option value="kanal">Kanal</option>
                     </select>
                 </div>
 
@@ -229,22 +264,52 @@
             <!-- Category Sub-Tabs with Counts (§5) -->
             <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin text-xs">
                 <button type="button" data-subcat="all" onclick="setSubCategory('all')" class="category-subtab px-3 py-1.5 rounded-full bg-emerald-700 text-white font-bold whitespace-nowrap">
-                    All Homes <span class="badge-count text-[10px] opacity-90">(14,322)</span>
+                    All Properties
+                </button>
+                <button type="button" data-subcat="all_homes" onclick="setSubCategory('all_homes')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Homes
                 </button>
                 <button type="button" data-subcat="house" onclick="setSubCategory('house')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Houses <span class="badge-count text-[10px] text-slate-400">(8,450)</span>
+                    Houses
                 </button>
-                <button type="button" data-subcat="apartment" onclick="setSubCategory('apartment')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Flats & Suites <span class="badge-count text-[10px] text-slate-400">(3,240)</span>
-                </button>
-                <button type="button" data-subcat="farmhouse" onclick="setSubCategory('farmhouse')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Farm Houses <span class="badge-count text-[10px] text-slate-400">(1,180)</span>
+                <button type="button" data-subcat="flat" onclick="setSubCategory('flat')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Flats & Suites
                 </button>
                 <button type="button" data-subcat="penthouse" onclick="setSubCategory('penthouse')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Penthouses <span class="badge-count text-[10px] text-slate-400">(620)</span>
+                    Penthouses
+                </button>
+                <button type="button" data-subcat="upper_portion" onclick="setSubCategory('upper_portion')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Upper Portion
+                </button>
+                <button type="button" data-subcat="lower_portion" onclick="setSubCategory('lower_portion')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Lower Portion
+                </button>
+                <button type="button" data-subcat="farmhouse" onclick="setSubCategory('farmhouse')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Farm Houses
+                </button>
+                <button type="button" data-subcat="all_plots" onclick="setSubCategory('all_plots')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Plots
+                </button>
+                <button type="button" data-subcat="commercial_plot" onclick="setSubCategory('commercial_plot')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Commercial Plots
+                </button>
+                <button type="button" data-subcat="residential_plot" onclick="setSubCategory('residential_plot')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Residential Plots
+                </button>
+                <button type="button" data-subcat="all_commercial" onclick="setSubCategory('all_commercial')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Commercial
+                </button>
+                <button type="button" data-subcat="shop" onclick="setSubCategory('shop')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Shops
+                </button>
+                <button type="button" data-subcat="office" onclick="setSubCategory('office')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Offices
+                </button>
+                <button type="button" data-subcat="plaza" onclick="setSubCategory('plaza')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
+                    Plazas
                 </button>
                 <button type="button" data-subcat="newproject" onclick="setSubCategory('newproject')" class="category-subtab px-3 py-1.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold whitespace-nowrap">
-                    New Projects <span class="badge-count text-[10px] text-indigo-400">(832)</span>
+                    New Projects
                 </button>
             </div>
         </div>
@@ -452,9 +517,14 @@
 
                     const typeEl = document.getElementById('filter-type');
                     if (typeEl && categories && categories.length > 0) {
-                        typeEl.innerHTML = `<option value="all">All Types</option>` + categories.map(c => `
-                            <option value="${c.slug}">${c.name}</option>
-                        `).join('');
+                        const homeOpts = categories.filter(c => (c.group || '').toLowerCase() === 'home' || (c.group || '').toLowerCase() === 'homes');
+                        const plotOpts = categories.filter(c => (c.group || '').toLowerCase() === 'plots' || (c.group || '').toLowerCase() === 'plot');
+                        const commOpts = categories.filter(c => (c.group || '').toLowerCase() === 'commercial');
+
+                        typeEl.innerHTML = `<option value="all">All Types</option>` +
+                            `<optgroup label="Home">` + homeOpts.map(c => `<option value="${c.slug}">${c.name}</option>`).join('') + `</optgroup>` +
+                            `<optgroup label="Plots">` + plotOpts.map(c => `<option value="${c.slug}">${c.name}</option>`).join('') + `</optgroup>` +
+                            `<optgroup label="Commercial">` + commOpts.map(c => `<option value="${c.slug}">${c.name}</option>`).join('') + `</optgroup>`;
                     }
 
                     const locDatalist = document.getElementById('filter-location-datalist');
@@ -499,6 +569,16 @@
                     }
                 }
             }
+            if (params.get('areaUnit')) {
+                changeFilterAreaUnit(params.get('areaUnit'));
+            } else if (window.KaghanSharedUI?.areaUnit) {
+                changeFilterAreaUnit(window.KaghanSharedUI.areaUnit);
+            }
+            if (params.get('minArea') || params.get('size')) {
+                const sizeVal = params.get('minArea') || params.get('size');
+                const rangeEl = document.getElementById('filter-area-range');
+                if (rangeEl) rangeEl.value = sizeVal;
+            }
 
             if (params.get('isNewProject') === 'true') {
                 activeSubCategory = 'newproject';
@@ -515,20 +595,92 @@
             // Load Data strictly from KaghanDB / Firestore
             if (window.KaghanDB && window.KaghanDB.getProperties) {
                 allProperties = await window.KaghanDB.getProperties();
-            } else if (typeof DEFAULT_PROPERTIES !== 'undefined') {
-                allProperties = [...DEFAULT_PROPERTIES];
+            } else {
+                allProperties = [];
             }
 
             // Dynamically render location checkboxes with live Firestore counts
             renderLocationCheckboxes(globalSocieties, allProperties);
 
             // Listen to currency or unit changes from header
-            window.addEventListener('marketStateChanged', () => {
+            window.addEventListener('marketStateChanged', (e) => {
+                if (e.detail && e.detail.areaUnit) {
+                    const unitEl = document.getElementById('filter-area-unit');
+                    if (unitEl && unitEl.value !== e.detail.areaUnit) {
+                        changeFilterAreaUnit(e.detail.areaUnit);
+                    }
+                }
                 renderPropertyCards();
             });
 
             applyFilters();
         });
+
+        const PROJECT_AREA_UNIT_PRESETS = {
+            marla: [
+                { val: 'all', label: 'Area: Any Size' },
+                { val: '5', label: '5 Marla' },
+                { val: '8', label: '8 Marla' },
+                { val: '10', label: '10 Marla' },
+                { val: '20', label: '1 Kanal (20 Marla)' },
+                { val: '40', label: '2 Kanal (40 Marla)' },
+                { val: '80', label: '4 Kanal+ Estate' }
+            ],
+            sqft: [
+                { val: 'all', label: 'Area: Any Size' },
+                { val: '5', label: '1,125 Sq. Ft. (5M)' },
+                { val: '8', label: '1,800 Sq. Ft. (8M)' },
+                { val: '10', label: '2,250 Sq. Ft. (10M)' },
+                { val: '20', label: '4,500 Sq. Ft. (1 Kanal)' },
+                { val: '40', label: '9,000 Sq. Ft. (2 Kanal)' },
+                { val: '80', label: '18,000+ Sq. Ft.' }
+            ],
+            sqyd: [
+                { val: 'all', label: 'Area: Any Size' },
+                { val: '5', label: '125 Sq. Yd. (5M)' },
+                { val: '8', label: '200 Sq. Yd. (8M)' },
+                { val: '10', label: '250 Sq. Yd. (10M)' },
+                { val: '20', label: '500 Sq. Yd. (1 Kanal)' },
+                { val: '40', label: '1,000 Sq. Yd. (2 Kanal)' },
+                { val: '80', label: '2,000+ Sq. Yd.' }
+            ],
+            sqm: [
+                { val: 'all', label: 'Area: Any Size' },
+                { val: '5', label: '105 Sq. M. (5M)' },
+                { val: '8', label: '167 Sq. M. (8M)' },
+                { val: '10', label: '209 Sq. M. (10M)' },
+                { val: '20', label: '418 Sq. M. (1 Kanal)' },
+                { val: '40', label: '836 Sq. M. (2 Kanal)' },
+                { val: '80', label: '1,672+ Sq. M.' }
+            ],
+            kanal: [
+                { val: 'all', label: 'Area: Any Size' },
+                { val: '5', label: '0.25 Kanal (5 Marla)' },
+                { val: '10', label: '0.5 Kanal (10 Marla)' },
+                { val: '20', label: '1 Kanal' },
+                { val: '40', label: '2 Kanal' },
+                { val: '80', label: '4 Kanal+ Estate' }
+            ]
+        };
+
+        function changeFilterAreaUnit(unit) {
+            const u = (unit || 'marla').toLowerCase();
+            const rangeSelect = document.getElementById('filter-area-range');
+            const unitSelect = document.getElementById('filter-area-unit');
+            if (unitSelect) unitSelect.value = u;
+
+            if (rangeSelect) {
+                const currentVal = rangeSelect.value;
+                const opts = PROJECT_AREA_UNIT_PRESETS[u] || PROJECT_AREA_UNIT_PRESETS.marla;
+                rangeSelect.innerHTML = opts.map(o => `<option value="${o.val}" ${o.val === currentVal ? 'selected' : ''}>${o.label}</option>`).join('');
+            }
+
+            if (window.KaghanSharedUI && window.KaghanSharedUI.areaUnit !== u) {
+                window.KaghanSharedUI.setAreaUnit(u);
+            }
+
+            applyFilters();
+        }
 
         function syncPurposeUI() {
             const btnSale = document.getElementById('filter-purpose-sale');
@@ -740,8 +892,50 @@
                     if (!match) return false;
                 }
 
-                // Type
-                if (type !== 'all' && p.type !== type) return false;
+                // Type & Category matching
+                if (type !== 'all') {
+                    const pType = (p.type || '').toLowerCase();
+                    const pSubType = (p.subtype || '').toLowerCase();
+                    const pCat = (p.category || '').toLowerCase();
+                    const pText = `${p.title || ''} ${p.description || ''} ${p.type || ''} ${p.subtype || ''}`.toLowerCase();
+
+                    if (type === 'all_homes' || type === 'homes' || type === 'home') {
+                        const homeTypes = ['house', 'flat', 'apartment', 'penthouse', 'upper_portion', 'lower_portion', 'farmhouse', 'room', 'chalet', 'all_homes'];
+                        const matchHome = homeTypes.includes(pType) || homeTypes.includes(pSubType) || pCat === 'homes' || pCat === 'home' || /house|villa|flat|apartment|penthouse|portion|farmhouse|chalet|suite|room/.test(pText);
+                        if (!matchHome) return false;
+                    } else if (type === 'all_plots' || type === 'plots' || type === 'plot') {
+                        const plotTypes = ['plot', 'commercial_plot', 'residential_plot', 'industrial_land', 'agricultural_land', 'all_plots'];
+                        const matchPlot = plotTypes.includes(pType) || plotTypes.includes(pSubType) || pCat === 'plots' || pCat === 'plot' || /plot|land|file|marla plot|kanal plot/.test(pText);
+                        if (!matchPlot) return false;
+                    } else if (type === 'all_commercial' || type === 'commercial') {
+                        const commTypes = ['commercial', 'shop', 'office', 'factory', 'warehouse', 'building', 'plaza', 'other_commercial', 'all_commercial'];
+                        const matchComm = commTypes.includes(pType) || commTypes.includes(pSubType) || pCat === 'commercial' || /shop|office|plaza|warehouse|factory|building|commercial/.test(pText);
+                        if (!matchComm) return false;
+                    } else {
+                        // Granular type matching with smart aliases
+                        const isMatch = (pType === type) || (pSubType === type) ||
+                            (type === 'flat' && (pType === 'apartment' || pText.includes('flat') || pText.includes('apartment') || pText.includes('suite'))) ||
+                            (type === 'house' && (pType === 'house' || pType === 'villa' || pText.includes('house') || pText.includes('villa'))) ||
+                            (type === 'penthouse' && (pType === 'penthouse' || pText.includes('penthouse'))) ||
+                            (type === 'upper_portion' && (pType === 'upper_portion' || pText.includes('upper portion') || pText.includes('upper'))) ||
+                            (type === 'lower_portion' && (pType === 'lower_portion' || pText.includes('lower portion') || pText.includes('lower'))) ||
+                            (type === 'farmhouse' && (pType === 'farmhouse' || pText.includes('farmhouse') || pText.includes('farm house') || pText.includes('farm'))) ||
+                            (type === 'room' && (pType === 'room' || pText.includes('room') || pText.includes('studio'))) ||
+                            (type === 'commercial_plot' && (pType === 'commercial_plot' || (pType === 'commercial' && pText.includes('plot')) || (pType === 'plot' && pText.includes('commercial')) || pText.includes('commercial plot'))) ||
+                            (type === 'residential_plot' && (pType === 'residential_plot' || (pType === 'plot' && !pText.includes('commercial')) || pText.includes('residential plot'))) ||
+                            (type === 'industrial_land' && (pType === 'industrial_land' || pText.includes('industrial') || pText.includes('factory land'))) ||
+                            (type === 'agricultural_land' && (pType === 'agricultural_land' || pText.includes('agricultural') || pText.includes('agri') || pText.includes('cultivation'))) ||
+                            (type === 'shop' && (pType === 'shop' || pText.includes('shop') || pText.includes('retail'))) ||
+                            (type === 'office' && (pType === 'office' || pText.includes('office') || pText.includes('corporate'))) ||
+                            (type === 'factory' && (pType === 'factory' || pText.includes('factory') || pText.includes('manufacturing'))) ||
+                            (type === 'warehouse' && (pType === 'warehouse' || pText.includes('warehouse') || pText.includes('storage') || pText.includes('depot'))) ||
+                            (type === 'building' && (pType === 'building' || pText.includes('building') || pText.includes('tower'))) ||
+                            (type === 'plaza' && (pType === 'plaza' || pText.includes('plaza') || pText.includes('mall'))) ||
+                            (type === 'other_commercial' && (pType === 'other_commercial' || pType === 'other' || pCat === 'commercial'));
+
+                        if (!isMatch) return false;
+                    }
+                }
 
                 // Area
                 if (areaRange !== 'all') {

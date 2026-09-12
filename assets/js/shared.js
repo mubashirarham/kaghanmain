@@ -63,9 +63,14 @@ window.KaghanSharedUI = {
     // Convert area using current selected unit
     formatArea: function(marlaSize) {
         if (!marlaSize) return '';
-        const unit = this.areaUnit.toLowerCase();
+        const unit = (this.areaUnit || 'marla').toLowerCase();
         if (unit === 'sqft') {
             return `${Math.round(marlaSize * 225).toLocaleString()} Sq. Ft.`;
+        } else if (unit === 'sqyd') {
+            return `${Math.round(marlaSize * 25).toLocaleString()} Sq. Yd.`;
+        } else if (unit === 'sqm') {
+            const sqm = (marlaSize * 20.903).toFixed(1).replace(/\.0$/, '');
+            return `${sqm} Sq. M.`;
         } else if (unit === 'kanal') {
             const k = (marlaSize / 20).toFixed(2).replace(/\.00$/, '');
             return `${k} Kanal`;
@@ -190,7 +195,9 @@ window.KaghanSharedUI = {
                                 <i class="fa-solid fa-vector-square text-slate-400 text-[10px]"></i>
                                 <select id="header-unit-select" onchange="window.KaghanSharedUI.setAreaUnit(this.value)" class="bg-transparent text-slate-800 font-medium text-[11px] focus:outline-none cursor-pointer">
                                     <option value="marla" ${this.areaUnit === 'marla' ? 'selected' : ''}>Marla</option>
-                                    <option value="sqft" ${this.areaUnit === 'sqft' ? 'selected' : ''}>Sq. Ft.</option>
+                                    <option value="sqft" ${this.areaUnit === 'sqft' ? 'selected' : ''}>Square Feet</option>
+                                    <option value="sqyd" ${this.areaUnit === 'sqyd' ? 'selected' : ''}>Square Yards</option>
+                                    <option value="sqm" ${this.areaUnit === 'sqm' ? 'selected' : ''}>Square Meters</option>
                                     <option value="kanal" ${this.areaUnit === 'kanal' ? 'selected' : ''}>Kanal</option>
                                 </select>
                             </div>
@@ -201,10 +208,10 @@ window.KaghanSharedUI = {
                                 <span id="lang-indicator" class="font-bold text-[10px]">${this.language}</span>
                             </button>
 
-                            <!-- Primary CTA Button ("Add Property") -->
-                            <button onclick="window.KaghanSharedUI.openAddPropertyModal()" class="btn-primary text-xs py-1.5 px-3.5 rounded-full font-bold shadow-sm whitespace-nowrap">
-                                <i class="fa-solid fa-plus text-[10px]"></i> Add Property
-                            </button>
+                            <!-- Primary CTA Button ("Contact Desk") -->
+                            <a href="contact.html" class="btn-primary text-xs py-1.5 px-3.5 rounded-full font-bold shadow-sm whitespace-nowrap flex items-center gap-1.5">
+                                <i class="fa-solid fa-headset text-[10px]"></i> Contact Desk
+                            </a>
 
                             <!-- Mobile Menu Trigger -->
                             <button onclick="window.KaghanSharedUI.toggleMobileMenu()" class="lg:hidden p-1.5 text-slate-700 hover:text-emerald-700 focus:outline-none">
@@ -286,9 +293,9 @@ window.KaghanSharedUI = {
 
                     <!-- Mobile CTA -->
                     <div class="pt-4 border-t border-slate-100 space-y-3">
-                        <button onclick="window.KaghanSharedUI.toggleMobileMenu(); window.KaghanSharedUI.openAddPropertyModal();" class="w-full btn-primary py-3 rounded-xl text-sm font-bold shadow-md">
-                            <i class="fa-solid fa-plus mr-1"></i> Add Property for Free
-                        </button>
+                        <a href="contact.html" class="w-full btn-primary py-3 rounded-xl text-sm font-bold shadow-md flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-headset"></i> Contact Real Estate Desk
+                        </a>
                         <a href="https://wa.me/923340091127" target="_blank" class="w-full btn-whatsapp py-3 rounded-xl text-sm font-bold flex items-center justify-center">
                             <i class="fa-brands fa-whatsapp text-lg mr-2"></i> WhatsApp Support
                         </a>
@@ -343,7 +350,7 @@ window.KaghanSharedUI = {
                                 <li><a href="index.html#forums" class="hover:text-emerald-400 transition-colors">Property Forum</a></li>
                                 <li><a href="projects.html?tag=expo" class="hover:text-emerald-400 transition-colors">Property Expo 2026</a></li>
                                 <li><a href="agents.html" class="hover:text-emerald-400 transition-colors">Real Estate Agents</a></li>
-                                <li><button onclick="window.KaghanSharedUI.openAddPropertyModal()" class="hover:text-emerald-400 text-left transition-colors">Add Property</button></li>
+                                <li><a href="contact.html" class="hover:text-emerald-400 text-left transition-colors">Partner with Us</a></li>
                             </ul>
                         </div>
 
@@ -353,7 +360,7 @@ window.KaghanSharedUI = {
                             <div class="space-y-2 leading-relaxed text-slate-300">
                                 <p class="flex items-start gap-2">
                                     <i class="fa-solid fa-location-dot text-emerald-400 mt-1"></i>
-                                    <span class="shared-address-text">Ground Floor, Anjum Plaza, Bahria Enclave / Jinnah Avenue New Mall, Islamabad, Pakistan</span>
+                                    <span class="shared-address-text">Office 203, 2nd Floor, Asian Arcade, opposite Zoo, C Avenue, Sector C, Bahria Enclave, Islamabad, Pakistan</span>
                                 </p>
                                 <p class="flex items-center gap-2">
                                     <i class="fa-solid fa-phone text-emerald-400"></i>
@@ -468,79 +475,13 @@ window.KaghanSharedUI = {
         document.body.appendChild(a);
     },
 
-    // Render Global Modals (Add Property, Area Unit Converter, Lightbox)
+    // Render Global Modals (Area Unit Converter, Lightbox)
     renderModals: function() {
         if (document.getElementById('global-modals-root')) return;
 
         const div = document.createElement('div');
         div.id = 'global-modals-root';
         div.innerHTML = `
-            <!-- Add Property Modal -->
-            <div id="modal-add-property" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
-                <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative animate-fade-in">
-                    <button onclick="window.KaghanSharedUI.closeAddPropertyModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800">
-                        <i class="fa-solid fa-xmark text-lg"></i>
-                    </button>
-                    <div class="border-b border-slate-100 pb-3">
-                        <span class="badge-premium-new text-[9px] px-2 py-0.5 rounded-full mb-1 inline-block">Free Listing</span>
-                        <h3 class="text-xl font-bold outfit text-slate-900">List Your Property on Kaghan</h3>
-                        <p class="text-xs text-slate-500">Reach verified buyers and tenants across Pakistan & Overseas.</p>
-                    </div>
-                    <form onsubmit="window.KaghanSharedUI.submitAddProperty(event)" class="space-y-3 text-xs">
-                        <div>
-                            <label class="font-bold text-slate-700 block mb-1">Property Title</label>
-                            <input type="text" id="prop-title" required placeholder="e.g. 5 Marla Designer Villa, Sector C Bahria Enclave" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-emerald-600">
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="font-bold text-slate-700 block mb-1">Purpose</label>
-                                <select id="prop-purpose" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none">
-                                    <option value="sale">For Sale</option>
-                                    <option value="rent">For Rent</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="font-bold text-slate-700 block mb-1">Property Type</label>
-                                <select id="prop-type" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none">
-                                    <option value="house">House / Villa</option>
-                                    <option value="plot">Plot</option>
-                                    <option value="apartment">Apartment / Flat</option>
-                                    <option value="commercial">Commercial</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="font-bold text-slate-700 block mb-1">City / Society</label>
-                                <input type="text" id="prop-location" required placeholder="e.g. Bahria Enclave, Islamabad" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-emerald-600">
-                            </div>
-                            <div>
-                                <label class="font-bold text-slate-700 block mb-1">Demand Price (PKR)</label>
-                                <input type="number" id="prop-price" required placeholder="e.g. 28500000" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-emerald-600">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="font-bold text-slate-700 block mb-1">Your Name</label>
-                                <input type="text" id="prop-owner-name" required placeholder="Your full name" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-emerald-600">
-                            </div>
-                            <div>
-                                <label class="font-bold text-slate-700 block mb-1">WhatsApp / Phone</label>
-                                <input type="tel" id="prop-owner-phone" required placeholder="+92 334 0000000" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-emerald-600">
-                            </div>
-                        </div>
-                        <div class="pt-2">
-                            <button type="submit" class="w-full btn-primary py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider">
-                                Submit Property Listing
-                            </button>
-                        </div>
-                    </form>
-                    <div id="add-property-success" class="hidden text-center text-xs text-emerald-700 font-bold bg-emerald-50 p-3 rounded-lg">
-                        <i class="fa-solid fa-circle-check text-lg mr-1"></i> Property submitted successfully! Our team will verify and publish it.
-                    </div>
-                </div>
-            </div>
-
             <!-- Area Unit Converter Modal -->
             <div id="modal-unit-converter" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
                 <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative animate-fade-in">
@@ -559,20 +500,17 @@ window.KaghanSharedUI = {
                         <div>
                             <label class="font-bold text-slate-700 block mb-1">From Unit</label>
                             <select id="converter-from-unit" onchange="window.KaghanSharedUI.recalcUnits()" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 font-semibold focus:outline-none">
-                                <option value="marla">Marla (225 sq ft)</option>
-                                <option value="kanal">Kanal (20 Marla)</option>
+                                <option value="marla">Marla (1 Marla = 225 Sq Ft)</option>
                                 <option value="sqft">Square Feet (Sq. Ft.)</option>
                                 <option value="sqyd">Square Yards (Sq. Yd. / Gaz)</option>
+                                <option value="sqm">Square Meters (Sq. M.)</option>
+                                <option value="kanal">Kanal (1 Kanal = 20 Marla)</option>
                             </select>
                         </div>
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
                             <div class="flex justify-between items-center text-xs font-semibold">
                                 <span class="text-slate-500">Marla:</span>
                                 <span id="res-marla" class="text-emerald-700 font-bold tabular-nums">5.00 Marla</span>
-                            </div>
-                            <div class="flex justify-between items-center text-xs font-semibold">
-                                <span class="text-slate-500">Kanal:</span>
-                                <span id="res-kanal" class="text-emerald-700 font-bold tabular-nums">0.25 Kanal</span>
                             </div>
                             <div class="flex justify-between items-center text-xs font-semibold">
                                 <span class="text-slate-500">Square Feet:</span>
@@ -582,73 +520,20 @@ window.KaghanSharedUI = {
                                 <span class="text-slate-500">Square Yards (Gaz):</span>
                                 <span id="res-sqyd" class="text-emerald-700 font-bold tabular-nums">125 Sq. Yd.</span>
                             </div>
+                            <div class="flex justify-between items-center text-xs font-semibold">
+                                <span class="text-slate-500">Square Meters:</span>
+                                <span id="res-sqm" class="text-emerald-700 font-bold tabular-nums">104.5 Sq. M.</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs font-semibold">
+                                <span class="text-slate-500">Kanal:</span>
+                                <span id="res-kanal" class="text-emerald-700 font-bold tabular-nums">0.25 Kanal</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         `;
         document.body.appendChild(div);
-    },
-
-    openAddPropertyModal: function() {
-        const m = document.getElementById('modal-add-property');
-        if (m) m.classList.remove('hidden');
-    },
-
-    closeAddPropertyModal: function() {
-        const m = document.getElementById('modal-add-property');
-        if (m) m.classList.add('hidden');
-    },
-
-    submitAddProperty: async function(e) {
-        e.preventDefault();
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        const originalText = submitBtn ? submitBtn.innerHTML : 'Submit Property Listing';
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Submitting...';
-        }
-
-        const title = document.getElementById('prop-title')?.value || '';
-        const purpose = document.getElementById('prop-purpose')?.value || 'sale';
-        const type = document.getElementById('prop-type')?.value || 'house';
-        const location = document.getElementById('prop-location')?.value || '';
-        const price = parseFloat(document.getElementById('prop-price')?.value) || 0;
-        const ownerName = document.getElementById('prop-owner-name')?.value || '';
-        const ownerPhone = document.getElementById('prop-owner-phone')?.value || '';
-
-        try {
-            if (window.KaghanDB && window.KaghanDB.createLead) {
-                await window.KaghanDB.createLead({
-                    name: ownerName,
-                    phone: ownerPhone,
-                    email: '',
-                    propertyTitle: title,
-                    message: `Property Listing Submission: "${title}" (For ${purpose.toUpperCase()} - ${type}) in ${location} for demand PKR ${price.toLocaleString()}. Listed by owner ${ownerName} (Contact: ${ownerPhone}).`,
-                    sourcePage: 'Add Property Modal',
-                    status: 'new'
-                });
-            }
-
-            const success = document.getElementById('add-property-success');
-            if (success) {
-                success.classList.remove('hidden');
-                e.target.reset();
-                setTimeout(() => {
-                    window.KaghanSharedUI.closeAddPropertyModal();
-                    success.classList.add('hidden');
-                }, 2500);
-            }
-        } catch (err) {
-            console.error('Error submitting property lead to Firestore:', err);
-            alert('Your property details have been recorded. A Kaghan consultant will contact you shortly.');
-            window.KaghanSharedUI.closeAddPropertyModal();
-        } finally {
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            }
-        }
     },
 
     openAreaUnitModal: function() {
@@ -666,7 +551,7 @@ window.KaghanSharedUI = {
 
     recalcUnits: function() {
         const val = parseFloat(document.getElementById('converter-input-val')?.value || 0);
-        const from = document.getElementById('converter-from-unit')?.value || 'marla';
+        const from = (document.getElementById('converter-from-unit')?.value || 'marla').toLowerCase();
         if (isNaN(val)) return;
 
         // Convert to base: Square Feet
@@ -674,21 +559,25 @@ window.KaghanSharedUI = {
         if (from === 'marla') sqft = val * 225;
         else if (from === 'kanal') sqft = val * 20 * 225;
         else if (from === 'sqyd') sqft = val * 9;
+        else if (from === 'sqm') sqft = val * 10.76391;
         else sqft = val;
 
         const marla = sqft / 225;
         const kanal = marla / 20;
         const sqyd = sqft / 9;
+        const sqm = sqft / 10.76391;
 
         const rMarla = document.getElementById('res-marla');
-        const rKanal = document.getElementById('res-kanal');
         const rSqft = document.getElementById('res-sqft');
         const rSqyd = document.getElementById('res-sqyd');
+        const rSqm = document.getElementById('res-sqm');
+        const rKanal = document.getElementById('res-kanal');
 
         if (rMarla) rMarla.innerText = `${marla.toFixed(2)} Marla`;
-        if (rKanal) rKanal.innerText = `${kanal.toFixed(2)} Kanal`;
         if (rSqft) rSqft.innerText = `${Math.round(sqft).toLocaleString()} Sq. Ft.`;
         if (rSqyd) rSqyd.innerText = `${Math.round(sqyd).toLocaleString()} Sq. Yd.`;
+        if (rSqm) rSqm.innerText = `${sqm.toFixed(2)} Sq. M.`;
+        if (rKanal) rKanal.innerText = `${kanal.toFixed(2)} Kanal`;
     },
 
     handleNewsletter: async function(e) {

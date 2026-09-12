@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firestore Collection Purger | smmp-4b3cc</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body class="bg-[#090D16] text-slate-100 min-h-screen p-4 sm:p-8">
+    <div class="max-w-5xl mx-auto space-y-6">
+        
+        <!-- Header & Action Card -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl backdrop-blur-md">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></span>
+                        <h1 class="text-2xl font-extrabold text-white">Firestore Collection Purger</h1>
+                    </div>
+                    <p class="text-xs text-slate-400 font-mono">
+                        Target Project ID: <span class="text-[#D4AF37] font-bold">smmp-4b3cc</span>
+                    </p>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <button id="btn-purge-all" onclick="executeFullPurge()" class="bg-red-600 hover:bg-red-500 active:scale-95 text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-xl shadow-lg shadow-red-900/30 transition-all flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-trash-can"></i> Delete All Listed Collections
+                    </button>
+                </div>
+            </div>
+
+            <!-- Auth Panel in case security rules require user credentials -->
+            <div id="auth-panel" class="mt-4 p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-amber-400 text-sm"></i>
+                    <div>
+                        <span class="font-bold text-white block">Authentication Status:</span>
+                        <span id="auth-status-text" class="text-[11px] text-slate-400">Anonymous / Public rule mode</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="email" id="auth-email" placeholder="admin@email.com (optional)" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white text-xs focus:outline-none focus:border-[#D4AF37]">
+                    <input type="password" id="auth-pass" placeholder="Password (optional)" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white text-xs focus:outline-none focus:border-[#D4AF37]">
+                    <button type="button" onclick="loginWithCredentials()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs">Sign In</button>
+                </div>
+            </div>
+
+            <!-- Stats KPI Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+                <div class="bg-slate-950/90 p-4 rounded-2xl border border-slate-800">
+                    <span class="text-[10px] uppercase font-bold text-slate-500 block mb-1">Target Collections</span>
+                    <span id="stat-total-cols" class="text-2xl font-extrabold text-white">11</span>
+                </div>
+                <div class="bg-slate-950/90 p-4 rounded-2xl border border-slate-800">
+                    <span class="text-[10px] uppercase font-bold text-slate-500 block mb-1">Collections Cleared</span>
+                    <span id="stat-cleared-cols" class="text-2xl font-extrabold text-cyan-400">0</span>
+                </div>
+                <div class="bg-slate-950/90 p-4 rounded-2xl border border-slate-800">
+                    <span class="text-[10px] uppercase font-bold text-slate-500 block mb-1">Documents Deleted</span>
+                    <span id="stat-deleted-docs" class="text-2xl font-extrabold text-emerald-400">0</span>
+                </div>
+                <div class="bg-slate-950/90 p-4 rounded-2xl border border-slate-800">
+                    <span class="text-[10px] uppercase font-bold text-slate-500 block mb-1">Overall Status</span>
+                    <span id="stat-status" class="text-sm font-bold text-amber-400">Ready</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collections Queue Matrix -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-emerald-400"></i> Target Collections Queue
+            </h2>
+            <div id="collections-queue-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+                <!-- Dynamically rendered -->
+            </div>
+        </div>
+
+        <!-- Terminal Execution Log -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-3">
+            <div class="flex items-center justify-between">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                    <i class="fa-solid fa-terminal text-cyan-400"></i> Execution Terminal
+                </h2>
+                <button onclick="document.getElementById('log-box').innerHTML=''" class="text-[10px] text-slate-500 hover:text-white font-mono">Clear Log</button>
+            </div>
+            <div id="log-box" class="bg-black/95 border border-slate-800/80 rounded-2xl p-4 font-mono text-xs text-slate-300 h-80 overflow-y-auto space-y-1.5 shadow-inner">
+                <div class="text-slate-500">// Firebase Purger initialized for smmp-4b3cc. Ready to delete requested collections.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBgjU9fzFsfx6-gv4p0WWH77_U5BPk69A0",
+            authDomain: "smmp-4b3cc.firebaseapp.com",
+            databaseURL: "https://smmp-4b3cc-default-rtdb.firebaseio.com",
+            projectId: "smmp-4b3cc",
+            storageBucket: "smmp-4b3cc.firebasestorage.app",
+            messagingSenderId: "43467456148",
+            appId: "1:43467456148:web:368b011abf362791edfe81",
+            measurementId: "G-Y6HBHEL742"
+        };
+
+        const TARGET_COLLECTIONS = [
+            'api_providers',
+            'audit_log',
+            'categories',
+            'ipn_lookups',
+            'payment_methods',
+            'public',
+            'settings',
+            'tickets',
+            'used_transaction_ids',
+            'users',
+            'withdrawal_requests'
+        ];
+
+        let app, db, auth, rtdb;
+        let totalDeleted = 0;
+        let clearedCols = 0;
+
+        function log(msg, type = 'info') {
+            const box = document.getElementById('log-box');
+            if (!box) return;
+            const colors = {
+                info: 'text-slate-300',
+                success: 'text-emerald-400 font-bold',
+                warn: 'text-amber-400',
+                error: 'text-rose-400 font-bold',
+                action: 'text-cyan-400',
+                header: 'text-purple-400 font-extrabold'
+            };
+            const time = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = colors[type] || 'text-slate-300';
+            div.innerHTML = `<span class="text-slate-600">[${time}]</span> ${msg}`;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function renderQueueGrid() {
+            const container = document.getElementById('collections-queue-grid');
+            if (!container) return;
+            container.innerHTML = TARGET_COLLECTIONS.map(col => `
+                <div id="card-col-${col}" class="p-3 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-between">
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <i id="icon-col-${col}" class="fa-solid fa-folder text-slate-500"></i>
+                        <span class="font-mono font-bold text-white truncate">${col}</span>
+                    </div>
+                    <span id="badge-col-${col}" class="text-[10px] px-2 py-0.5 rounded-full font-mono bg-slate-900 text-slate-400 border border-slate-800">Pending</span>
+                </div>
+            `).join('');
+        }
+
+        async function initFirebase() {
+            try {
+                if (!firebase.apps.length) {
+                    app = firebase.initializeApp(firebaseConfig);
+                } else {
+                    app = firebase.app();
+                }
+                db = firebase.firestore();
+                auth = firebase.auth();
+                try { rtdb = firebase.database(); } catch(e){}
+
+                log("Initialized Firebase client SDK for smmp-4b3cc", "info");
+
+                try {
+                    const cred = await auth.signInAnonymously();
+                    document.getElementById('auth-status-text').innerText = "Anonymous user: " + cred.user.uid;
+                    document.getElementById('auth-status-text').className = "text-[11px] text-emerald-400 font-bold";
+                    log("Signed in anonymously: " + cred.user.uid, "success");
+                } catch(e) {
+                    log("Anonymous sign-in note: " + e.message, "warn");
+                }
+                return true;
+            } catch(e) {
+                log("Firebase init error: " + e.message, "error");
+                return false;
+            }
+        }
+
+        async function loginWithCredentials() {
+            const email = document.getElementById('auth-email').value.trim();
+            const pass = document.getElementById('auth-pass').value;
+            if (!email || !pass) {
+                alert("Please enter email and password");
+                return;
+            }
+            try {
+                const cred = await auth.signInWithEmailAndPassword(email, pass);
+                document.getElementById('auth-status-text').innerText = "Logged in as " + cred.user.email;
+                document.getElementById('auth-status-text').className = "text-[11px] text-emerald-400 font-bold";
+                log("Successfully authenticated as: " + cred.user.email, "success");
+            } catch(e) {
+                log("Authentication error: " + e.message, "error");
+                alert("Auth error: " + e.message);
+            }
+        }
+
+        async function deleteSubcollections(docRef, docPath) {
+            const commonSubcollections = ['messages', 'items', 'logs', 'history', 'replies', 'transactions', 'tickets', 'subscribers', 'providers', 'records', 'details'];
+            for (const sub of commonSubcollections) {
+                try {
+                    const snap = await docRef.collection(sub).get();
+                    if (!snap.empty) {
+                        log(`Found ${snap.size} subdocs in ${docPath}/${sub}. Deleting...`, "action");
+                        for (const sDoc of snap.docs) {
+                            await sDoc.ref.delete();
+                            totalDeleted++;
+                            document.getElementById('stat-deleted-docs').innerText = totalDeleted;
+                            log(`Deleted subdoc: ${docPath}/${sub}/${sDoc.id}`, "action");
+                        }
+                    }
+                } catch(e){}
+            }
+        }
+
+        async function deleteCollection(colName) {
+            const badge = document.getElementById(`badge-col-${colName}`);
+            const icon = document.getElementById(`icon-col-${colName}`);
+            const card = document.getElementById(`card-col-${colName}`);
+
+            if (badge) {
+                badge.innerText = "Deleting...";
+                badge.className = "text-[10px] px-2 py-0.5 rounded-full font-mono bg-amber-500/20 text-amber-400 border border-amber-500/30";
+            }
+            if (icon) icon.className = "fa-solid fa-spinner fa-spin text-amber-400";
+            if (card) card.className = "p-3 bg-slate-950 border border-amber-500/40 rounded-xl flex items-center justify-between";
+
+            log(`--> Querying collection [${colName}]...`, "info");
+
+            try {
+                const colRef = db.collection(colName);
+                const snap = await colRef.get();
+
+                if (snap.empty) {
+                    log(`Collection [${colName}] has 0 documents (empty).`, "info");
+                    if (badge) {
+                        badge.innerText = "0 Docs (Clean)";
+                        badge.className = "text-[10px] px-2 py-0.5 rounded-full font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+                    }
+                    if (icon) icon.className = "fa-solid fa-circle-check text-emerald-400";
+                    if (card) card.className = "p-3 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-between";
+                    clearedCols++;
+                    document.getElementById('stat-cleared-cols').innerText = clearedCols;
+                    return;
+                }
+
+                log(`Collection [${colName}] contains ${snap.size} documents. Starting deletion...`, "warn");
+
+                let count = 0;
+                let batch = db.batch();
+                let batchCount = 0;
+
+                for (const doc of snap.docs) {
+                    // Check subcollections
+                    await deleteSubcollections(doc.ref, `${colName}/${doc.id}`);
+
+                    batch.delete(doc.ref);
+                    batchCount++;
+                    count++;
+                    totalDeleted++;
+                    document.getElementById('stat-deleted-docs').innerText = totalDeleted;
+                    log(`Deleted document: ${colName}/${doc.id}`, "action");
+
+                    if (batchCount >= 400) {
+                        await batch.commit();
+                        batch = db.batch();
+                        batchCount = 0;
+                    }
+                }
+
+                if (batchCount > 0) {
+                    await batch.commit();
+                }
+
+                log(`Successfully purged ${count} document(s) in [${colName}]`, "success");
+
+                if (badge) {
+                    badge.innerText = `Deleted (${count})`;
+                    badge.className = "text-[10px] px-2 py-0.5 rounded-full font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+                }
+                if (icon) icon.className = "fa-solid fa-circle-check text-emerald-400";
+                if (card) card.className = "p-3 bg-slate-950 border border-emerald-500/40 rounded-xl flex items-center justify-between";
+                clearedCols++;
+                document.getElementById('stat-cleared-cols').innerText = clearedCols;
+
+            } catch(err) {
+                log(`Error deleting collection [${colName}]: ${err.message}`, "error");
+                if (badge) {
+                    badge.innerText = "Error / Restricted";
+                    badge.className = "text-[10px] px-2 py-0.5 rounded-full font-mono bg-rose-500/20 text-rose-400 border border-rose-500/30";
+                }
+                if (icon) icon.className = "fa-solid fa-triangle-exclamation text-rose-400";
+                if (card) card.className = "p-3 bg-slate-950 border border-rose-500/40 rounded-xl flex items-center justify-between";
+            }
+        }
+
+        async function executeFullPurge() {
+            const btn = document.getElementById('btn-purge-all');
+            const statusEl = document.getElementById('stat-status');
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            statusEl.innerText = "Purging...";
+            statusEl.className = "text-sm font-bold text-amber-400";
+
+            totalDeleted = 0;
+            clearedCols = 0;
+            document.getElementById('stat-deleted-docs').innerText = '0';
+            document.getElementById('stat-cleared-cols').innerText = '0';
+
+            log("==================================================", "header");
+            log("STARTING PURGE OF ALL 11 REQUESTED COLLECTIONS", "header");
+            log("Target Project: smmp-4b3cc", "header");
+            log("==================================================", "header");
+
+            const ok = await initFirebase();
+            if (!ok) {
+                statusEl.innerText = "Init Failed";
+                statusEl.className = "text-sm font-bold text-rose-500";
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            for (const col of TARGET_COLLECTIONS) {
+                await deleteCollection(col);
+            }
+
+            // Also check root docs in 'settings', 'public', etc.
+            try {
+                const settingsRootDocs = ['general', 'site', 'app', 'config', 'smtp', 'payment', 'api', 'main'];
+                for (const docId of settingsRootDocs) {
+                    try {
+                        const dRef = db.collection('settings').doc(docId);
+                        const s = await dRef.get();
+                        if (s.exists) {
+                            await dRef.delete();
+                            totalDeleted++;
+                            document.getElementById('stat-deleted-docs').innerText = totalDeleted;
+                            log(`Deleted settings/${docId}`, "action");
+                        }
+                    }catch(e){}
+                }
+            } catch(e){}
+
+            log("==================================================", "header");
+            log(`PURGE OPERATION FINISHED! Total documents deleted: ${totalDeleted}`, "success");
+            log("==================================================", "header");
+
+            statusEl.innerText = "Completed";
+            statusEl.className = "text-sm font-bold text-emerald-400";
+            btn.disabled = false;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            window.__purgeCompleted = true;
+            window.__totalDeleted = totalDeleted;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderQueueGrid();
+            initFirebase();
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('auto') === '1') {
+                setTimeout(executeFullPurge, 800);
+            }
+        });
+    </script>
+</body>
+</html>
