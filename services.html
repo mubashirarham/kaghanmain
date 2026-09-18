@@ -108,47 +108,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="bg-slate-50">
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 px-4 md:px-12 flex justify-between items-center text-slate-800 glass-dark text-white">
-        <div class="flex items-center gap-2">
-            <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-10 w-auto object-contain">
-            <span class="text-xl font-bold tracking-wider uppercase outfit">Kaghan Properties</span>
-        </div>
-        <div class="hidden md:flex gap-8 items-center font-medium">
-            <a href="index.html" class="hover:text-gold transition-colors">Home</a>
-            <a href="services.html" class="hover:text-gold transition-colors underline decoration-gold decoration-2 underline-offset-4">Services</a>
-            <a href="projects.html" class="hover:text-gold transition-colors">Projects</a>
-            <a href="about.html" class="hover:text-gold transition-colors">About Us</a>
-            <a href="stay/index.html" class="hover:text-gold transition-colors">Luxury Stays</a>
-            <a href="contact.html" class="bg-gold text-white px-6 py-2 rounded-full hover:bg-white hover:text-slate-900 transition-all">Contact</a>
-        </div>
-    </nav>
+    <!-- Global Dynamic Site Header -->
+    <div id="site-header"></div>
 
     <!-- Header -->
-    <header class="pt-48 pb-32 bg-slate-100 relative overflow-hidden">
-        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center reveal">
-            <span class="text-gold font-bold uppercase tracking-[0.3em] text-sm mb-4 block">Our Expertise</span>
-            <h1 class="text-5xl md:text-7xl font-bold mb-8 text-slate-900 outfit">Premium <span class="text-gold">Solutions</span></h1>
-            <p class="text-slate-600 text-xl leading-relaxed">Integrated real estate and construction services designed for maximum value and reliability.</p>
+    <header class="pt-12 sm:pt-20 md:pt-24 pb-12 sm:pb-16 bg-slate-100 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center reveal">
+            <span class="text-gold font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-xs sm:text-sm mb-3 sm:mb-4 block">Our Expertise</span>
+            <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 text-slate-900 outfit">Premium <span class="text-gold">Solutions</span></h1>
+            <p class="text-slate-600 text-sm sm:text-lg leading-relaxed font-light">Integrated real estate and construction services designed for maximum value and reliability.</p>
         </div>
         <div class="absolute -top-24 -right-24 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
     </header>
 
     <!-- Services Detail -->
-    <main class="py-24 px-4 md:px-12">
-        <div class="max-w-7xl mx-auto space-y-24">
+    <main class="flex-grow py-10 sm:py-16 md:py-20 px-4 sm:px-6 md:px-12">
+        <div class="max-w-7xl mx-auto space-y-12 sm:space-y-20">
             
             <!-- Grid of 6 main services -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 <!-- Brokerage -->
-                <div class="bg-white p-8 rounded-[2.5rem] luxury-shadow reveal border border-slate-50 flex flex-col justify-between hover-lift">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-[2.5rem] luxury-shadow reveal border border-slate-100 flex flex-col justify-between hover-lift">
                     <div>
-                        <div class="w-16 h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-8 shadow-md">
-                            <i class="fa-solid fa-hotel text-xl"></i>
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-6 sm:mb-8 shadow-md">
+                            <i class="fa-solid fa-hotel text-lg sm:text-xl"></i>
                         </div>
-                        <h2 class="text-2xl font-bold outfit mb-4">Real Estate Brokerage</h2>
+                        <h2 class="text-xl sm:text-2xl font-bold outfit mb-3 sm:mb-4">Real Estate Brokerage</h2>
                         <p class="text-slate-600 text-xs leading-relaxed mb-6">
                             Strategic investment advisory in Islamabad's high-growth zones, focusing on Bahria Enclave residential plots, commercial sectors, and premium housing blocks with high rental potential.
                         </p>
@@ -161,12 +148,12 @@
                 </div>
 
                 <!-- Construction -->
-                <div class="bg-white p-8 rounded-[2.5rem] luxury-shadow reveal border border-slate-50 flex flex-col justify-between hover-lift">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-[2.5rem] luxury-shadow reveal border border-slate-100 flex flex-col justify-between hover-lift">
                     <div>
-                        <div class="w-16 h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-8 shadow-md">
-                            <i class="fa-solid fa-compass-drafting text-xl"></i>
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-6 sm:mb-8 shadow-md">
+                            <i class="fa-solid fa-compass-drafting text-lg sm:text-xl"></i>
                         </div>
-                        <h2 class="text-2xl font-bold outfit mb-4">Design & Construction</h2>
+                        <h2 class="text-xl sm:text-2xl font-bold outfit mb-3 sm:mb-4">Design & Construction</h2>
                         <p class="text-slate-600 text-xs leading-relaxed mb-6">
                             Turnkey architectural design, cost estimation, gray structure development, and high-fidelity interior styling for custom 5-Marla, 10-Marla, and luxury villas.
                         </p>
@@ -179,12 +166,12 @@
                 </div>
 
                 <!-- Management -->
-                <div class="bg-white p-8 rounded-[2.5rem] luxury-shadow reveal border border-slate-50 flex flex-col justify-between hover-lift">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-[2.5rem] luxury-shadow reveal border border-slate-100 flex flex-col justify-between hover-lift">
                     <div>
-                        <div class="w-16 h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-8 shadow-md">
-                            <i class="fa-solid fa-user-shield text-xl"></i>
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-6 sm:mb-8 shadow-md">
+                            <i class="fa-solid fa-user-shield text-lg sm:text-xl"></i>
                         </div>
-                        <h2 class="text-2xl font-bold outfit mb-4">Overseas Asset Management</h2>
+                        <h2 class="text-xl sm:text-2xl font-bold outfit mb-3 sm:mb-4">Overseas Asset Management</h2>
                         <p class="text-slate-600 text-xs leading-relaxed mb-6">
                             Complete remote management for overseas expats. We handle advertising, tenant vetting, lease documentation, rent collection, and regular property checks for a standard 8–12% monthly service fee.
                         </p>
@@ -197,12 +184,12 @@
                 </div>
 
                 <!-- KP Hospitality -->
-                <div class="bg-white p-8 rounded-[2.5rem] luxury-shadow reveal border border-slate-50 flex flex-col justify-between hover-lift">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-[2.5rem] luxury-shadow reveal border border-slate-100 flex flex-col justify-between hover-lift">
                     <div>
-                        <div class="w-16 h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-8 shadow-md">
-                            <i class="fa-solid fa-bed text-xl"></i>
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-6 sm:mb-8 shadow-md">
+                            <i class="fa-solid fa-bed text-lg sm:text-xl"></i>
                         </div>
-                        <h2 class="text-2xl font-bold outfit mb-4">KP Hospitality & Airbnb</h2>
+                        <h2 class="text-xl sm:text-2xl font-bold outfit mb-3 sm:mb-4">KP Hospitality & Airbnb</h2>
                         <p class="text-slate-600 text-xs leading-relaxed mb-6">
                             Maximizing apartment rental yields via corporate serviced stays and short-term Airbnb listings. Turnkey room dressing, daily check-in support, custom guest cleaning, and digital booking management.
                         </p>
@@ -215,12 +202,12 @@
                 </div>
 
                 <!-- Tech Marketing -->
-                <div class="bg-white p-8 rounded-[2.5rem] luxury-shadow reveal border border-slate-50 flex flex-col justify-between hover-lift">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-[2.5rem] luxury-shadow reveal border border-slate-100 flex flex-col justify-between hover-lift">
                     <div>
-                        <div class="w-16 h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-8 shadow-md">
-                            <i class="fa-solid fa-laptop-code text-xl"></i>
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-6 sm:mb-8 shadow-md">
+                            <i class="fa-solid fa-laptop-code text-lg sm:text-xl"></i>
                         </div>
-                        <h2 class="text-2xl font-bold outfit mb-4">Tech-Driven Marketing</h2>
+                        <h2 class="text-xl sm:text-2xl font-bold outfit mb-3 sm:mb-4">Tech-Driven Marketing</h2>
                         <p class="text-slate-600 text-xs leading-relaxed mb-6">
                             Leveraging Tanzil Minhas's MCS background to implement automated CRM leads pipelines, automated WhatsApp customer follow-up engines, high-intent Google Ads campaigns, and organic SEO.
                         </p>
@@ -233,12 +220,12 @@
                 </div>
 
                 <!-- Small Development -->
-                <div class="bg-white p-8 rounded-[2.5rem] luxury-shadow reveal border border-slate-50 flex flex-col justify-between hover-lift">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-[2.5rem] luxury-shadow reveal border border-slate-100 flex flex-col justify-between hover-lift">
                     <div>
-                        <div class="w-16 h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-8 shadow-md">
-                            <i class="fa-solid fa-trowel-bricks text-xl"></i>
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gold text-white rounded-2xl flex items-center justify-center mb-6 sm:mb-8 shadow-md">
+                            <i class="fa-solid fa-trowel-bricks text-lg sm:text-xl"></i>
                         </div>
-                        <h2 class="text-2xl font-bold outfit mb-4">Small-Scale Development</h2>
+                        <h2 class="text-xl sm:text-2xl font-bold outfit mb-3 sm:mb-4">Small-Scale Development</h2>
                         <p class="text-slate-600 text-xs leading-relaxed mb-6">
                             Stepping into wealth-generating property creation. Developing turnkey 5-Marla houses, building mid-size apartment units, renovation-and-flipping, and joint-ventures with landowners.
                         </p>
@@ -252,32 +239,32 @@
             </div>
 
             <!-- Workflow Section -->
-            <section class="py-24 bg-white rounded-[4rem] px-8 reveal border border-slate-50">
-                <div class="text-center mb-20">
-                    <h2 class="text-4xl font-bold outfit mb-4 text-slate-900">How We <span class="text-gold">Work</span></h2>
-                    <p class="text-slate-500">Simple 4-step process to secure your future.</p>
+            <section class="py-12 sm:py-20 bg-white rounded-3xl sm:rounded-[4rem] px-6 sm:px-12 reveal border border-slate-100 shadow-sm">
+                <div class="text-center mb-12 sm:mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold outfit mb-3 sm:mb-4 text-slate-900">How We <span class="text-gold">Work</span></h2>
+                    <p class="text-slate-500 text-xs sm:text-sm">Simple 4-step process to secure your future.</p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-12 relative">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 relative">
                     <div class="absolute top-10 left-0 right-0 h-0.5 bg-slate-100 -z-10 hidden md:block"></div>
                     <div class="text-center">
-                        <div class="w-20 h-20 bg-white border-4 border-gold text-gold rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">1</div>
-                        <h4 class="font-bold outfit mb-2">Consultation</h4>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white border-4 border-gold text-gold rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 text-xl sm:text-2xl font-bold shadow-sm">1</div>
+                        <h4 class="font-bold outfit mb-1 sm:mb-2 text-base sm:text-lg">Consultation</h4>
                         <p class="text-xs text-slate-500">Initial meeting to understand your goals and budget.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-20 h-20 bg-white border-4 border-slate-100 text-slate-300 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold group hover:border-gold hover:text-gold transition-all">2</div>
-                        <h4 class="font-bold outfit mb-2">Strategy</h4>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white border-4 border-slate-200 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 text-xl sm:text-2xl font-bold group hover:border-gold hover:text-gold transition-all shadow-sm">2</div>
+                        <h4 class="font-bold outfit mb-1 sm:mb-2 text-base sm:text-lg">Strategy</h4>
                         <p class="text-xs text-slate-500">Custom plan for investment or architectural design.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-20 h-20 bg-white border-4 border-slate-100 text-slate-300 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold group hover:border-gold hover:text-gold transition-all">3</div>
-                        <h4 class="font-bold outfit mb-2">Execution</h4>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white border-4 border-slate-200 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 text-xl sm:text-2xl font-bold group hover:border-gold hover:text-gold transition-all shadow-sm">3</div>
+                        <h4 class="font-bold outfit mb-1 sm:mb-2 text-base sm:text-lg">Execution</h4>
                         <p class="text-xs text-slate-500">Development starts with regular real-time updates.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-20 h-20 bg-white border-4 border-slate-100 text-slate-300 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold group hover:border-gold hover:text-gold transition-all">4</div>
-                        <h4 class="font-bold outfit mb-2">Hand-over</h4>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white border-4 border-slate-200 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 text-xl sm:text-2xl font-bold group hover:border-gold hover:text-gold transition-all shadow-sm">4</div>
+                        <h4 class="font-bold outfit mb-1 sm:mb-2 text-base sm:text-lg">Hand-over</h4>
                         <p class="text-xs text-slate-500">Keys handover and property management activation.</p>
                     </div>
                 </div>
@@ -285,43 +272,43 @@
 
             <!-- FAQs -->
             <section class="max-w-4xl mx-auto reveal">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold outfit mb-4">Service <span class="text-gold">FAQs</span></h2>
+                <div class="text-center mb-10 sm:mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold outfit mb-3 sm:mb-4">Service <span class="text-gold">FAQs</span></h2>
                 </div>
                 
                 <div class="space-y-4">
-                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100">
-                        <button class="accordion-btn w-full p-6 text-left flex justify-between items-center font-bold outfit text-slate-800">
+                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+                        <button class="accordion-btn w-full p-5 sm:p-6 text-left flex justify-between items-center font-bold outfit text-slate-800 text-sm sm:text-base">
                             How do you manage properties for overseas clients?
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <div class="accordion-content px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                        <div class="accordion-content px-5 sm:px-6 pb-5 sm:pb-6 text-slate-600 text-xs sm:text-sm leading-relaxed">
                             We act as your local legal representative. From tenant search to monthly rent collection and maintenance, we handle everything. All funds are transferred directly to your bank account via secure banking channels.
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100">
-                        <button class="accordion-btn w-full p-6 text-left flex justify-between items-center font-bold outfit text-slate-800">
+                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+                        <button class="accordion-btn w-full p-5 sm:p-6 text-left flex justify-between items-center font-bold outfit text-slate-800 text-sm sm:text-base">
                             What are your construction service charges?
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <div class="accordion-content px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                        <div class="accordion-content px-5 sm:px-6 pb-5 sm:pb-6 text-slate-600 text-xs sm:text-sm leading-relaxed">
                             We offer highly competitive rates based on the square footage and finishing quality (A, A+, or Premium). Our consultation is free, and we provide a detailed cost-breakdown before any commitment.
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100">
-                        <button class="accordion-btn w-full p-6 text-left flex justify-between items-center font-bold outfit text-slate-800">
+                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+                        <button class="accordion-btn w-full p-5 sm:p-6 text-left flex justify-between items-center font-bold outfit text-slate-800 text-sm sm:text-base">
                             Is every property you offer CDA approved?
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <div class="accordion-content px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                        <div class="accordion-content px-5 sm:px-6 pb-5 sm:pb-6 text-slate-600 text-xs sm:text-sm leading-relaxed">
                             We specialize in approved housing societies like Bahria Enclave and Park View City. For emerging projects like Blue World City, we guide you on the specific NOC status and long-term security of the investment.
                         </div>
                     </div>
@@ -331,100 +318,8 @@
         </div>
     </main>
 
-    <!-- Detailed Footer -->
-    <footer class="bg-slate-950 text-slate-400 pt-24 pb-12 px-4 md:px-12 border-t border-slate-900">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
-            <!-- Col 1: Brand Info -->
-            <div>
-                <div class="flex items-center gap-2 mb-8 text-white">
-                    <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-10 w-auto object-contain">
-                    <span class="text-xl font-bold tracking-wider outfit">KAGHAN PROPERTIES</span>
-                </div>
-                <p class="text-sm leading-relaxed mb-8">
-                    Kaghan Properties Pvt. Ltd. is a Pakistan-based real estate and construction leader. We provide reliable investment options, luxury construction, and expert property management for local and overseas clients.
-                </p>
-                <div class="flex gap-4">
-                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-gold hover:text-white transition-all">
-                        <i class="fa-brands fa-youtube"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Col 2: Quick Links -->
-            <div>
-                <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-sm outfit">Navigation</h4>
-                <ul class="grid grid-cols-1 gap-4 text-sm">
-                    <li><a href="index.html" class="hover:text-gold transition-colors">Home Experience</a></li>
-                    <li><a href="services.html" class="hover:text-gold transition-colors">Our Services</a></li>
-                    <li><a href="projects.html" class="hover:text-gold transition-colors">Current Projects</a></li>
-                    <li><a href="about.html" class="hover:text-gold transition-colors">Company Profile</a></li>
-                    <li><a href="about.html" class="hover:text-gold transition-colors">Careers & Growth</a></li>
-                    <li><a href="contact.html" class="hover:text-gold transition-colors">Get In Touch</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 3: Services & Projects -->
-            <div>
-                <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-sm outfit">Expertise</h4>
-                <ul class="grid grid-cols-1 gap-4 text-sm">
-                    <li class="flex items-center gap-2">
-                        <span class="w-1 h-1 bg-gold rounded-full"></span>
-                        <a href="services.html" class="hover:text-gold">Design & Construction</a>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <span class="w-1 h-1 bg-gold rounded-full"></span>
-                        <a href="services.html" class="hover:text-gold">Real Estate Brokerage</a>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <span class="w-1 h-1 bg-gold rounded-full"></span>
-                        <a href="services.html" class="hover:text-gold">Nathia Gali Hospitality</a>
-                    </li>
-                    <li class="flex items-center gap-4 mt-4 text-white font-bold">Top Destinations</li>
-                    <li class="text-xs"><a href="projects.html" class="hover:text-gold">Islamabad - 29 Mideast Plaza</a></li>
-                    <li class="text-xs"><a href="projects.html" class="hover:text-gold">Nathia Gali - Pine Valley Resort</a></li>
-                    <li class="text-xs"><a href="projects.html" class="hover:text-gold">Bahria Enclave Islamabad</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 4: Contact Core -->
-            <div>
-                <h4 class="text-white font-bold mb-8 uppercase tracking-widest text-sm outfit">Information</h4>
-                <p class="text-xs leading-relaxed mb-6">
-                    Office 203, 2nd Floor, Asian Arcade, opposite Zoo, C Avenue, Sector C, Bahria Enclave, Islamabad, Pakistan
-                </p>
-                <div class="space-y-3 text-sm">
-                    <p class="flex items-center gap-3">
-                        <i class="fa-solid fa-phone text-gold w-4"></i>
-                        <span><span class="text-gold font-bold">Islamabad:</span> 0334-0091127</span>
-                    </p>
-                    <p class="flex items-center gap-3 text-xs">
-                        <i class="fa-solid fa-phone text-gold w-4"></i>
-                        <span><span class="text-gold font-bold">Islamabad:</span> 0334-5405587</span>
-                    </p>
-                    <p class="flex items-center gap-3 text-xs">
-                        <i class="fa-solid fa-map-pin text-gold w-4 text-center"></i>
-                        <span><span class="text-gold font-bold">Nathia Gali:</span> Regional Support Active</span>
-                    </p>
-                    <p class="flex items-center gap-3 text-xs break-all">
-                        <i class="fa-solid fa-envelope text-gold w-4"></i>
-                        <span><span class="text-gold font-bold">Email:</span> tanzilminhas@kaghanproperties.com</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto pt-8 border-t border-slate-900 text-center text-[10px] uppercase tracking-widest">
-            <p>&copy; 2026 Kaghan Properties Pvt. Ltd. | One-Stop Real Estate Shop</p>
-        </div>
-    </footer>
+    <!-- Global Dynamic Site Footer -->
+    <div id="site-footer"></div>
 
     <script src="assets/js/script.js"></script>
     <script src="assets/js/shared.js"></script>

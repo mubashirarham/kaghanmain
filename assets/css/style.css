@@ -1149,9 +1149,94 @@ h1, h2, h3, h4, h5, h6, .outfit {
 }
 
 /* ==========================================================================
-   MOBILE RESPONSIVENESS ENHANCEMENTS (Hero Search, Popovers & Browse Matrix)
+   MOBILE & TABLET RESPONSIVENESS ENHANCEMENTS (All Viewports: 320px - 1440px+)
    ========================================================================== */
+
+/* Universal Responsive Table Container */
+.responsive-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius-lg);
+}
+
+/* Touch-optimized horizontal scrolling utilities */
+.touch-scroll-row {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.touch-scroll-row::-webkit-scrollbar {
+    display: none;
+}
+
+/* Dynamic Sticky Offsets based on Navigation Tier visibility */
+@media (max-width: 639px) {
+    .sticky-property-subbar {
+        top: 52px !important;
+    }
+    .sticky-project-tabbar {
+        top: 52px !important;
+    }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+    .sticky-property-subbar {
+        top: 92px !important;
+    }
+    .sticky-project-tabbar {
+        top: 92px !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .sticky-property-subbar {
+        top: 98px !important;
+    }
+    .sticky-project-tabbar {
+        top: 98px !important;
+    }
+}
+
+/* Mobile Sticky Bottom CTA Safe Area Support */
+.mobile-sticky-cta {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+}
+
+/* Smart Floating Buttons Offset when Mobile Sticky Bar is present */
+@media (max-width: 768px) {
+    #global-floating-whatsapp {
+        bottom: 74px !important;
+        right: 16px !important;
+        width: 48px !important;
+        height: 48px !important;
+    }
+    #global-floating-whatsapp i {
+        font-size: 1.5rem !important;
+    }
+    .back-to-top-btn {
+        bottom: 130px !important;
+        right: 16px !important;
+        width: 38px !important;
+        height: 38px !important;
+    }
+}
+
+/* Filter Drawer Animations */
+.filter-drawer-slide {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Small Smartphone Optimization (< 640px) */
 @media (max-width: 640px) {
+    /* Container Padding */
+    .market-container {
+        padding-left: 0.85rem;
+        padding-right: 0.85rem;
+    }
+
     /* Hero card padding */
     .hero-search-card {
         padding: 1rem !important;
@@ -1229,7 +1314,32 @@ h1, h2, h3, h4, h5, h6, .outfit {
     #hero-submit-btn {
         min-height: 50px;
     }
+
+    /* Modals sizing on mobile */
+    #global-modals-root .bg-white {
+        margin: 0.75rem;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    /* Filmstrip sizing */
+    .filmstrip-thumb {
+        width: 76px;
+        height: 52px;
+    }
 }
 
-
-
+/* Extra Small Phones (< 380px: iPhone SE, Galaxy Fold) */
+@media (max-width: 380px) {
+    .price-hero {
+        font-size: 1.25rem !important;
+    }
+    .btn-primary, .btn-outline, .btn-whatsapp {
+        padding: 0.5rem 0.85rem !important;
+        font-size: 0.75rem !important;
+    }
+    .segmented-control button, .segmented-control a {
+        padding: 0.35rem 0.75rem !important;
+        font-size: 0.75rem !important;
+    }
+}

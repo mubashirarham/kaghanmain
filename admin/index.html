@@ -208,22 +208,49 @@
     </div>
 
     <!-- Main Admin Shell -->
-    <div id="admin-shell" class="hidden min-h-screen flex">
+    <div id="admin-shell" class="hidden min-h-screen flex flex-col lg:flex-row relative">
         
+        <!-- Mobile Admin Topbar (<1024px) -->
+        <header class="lg:hidden bg-slate-900 border-b border-slate-800 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleAdminSidebar()" class="p-2 rounded-lg bg-slate-800/80 text-slate-300 hover:text-[#D4AF37] focus:outline-none" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars text-base"></i>
+                </button>
+                <div class="flex items-center gap-2">
+                    <img src="../assets/images/logo.png" alt="Logo" class="h-6 w-auto object-contain">
+                    <span class="text-xs font-bold uppercase outfit text-white tracking-wider">Admin Console</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span id="mobile-current-tab-name" class="text-[10px] bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/20 rounded-full px-2.5 py-0.5 font-bold uppercase">Overview</span>
+                <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-[#D4AF37] to-amber-500 flex items-center justify-center text-slate-950 font-bold outfit uppercase text-xs border border-slate-800">
+                    AK
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar Backdrop for Mobile -->
+        <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar(false)" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity"></div>
+
         <!-- Sidebar Navigation -->
-        <aside class="w-72 bg-slate-900 border-r border-slate-800 flex flex-col justify-between shrink-0">
-            <div>
+        <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-slate-900 border-r border-slate-800 flex flex-col justify-between shrink-0 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out">
+            <div class="overflow-y-auto flex-1">
                 <!-- Brand Title -->
-                <div class="p-6 border-b border-slate-800/60 flex items-center gap-3">
-                    <img src="../assets/images/logo.png" alt="Kaghan Properties Logo" class="h-9 w-auto object-contain">
-                    <div class="flex flex-col">
-                        <span class="text-md font-bold tracking-wider uppercase outfit text-white leading-none">Kaghan</span>
-                        <span class="text-[9px] text-[#D4AF37] tracking-[0.2em] uppercase font-semibold">Properties</span>
+                <div class="p-5 sm:p-6 border-b border-slate-800/60 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <img src="../assets/images/logo.png" alt="Kaghan Properties Logo" class="h-8 sm:h-9 w-auto object-contain">
+                        <div class="flex flex-col">
+                            <span class="text-md font-bold tracking-wider uppercase outfit text-white leading-none">Kaghan</span>
+                            <span class="text-[9px] text-[#D4AF37] tracking-[0.2em] uppercase font-semibold">Properties</span>
+                        </div>
                     </div>
+                    <button onclick="toggleAdminSidebar(false)" class="lg:hidden w-7 h-7 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+                        <i class="fa-solid fa-xmark text-xs"></i>
+                    </button>
                 </div>
 
                 <!-- Admin Profile Panel -->
-                <div class="p-5 bg-slate-900/50 border-b border-slate-800/40 flex items-center gap-3.5">
+                <div class="p-4 sm:p-5 bg-slate-900/50 border-b border-slate-800/40 flex items-center gap-3.5">
                     <div id="admin-avatar" class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#D4AF37] to-amber-500 flex items-center justify-center text-slate-950 font-bold outfit uppercase text-sm border-2 border-slate-800 shadow-md">
                         AK
                     </div>
@@ -234,44 +261,44 @@
                 </div>
 
                 <!-- Navigation List -->
-                <nav class="p-4 space-y-1.5">
-                    <button onclick="switchTab('overview')" id="tab-btn-overview" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                <nav class="p-3 sm:p-4 space-y-1">
+                    <button onclick="switchTab('overview')" id="tab-btn-overview" class="w-full flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-chart-pie text-sm w-5 text-center"></i>
                         Overview
                     </button>
-                    <button onclick="switchTab('properties')" id="tab-btn-properties" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                    <button onclick="switchTab('properties')" id="tab-btn-properties" class="w-full flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-building text-sm w-5 text-center"></i>
                         Properties
                     </button>
-                    <button onclick="switchTab('leads')" id="tab-btn-leads" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                    <button onclick="switchTab('leads')" id="tab-btn-leads" class="w-full flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-user-tag text-sm w-5 text-center"></i>
                         Leads CRM
                     </button>
-                    <button onclick="switchTab('users')" id="tab-btn-users" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                    <button onclick="switchTab('users')" id="tab-btn-users" class="w-full flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-users-gear text-sm w-5 text-center"></i>
                         Agents & Users
                     </button>
-                    <button onclick="switchTab('categories')" id="tab-btn-categories" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                    <button onclick="switchTab('categories')" id="tab-btn-categories" class="w-full flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-shapes text-sm w-5 text-center"></i>
                         Categories & Types
                     </button>
-                    <button onclick="switchTab('societies')" id="tab-btn-societies" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                    <button onclick="switchTab('societies')" id="tab-btn-societies" class="w-full flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-map-location-dot text-sm w-5 text-center"></i>
                         Locations & Areas
                     </button>
-                    <button onclick="switchTab('blogs')" id="tab-btn-blogs" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                    <button onclick="switchTab('blogs')" id="tab-btn-blogs" class="w-full flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-newspaper text-sm w-5 text-center"></i>
                         Market Updates
                     </button>
-                    <button onclick="switchTab('calculators')" id="tab-btn-calculators" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                    <button onclick="switchTab('calculators')" id="tab-btn-calculators" class="w-full flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-calculator text-sm w-5 text-center"></i>
                         ROI Calculators
                     </button>
-                    <button onclick="switchTab('tools')" id="tab-btn-tools" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                    <button onclick="switchTab('tools')" id="tab-btn-tools" class="w-full flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-database text-sm w-5 text-center"></i>
                         Tools & Backup
                     </button>
-                    <button onclick="switchTab('settings')" id="tab-btn-settings" class="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
+                    <button onclick="switchTab('settings')" id="tab-btn-settings" class="w-full flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-slate-400 hover:text-white hover:bg-slate-800/30 text-left">
                         <i class="fa-solid fa-sliders text-sm w-5 text-center"></i>
                         Site Settings
                     </button>
@@ -279,7 +306,7 @@
             </div>
 
             <!-- Sidebar Footer -->
-            <div class="p-4 border-t border-slate-800/60 space-y-2.5">
+            <div class="p-4 border-t border-slate-800/60 space-y-2">
                 <a href="../index.html" target="_blank" class="w-full flex items-center justify-center gap-2 bg-slate-800/50 border border-slate-700 hover:bg-slate-800 text-slate-300 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
                     <i class="fa-solid fa-globe"></i>
                     Public Site
@@ -292,7 +319,7 @@
         </aside>
 
         <!-- Main Content Viewport -->
-        <main class="flex-1 bg-slate-950 p-8 overflow-y-auto max-h-screen">
+        <main class="flex-1 bg-slate-950 p-4 sm:p-6 lg:p-8 overflow-y-auto max-h-screen">
 
             <!-- TAB 1: OVERVIEW -->
             <div id="tab-overview" class="tab-content space-y-8">
@@ -2289,6 +2316,25 @@
             }
         }
 
+        function toggleAdminSidebar(forceState) {
+            const sidebar = document.getElementById('admin-sidebar');
+            const backdrop = document.getElementById('admin-sidebar-backdrop');
+            if (!sidebar) return;
+
+            const isCurrentlyOpen = !sidebar.classList.contains('-translate-x-full');
+            const shouldOpen = forceState !== undefined ? forceState : !isCurrentlyOpen;
+
+            if (shouldOpen) {
+                sidebar.classList.remove('-translate-x-full');
+                if (backdrop) backdrop.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                if (backdrop) backdrop.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('sidebar-active'));
@@ -2297,6 +2343,17 @@
             const targetBtn = document.getElementById(`tab-btn-${tabId}`);
             if (targetContent) targetContent.classList.remove('hidden');
             if (targetBtn) targetBtn.classList.add('sidebar-active');
+
+            // Update mobile header current tab label
+            const mobileTabLabel = document.getElementById('mobile-current-tab-name');
+            if (mobileTabLabel && targetBtn) {
+                mobileTabLabel.innerText = targetBtn.innerText.trim();
+            }
+
+            // Auto-close sidebar on mobile after tab select
+            if (window.innerWidth < 1024) {
+                toggleAdminSidebar(false);
+            }
 
             if (tabId === 'overview') {
                 renderOverview();

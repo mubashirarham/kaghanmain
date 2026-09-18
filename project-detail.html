@@ -1118,13 +1118,29 @@
         </div>
     </div>
 
+    <!-- Mobile Sticky Bottom CTA Bar (<768px) -->
+    <div id="mobile-bottom-bar" class="mobile-sticky-cta md:hidden">
+        <div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase block">Starting Price</span>
+            <span id="mobile-cta-price" class="text-emerald-800 font-black text-sm sm:text-base outfit tabular-nums">PKR 0</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <a id="mobile-cta-call" href="tel:+923340091127" class="btn-primary text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1 shadow-xs">
+                <i class="fa-solid fa-phone text-xs"></i> Call
+            </a>
+            <a id="mobile-cta-wa" href="https://wa.me/923340091127" target="_blank" class="btn-whatsapp text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1">
+                <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+            </a>
+        </div>
+    </div>
+
     <!-- Floating Back to Top Button -->
     <button id="back-to-top" class="back-to-top-btn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" title="Back to top">
         <i class="fa-solid fa-arrow-up text-xs"></i>
     </button>
 
     <!-- Global Footer (Rendered via Shared UI Engine) -->
-    <footer id="site-footer"></footer>
+    <div id="site-footer"></div>
 
     <!-- ==========================================================================
          CLIENT-SIDE JAVASCRIPT ENGINE FOR PROJECT DETAIL PAGE
@@ -1237,8 +1253,14 @@
             if (bTitle) bTitle.innerText = p.title;
 
             const priceHero = document.getElementById('hero-price-range');
+            const priceFormatted = p.priceRangeStr || (window.KaghanSharedUI ? 'Starting ' + window.KaghanSharedUI.formatPrice(p.price) : `PKR ${p.price.toLocaleString()}`);
             if (priceHero) {
-                priceHero.innerText = p.priceRangeStr || (window.KaghanSharedUI ? 'Starting ' + window.KaghanSharedUI.formatPrice(p.price) : `PKR ${p.price.toLocaleString()}`);
+                priceHero.innerText = priceFormatted;
+            }
+
+            const mobileCtaPrice = document.getElementById('mobile-cta-price');
+            if (mobileCtaPrice) {
+                mobileCtaPrice.innerText = priceFormatted;
             }
 
             const leadHeading = document.getElementById('lead-form-heading');

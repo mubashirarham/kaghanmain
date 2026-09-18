@@ -650,6 +650,22 @@
         </div>
     </div>
 
+    <!-- Mobile Sticky Bottom CTA Bar (<768px) -->
+    <div id="mobile-bottom-bar" class="mobile-sticky-cta md:hidden">
+        <div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase block">Asking Price</span>
+            <span id="mobile-cta-price" class="text-emerald-800 font-black text-sm sm:text-base outfit tabular-nums">PKR 0</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <a id="mobile-cta-call" href="tel:+923340091127" class="btn-primary text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1 shadow-xs">
+                <i class="fa-solid fa-phone text-xs"></i> Call
+            </a>
+            <a id="mobile-cta-wa" href="https://wa.me/923340091127" target="_blank" class="btn-whatsapp text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1">
+                <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+            </a>
+        </div>
+    </div>
+
     <!-- Footer (Dynamic Shared UI) -->
     <div id="site-footer"></div>
 
@@ -743,6 +759,12 @@
             const subWa = document.getElementById('subbar-whatsapp-btn');
             if (subWa) subWa.href = `https://wa.me/${agentPhone.replace(/[^0-9]/g, '')}?text=Hi,%20I%20am%20interested%20in%20listing:%20${encodeURIComponent(p.title)}`;
 
+            // Mobile CTA Bottom Bar buttons
+            const mobCall = document.getElementById('mobile-cta-call');
+            const mobWa = document.getElementById('mobile-cta-wa');
+            if (mobCall) mobCall.href = `tel:${agentPhone}`;
+            if (mobWa) mobWa.href = `https://wa.me/${agentPhone.replace(/[^0-9]/g, '')}?text=Hi,%20I%20am%20interested%20in%20listing:%20${encodeURIComponent(p.title)}`;
+
             // Populate Prices
             populatePrices(p);
 
@@ -821,8 +843,9 @@
 
         function populatePrices(p) {
             const formatted = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${p.price.toLocaleString()}`;
-            document.getElementById('rail-price').innerText = formatted;
-            document.getElementById('subbar-price').innerText = formatted;
+            const rPrice = document.getElementById('rail-price'); if (rPrice) rPrice.innerText = formatted;
+            const sPrice = document.getElementById('subbar-price'); if (sPrice) sPrice.innerText = formatted;
+            const mPrice = document.getElementById('mobile-cta-price'); if (mPrice) mPrice.innerText = formatted;
         }
 
         // Filmstrip Rendering (§6)
