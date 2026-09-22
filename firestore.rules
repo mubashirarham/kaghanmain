@@ -14,6 +14,8 @@ service cloud.firestore {
     function isAdmin() {
       return isAuthenticated() && (
         getUserData().role == 'admin' ||
+        request.auth.token.email == 'tanzilminhas2007@gmail.com' ||
+        request.auth.token.email == 'tanzilminhas@kaghanproperties.com' ||
         request.auth.token.email == 'admin@kaghanproperties.com' ||
         request.auth.token.email == 'ali@kaghanproperties.com' ||
         request.auth.uid == 'usr_admin_default'

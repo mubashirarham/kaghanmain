@@ -1195,10 +1195,10 @@ const DEFAULT_USERS = [
         id: "user_002",
         uid: "usr_agent_default",
         name: "Tanzil Minhas",
-        email: "tanzilminhas@kaghanproperties.com",
-        password: "tanzil@minhas2007",
+        email: "tanzilminhas2007@gmail.com",
+        password: "Dhamargallla@2027",
         phone: "+923340091127",
-        role: "agent",
+        role: "admin",
         photoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
         specializedAreas: ["DHA Margalla Enclave Commercial", "DHA Margalla Enclave Residential"],
         isActive: true,
@@ -2150,20 +2150,21 @@ window.KaghanDB = {
         }
 
         // 3. Fallback admin login credentials check
-        const allowedAdmins = [
-            'admin@kp.com',
-            'admin@kaghanproperties.com',
-            'admin@kaghan.com',
-            'ali@kaghanproperties.com',
-            'tanzilminhas@kaghanproperties.com'
-        ];
-        const ADMIN_SECURE_PASS = "tanzil@minhas2007";
+        const adminCredentials = {
+            'tanzilminhas2007@gmail.com': 'Dhamargallla@2027',
+            'tanzilminhas@kaghanproperties.com': 'Dhamargallla@2027',
+            'admin@kp.com': 'tanzil@minhas2007',
+            'admin@kaghanproperties.com': 'tanzil@minhas2007',
+            'admin@kaghan.com': 'tanzil@minhas2007',
+            'ali@kaghanproperties.com': 'tanzil@minhas2007'
+        };
 
-        if (allowedAdmins.includes(normEmail) && pass === ADMIN_SECURE_PASS) {
+        if (adminCredentials[normEmail] && pass === adminCredentials[normEmail]) {
+            const isTanzil = normEmail.includes('tanzil');
             const session = {
-                uid: 'usr_admin_kp',
-                id: 'user_admin_kp',
-                name: normEmail.includes('tanzil') ? 'Tanzil Minhas' : 'KP Admin',
+                uid: isTanzil ? 'usr_tanzil_admin' : 'usr_admin_kp',
+                id: isTanzil ? 'user_tanzil_admin' : 'user_admin_kp',
+                name: isTanzil ? 'Tanzil Minhas' : 'KP Admin',
                 email: normEmail,
                 role: 'admin',
                 expiry: new Date().getTime() + (8 * 60 * 60 * 1000)
