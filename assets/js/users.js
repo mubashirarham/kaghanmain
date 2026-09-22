@@ -8,8 +8,8 @@
         const user = dbInstance.getCurrentUser ? dbInstance.getCurrentUser() : null;
         if (!user) {
             const currentPath = window.location.pathname;
-            // Redirect to root-level login.html or parent-level login.html depending on current directory level
-            window.location.href = currentPath.includes('/admin/') || currentPath.includes('/user/') ? '../login.html' : 'login.html';
+            // Redirect to root-level secret login page or parent-level depending on current directory level
+            window.location.href = currentPath.includes('/admin/') || currentPath.includes('/user/') ? '../kp-sec-access-9182.html' : 'kp-sec-access-9182.html';
             return false;
         }
         if (requiredRole && user.role !== requiredRole) {

@@ -155,7 +155,7 @@ db.guardRoute = (requiredRole) => {
     const user = db.getCurrentUser();
     if (!user) {
         const currentPath = window.location.pathname;
-        window.location.href = currentPath.includes('/admin/') || currentPath.includes('/user/') ? '../login.html' : 'login.html';
+        window.location.href = currentPath.includes('/admin/') || currentPath.includes('/user/') ? '../kp-sec-access-9182.html' : 'kp-sec-access-9182.html';
         return false;
     }
     if (requiredRole && user.role !== requiredRole) {

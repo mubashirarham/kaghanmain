@@ -187,14 +187,14 @@
                     <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Email Address</label>
                     <div class="relative">
                         <i class="fa-solid fa-envelope absolute left-4 top-4 text-slate-500 text-sm"></i>
-                        <input type="email" id="login-email" required placeholder="admin@kp.com" value="admin@kp.com" class="w-full bg-slate-900/50 border border-slate-800 focus:border-[#D4AF37] rounded-xl pl-12 pr-5 py-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all">
+                        <input type="email" id="login-email" required placeholder="Enter authorized email" value="" class="w-full bg-slate-900/50 border border-slate-800 focus:border-[#D4AF37] rounded-xl pl-12 pr-5 py-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all">
                     </div>
                 </div>
                 <div>
                     <label class="block text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Password</label>
                     <div class="relative">
                         <i class="fa-solid fa-lock absolute left-4 top-4 text-slate-500 text-sm"></i>
-                        <input type="password" id="login-password" required placeholder="••••••••" value="admin1122" class="w-full bg-slate-900/50 border border-slate-800 focus:border-[#D4AF37] rounded-xl pl-12 pr-5 py-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all">
+                        <input type="password" id="login-password" required placeholder="••••••••" value="" class="w-full bg-slate-900/50 border border-slate-800 focus:border-[#D4AF37] rounded-xl pl-12 pr-5 py-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all">
                     </div>
                 </div>
                 
@@ -1061,7 +1061,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div class="md:col-span-2">
                                     <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Banner Title</label>
-                                    <input type="text" id="promo-banner-title" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white text-xs" placeholder="e.g. Pine Valley Mountain Chalets & Resort Suites">
+                                    <input type="text" id="promo-banner-title" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white text-xs" placeholder="e.g. DHA Margalla Enclave — Official Ballot 1 & Ballot 2">
                                 </div>
                                 <div>
                                     <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Badge Text</label>
@@ -2133,12 +2133,12 @@
                         </button>
                     </div>
                     <div class="relative">
-                        <input type="password" id="form-usr-password" placeholder="Set password (e.g. admin123)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white pr-10">
+                        <input type="password" id="form-usr-password" placeholder="Set password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white pr-10">
                         <button type="button" onclick="togglePasswordVisibility('form-usr-password', 'eye-usr-pass')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white">
                             <i id="eye-usr-pass" class="fa-solid fa-eye text-xs"></i>
                         </button>
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-1">Admin can set/change password anytime. Defaults to "admin" if empty.</p>
+                    <p class="text-[10px] text-slate-500 mt-1">Admin can set/change password anytime.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -3101,12 +3101,8 @@
             if (matches.length === 0) {
                 const defaults = [
                     { name: 'Bahria Enclave', city: 'Islamabad' },
-                    { name: 'DHA Islamabad', city: 'Islamabad' },
-                    { name: 'Park View City', city: 'Islamabad' },
-                    { name: 'Gulberg Greens', city: 'Islamabad' },
-                    { name: 'Eighteen', city: 'Islamabad' },
-                    { name: 'B-17 Multi Gardens', city: 'Islamabad' },
-                    { name: 'Pine Valley Nathia Gali', city: 'Nathia Gali' }
+                    { name: 'DHA Margalla Enclave', city: 'Islamabad' },
+                    { name: 'DHA Islamabad', city: 'Islamabad' }
                 ];
                 matches = defaults;
             }

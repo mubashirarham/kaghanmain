@@ -442,28 +442,28 @@
                      BELOW-FOLD SEO / CONTENT BLOCK (§5)
                      ========================================================================== -->
                 <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 space-y-4 text-xs leading-relaxed text-slate-600 mt-12">
-                    <h2 class="text-lg font-bold outfit text-slate-900">About Real Estate in Islamabad & Northern Corridors</h2>
+                    <h2 class="text-lg font-bold outfit text-slate-900">About DHA Margalla Enclave Islamabad Ballots & Real Estate</h2>
                     <p>
-                        Islamabad remains the premier investment market in Pakistan for capital security and lifestyle tranquility. The expansion of Park Road and Margalla Avenue has unlocked prime corridors in Bahria Enclave, CDA Park Enclave, Margalla Enclave, and Park View City.
+                        DHA Margalla Enclave Islamabad represents the premier defense housing opportunity in the capital city, located directly on the scenic Margalla Avenue Corridor at the foothills of Margalla. Offering computerized balloting for Ballot 1 (Residential Plots: 125, 250, 500 Sq Yds) and Ballot 2 (Commercial Plots: 100, 133.25, 200, 500 Sq Yds).
                     </p>
                     <p>
-                        Concurrently, alpine holiday chalets and serviced hotel apartments in Nathia Gali and Murree continue to witness extraordinary short-term rental returns fueled by year-round northern tourism. Kaghan Properties ensures transparent transaction advisory, CDA/RDA legal vetting, and hands-off rental management.
+                        Investors and home buyers can choose between 100% Lump Sum settlement (with discounted pricing) or flexible 1-Year (4 Quarters), 2-Year (8 Quarters), and 3-Year (12 Quarters) payment schedules with only 20% down payment required within 30 days of balloting.
                     </p>
 
                     <!-- Popular Searches Wrapping Tag Cloud (§5) -->
                     <div class="pt-4 border-t border-slate-100">
-                        <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] mb-3">Popular Searches in Islamabad</h4>
+                        <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] mb-3">Popular Searches in DHA Margalla Enclave</h4>
                         <div class="flex flex-wrap gap-2">
-                            <a href="projects.html?type=house&area=Bahria+Enclave" class="tag-cloud-chip">5 Marla House in Bahria Enclave</a>
-                            <a href="projects.html?type=house&area=Park+View+City" class="tag-cloud-chip">10 Marla Villa in Park View City</a>
-                            <a href="projects.html?type=house&area=Park+Enclave" class="tag-cloud-chip">1 Kanal House in Park Enclave</a>
-                            <a href="projects.html?type=apartment&city=Nathia+Gali" class="tag-cloud-chip">Apartments in Nathia Gali</a>
-                            <a href="projects.html?type=house&city=Murree" class="tag-cloud-chip">Luxury Chalet in Murree Hills</a>
-                            <a href="projects.html?type=plot&city=Islamabad" class="tag-cloud-chip">CDA Sector Plots</a>
-                            <a href="projects.html?purpose=rent&city=Islamabad" class="tag-cloud-chip">Houses for Rent Islamabad</a>
-                            <a href="projects.html?isNewProject=true" class="tag-cloud-chip">Commercial Mall Offices</a>
-                            <a href="projects.html?type=apartment&area=Azan+Arcade" class="tag-cloud-chip">Azan Arcade 2 Bed Suites</a>
-                            <a href="projects.html?type=house&area=Margalla+Orchards" class="tag-cloud-chip">Margalla Orchards Farmhouses</a>
+                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-125" class="tag-cloud-chip">125 Sq Yds (5 Marla) Residential Plot</a>
+                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-250" class="tag-cloud-chip">250 Sq Yds (10 Marla) Residential Plot</a>
+                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-500" class="tag-cloud-chip">500 Sq Yds (1 Kanal) Residential Plot</a>
+                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-100" class="tag-cloud-chip">100 Sq Yds (4 Marla) Commercial Plot</a>
+                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-133" class="tag-cloud-chip">133.25 Sq Yds Commercial Plot</a>
+                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-200" class="tag-cloud-chip">200 Sq Yds Boulevard Commercial</a>
+                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-500" class="tag-cloud-chip">500 Sq Yds Commercial Mega Plot</a>
+                            <a href="projects.html?type=residential_plot" class="tag-cloud-chip">DHA Ballot 1 Residential Plots</a>
+                            <a href="projects.html?type=commercial_plot" class="tag-cloud-chip">DHA Ballot 2 Commercial Plots</a>
+                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2#payment-plan" class="tag-cloud-chip">3-Year Installment Payment Schedule</a>
                         </div>
                     </div>
                 </div>
@@ -1273,24 +1273,24 @@
                                 <!-- Location Line -->
                                 <div class="text-xs font-semibold text-slate-700 flex items-center gap-1.5 mb-2 line-clamp-1">
                                     <i class="fa-solid fa-location-dot text-emerald-600 text-[11px]"></i>
-                                    <span>${p.address || p.sector}, ${p.area}, ${p.city}</span>
+                                    <span>${p.address || p.sector || p.location || p.area || 'DHA Margalla Enclave'}, ${p.city || 'Islamabad'}</span>
                                 </div>
 
-                                <!-- Quick Facts Row (Beds, Baths, Area) -->
-                                <div class="flex items-center gap-4 text-xs font-semibold text-slate-700 py-2 border-y border-slate-100">
+                                <!-- Quick Facts Row -->
+                                <div class="flex items-center gap-3 text-xs font-semibold text-slate-700 py-2 border-y border-slate-100 flex-wrap">
                                     <span class="flex items-center gap-1.5">
-                                        <i class="fa-solid fa-bed text-slate-400"></i>
-                                        <span class="tabular-nums">${p.bedrooms || 0}</span> Beds
-                                    </span>
-                                    <span class="text-slate-300">&bull;</span>
-                                    <span class="flex items-center gap-1.5">
-                                        <i class="fa-solid fa-bath text-slate-400"></i>
-                                        <span class="tabular-nums">${p.bathrooms || 0}</span> Baths
+                                        <i class="fa-solid fa-layer-group text-emerald-600"></i>
+                                        <span>${p.category || 'Plot Allotment'}</span>
                                     </span>
                                     <span class="text-slate-300">&bull;</span>
                                     <span class="flex items-center gap-1.5">
                                         <i class="fa-solid fa-ruler-combined text-slate-400"></i>
-                                        <span class="tabular-nums">${formattedArea}</span>
+                                        <span class="tabular-nums font-bold">${p.sqYards ? p.sqYards + ' Sq Yds (' + formattedArea + ')' : formattedArea}</span>
+                                    </span>
+                                    <span class="text-slate-300">&bull;</span>
+                                    <span class="flex items-center gap-1.5 text-amber-700">
+                                        <i class="fa-solid fa-file-invoice-dollar text-amber-600"></i>
+                                        <span>${p.installments?.available ? '20% Down Plan' : 'Lump Sum / 3-Yr Plan'}</span>
                                     </span>
                                 </div>
 

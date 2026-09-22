@@ -32,10 +32,10 @@ exports.handler = async (event, context) => {
     }
 
     // 3. Secure Environmental Secret Management (SMTP Host & Credentials)
-    // Uses environment variables with verified fallback credentials
-    const smtpHost = process.env.SMTP_HOST || "smtp.hostinger.com";
-    const smtpPass = process.env.SMTP_PASS || "Targit@2027";
-    const smtpUser = process.env.SMTP_USER || "info@kphstay.com";
+    // Strictly uses server environment variables to prevent secret leakage in source code
+    const smtpHost = process.env.SMTP_HOST;
+    const smtpPass = process.env.SMTP_PASS;
+    const smtpUser = process.env.SMTP_USER;
     const smtpPort = parseInt(process.env.SMTP_PORT || "465", 10);
 
     if (!smtpHost || !smtpPass || !smtpUser) {

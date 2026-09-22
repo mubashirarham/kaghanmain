@@ -769,21 +769,39 @@
             populatePrices(p);
 
             // Quick facts
-            document.getElementById('quick-beds').innerText = `${p.bedrooms || 0} Beds`;
-            document.getElementById('quick-baths').innerText = `${p.bathrooms || 0} Baths`;
-            document.getElementById('quick-area').innerText = window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : `${p.size} Marla`;
+            const isPlot = (p.type || '').includes('plot') || p.bedrooms === 0;
+            if (isPlot) {
+                const bedEl = document.getElementById('quick-beds');
+                if (bedEl && bedEl.parentElement && bedEl.parentElement.previousElementSibling) {
+                    bedEl.parentElement.previousElementSibling.innerText = "Category";
+                    bedEl.innerHTML = `${p.category || 'Plot'}`;
+                }
+                const bathEl = document.getElementById('quick-baths');
+                if (bathEl && bathEl.parentElement && bathEl.parentElement.previousElementSibling) {
+                    bathEl.parentElement.previousElementSibling.innerText = "Ballot Stage";
+                    bathEl.innerHTML = `${p.title.includes('Ballot 1') ? 'Ballot 1' : 'Ballot 2'}`;
+                }
+                const areaEl = document.getElementById('quick-area');
+                if (areaEl) {
+                    areaEl.innerHTML = `${p.sqYards ? p.sqYards + ' Sq Yds' : (window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : p.size + ' Marla')}`;
+                }
+            } else {
+                document.getElementById('quick-beds').innerText = `${p.bedrooms || 0} Beds`;
+                document.getElementById('quick-baths').innerText = `${p.bathrooms || 0} Baths`;
+                document.getElementById('quick-area').innerText = window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : `${p.size} Marla`;
+            }
 
             // Pre-fill boilerplate inquiry message (§6, §12)
             const msgBox = document.getElementById('lead-message');
             if (msgBox) {
-                msgBox.value = `Hi, I am interested in this property "${p.title}" posted on Kaghan Properties. Please contact me with more details.`;
+                msgBox.value = `Hi, I am interested in this DHA Margalla Enclave plot "${p.title}" (Lump Sum / 3-Year Installment Plan). Please contact me with application submission & ballot verification details.`;
             }
 
             // Populate Gallery & Filmstrip
             currentPhotos = (p.images && p.images.length > 0) ? p.images : [
-                { url: 'assets/images/bahria-villa.png', caption: 'Front Elevation' },
-                { url: 'assets/images/interior.png', caption: 'Living Area' },
-                { url: 'assets/images/hero.png', caption: 'Surroundings' }
+                { url: 'assets/images/dha-margalla-hero.jpg', caption: 'DHA Margalla Master Overview' },
+                { url: 'assets/images/dha-residential-plots.jpg', caption: 'Residential Sector' },
+                { url: 'assets/images/dha-masterplan.jpg', caption: 'Site Masterplan Map' }
             ];
             document.getElementById('gallery-photo-count').innerText = `${p.photoCount || currentPhotos.length} Photos`;
 
@@ -793,36 +811,36 @@
             const defList = document.getElementById('property-details-definition-list');
             defList.innerHTML = `
                 <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Type</span>
-                    <span class="font-bold text-slate-800 capitalize">${p.type}</span>
+                    <span class="text-slate-500 font-semibold">Category</span>
+                    <span class="font-bold text-slate-800">${p.category || 'Plot Allotment'}</span>
                 </div>
                 <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Price</span>
+                    <span class="text-slate-500 font-semibold">Lump Sum Price (100%)</span>
                     <span class="font-bold text-emerald-700">${window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : 'PKR ' + p.price.toLocaleString()}</span>
                 </div>
                 <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Bath(s)</span>
-                    <span class="font-bold text-slate-800">${p.bathrooms || 0}</span>
+                    <span class="text-slate-500 font-semibold">Plot Size</span>
+                    <span class="font-bold text-slate-800">${p.sqYards ? p.sqYards + ' Sq. Yds. (' + (window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : p.size + ' Marla') + ')' : (window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : p.size + ' Marla')}</span>
                 </div>
                 <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Area</span>
-                    <span class="font-bold text-slate-800">${window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : p.size + ' Marla'}</span>
+                    <span class="text-slate-500 font-semibold">Payment Option</span>
+                    <span class="font-bold text-amber-700">Lump Sum / 1, 2 & 3-Yr Installments</span>
                 </div>
                 <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Purpose</span>
-                    <span class="font-bold text-slate-800 capitalize">For ${p.purpose}</span>
+                    <span class="text-slate-500 font-semibold">Down Payment</span>
+                    <span class="font-bold text-slate-800">${p.installments?.advance ? (window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.installments.advance) : 'PKR ' + p.installments.advance.toLocaleString()) + ' (20%)' : '20% within 30 days'}</span>
                 </div>
                 <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Bedroom(s)</span>
-                    <span class="font-bold text-slate-800">${p.bedrooms || 0}</span>
+                    <span class="text-slate-500 font-semibold">Quarterly Installment</span>
+                    <span class="font-bold text-slate-800">${p.installments?.monthly ? (window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.installments.monthly) : 'PKR ' + p.installments.monthly.toLocaleString()) + ' / Quarter' : '12 Quarters'}</span>
                 </div>
                 <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Added</span>
-                    <span class="font-bold text-slate-800">${p.addedRelative || 'Recently'}</span>
+                    <span class="text-slate-500 font-semibold">Sector & Location</span>
+                    <span class="font-bold text-slate-800">${p.sector || p.area}, ${p.city}</span>
                 </div>
                 <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Location</span>
-                    <span class="font-bold text-slate-800">${p.area}, ${p.city}</span>
+                    <span class="text-slate-500 font-semibold">Authority</span>
+                    <span class="font-bold text-emerald-800">Defence Housing Authority (DHA)</span>
                 </div>
             `;
 

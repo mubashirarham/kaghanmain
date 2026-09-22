@@ -7,7 +7,6 @@ const ASSETS_TO_CACHE = [
   '/projects.html',
   '/blog.html',
   '/contact.html',
-  '/login.html',
   '/assets/css/style.css',
   '/assets/js/db.js',
   '/assets/js/users.js',

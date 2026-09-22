@@ -12,8 +12,6 @@ User-agent: DuckDuckBot
 User-agent: Baiduspider
 User-agent: Yandex
 Allow: /
-Disallow: /admin/
-Disallow: /login.html
 
 # Generative AI & LLM Search Agents (OpenAI, Anthropic, Perplexity, Gemini, Apple Intelligence)
 User-agent: GPTBot
@@ -30,14 +28,10 @@ User-agent: CCBot
 User-agent: FacebookBot
 User-agent: Amazonbot
 Allow: /
-Disallow: /admin/
-Disallow: /login.html
 
 # Default Crawler Policy
 User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /login.html
 
 # Sitemaps & AI Knowledge Indexes
 Sitemap: https://kaghanproperties.com/sitemap.xml

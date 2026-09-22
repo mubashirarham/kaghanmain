@@ -15,6 +15,7 @@ window.KaghanSharedUI = {
         this.renderFloatingWhatsApp();
         this.initScrollHandlers();
         this.hydrateSiteSettings();
+        this.initLeadPopupTimer();
     },
 
     getActivePage: function() {
@@ -546,7 +547,7 @@ window.KaghanSharedUI = {
         document.body.appendChild(a);
     },
 
-    // Render Global Modals (Area Unit Converter, Lightbox)
+    // Render Global Modals (Area Unit Converter, Lightbox, DHA Ballot Launch Popup)
     renderModals: function() {
         if (document.getElementById('global-modals-root')) return;
 
@@ -603,8 +604,266 @@ window.KaghanSharedUI = {
                     </div>
                 </div>
             </div>
+
+            <!-- Universal High-Converting DHA Margalla Ballot 1, 2 & 3 Launch Popup -->
+            <div id="modal-dha-launch-popup" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5 opacity-0 pointer-events-none invisible" onclick="if(event.target === this) window.KaghanSharedUI.closeLeadPopup()">
+                <div class="kaghan-popup-card popup-glow-border bg-slate-900 rounded-3xl max-w-xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-amber-500/30 text-white relative">
+                    
+                    <!-- Header Banner with Gold Accents -->
+                    <div class="bg-gradient-to-r from-slate-950 via-emerald-950 to-slate-950 p-5 sm:p-6 border-b border-emerald-800/40 relative">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 flex items-center justify-center font-black text-sm shadow">
+                                    <i class="fa-solid fa-crown"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[10px] tracking-widest font-extrabold uppercase text-amber-300 flex items-center gap-1.5">
+                                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> Official Allotment Live
+                                    </div>
+                                    <h3 class="text-base sm:text-lg font-black outfit text-white uppercase tracking-wide">
+                                        DHA Margalla Enclave
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <!-- Easy, Prominent Close Button -->
+                            <button type="button" onclick="window.KaghanSharedUI.closeLeadPopup()" aria-label="Close popup" class="w-9 h-9 rounded-full bg-white/10 hover:bg-red-600/80 text-white flex items-center justify-center transition-all duration-200 hover:rotate-90 hover:scale-105 shadow-md">
+                                <i class="fa-solid fa-xmark text-lg"></i>
+                            </button>
+                        </div>
+
+                        <!-- Title & Pitch -->
+                        <div class="mt-3">
+                            <h2 class="text-lg sm:text-xl font-extrabold outfit text-white leading-snug">
+                                Exclusive Ballot 1, Ballot 2 & Ballot 3 Launch
+                            </h2>
+                            <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                                100% DHA Clear Title • 20% Down Payment within 30 Days • Flexible 1, 2 & 3-Year Quarterly Installments or Lump Sum Discount.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Scrollable Modal Body -->
+                    <div class="p-5 sm:p-6 overflow-y-auto space-y-5 text-xs text-slate-300">
+                        
+                        <!-- Quick Ballot Chips -->
+                        <div>
+                            <label class="text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-2">Select Your Target Ballot Category:</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" id="popup-ballot-chips">
+                                <button type="button" onclick="window.KaghanSharedUI.selectPopupPlot('res', '125 Sq Yds Residential (5 Marla)')" class="popup-chip-btn active p-2.5 rounded-xl border border-emerald-500/40 bg-emerald-950/40 text-left hover:border-emerald-400">
+                                    <div class="font-bold text-white text-xs flex items-center gap-1">
+                                        <i class="fa-solid fa-house text-amber-300 text-[11px]"></i> Ballot 1
+                                    </div>
+                                    <div class="text-[10px] text-slate-300 mt-0.5">Residential (5, 10M, 1K)</div>
+                                </button>
+
+                                <button type="button" onclick="window.KaghanSharedUI.selectPopupPlot('comm', '100 Sq Yds Commercial (4 Marla)')" class="popup-chip-btn p-2.5 rounded-xl border border-slate-700 bg-slate-800/60 text-left hover:border-slate-500">
+                                    <div class="font-bold text-white text-xs flex items-center gap-1">
+                                        <i class="fa-solid fa-briefcase text-emerald-400 text-[11px]"></i> Ballot 2
+                                    </div>
+                                    <div class="text-[10px] text-slate-400 mt-0.5">Boulevard Comm. (4-20M)</div>
+                                </button>
+
+                                <button type="button" onclick="window.KaghanSharedUI.selectPopupPlot('ballot3', '133.33 Sq Yds Commercial LG+G+5 (Ballot 3)')" class="popup-chip-btn p-2.5 rounded-xl border border-slate-700 bg-slate-800/60 text-left hover:border-slate-500">
+                                    <div class="font-bold text-white text-xs flex items-center gap-1">
+                                        <i class="fa-solid fa-building text-purple-400 text-[11px]"></i> Ballot 3
+                                    </div>
+                                    <div class="text-[10px] text-slate-400 mt-0.5">LG+G+5 High-Rise Comm.</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 1-Click WhatsApp Instant Connection -->
+                        <div>
+                            <a id="popup-wa-cta-btn" href="https://wa.me/923340091127?text=Hi%20Kaghan%20Properties,%20I%20am%20inquiring%20about%20DHA%20Margalla%20Enclave%20Ballot%201,%20Ballot%202%20and%20Ballot%203%20plots." target="_blank" class="w-full bg-[#25d366] hover:bg-[#1ebd5a] text-white font-bold py-3 px-4 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-all hover:scale-[1.01]">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>Instant WhatsApp Consultation & Rates</span>
+                            </a>
+                        </div>
+
+                        <div class="flex items-center gap-3 my-1">
+                            <div class="h-px bg-slate-700 flex-1"></div>
+                            <span class="text-[10px] uppercase font-bold text-slate-400">or request priority callback</span>
+                            <div class="h-px bg-slate-700 flex-1"></div>
+                        </div>
+
+                        <!-- Quick Lead Submission Form -->
+                        <form onsubmit="window.KaghanSharedUI.submitPopupLead(event)" class="space-y-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Your Full Name</label>
+                                    <input type="text" id="popup-lead-name" required placeholder="e.g. Tariq Mehmood" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Phone / WhatsApp</label>
+                                    <input type="tel" id="popup-lead-phone" required placeholder="+92 334 0091127" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-emerald-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Preferred Plot / Ballot</label>
+                                <select id="popup-lead-plot-select" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-emerald-500 font-medium">
+                                    <optgroup label="Ballot 1 — Residential Plots">
+                                        <option value="125 Sq Yds Residential (5 Marla)" selected>125 Sq Yds Residential (5 Marla) - From PKR 2.14 Cr</option>
+                                        <option value="250 Sq Yds Residential (10 Marla)">250 Sq Yds Residential (10 Marla) - From PKR 4.20 Cr</option>
+                                        <option value="500 Sq Yds Residential (1 Kanal)">500 Sq Yds Residential (1 Kanal) - From PKR 7.28 Cr</option>
+                                    </optgroup>
+                                    <optgroup label="Ballot 2 — Commercial Plots">
+                                        <option value="100 Sq Yds Commercial (4 Marla)">100 Sq Yds Commercial (4 Marla) - From PKR 8.14 Cr</option>
+                                        <option value="133.25 Sq Yds Commercial (5.33 Marla)">133.25 Sq Yds Commercial (5.33 Marla) - From PKR 12.00 Cr</option>
+                                        <option value="200 Sq Yds Commercial (8 Marla)">200 Sq Yds Commercial (8 Marla) - From PKR 14.57 Cr</option>
+                                        <option value="500 Sq Yds Commercial (20 Marla)">500 Sq Yds Commercial (20 Marla / 1 Kanal) - From PKR 34.29 Cr</option>
+                                    </optgroup>
+                                    <optgroup label="Ballot 3 — LG+G+5 Multi-Storey Commercial">
+                                        <option value="133.33 Sq Yds Commercial LG+G+5 (Ballot 3)">133.33 Sq Yds Commercial (LG+G+5) - From PKR 13.58 Cr</option>
+                                        <option value="200 Sq Yds Commercial LG+G+5 (Ballot 3)">200 Sq Yds Commercial (LG+G+5) - From PKR 19.65 Cr</option>
+                                        <option value="266.66 Sq Yds Commercial LG+G+5 (Ballot 3)">266.66 Sq Yds Commercial (LG+G+5) - From PKR 20.15 Cr</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <div id="popup-lead-feedback" class="hidden p-3 rounded-xl text-center text-xs font-bold bg-emerald-900/60 border border-emerald-500 text-emerald-200"></div>
+
+                            <button type="submit" id="popup-submit-btn" class="w-full btn-primary bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 px-4 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-all">
+                                <i class="fa-solid fa-file-invoice-dollar text-amber-300"></i>
+                                <span>Get Official Payment Plan & Details</span>
+                            </button>
+                        </form>
+
+                        <div class="pt-2 flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-800">
+                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2" class="text-amber-400 hover:underline flex items-center gap-1 font-bold">
+                                <span>View Complete Project Page</span> <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                            </a>
+                            <button type="button" onclick="window.KaghanSharedUI.closeLeadPopup()" class="text-slate-400 hover:text-white underline">
+                                Maybe later
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
         `;
         document.body.appendChild(div);
+
+        // Global Escape Key Listener for Modals
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.closeLeadPopup();
+                this.closeAreaUnitModal();
+            }
+        });
+    },
+
+    // Popup Lifecycle & Timer Management (Opens 3-5 seconds after page visit)
+    initLeadPopupTimer: function() {
+        const isDismissed = sessionStorage.getItem('kaghan_popup_dismissed');
+        if (isDismissed) return;
+
+        // Auto-trigger popup after 3.5 seconds
+        setTimeout(() => {
+            if (!sessionStorage.getItem('kaghan_popup_dismissed')) {
+                this.openLeadPopup();
+            }
+        }, 3500);
+    },
+
+    openLeadPopup: function() {
+        const popup = document.getElementById('modal-dha-launch-popup');
+        if (popup) {
+            popup.classList.remove('invisible', 'pointer-events-none');
+            popup.classList.add('active');
+        }
+    },
+
+    closeLeadPopup: function() {
+        const popup = document.getElementById('modal-dha-launch-popup');
+        if (popup) {
+            popup.classList.remove('active');
+            setTimeout(() => {
+                popup.classList.add('invisible', 'pointer-events-none');
+            }, 350);
+            sessionStorage.setItem('kaghan_popup_dismissed', 'true');
+        }
+    },
+
+    selectPopupPlot: function(category, defaultPlotVal) {
+        const chips = document.querySelectorAll('#popup-ballot-chips .popup-chip-btn');
+        chips.forEach(btn => btn.classList.remove('active'));
+        if (event && event.currentTarget) {
+            event.currentTarget.classList.add('active');
+        }
+
+        const select = document.getElementById('popup-lead-plot-select');
+        if (select && defaultPlotVal) {
+            select.value = defaultPlotVal;
+        }
+
+        const waBtn = document.getElementById('popup-wa-cta-btn');
+        if (waBtn) {
+            const encoded = encodeURIComponent(`Hi Kaghan Properties, I am interested in DHA Margalla Enclave (${defaultPlotVal}). Please share the official schedule and booking procedure.`);
+            waBtn.href = `https://wa.me/923340091127?text=${encoded}`;
+        }
+    },
+
+    submitPopupLead: async function(e) {
+        e.preventDefault();
+        const name = document.getElementById('popup-lead-name')?.value.trim();
+        const phone = document.getElementById('popup-lead-phone')?.value.trim();
+        const plot = document.getElementById('popup-lead-plot-select')?.value;
+        const btn = document.getElementById('popup-submit-btn');
+        const feedback = document.getElementById('popup-lead-feedback');
+
+        if (!name || !phone) return;
+
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+        }
+
+        try {
+            const leadPayload = {
+                name: name,
+                phone: phone,
+                email: '',
+                unitPreference: plot,
+                propertyTitle: `DHA Margalla Enclave (${plot})`,
+                propertyId: 'prop-dha-margalla-enclave-ballots',
+                message: `Lead from Universal Website Popup for DHA Margalla Enclave (${plot}).`,
+                sourcePage: window.location.pathname || '/',
+                createdAt: new Date().toISOString()
+            };
+
+            if (window.KaghanDB && window.KaghanDB.createLead) {
+                await window.KaghanDB.createLead(leadPayload);
+            }
+
+            if (feedback) {
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check mr-1 text-emerald-400"></i> Request Received! Our DHA Margalla Consultant will call you shortly.';
+                feedback.classList.remove('hidden');
+            }
+
+            if (btn) {
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Request Submitted';
+                btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500');
+                btn.classList.add('bg-emerald-800');
+            }
+
+            // Close modal after 2.5 seconds
+            setTimeout(() => {
+                this.closeLeadPopup();
+            }, 2500);
+
+        } catch (err) {
+            console.error('Error submitting popup lead:', err);
+            if (feedback) {
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check mr-1 text-emerald-400"></i> Request Received! Connecting you with our DHA desk...';
+                feedback.classList.remove('hidden');
+            }
+            setTimeout(() => {
+                this.closeLeadPopup();
+            }, 2500);
+        }
     },
 
     openAreaUnitModal: function() {

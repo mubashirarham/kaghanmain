@@ -262,172 +262,146 @@ const DEFAULT_CITIES = [
 // Dynamic Homepage Site Content Modules
 const DEFAULT_SITE_CONTENT = {
     promoBanner: {
-        isActive: false,
-        title: "",
-        badge: "",
-        description: "",
-        link: "projects.html",
-        buttonText: "View Properties",
-        icon: "fa-solid fa-bullhorn"
+        isActive: true,
+        title: "DHA Margalla Enclave — Official Ballot 1, Ballot 2 & Ballot 3 Payment Plans",
+        badge: "DHA Ballots 1, 2 & 3",
+        subtitle: "Explore official 1, 2 & 3-Year payment plans for Residential (125, 250, 500 Sq Yds), Commercial (100, 133.25, 200, 500 Sq Yds), and LG+G+5 High-Rise Commercial (133.33, 200, 266.66 Sq Yds) plots at Margalla Foothills.",
+        link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2",
+        buttonText: "View Payment Plans",
+        ctaText: "View Payment Plans",
+        ctaUrl: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2",
+        icon: "fa-solid fa-mountain"
     },
     decisionTools: [
         {
             id: "plot-finder",
             title: "Plot Finder",
             badge: "GIS Maps",
-            subtitle: "Interactive sector maps & plot layouts",
-            description: "Interactive sector maps & plot layouts",
+            subtitle: "DHA Margalla Enclave master layout & sector maps",
+            description: "DHA Margalla Enclave master layout & sector maps",
             icon: "fa-solid fa-map-location-dot",
             iconClass: "fa-solid fa-map-location-dot",
-            link: "projects.html?tool=plot-finder",
+            link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2#floor-plans",
             colorTheme: "emerald",
             isActive: true,
             sortOrder: 1
         },
         {
             id: "area-guides",
-            title: "Area Guides",
-            badge: "CDA & Galyat",
-            subtitle: "Society reviews, CDA sectors & rates",
-            description: "Society reviews, CDA sectors & rates",
+            title: "DHA Sector Guides",
+            badge: "Margalla Avenue",
+            subtitle: "Ballot 1, 2 & 3 sector locations & rates",
+            description: "Ballot 1, 2 & 3 sector locations & rates",
             icon: "fa-solid fa-compass",
             iconClass: "fa-solid fa-compass",
-            link: "area.html",
+            link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2#location",
             colorTheme: "blue",
             isActive: true,
             sortOrder: 2
         },
         {
             id: "new-projects",
-            title: "New Projects",
-            badge: "Launches",
-            subtitle: "Off-plan villas, malls & luxury suites",
-            description: "Off-plan villas, malls & luxury suites",
+            title: "DHA Margalla Enclave",
+            badge: "Ballot Plans",
+            subtitle: "Residential & Commercial 1, 2, 3-Yr Installments",
+            description: "Residential & Commercial 1, 2, 3-Yr Installments",
             icon: "fa-solid fa-city",
             iconClass: "fa-solid fa-city",
-            link: "projects.html?isNewProject=true",
+            link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2",
             colorTheme: "purple",
             isActive: true,
             sortOrder: 3
         },
         {
             id: "home-loans",
-            title: "Home Loans",
-            badge: "EMI Calc",
-            subtitle: "Conventional & Islamic bank finance",
-            description: "Conventional & Islamic bank finance",
+            title: "Installment Calculator",
+            badge: "20% Down",
+            subtitle: "Quarterly installment breakdown for all plot sizes",
+            description: "Quarterly installment breakdown for all plot sizes",
             icon: "fa-solid fa-calculator",
             iconClass: "fa-solid fa-calculator",
-            link: "calculator.html",
+            link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2#payment-plan",
             colorTheme: "amber",
             isActive: true,
             sortOrder: 4
         },
         {
             id: "land-records",
-            title: "Land Records",
-            badge: "Verification",
-            subtitle: "Online registry & title deed portal",
-            description: "Online registry & title deed portal",
+            title: "DHA Title & Ballot Verification",
+            badge: "Verified",
+            subtitle: "Official DHA verification & transfer procedure",
+            description: "Official DHA verification & transfer procedure",
             icon: "fa-solid fa-file-contract",
             iconClass: "fa-solid fa-file-contract",
-            link: "societies.html#land-records",
+            link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2#marketed-by",
             colorTheme: "rose",
             isActive: true,
             sortOrder: 5
         },
         {
             id: "construction-cost",
-            title: "Construction Cost",
-            badge: "2026 Rates",
-            subtitle: "Turnkey grey structure & finishes",
-            description: "Turnkey grey structure & finishes",
-            icon: "fa-solid fa-trowel-bricks",
-            iconClass: "fa-solid fa-trowel-bricks",
-            link: "calculator.html#construction",
+            title: "Ballot Schedule & Rates",
+            badge: "2026 DHA",
+            subtitle: "Lump Sum vs 1, 2, 3 Year installment matrices",
+            description: "Lump Sum vs 1, 2, 3 Year installment matrices",
+            icon: "fa-solid fa-table-cells",
+            iconClass: "fa-solid fa-table-cells",
+            link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2#payment-plan",
             colorTheme: "teal",
             isActive: true,
             sortOrder: 6
         }
     ],
     homePartners: [
-        { id: "p1", name: "Meezan Bank", icon: "fa-solid fa-landmark", link: "#", isActive: true },
-        { id: "p2", name: "HBL Islamic", icon: "fa-solid fa-building-columns", link: "#", isActive: true },
-        { id: "p3", name: "Bank Alfalah", icon: "fa-solid fa-vault", link: "#", isActive: true },
-        { id: "p4", name: "Faysal Bank", icon: "fa-solid fa-scale-balanced", link: "#", isActive: true },
-        { id: "p5", name: "Habib Metro Sirat", icon: "fa-solid fa-coins", link: "#", isActive: true }
+        { id: "p1", name: "Askari Bank", icon: "fa-solid fa-landmark", link: "#", isActive: true },
+        { id: "p2", name: "Meezan Bank", icon: "fa-solid fa-building-columns", link: "#", isActive: true },
+        { id: "p3", name: "HBL Islamic", icon: "fa-solid fa-vault", link: "#", isActive: true },
+        { id: "p4", name: "Bank Alfalah", icon: "fa-solid fa-scale-balanced", link: "#", isActive: true },
+        { id: "p5", name: "Kuickpay Online", icon: "fa-solid fa-credit-card", link: "#", isActive: true }
     ],
     browseProperties: [
-        // Homes - Popular
-        { id: "bp_1", category: "homes", subTab: "popular", title: "On Instalments Houses", link: "projects.html?type=house&keywords=instalment", badge: "Installments", isActive: true, sortOrder: 1 },
-        { id: "bp_2", category: "homes", subTab: "popular", title: "1 Bedroom Flats", link: "projects.html?type=apartment&bedrooms=1", badge: "1 Bed", isActive: true, sortOrder: 2 },
-        { id: "bp_3", category: "homes", subTab: "popular", title: "2 Bedroom Flats", link: "projects.html?type=apartment&bedrooms=2", badge: "2 Bed", isActive: true, sortOrder: 3 },
-        { id: "bp_4", category: "homes", subTab: "popular", title: "3 Bedroom Flats", link: "projects.html?type=apartment&bedrooms=3", badge: "3 Bed", isActive: true, sortOrder: 4 },
-        { id: "bp_5", category: "homes", subTab: "popular", title: "On Instalments Flats", link: "projects.html?type=apartment&keywords=instalment", badge: "Installments", isActive: true, sortOrder: 5 },
-        { id: "bp_6", category: "homes", subTab: "popular", title: "New Houses", link: "projects.html?type=house&keywords=new", badge: "New", isActive: true, sortOrder: 6 },
-        { id: "bp_7", category: "homes", subTab: "popular", title: "Low Price All Homes", link: "projects.html?type=house&sort=price_asc", badge: "Budget", isActive: true, sortOrder: 7 },
-        { id: "bp_8", category: "homes", subTab: "popular", title: "Small Houses", link: "projects.html?type=house&area_max=5", badge: "Compact", isActive: true, sortOrder: 8 },
-
-        // Homes - Type
-        { id: "bp_9", category: "homes", subTab: "type", title: "Houses & Luxury Villas", link: "projects.html?type=house", badge: "Villas", isActive: true, sortOrder: 1 },
-        { id: "bp_10", category: "homes", subTab: "type", title: "Flats & Luxury Suites", link: "projects.html?type=flat", badge: "Flats", isActive: true, sortOrder: 2 },
-        { id: "bp_11", category: "homes", subTab: "type", title: "Penthouse Suites", link: "projects.html?type=penthouse", badge: "Luxury", isActive: true, sortOrder: 3 },
-        { id: "bp_12", category: "homes", subTab: "type", title: "Upper Portion Homes", link: "projects.html?type=upper_portion", badge: "Portion", isActive: true, sortOrder: 4 },
-        { id: "bp_13", category: "homes", subTab: "type", title: "Lower Portion Homes", link: "projects.html?type=lower_portion", badge: "Portion", isActive: true, sortOrder: 5 },
-        { id: "bp_14", category: "homes", subTab: "type", title: "Farm Houses & Estates", link: "projects.html?type=farmhouse", badge: "Farmhouse", isActive: true, sortOrder: 6 },
-        { id: "bp_15", category: "homes", subTab: "type", title: "Rooms & Studio Suites", link: "projects.html?type=room", badge: "Rooms", isActive: true, sortOrder: 7 },
-
-        // Homes - Area Size
-        { id: "bp_16", category: "homes", subTab: "area_size", title: "3 Marla Houses", link: "projects.html?type=house&size=3", badge: "3 Marla", isActive: true, sortOrder: 1 },
-        { id: "bp_17", category: "homes", subTab: "area_size", title: "5 Marla Houses", link: "projects.html?type=house&size=5", badge: "5 Marla", isActive: true, sortOrder: 2 },
-        { id: "bp_18", category: "homes", subTab: "area_size", title: "10 Marla Houses", link: "projects.html?type=house&size=10", badge: "10 Marla", isActive: true, sortOrder: 3 },
-        { id: "bp_19", category: "homes", subTab: "area_size", title: "1 Kanal Houses", link: "projects.html?type=house&size=20", badge: "1 Kanal", isActive: true, sortOrder: 4 },
-        { id: "bp_20", category: "homes", subTab: "area_size", title: "2 Kanal Luxury Mansions", link: "projects.html?type=house&size=40", badge: "2 Kanal", isActive: true, sortOrder: 5 },
-
-        // Plots - Popular
-        { id: "bp_21", category: "plots", subTab: "popular", title: "Developed Residential Plots", link: "projects.html?type=residential_plot&keywords=developed", badge: "Developed", isActive: true, sortOrder: 1 },
-        { id: "bp_22", category: "plots", subTab: "popular", title: "Corner Residential Plots", link: "projects.html?type=residential_plot&keywords=corner", badge: "Corner", isActive: true, sortOrder: 2 },
-        { id: "bp_23", category: "plots", subTab: "popular", title: "Low Price Residential Plots", link: "projects.html?type=residential_plot&sort=price_asc", badge: "Budget", isActive: true, sortOrder: 3 },
-        { id: "bp_24", category: "plots", subTab: "popular", title: "Park Facing Residential Plots", link: "projects.html?type=residential_plot&keywords=park+facing", badge: "Park Facing", isActive: true, sortOrder: 4 },
-        { id: "bp_25", category: "plots", subTab: "popular", title: "On Instalments Residential Plots", link: "projects.html?type=residential_plot&keywords=instalment", badge: "Installments", isActive: true, sortOrder: 5 },
-        { id: "bp_26", category: "plots", subTab: "popular", title: "With Possession Commercial Plots", link: "projects.html?type=commercial_plot&keywords=possession", badge: "Possession", isActive: true, sortOrder: 6 },
+        // Ballot 1 - Residential
+        { id: "bp_1", category: "plots", subTab: "popular", title: "125 Sq Yds (5 Marla) Residential Plot", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-125", badge: "Ballot 1", isActive: true, sortOrder: 1 },
+        { id: "bp_2", category: "plots", subTab: "popular", title: "250 Sq Yds (10 Marla) Residential Plot", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-250", badge: "Ballot 1", isActive: true, sortOrder: 2 },
+        { id: "bp_3", category: "plots", subTab: "popular", title: "500 Sq Yds (1 Kanal) Residential Plot", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-500", badge: "Ballot 1", isActive: true, sortOrder: 3 },
+        { id: "bp_4", category: "plots", subTab: "popular", title: "100 Sq Yds (4 Marla) Commercial Plot", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-100", badge: "Ballot 2", isActive: true, sortOrder: 4 },
+        { id: "bp_5", category: "plots", subTab: "popular", title: "133.25 Sq Yds (5.33 Marla) Commercial Plot", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-133", badge: "Ballot 2", isActive: true, sortOrder: 5 },
+        { id: "bp_6", category: "plots", subTab: "popular", title: "200 Sq Yds (8 Marla) Commercial Plot", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-200", badge: "Ballot 2", isActive: true, sortOrder: 6 },
+        { id: "bp_7", category: "plots", subTab: "popular", title: "500 Sq Yds (20 Marla) Commercial Plot", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-500", badge: "Ballot 2", isActive: true, sortOrder: 7 },
+        { id: "bp_7b", category: "plots", subTab: "popular", title: "133.33 Sq Yds (LG+G+5) Commercial Plot", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm3-133", badge: "Ballot 3", isActive: true, sortOrder: 8 },
+        { id: "bp_7c", category: "plots", subTab: "popular", title: "200 Sq Yds (LG+G+5) Commercial Plot", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm3-200", badge: "Ballot 3", isActive: true, sortOrder: 9 },
+        { id: "bp_7d", category: "plots", subTab: "popular", title: "266.66 Sq Yds (LG+G+5) Commercial Plot", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm3-266", badge: "Ballot 3", isActive: true, sortOrder: 10 },
 
         // Plots - Type
-        { id: "bp_27", category: "plots", subTab: "type", title: "Residential Plots", link: "projects.html?type=residential_plot", badge: "Residential", isActive: true, sortOrder: 1 },
-        { id: "bp_28", category: "plots", subTab: "type", title: "Commercial Plots", link: "projects.html?type=commercial_plot", badge: "Commercial", isActive: true, sortOrder: 2 },
-        { id: "bp_29", category: "plots", subTab: "type", title: "Industrial Land", link: "projects.html?type=industrial_land", badge: "Industrial", isActive: true, sortOrder: 3 },
-        { id: "bp_30", category: "plots", subTab: "type", title: "Agricultural Land", link: "projects.html?type=agricultural_land", badge: "Agro", isActive: true, sortOrder: 4 },
-        { id: "bp_30b", category: "plots", subTab: "type", title: "Plot Files & Allocation", link: "projects.html?type=all_plots&keywords=file", badge: "Files", isActive: true, sortOrder: 5 },
+        { id: "bp_8", category: "plots", subTab: "type", title: "Ballot 1 Residential Plots", link: "projects.html?type=residential_plot", badge: "Ballot 1", isActive: true, sortOrder: 1 },
+        { id: "bp_9", category: "plots", subTab: "type", title: "Ballot 2 Commercial Plots", link: "projects.html?type=commercial_plot", badge: "Ballot 2", isActive: true, sortOrder: 2 },
+        { id: "bp_9b", category: "plots", subTab: "type", title: "Ballot 3 (LG+G+5 Commercial Plots)", link: "projects.html?type=commercial_plot", badge: "Ballot 3", isActive: true, sortOrder: 3 },
+        { id: "bp_10", category: "plots", subTab: "type", title: "Lump Sum Settlement Plots", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2#payment-plan", badge: "30-Day Pay", isActive: true, sortOrder: 4 },
+        { id: "bp_11", category: "plots", subTab: "type", title: "1-Year (4 Quarters) Payment Plan", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2#payment-plan", badge: "1 Year", isActive: true, sortOrder: 5 },
+        { id: "bp_12", category: "plots", subTab: "type", title: "2-Years (8 Quarters) Payment Plan", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2#payment-plan", badge: "2 Years", isActive: true, sortOrder: 6 },
+        { id: "bp_13", category: "plots", subTab: "type", title: "3-Years (12 Quarters) Payment Plan", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2#payment-plan", badge: "3 Years", isActive: true, sortOrder: 7 },
 
         // Plots - Area Size
-        { id: "bp_31", category: "plots", subTab: "area_size", title: "3 Marla Residential Plots", link: "projects.html?type=residential_plot&size=3", badge: "3 Marla", isActive: true, sortOrder: 1 },
-        { id: "bp_32", category: "plots", subTab: "area_size", title: "5 Marla Residential Plots", link: "projects.html?type=residential_plot&size=5", badge: "5 Marla", isActive: true, sortOrder: 2 },
-        { id: "bp_33", category: "plots", subTab: "area_size", title: "10 Marla Residential Plots", link: "projects.html?type=residential_plot&size=10", badge: "10 Marla", isActive: true, sortOrder: 3 },
-        { id: "bp_34", category: "plots", subTab: "area_size", title: "1 Kanal Residential Plots", link: "projects.html?type=residential_plot&size=20", badge: "1 Kanal", isActive: true, sortOrder: 4 },
-        { id: "bp_35", category: "plots", subTab: "area_size", title: "2 Kanal Commercial & Res", link: "projects.html?type=commercial_plot&size=40", badge: "2 Kanal", isActive: true, sortOrder: 5 },
-        { id: "bp_36", category: "plots", subTab: "area_size", title: "4 Kanal+ Farm Plots", link: "projects.html?type=agricultural_land&size=80", badge: "4 Kanal+", isActive: true, sortOrder: 6 },
+        { id: "bp_14", category: "plots", subTab: "area_size", title: "125 Sq Yds Plots (5 Marla)", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-125", badge: "125 Sq Yds", isActive: true, sortOrder: 1 },
+        { id: "bp_15", category: "plots", subTab: "area_size", title: "250 Sq Yds Plots (10 Marla)", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-250", badge: "250 Sq Yds", isActive: true, sortOrder: 2 },
+        { id: "bp_16", category: "plots", subTab: "area_size", title: "500 Sq Yds Plots (1 Kanal)", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-500", badge: "500 Sq Yds", isActive: true, sortOrder: 3 },
+        { id: "bp_17", category: "plots", subTab: "area_size", title: "100 Sq Yds Commercial", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-100", badge: "100 Sq Yds", isActive: true, sortOrder: 4 },
+        { id: "bp_18", category: "plots", subTab: "area_size", title: "133.25 - 133.33 Sq Yds Commercial", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-133", badge: "133 Sq Yds", isActive: true, sortOrder: 5 },
+        { id: "bp_19", category: "plots", subTab: "area_size", title: "200 Sq Yds Commercial (LG+G+5)", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm3-200", badge: "200 Sq Yds", isActive: true, sortOrder: 6 },
+        { id: "bp_19b", category: "plots", subTab: "area_size", title: "266.66 Sq Yds Commercial (LG+G+5)", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm3-266", badge: "266.66 Sq Yds", isActive: true, sortOrder: 7 },
 
-        // Commercial - Popular
-        { id: "bp_37", category: "commercial", subTab: "popular", title: "Small Offices", link: "projects.html?type=office", badge: "Offices", isActive: true, sortOrder: 1 },
-        { id: "bp_38", category: "commercial", subTab: "popular", title: "New Offices", link: "projects.html?type=office&keywords=new", badge: "New", isActive: true, sortOrder: 2 },
-        { id: "bp_39", category: "commercial", subTab: "popular", title: "On Instalments Shops", link: "projects.html?type=shop&keywords=instalment", badge: "Installments", isActive: true, sortOrder: 3 },
-        { id: "bp_40", category: "commercial", subTab: "popular", title: "Small Shops", link: "projects.html?type=shop", badge: "Shops", isActive: true, sortOrder: 4 },
-        { id: "bp_41", category: "commercial", subTab: "popular", title: "New Shops", link: "projects.html?type=shop&keywords=new", badge: "New", isActive: true, sortOrder: 5 },
-        { id: "bp_42", category: "commercial", subTab: "popular", title: "Running Shops", link: "projects.html?type=shop&keywords=running", badge: "Running", isActive: true, sortOrder: 6 },
+        // Commercial Category
+        { id: "bp_20", category: "commercial", subTab: "popular", title: "Boulevard Commercial 100 Sq Yds", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-100", badge: "Ballot 2", isActive: true, sortOrder: 1 },
+        { id: "bp_21", category: "commercial", subTab: "popular", title: "Boulevard Commercial 133.25 Sq Yds", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-133", badge: "Ballot 2", isActive: true, sortOrder: 2 },
+        { id: "bp_22", category: "commercial", subTab: "popular", title: "Commercial Plaza Plot 200 Sq Yds", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-200", badge: "Ballot 2", isActive: true, sortOrder: 3 },
+        { id: "bp_23", category: "commercial", subTab: "popular", title: "Grand Commercial Plot 500 Sq Yds", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-500", badge: "Ballot 2", isActive: true, sortOrder: 4 },
+        { id: "bp_23b", category: "commercial", subTab: "popular", title: "LG+G+5 Commercial Plaza 133.33 Sq Yds", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm3-133", badge: "Ballot 3", isActive: true, sortOrder: 5 },
+        { id: "bp_23c", category: "commercial", subTab: "popular", title: "LG+G+5 Commercial Tower 200 Sq Yds", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm3-200", badge: "Ballot 3", isActive: true, sortOrder: 6 },
+        { id: "bp_23d", category: "commercial", subTab: "popular", title: "LG+G+5 Grand Plaza Complex 266.66 Sq Yds", link: "project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm3-266", badge: "Ballot 3", isActive: true, sortOrder: 7 },
 
-        // Commercial - Type
-        { id: "bp_43", category: "commercial", subTab: "type", title: "Retail Boulevard Shops", link: "projects.html?type=shop", badge: "Shops", isActive: true, sortOrder: 1 },
-        { id: "bp_44", category: "commercial", subTab: "type", title: "Corporate Offices", link: "projects.html?type=office", badge: "Offices", isActive: true, sortOrder: 2 },
-        { id: "bp_45", category: "commercial", subTab: "type", title: "Commercial Plazas & Malls", link: "projects.html?type=plaza", badge: "Plazas", isActive: true, sortOrder: 3 },
-        { id: "bp_46", category: "commercial", subTab: "type", title: "Commercial Buildings & Towers", link: "projects.html?type=building", badge: "Buildings", isActive: true, sortOrder: 4 },
-        { id: "bp_46b", category: "commercial", subTab: "type", title: "Manufacturing Factories", link: "projects.html?type=factory", badge: "Factories", isActive: true, sortOrder: 5 },
-        { id: "bp_46c", category: "commercial", subTab: "type", title: "Logistics Warehouses", link: "projects.html?type=warehouse", badge: "Warehouses", isActive: true, sortOrder: 6 },
-        { id: "bp_46d", category: "commercial", subTab: "type", title: "Other Commercial Units", link: "projects.html?type=other_commercial", badge: "Other", isActive: true, sortOrder: 7 },
-
-        // Commercial - Area Size
-        { id: "bp_47", category: "commercial", subTab: "area_size", title: "Under 250 Sq. Ft. Shops", link: "projects.html?type=shop&area_max=250", badge: "Shops", isActive: true, sortOrder: 1 },
-        { id: "bp_48", category: "commercial", subTab: "area_size", title: "500 - 1000 Sq. Ft. Offices", link: "projects.html?type=office&keywords=office", badge: "Mid Size", isActive: true, sortOrder: 2 },
-        { id: "bp_49", category: "commercial", subTab: "area_size", title: "Full Floor Commercial Suites", link: "projects.html?type=office&keywords=floor", badge: "Full Floor", isActive: true, sortOrder: 3 }
+        // Homes Category (DHA Margalla Enclave Living)
+        { id: "bp_24", category: "homes", subTab: "popular", title: "DHA Margalla Enclave Residential Plots (Ballot 1)", link: "projects.html?type=residential_plot", badge: "Ballot 1", isActive: true, sortOrder: 1 },
+        { id: "bp_25", category: "homes", subTab: "popular", title: "DHA Margalla Enclave Commercial Plots (Ballot 2 & 3)", link: "projects.html?type=commercial_plot", badge: "Ballots 2 & 3", isActive: true, sortOrder: 2 }
     ]
 };
 
@@ -442,113 +416,17 @@ if (DEFAULT_SITE_CONTENT.browseProperties) {
 // Initial Data Seeding for Firestore 'kaghan_properties'
 const DEFAULT_SOCIETIES = [
     {
-        id: "bahria-enclave-islamabad",
-        name: "Bahria Enclave Islamabad",
-        slug: "bahria-enclave-islamabad",
+        id: "dha-margalla-enclave",
+        name: "DHA Margalla Enclave",
+        slug: "dha-margalla-enclave",
         type: "society",
         city: "Islamabad",
-        description: "Bahria Enclave Islamabad offers world-class gated community living with 24/7 underground electricity, Civic Center commercial arcade, zoo, CineGold Plex, and scenic Margalla foothills views.",
-        amenities: ["24/7 Security", "Underground Electricity", "Commercial Arcades", "CineGold Plex", "Parks & Zoo"],
-        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.467824128522!2d73.1932!3d33.6669",
-        coordinates: { lat: 33.6669, lng: 73.1932 },
-        introVideoId: "dQw4w9WgXcQ",
-        documentsFolderUrl: "https://drive.google.com",
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    },
-    {
-        id: "park-view-city",
-        name: "Park View City",
-        slug: "park-view-city",
-        type: "society",
-        city: "Islamabad",
-        description: "CDA-approved luxury housing society by Vision Group located on Malot Road Zone IV. Renowned for Downtown Commercial, dancing fountains, botanical gardens, and premium Overseas Block.",
-        amenities: ["CDA Approved NOC", "Downtown Dancing Fountains", "Overseas Block", "Gated Security", "Botanical Gardens"],
-        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13278.432!2d73.1812!3d33.7058",
-        coordinates: { lat: 33.7058, lng: 73.1812 },
-        introVideoId: "dQw4w9WgXcQ",
-        documentsFolderUrl: "https://drive.google.com",
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    },
-    {
-        id: "park-enclave",
-        name: "Park Enclave",
-        slug: "park-enclave",
-        type: "society",
-        city: "Islamabad",
-        description: "Known as the Jewel of Islamabad, CDA's signature Park Enclave on Park Road provides state-of-the-art infrastructure, wide boulevards, eco-friendly green belts, and premium security.",
-        amenities: ["CDA Developed", "Underground Electrification", "Sports Club & Lake", "Gated Boundary", "Prime Park Road Access"],
-        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13282.9!2d73.1415!3d33.6922",
-        coordinates: { lat: 33.6922, lng: 73.1415 },
-        introVideoId: "dQw4w9WgXcQ",
-        documentsFolderUrl: "https://drive.google.com",
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    },
-    {
-        id: "margalla-enclave",
-        name: "Margalla Enclave",
-        slug: "margalla-enclave",
-        type: "society",
-        city: "Islamabad",
-        description: "Nestled directly at the Margalla Foothills corridor with direct Margalla Avenue connectivity. Features pristine mountain air, contemporary architecture, and round-the-clock gated security.",
-        amenities: ["Margalla Foothill Views", "Margalla Avenue Access", "24/7 Security", "Lush Green Parks", "Underground Utilities"],
+        description: "DHA Margalla Enclave is Defence Housing Authority's signature mountain-view masterplanned community nestled directly at the picturesque Margalla Foothills corridor with direct Margalla Avenue connectivity. Features world-class infrastructure, underground utilities, scenic parks, wide boulevards, and high-capital-growth commercial markaz across Ballot 1, Ballot 2 & Ballot 3.",
+        amenities: ["DHA Islamabad Masterplan", "Margalla Foothills Views", "Direct Margalla Avenue Access", "Underground Electrification & Utilities", "24/7 Gated Security", "Commercial Boulevard & Markaz", "Approved LG+G+5 High-Rise Zones"],
         mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13270.2!2d72.9680!3d33.7250",
         coordinates: { lat: 33.7250, lng: 72.9680 },
         introVideoId: "dQw4w9WgXcQ",
-        documentsFolderUrl: "https://drive.google.com",
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    },
-    {
-        id: "margalla-orchards",
-        name: "Margalla Orchards",
-        slug: "margalla-orchards",
-        type: "society",
-        city: "Islamabad",
-        description: "Exclusive agro-luxury farmhouses and serene residential estates surrounded by nature, organic fruit orchards, and panoramic mountain ridges in Islamabad.",
-        amenities: ["Agro Luxury Farmhouses", "Natural Springs & Water", "Fruit Orchards", "Gated Surveillance", "Scenic Hiking Trails"],
-        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13268.5!2d73.0450!3d33.7550",
-        coordinates: { lat: 33.7550, lng: 73.0450 },
-        introVideoId: "dQw4w9WgXcQ",
-        documentsFolderUrl: "https://drive.google.com",
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    },
-    {
-        id: "murree",
-        name: "Murree",
-        slug: "murree",
-        type: "resort",
-        city: "Murree",
-        description: "Pakistan's premier hill station resort territory. Famous for alpine pine forests, Mall Road, New Murree Patriata, Bhurban, luxury vacation suites, and lucrative short-term rental yields.",
-        amenities: ["Alpine Climate & Snow", "High Tourist Rental Yield", "Patriata Chairlift Access", "Boutique Serviced Suites", "Scenic Valleys"],
-        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26451.7!2d73.3907!3d33.9070",
-        coordinates: { lat: 33.9070, lng: 73.3907 },
-        introVideoId: "dQw4w9WgXcQ",
-        documentsFolderUrl: "https://drive.google.com",
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    },
-    {
-        id: "nathia-gali",
-        name: "Nathia Gali",
-        slug: "nathia-gali",
-        type: "resort",
-        city: "Nathia Gali",
-        description: "The jewel of Galyat with dense pine forests, alpine trails to Mukshpuri & Miranjani, Pine Valley luxury resort chalets, and year-round vacation home investments.",
-        amenities: ["Mukshpuri Hiking Trails", "Pine Forest Retreat", "Pine Valley Luxury Chalets", "24/7 Hospitality Care", "Alpine Climate"],
-        mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26392.2!2d73.3758!3d34.0664",
-        coordinates: { lat: 34.0664, lng: 73.3758 },
-        introVideoId: "dQw4w9WgXcQ",
-        documentsFolderUrl: "https://drive.google.com",
+        documentsFolderUrl: "https://margallaenclave.dhai-r.com.pk/",
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -556,384 +434,702 @@ const DEFAULT_SOCIETIES = [
 ];
 
 const DEFAULT_PROPERTIES = [
+    // 1. MASTER FLAGSHIP PROJECT: DHA Margalla Enclave (Ballot 1, Ballot 2 & Ballot 3)
     {
-        id: "prop-pine-valley-suites",
-        slug: "pine-valley-luxury-alpine-suites-nathia-gali",
-        title: "Pine Valley Luxury Alpine Suites & Chalets",
-        tagline: "Exclusive mountain holiday suites with guaranteed rental yield",
-        description: "Experience the epitome of serene alpine living at Pine Valley Luxury Suites in Nathia Gali. Surrounded by pristine pine forests with panoramic valley vistas, these serviced chalets and duplex suites offer 24/7 hospitality care, smart heated floors, floor-to-ceiling double-glazed viewing windows, and guaranteed seasonal tourist rental yield.",
-        type: "flat",
-        category: "Flat",
-        purpose: "sale",
-        price: 28500000,
-        priceUnit: "PKR",
-        size: 8,
-        sizeUnit: "Marla",
-        bedrooms: 2,
-        bathrooms: 2,
-        city: "Nathia Gali",
-        area: "Nathia Gali",
-        societyId: "nathia-gali",
-        location: "Pine Valley Corridor, Main Nathia Gali Road, Galyat",
-        isFeatured: true,
-        isNewProject: true,
-        urgency: "super-hot",
-        status: "published",
-        developer: "Kaghan Developments",
-        constructionStatus: "Under Construction",
-        deliveryDate: "December 2026",
-        images: [
-            { url: "assets/images/interior.png", isPrimary: true, alt: "Pine Valley Luxury Alpine Suite Interior" },
-            { url: "assets/images/mideast-view1.png", isPrimary: false, alt: "Alpine Balcony View" },
-            { url: "assets/images/mideast-view2.png", isPrimary: false, alt: "Pine Forest Mountain View" }
-        ],
-        features: [
-            "Floor-to-Ceiling Mountain View Windows",
-            "Underfloor Radiant Heating",
-            "Serviced Housekeeping & 24/7 Concierge",
-            "Backup Power Generator & Solar Grid",
-            "High Rental Yield Management System",
-            "Private Heated Jacuzzi on Balcony",
-            "Dedicated Covered Parking"
-        ],
-        installments: {
-            available: true,
-            advance: 5700000,
-            monthly: 475000,
-            durationMonths: 36,
-            planDetails: "3-Year Easy Quarterly / Monthly Installments with 20% Downpayment"
-        },
-        agentId: "user_001",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        publishedAt: new Date().toISOString()
-    },
-    {
-        id: "prop-bahria-enclave-villa",
-        slug: "bahria-enclave-designer-smart-villa",
-        title: "1 Kanal Ultra-Modern Designer Smart Villa",
-        tagline: "Architect-designed smart home with Margalla view rooftop patio",
-        description: "Presenting a bespoke 1 Kanal modern architectural masterpiece in Sector C, Bahria Enclave Islamabad. Designed with double-height ceiling lobby, Spanish porcelain tile flooring, imported Italian kitchen fittings, infinity glass balconies, landscaped courtyard, and full smart home automation.",
-        type: "house",
-        category: "House",
-        purpose: "sale",
-        price: 85000000,
-        priceUnit: "PKR",
-        size: 20,
-        sizeUnit: "Marla",
-        bedrooms: 5,
-        bathrooms: 6,
-        city: "Islamabad",
-        area: "Bahria Enclave Islamabad",
-        societyId: "bahria-enclave-islamabad",
-        location: "Sector C, Main Boulevard, Bahria Enclave, Islamabad",
-        isFeatured: true,
-        isNewProject: false,
-        urgency: "hot",
-        status: "published",
-        developer: "Private Luxury Builders",
-        constructionStatus: "Ready",
-        deliveryDate: "Immediate Possession",
-        images: [
-            { url: "assets/images/bahria-villa.png", isPrimary: true, alt: "Bahria Enclave Designer Villa Front Elevation" },
-            { url: "assets/images/interior.png", isPrimary: false, alt: "Designer Living Lounge" },
-            { url: "assets/images/hero.png", isPrimary: false, alt: "Courtyard and Landscaping" }
-        ],
-        features: [
-            "5 Luxury Ensuite Master Bedrooms",
-            "Double Height Grand Lobby",
-            "2 Designer Italian Fitted Kitchens",
-            "Rooftop BBQ Pavilion with Margalla Views",
-            "Smart Home Automation (Lights, AC, Security)",
-            "Underground 24/7 Electricity",
-            "Double Car Porch with EV Charger"
-        ],
-        installments: {
-            available: false
-        },
-        agentId: "user_001",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        publishedAt: new Date().toISOString()
-    },
-    {
-        id: "prop-park-view-commercial",
-        slug: "park-view-city-downtown-commercial-plaza-unit",
-        title: "Downtown Commercial Boulevard Retail Showroom",
-        tagline: "High footfall commercial unit overlooking Downtown Dancing Fountains",
-        description: "Prime retail ground showroom situated right on the Downtown Commercial Boulevard in Park View City Islamabad. Located directly facing the signature dancing fountains and botanical lake, ensuring premier retail exposure and high capital appreciation.",
-        type: "shop",
-        category: "Shop",
-        purpose: "sale",
-        price: 42000000,
-        priceUnit: "PKR",
-        size: 1200,
-        sizeUnit: "Square Feet",
-        bedrooms: 0,
-        bathrooms: 1,
-        city: "Islamabad",
-        area: "Park View City",
-        societyId: "park-view-city",
-        location: "Downtown Commercial, Malot Road, Park View City, Islamabad",
-        isFeatured: true,
-        isNewProject: true,
-        urgency: "super-hot",
-        status: "published",
-        developer: "Vision Group",
-        constructionStatus: "Under Construction",
-        deliveryDate: "June 2026",
-        images: [
-            { url: "assets/images/parkview.png", isPrimary: true, alt: "Park View City Downtown Commercial Arcade" },
-            { url: "assets/images/azan-arcade.png", isPrimary: false, alt: "Commercial Plaza Frontage" }
-        ],
-        features: [
-            "Direct Boulevard & Fountain Frontage",
-            "Double Height Ground Floor Ceilings",
-            "Ample Customer Parking Bays",
-            "24/7 Security & CCTV Surveillance",
-            "High Rental Demand from National Brands",
-            "Dedicated Utility Connections"
-        ],
-        installments: {
-            available: true,
-            advance: 8400000,
-            monthly: 700000,
-            durationMonths: 24,
-            planDetails: "2-Year Flexible Installment Plan with 20% Downpayment"
-        },
-        agentId: "user_002",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        publishedAt: new Date().toISOString()
-    },
-    {
-        id: "prop-margalla-orchards-farmhouse",
-        slug: "margalla-orchards-luxury-agro-farmhouse",
-        title: "4 Kanal Agro-Luxury Country Farmhouse Estate",
-        tagline: "Serene mountain-view country estate with organic fruit orchards and pool",
-        description: "An exceptional 4 Kanal countryside retreat nestled in the peaceful greenery of Margalla Orchards Islamabad. Featuring an elegant single-storey spanish hacienda, private heated swimming pool, sprawling lawns, organic olive & citrus trees, and breathtaking Margalla ridge sunsets.",
-        type: "farmhouse",
-        category: "Farm House",
-        purpose: "sale",
-        price: 135000000,
-        priceUnit: "PKR",
-        size: 80,
-        sizeUnit: "Marla",
-        bedrooms: 4,
-        bathrooms: 5,
-        city: "Islamabad",
-        area: "Margalla Orchards",
-        societyId: "margalla-orchards",
-        location: "Margalla Orchards Agro Enclave, Islamabad",
-        isFeatured: true,
-        isNewProject: false,
-        urgency: "normal",
-        status: "published",
-        developer: "Signature Estates",
-        constructionStatus: "Ready",
-        deliveryDate: "Immediate Possession",
-        images: [
-            { url: "assets/images/hero.png", isPrimary: true, alt: "Margalla Orchards Farmhouse Estate" },
-            { url: "assets/images/bahria-villa.png", isPrimary: false, alt: "Farmhouse Exterior" },
-            { url: "assets/images/interior.png", isPrimary: false, alt: "Farmhouse Living Lounge" }
-        ],
-        features: [
-            "4 Kanal Land Area with Gated Boundary",
-            "Private Heated Swimming Pool & Deck",
-            "Organic Olive, Citrus & Fig Orchard",
-            "Independent Servant & Guard Quarters",
-            "Solar Powered Grid & Deep Tube Well Water",
-            "Expansive Covered Verandahs"
-        ],
-        installments: {
-            available: false
-        },
-        agentId: "user_001",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        publishedAt: new Date().toISOString()
-    },
-    {
-        id: "prop-murree-pine-heights",
-        slug: "murree-pine-heights-serviced-apartment",
-        title: "Murree Hills 2-Bed Serviced Alpine Apartment",
-        tagline: "Panoramic valley view apartment on Expressway with full tourist rental management",
-        description: "Luxury 2-bedroom furnished apartment in Murree with picturesque views of Kashmir Point and lush green pine valleys. Fully managed with keyless check-in and dedicated rental pool service generating attractive returns throughout the summer and snowfall seasons.",
-        type: "flat",
-        category: "Flat",
-        purpose: "sale",
-        price: 19500000,
-        priceUnit: "PKR",
-        size: 5,
-        sizeUnit: "Marla",
-        bedrooms: 2,
-        bathrooms: 2,
-        city: "Murree",
-        area: "Murree",
-        societyId: "murree",
-        location: "Murree Expressway, near Bhurban Junction, Murree",
-        isFeatured: false,
-        isNewProject: true,
-        urgency: "hot",
-        status: "published",
-        developer: "Kaghan Developments",
-        constructionStatus: "Ready",
-        deliveryDate: "Ready for Handover",
-        images: [
-            { url: "assets/images/mideast-view2.png", isPrimary: true, alt: "Murree Alpine Apartment Balcony View" },
-            { url: "assets/images/interior.png", isPrimary: false, alt: "Furnished Suite Interior" }
-        ],
-        features: [
-            "Fully Furnished with Modern Alpine Decor",
-            "Balcony Overlooking Pine Hills",
-            "Central Gas Heating System",
-            "24/7 Security & On-Site Caretaker",
-            "High Rental Demand in Snow Season"
-        ],
-        installments: {
-            available: true,
-            advance: 3900000,
-            monthly: 325000,
-            durationMonths: 24,
-            planDetails: "2-Year Installments with Instant Rental Yield Sharing"
-        },
-        agentId: "user_002",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        publishedAt: new Date().toISOString()
-    },
-    {
-        id: "prop-park-enclave-plot",
-        slug: "park-enclave-cda-1-kanal-corner-plot",
-        title: "Park Enclave 1 Kanal CDA Corner Residential Plot",
-        tagline: "CDA Sector Phase 1 prime corner plot facing lush community park",
-        description: "Ready for immediate construction, CDA-approved 1 Kanal corner residential plot in Phase 1 Park Enclave on Park Road. Features wide 60-ft asphalt roads, underground electrification, CDA NOC, and prime proximity to Club House and lake.",
+        id: "prop-dha-margalla-enclave-ballots",
+        slug: "dha-margalla-enclave-ballot-1-2",
+        title: "DHA Margalla Enclave - Official Ballot 1, Ballot 2 & Ballot 3",
+        tagline: "Exclusive 1, 2 & 3-Year Payment Plans for Residential & Commercial (LG+G+5) Plots at Margalla Foothills",
+        description: "DHA Margalla Enclave Islamabad presents premier residential and commercial plot balloting nestled at the scenic Margalla foothills with direct Margalla Avenue access. Offering Ballot 1 Residential Plots (125, 250, and 500 Sq. Yds.), Ballot 2 Boulevard Commercial Plots (100, 133.25, 200, and 500 Sq. Yds.), and Ballot 3 High-Rise Commercial Plots (133.33, 200, and 266.66 Sq. Yds. with approved LG+G+5 height) on flexible Lump Sum settlement and 1, 2, and 3-Year quarterly installment schedules with a 20% down payment.",
         type: "residential_plot",
         category: "Residential Plots",
         purpose: "sale",
-        price: 68000000,
+        price: 21434375,
+        priceRangeStr: "PKR 2.14 Crore - 40.00 Crore",
         priceUnit: "PKR",
         size: 20,
+        sqYards: 500,
         sizeUnit: "Marla",
         bedrooms: 0,
         bathrooms: 0,
         city: "Islamabad",
-        area: "Park Enclave",
-        societyId: "park-enclave",
-        location: "Phase 1, Sector A, Park Enclave, Park Road, Islamabad",
-        isFeatured: false,
-        isNewProject: false,
-        urgency: "normal",
+        area: "DHA Margalla Enclave",
+        sector: "Margalla Avenue Corridor",
+        address: "DHA Margalla Enclave, Margalla Avenue Corridor",
+        societyId: "dha-margalla-enclave",
+        location: "DHA Margalla Enclave, Margalla Avenue Corridor, Islamabad",
+        isFeatured: true,
+        isNewProject: true,
+        urgency: "super-hot",
         status: "published",
-        developer: "Capital Development Authority (CDA)",
-        constructionStatus: "Ready",
-        deliveryDate: "Immediate Possession & Registry",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted & Under Development",
+        deliveryDate: "2027-2029",
         images: [
-            { url: "assets/images/parkview.png", isPrimary: true, alt: "Park Enclave Sector Layout & Park View" }
+            { url: "assets/images/dha-margalla-hero.jpg", isPrimary: true, alt: "DHA Margalla Enclave Master Elevation" },
+            { url: "assets/images/dha-res-125sqyds.jpg", isPrimary: false, alt: "DHA Margalla 5 Marla Residential Plots" },
+            { url: "assets/images/dha-res-250sqyds.jpg", isPrimary: false, alt: "DHA Margalla 10 Marla Residential Plots" },
+            { url: "assets/images/dha-res-500sqyds.jpg", isPrimary: false, alt: "DHA Margalla 1 Kanal Luxury Estate Plots" },
+            { url: "assets/images/dha-comm-100sqyds.jpg", isPrimary: false, alt: "DHA Margalla 4 Marla Commercial Arcade" },
+            { url: "assets/images/dha-comm-boulevard.jpg", isPrimary: false, alt: "DHA Margalla 5.33 Marla Commercial Markaz" },
+            { url: "assets/images/dha-commercial-plots.jpg", isPrimary: false, alt: "DHA Margalla 8 Marla Boulevard Commercial" },
+            { url: "assets/images/dha-comm-500sqyds.jpg", isPrimary: false, alt: "DHA Margalla 1 Kanal Commercial Complex" },
+            { url: "assets/images/dha-ballot3-133sqyds.jpg", isPrimary: false, alt: "Ballot 3 LG+G+5 133.33 Sq Yds Commercial Plaza" },
+            { url: "assets/images/dha-ballot3-200sqyds.jpg", isPrimary: false, alt: "Ballot 3 LG+G+5 200 Sq Yds Commercial Building" },
+            { url: "assets/images/dha-ballot3-266sqyds.jpg", isPrimary: false, alt: "Ballot 3 LG+G+5 266.66 Sq Yds Grand Corporate Plaza" },
+            { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "DHA Margalla Enclave Masterplan Site Map" }
         ],
         features: [
-            "100% CDA Approved & Verified Title Deed",
-            "Corner Plot with Open Frontage",
-            "Facing 2-Acre Landscaped Park",
-            "Underground Utilities & Gas Pipeline",
-            "Ready for Immediate House Construction"
+            "Official DHA Computerized Balloting Allotment",
+            "Ballot 1 (Residential), Ballot 2 (Commercial) & Ballot 3 (LG+G+5 Commercial)",
+            "Lump Sum & 1, 2, 3-Year Quarterly Installment Options",
+            "20% Down Payment within 30 Days of Ballot",
+            "Direct Connectivity to Margalla Avenue & Ring Road",
+            "Underground Electrification, Gas & Water Supply",
+            "24/7 Gated Perimeter Surveillance & DHA Security",
+            "Lush Green Parks, Margalla Hiking Ridges & Grand Mosque"
         ],
+        categorizedAmenities: {
+            mainFeatures: [
+                "Official DHA Computerized Ballot",
+                "Approved LG+G+5 Multi-Storey Commercial Zones",
+                "Wide 120-ft & 80-ft Main Boulevards",
+                "Lump Sum Discounted Settlement Option",
+                "1, 2 & 3-Year Flexible Quarterly Schedules",
+                "Non-Refundable Processing Fee Included"
+            ],
+            facilities: [
+                "Underground Power Grid & Sub-stations",
+                "Sui Gas & Deep Tube Well Water Network",
+                "Modern Drainage & Sewerage Treatment Plant",
+                "24/7 DHA Armed Patrols & Security Checkposts",
+                "Smart CCTV Corridor Surveillance"
+            ],
+            community: [
+                "Grand Jamia Mosque with Islamic Center",
+                "Sector Neighborhood Community Parks",
+                "Walking, Jogging & Cycling Tracks",
+                "DHA Commercial Markaz & Banking Squares",
+                "Scenic Margalla Hills Viewing Promenades"
+            ]
+        },
+        projectUnits: [
+            { type: "125 Sq Yds Residential Plot (5 Marla)", category: "Residential (Ballot 1)", priceRange: "PKR 2.14 Cr - 2.50 Cr", sizeRange: "125 Sq Yds (5 Marla)", descriptor: "Ballot 1 Residential. Lump Sum: PKR 21,434,375 | 1-Yr Plan: PKR 22,562,500 | 2-Yr Plan: PKR 23,750,000 | 3-Yr Plan: PKR 25,000,000 (20% Down: PKR 5,000,000). Processing Fee: PKR 10,000/-." },
+            { type: "250 Sq Yds Residential Plot (10 Marla)", category: "Residential (Ballot 1)", priceRange: "PKR 4.20 Cr - 4.90 Cr", sizeRange: "250 Sq Yds (10 Marla)", descriptor: "Ballot 1 Residential. Lump Sum: PKR 42,011,375 | 1-Yr Plan: PKR 44,222,500 | 2-Yr Plan: PKR 46,550,000 | 3-Yr Plan: PKR 49,000,000 (20% Down: PKR 9,800,000). Processing Fee: PKR 15,000/-." },
+            { type: "500 Sq Yds Residential Plot (1 Kanal)", category: "Residential (Ballot 1)", priceRange: "PKR 7.28 Cr - 8.50 Cr", sizeRange: "500 Sq Yds (1 Kanal)", descriptor: "Ballot 1 Residential. Lump Sum: PKR 72,876,875 | 1-Yr Plan: PKR 76,712,500 | 2-Yr Plan: PKR 80,750,000 | 3-Yr Plan: PKR 85,000,000 (20% Down: PKR 17,000,000). Processing Fee: PKR 20,000/-." },
+            { type: "100 Sq Yds Commercial Plot (4 Marla)", category: "Commercial (Ballot 2)", priceRange: "PKR 8.14 Cr - 9.50 Cr", sizeRange: "100 Sq Yds (4 Marla)", descriptor: "Ballot 2 Commercial. Lump Sum: PKR 81,450,625 | 1-Yr Plan: PKR 85,737,500 | 2-Yr Plan: PKR 90,250,000 | 3-Yr Plan: PKR 95,000,000 (20% Down: PKR 19,000,000). Processing Fee: PKR 30,000/-." },
+            { type: "133.25 Sq Yds Commercial Plot (5.33 Marla)", category: "Commercial (Ballot 2)", priceRange: "PKR 12.00 Cr - 14.00 Cr", sizeRange: "133.25 Sq Yds (5.33 Marla)", descriptor: "Ballot 2 Commercial. Lump Sum: PKR 120,032,500 | 1-Yr Plan: PKR 126,350,000 | 2-Yr Plan: PKR 133,000,000 | 3-Yr Plan: PKR 140,000,000 (20% Down: PKR 28,000,000). Processing Fee: PKR 40,000/-." },
+            { type: "200 Sq Yds Commercial Plot (8 Marla)", category: "Commercial (Ballot 2)", priceRange: "PKR 14.57 Cr - 17.00 Cr", sizeRange: "200 Sq Yds (8 Marla)", descriptor: "Ballot 2 Commercial. Lump Sum: PKR 145,753,750 | 1-Yr Plan: PKR 153,425,000 | 2-Yr Plan: PKR 161,500,000 | 3-Yr Plan: PKR 170,000,000 (20% Down: PKR 34,000,000). Processing Fee: PKR 50,000/-." },
+            { type: "500 Sq Yds Commercial Plot (20 Marla)", category: "Commercial (Ballot 2)", priceRange: "PKR 34.29 Cr - 40.00 Cr", sizeRange: "500 Sq Yds (20 Marla / 1 Kanal)", descriptor: "Ballot 2 Commercial. Lump Sum: PKR 342,950,000 | 1-Yr Plan: PKR 361,000,000 | 2-Yr Plan: PKR 380,000,000 | 3-Yr Plan: PKR 400,000,000 (20% Down: PKR 80,000,000). Processing Fee: PKR 60,000/-." },
+            { type: "133.33 Sq Yds Commercial Plot (LG+G+5)", category: "Commercial (Ballot 3)", priceRange: "PKR 13.58 Cr - 15.98 Cr", sizeRange: "133.33 Sq Yds (5.33 Marla)", descriptor: "Ballot 3 LG+G+5 Commercial. Lump Sum: PKR 135,830,000 | 1-Yr Plan: PKR 143,820,000 | 2-Yr Plan: PKR 151,810,000 | 3-Yr Plan: PKR 159,800,000 (20% Down: PKR 31,960,000). Processing Fee: PKR 40,000/-." },
+            { type: "200 Sq Yds Commercial Plot (LG+G+5)", category: "Commercial (Ballot 3)", priceRange: "PKR 19.65 Cr - 23.12 Cr", sizeRange: "200 Sq Yds (8 Marla)", descriptor: "Ballot 3 LG+G+5 Commercial. Lump Sum: PKR 196,520,000 | 1-Yr Plan: PKR 208,080,000 | 2-Yr Plan: PKR 219,640,000 | 3-Yr Plan: PKR 231,200,000 (20% Down: PKR 46,240,000). Processing Fee: PKR 50,000/-." },
+            { type: "266.66 Sq Yds Commercial Plot (LG+G+5)", category: "Commercial (Ballot 3)", priceRange: "PKR 20.15 Cr - 23.71 Cr", sizeRange: "266.66 Sq Yds (10.66 Marla)", descriptor: "Ballot 3 LG+G+5 Commercial. Lump Sum: PKR 201,535,000 | 1-Yr Plan: PKR 213,390,000 | 2-Yr Plan: PKR 225,245,000 | 3-Yr Plan: PKR 237,100,000 (20% Down: PKR 47,420,000). Processing Fee: PKR 60,000/-." }
+        ],
+        floorPlans: [
+            { id: "fp-master", title: "DHA Margalla Enclave Master Plan", subtitle: "Official Approved Layout & Sectors", area: "100 - 500 Sq Yds", height: "DHA Approved Bye-laws", view: "Margalla Hills Foothills Panorama", image: "assets/images/dha-masterplan.jpg" },
+            { id: "fp-res", title: "Ballot 1 Residential Sectors Layout", subtitle: "125, 250 & 500 Sq Yds Plots", area: "5, 10 Marla & 1 Kanal", height: "G+2 Residential Standard", view: "Scenic Mountain & Park Facing", image: "assets/images/dha-residential-plots.jpg" },
+            { id: "fp-comm", title: "Ballot 2 Commercial Boulevard Grid", subtitle: "100, 133.25, 200 & 500 Sq Yds Plots", area: "4 to 20 Marla Commercial", height: "Commercial Plaza Arcade", view: "120-ft Main Boulevard Facing", image: "assets/images/dha-commercial-plots.jpg" },
+            { id: "fp-comm3", title: "Ballot 3 LG+G+5 Multi-Storey Commercial Grid", subtitle: "133.33, 200 & 266.66 Sq Yds Plots", area: "5.33 to 10.66 Marla Commercial", height: "Approved Lower Ground + Ground + 5 Floors", view: "Prime Arterial Commercial Avenue Facing", image: "assets/images/dha-ballot3-chart.jpg" }
+        ],
+        paymentPlan: {
+            duration: "Official 1, 2 & 3-Year Installment Schedules & Lump Sum Option",
+            image: "assets/images/dha-masterplan.jpg",
+            booking: "20% - Down Payment within 30 Days of Ballot",
+            confirmation: "100% - Lump Sum Settlement within 30 Days of Ballot",
+            monthly: "80% - In 4, 8, or 12 Quarterly Installments",
+            balloon: "Non-Refundable Processing Fee with Application",
+            possession: "On scheduled completion of development milestones",
+            rebates: "Note: Prices are Exclusive of Applicable DHA Charges & Government Taxes."
+        },
         installments: {
-            available: false
+            available: true,
+            advance: 5000000,
+            monthly: 1666667,
+            durationMonths: 36,
+            planDetails: "3-Year Easy Quarterly Installments (12 Quarters) with 20% Down Payment"
         },
         agentId: "user_001",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         publishedAt: new Date().toISOString()
     },
+
+    // 2. BALLOT 1: 125 Sq Yds (5 Marla) Residential Plot
     {
-        id: "prop-asian-arcade-office",
-        slug: "asian-arcade-executive-corporate-office",
-        title: "Asian Arcade 1,200 Sq. Ft. Executive Corporate Office",
-        tagline: "Modern fitted office space in prime Bahria Enclave Civic Commercial Sector C",
-        description: "Premium executive corporate office unit located in Asian Arcade, opposite Bahria Enclave Zoo on C Avenue. Ideal for software houses, corporate headquarters, law firms, and real estate agencies looking for high visibility and prestigious address.",
-        type: "office",
-        category: "Office",
+        id: "prop-dha-margalla-ballot-1-125-sq-yds",
+        slug: "dha-margalla-enclave-125-sq-yds-residential-plot-ballot-1",
+        title: "125 Sq Yds (5 Marla) Residential Plot - Ballot 1",
+        tagline: "DHA Margalla Enclave Ballot 1 residential plot with 1, 2 & 3-Year installment plans",
+        description: "Prime 125 Sq. Yds. (approx 5 Marla) residential plot in DHA Margalla Enclave Islamabad (Ballot 1). Available on Lump Sum price of PKR 21,434,375 (within 30 days) or 1-Year (PKR 22,562,500), 2-Year (PKR 23,750,000), and 3-Year (PKR 25,000,000) payment plans with 20% down payment (PKR 5,000,000) and 12 quarterly installments of PKR 1,666,667. Non-refundable processing fee: PKR 10,000/-.",
+        type: "residential_plot",
+        category: "Residential Plots",
         purpose: "sale",
-        price: 24000000,
+        price: 21434375,
         priceUnit: "PKR",
-        size: 1200,
-        sizeUnit: "Square Feet",
+        size: 5,
+        sqYards: 125,
+        sizeUnit: "Marla",
         bedrooms: 0,
-        bathrooms: 2,
+        bathrooms: 0,
         city: "Islamabad",
-        area: "Bahria Enclave Islamabad",
-        societyId: "bahria-enclave-islamabad",
-        location: "Asian Arcade, C Avenue, Sector C, Bahria Enclave, Islamabad",
-        isFeatured: false,
+        area: "DHA Margalla Enclave",
+        sector: "Sector A",
+        address: "Sector A, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Sector A, DHA Margalla Enclave, Islamabad",
+        isFeatured: true,
         isNewProject: false,
-        urgency: "hot",
+        urgency: "super-hot",
         status: "published",
-        developer: "Asian Builders",
-        constructionStatus: "Ready",
-        deliveryDate: "Immediate Handover",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Plot",
+        deliveryDate: "Immediate Transfer",
         images: [
-            { url: "assets/images/azan-arcade.png", isPrimary: true, alt: "Asian Arcade Commercial Building" },
-            { url: "assets/images/interior.png", isPrimary: false, alt: "Executive Office Suite" }
+            { url: "assets/images/dha-res-125sqyds.jpg", isPrimary: true, alt: "125 Sq Yds Residential Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-residential-plots.jpg", isPrimary: false, alt: "DHA Margalla Residential Sector" },
+            { url: "assets/images/dha-margalla-hero.jpg", isPrimary: false, alt: "DHA Margalla Enclave Overview" },
+            { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
         ],
         features: [
-            "Fitted Glass Partitions & Conference Room",
-            "High-Speed Passenger & Cargo Elevators",
-            "Dedicated Basement Parking Space",
-            "24/7 Electricity with Backup Generator",
-            "Pre-wired for Fiber Optic Internet"
+            "Ballot 1 Official Allotment File",
+            "Lump Sum Price: PKR 21,434,375",
+            "1-Year Plan: PKR 22,562,500 (20% Down: PKR 4,512,500)",
+            "2-Year Plan: PKR 23,750,000 (20% Down: PKR 4,750,000)",
+            "3-Year Plan: PKR 25,000,000 (20% Down: PKR 5,000,000)",
+            "12x Quarterly Installments of PKR 1,666,667",
+            "Processing Fee: PKR 10,000/- (Non-Refundable)"
         ],
         installments: {
             available: true,
-            advance: 7200000,
-            monthly: 420000,
-            durationMonths: 24,
-            planDetails: "2-Year Payment Plan with 30% Downpayment"
+            advance: 5000000,
+            monthly: 1666667,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 1,666,667) or Lump Sum PKR 21,434,375"
         },
         agentId: "user_001",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         publishedAt: new Date().toISOString()
     },
+
+    // 3. BALLOT 1: 250 Sq Yds (10 Marla) Residential Plot
     {
-        id: "prop-margalla-enclave-villa",
-        slug: "margalla-enclave-10-marla-executive-villa",
-        title: "10 Marla Luxury Modern Mountain-Facing Villa",
-        tagline: "Newly built 5-bed designer residence with scenic Margalla Avenue connectivity",
-        description: "A striking 10 Marla brand new villa in Margalla Enclave Islamabad. Finished with fine Turkish tiles, solid ash wood doors, dual drawing rooms, modular kitchen, and spacious rooftop barbecue terrace overlooking the Margalla Hills.",
-        type: "house",
-        category: "House",
+        id: "prop-dha-margalla-ballot-1-250-sq-yds",
+        slug: "dha-margalla-enclave-250-sq-yds-residential-plot-ballot-1",
+        title: "250 Sq Yds (10 Marla) Residential Plot - Ballot 1",
+        tagline: "Prime 10 Marla residential plot in DHA Margalla Enclave with easy quarterly installments",
+        description: "Prestigious 250 Sq. Yds. (approx 10 Marla) residential plot in DHA Margalla Enclave Islamabad (Ballot 1). Available on Lump Sum price of PKR 42,011,375 (within 30 days) or 1-Year (PKR 44,222,500), 2-Year (PKR 46,550,000), and 3-Year (PKR 49,000,000) payment plans with 20% down payment (PKR 9,800,000) and 12 quarterly installments of PKR 3,266,667. Non-refundable processing fee: PKR 15,000/-.",
+        type: "residential_plot",
+        category: "Residential Plots",
         purpose: "sale",
-        price: 49500000,
+        price: 42011375,
         priceUnit: "PKR",
         size: 10,
+        sqYards: 250,
         sizeUnit: "Marla",
-        bedrooms: 5,
-        bathrooms: 5,
+        bedrooms: 0,
+        bathrooms: 0,
         city: "Islamabad",
-        area: "Margalla Enclave",
-        societyId: "margalla-enclave",
-        location: "Margalla Enclave, Margalla Avenue Corridor, Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Sector B",
+        address: "Sector B, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Sector B, DHA Margalla Enclave, Islamabad",
         isFeatured: true,
         isNewProject: false,
-        urgency: "normal",
+        urgency: "hot",
         status: "published",
-        developer: "Executive Homes",
-        constructionStatus: "Ready",
-        deliveryDate: "Immediate Handover",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Plot",
+        deliveryDate: "Immediate Transfer",
         images: [
-            { url: "assets/images/bahria-villa.png", isPrimary: true, alt: "10 Marla Villa Elevation" },
-            { url: "assets/images/interior.png", isPrimary: false, alt: "Modern Master Bedroom" }
+            { url: "assets/images/dha-res-250sqyds.jpg", isPrimary: true, alt: "250 Sq Yds Residential Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-residential-plots.jpg", isPrimary: false, alt: "DHA Margalla Residential Sector" },
+            { url: "assets/images/dha-margalla-hero.jpg", isPrimary: false, alt: "DHA Margalla Enclave Overview" },
+            { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
         ],
         features: [
-            "5 Spacious Ensuite Bedrooms",
-            "Dual Drawing & Dining Halls",
-            "Solid Ash Wood Doors & Cabinetry",
-            "Rooftop BBQ Pavilion with Scenic Hills View",
-            "Space for 2 Large SUVs in Porch"
+            "Ballot 1 Official Allotment File",
+            "Lump Sum Price: PKR 42,011,375",
+            "1-Year Plan: PKR 44,222,500 (20% Down: PKR 8,844,500)",
+            "2-Year Plan: PKR 46,550,000 (20% Down: PKR 9,310,000)",
+            "3-Year Plan: PKR 49,000,000 (20% Down: PKR 9,800,000)",
+            "12x Quarterly Installments of PKR 3,266,667",
+            "Processing Fee: PKR 15,000/- (Non-Refundable)"
         ],
         installments: {
-            available: false
+            available: true,
+            advance: 9800000,
+            monthly: 3266667,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 3,266,667) or Lump Sum PKR 42,011,375"
+        },
+        agentId: "user_001",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+
+    // 4. BALLOT 1: 500 Sq Yds (1 Kanal) Residential Plot
+    {
+        id: "prop-dha-margalla-ballot-1-500-sq-yds",
+        slug: "dha-margalla-enclave-500-sq-yds-residential-plot-ballot-1",
+        title: "500 Sq Yds (1 Kanal / 20 Marla) Residential Plot - Ballot 1",
+        tagline: "Luxury 1 Kanal residential estate plot in DHA Margalla Enclave at the foothills",
+        description: "Exclusive 500 Sq. Yds. (1 Kanal / 20 Marla) luxury residential plot in DHA Margalla Enclave Islamabad (Ballot 1). Available on Lump Sum price of PKR 72,876,875 (within 30 days) or 1-Year (PKR 76,712,500), 2-Year (PKR 80,750,000), and 3-Year (PKR 85,000,000) payment plans with 20% down payment (PKR 17,000,000) and 12 quarterly installments of PKR 5,666,667. Non-refundable processing fee: PKR 20,000/-.",
+        type: "residential_plot",
+        category: "Residential Plots",
+        purpose: "sale",
+        price: 72876875,
+        priceUnit: "PKR",
+        size: 20,
+        sqYards: 500,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Executive Sector C",
+        address: "Executive Sector C, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Executive Sector C, DHA Margalla Enclave, Islamabad",
+        isFeatured: true,
+        isNewProject: false,
+        urgency: "super-hot",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-res-500sqyds.jpg", isPrimary: true, alt: "500 Sq Yds 1 Kanal Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-residential-plots.jpg", isPrimary: false, alt: "DHA Margalla Residential Sector" },
+            { url: "assets/images/dha-margalla-hero.jpg", isPrimary: false, alt: "DHA Margalla Enclave Overview" },
+            { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
+        ],
+        features: [
+            "Ballot 1 Official Allotment File",
+            "Lump Sum Price: PKR 72,876,875",
+            "1-Year Plan: PKR 76,712,500 (20% Down: PKR 15,342,500)",
+            "2-Year Plan: PKR 80,750,000 (20% Down: PKR 16,150,000)",
+            "3-Year Plan: PKR 85,000,000 (20% Down: PKR 17,000,000)",
+            "12x Quarterly Installments of PKR 5,666,667",
+            "Processing Fee: PKR 20,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 17000000,
+            monthly: 5666667,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 5,666,667) or Lump Sum PKR 72,876,875"
+        },
+        agentId: "user_001",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+
+    // 5. BALLOT 2: 100 Sq Yds (4 Marla) Commercial Plot
+    {
+        id: "prop-dha-margalla-ballot-2-100-sq-yds",
+        slug: "dha-margalla-enclave-100-sq-yds-commercial-plot-ballot-2",
+        title: "100 Sq Yds (4 Marla) Commercial Plot - Ballot 2",
+        tagline: "Prime boulevard commercial plot in DHA Margalla Enclave with high business yield",
+        description: "High-value 100 Sq. Yds. (approx 4 Marla) commercial plot in DHA Margalla Enclave Islamabad (Ballot 2). Available on Lump Sum price of PKR 81,450,625 (within 30 days) or 1-Year (PKR 85,737,500), 2-Year (PKR 90,250,000), and 3-Year (PKR 95,000,000) payment plans with 20% down payment (PKR 19,000,000) and 12 quarterly installments of PKR 6,333,333. Non-refundable processing fee: PKR 30,000/-.",
+        type: "commercial_plot",
+        category: "Commercial Plots",
+        purpose: "sale",
+        price: 81450625,
+        priceUnit: "PKR",
+        size: 4,
+        sqYards: 100,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Commercial Boulevard A",
+        address: "Commercial Boulevard Sector A, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Commercial Boulevard Sector A, DHA Margalla Enclave, Islamabad",
+        isFeatured: true,
+        isNewProject: false,
+        urgency: "super-hot",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Commercial Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-comm-100sqyds.jpg", isPrimary: true, alt: "100 Sq Yds Commercial Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-comm-boulevard.jpg", isPrimary: false, alt: "DHA Margalla Commercial Boulevard" },
+            { url: "assets/images/dha-commercial-plots.jpg", isPrimary: false, alt: "DHA Margalla Commercial Markaz" },
+            { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
+        ],
+        features: [
+            "Ballot 2 Official Commercial Allotment",
+            "Lump Sum Price: PKR 81,450,625",
+            "1-Year Plan: PKR 85,737,500 (20% Down: PKR 17,147,500)",
+            "2-Year Plan: PKR 90,250,000 (20% Down: PKR 18,050,000)",
+            "3-Year Plan: PKR 95,000,000 (20% Down: PKR 19,000,000)",
+            "12x Quarterly Installments of PKR 6,333,333",
+            "Processing Fee: PKR 30,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 19000000,
+            monthly: 6333333,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 6,333,333) or Lump Sum PKR 81,450,625"
+        },
+        agentId: "user_002",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+
+    // 6. BALLOT 2: 133.25 Sq Yds (5.33 Marla) Commercial Plot
+    {
+        id: "prop-dha-margalla-ballot-2-133-sq-yds",
+        slug: "dha-margalla-enclave-133-sq-yds-commercial-plot-ballot-2",
+        title: "133.25 Sq Yds (5.33 Marla) Commercial Plot - Ballot 2",
+        tagline: "Main commercial markaz plot in DHA Margalla Enclave for retail plazas & corporate hubs",
+        description: "Prominent 133.25 Sq. Yds. (approx 5.33 Marla) commercial plot in DHA Margalla Enclave Islamabad (Ballot 2). Available on Lump Sum price of PKR 120,032,500 (within 30 days) or 1-Year (PKR 126,350,000), 2-Year (PKR 133,000,000), and 3-Year (PKR 140,000,000) payment plans with 20% down payment (PKR 28,000,000) and 12 quarterly installments of PKR 9,333,333. Non-refundable processing fee: PKR 40,000/-.",
+        type: "commercial_plot",
+        category: "Commercial Plots",
+        purpose: "sale",
+        price: 120032500,
+        priceUnit: "PKR",
+        size: 5.33,
+        sqYards: 133.25,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Central Commercial Markaz",
+        address: "Central Commercial Markaz, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Central Commercial Markaz, DHA Margalla Enclave, Islamabad",
+        isFeatured: true,
+        isNewProject: false,
+        urgency: "hot",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Commercial Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-comm-boulevard.jpg", isPrimary: true, alt: "133.25 Sq Yds Commercial Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-comm-100sqyds.jpg", isPrimary: false, alt: "DHA Margalla Retail Arcade" },
+            { url: "assets/images/dha-commercial-plots.jpg", isPrimary: false, alt: "DHA Margalla Commercial Grid" },
+            { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
+        ],
+        features: [
+            "Ballot 2 Official Commercial Allotment",
+            "Lump Sum Price: PKR 120,032,500",
+            "1-Year Plan: PKR 126,350,000 (20% Down: PKR 25,270,000)",
+            "2-Year Plan: PKR 133,000,000 (20% Down: PKR 26,600,000)",
+            "3-Year Plan: PKR 140,000,000 (20% Down: PKR 28,000,000)",
+            "12x Quarterly Installments of PKR 9,333,333",
+            "Processing Fee: PKR 40,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 28000000,
+            monthly: 9333333,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 9,333,333) or Lump Sum PKR 120,032,500"
+        },
+        agentId: "user_002",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+
+    // 7. BALLOT 2: 200 Sq Yds (8 Marla) Commercial Plot
+    {
+        id: "prop-dha-margalla-ballot-2-200-sq-yds",
+        slug: "dha-margalla-enclave-200-sq-yds-commercial-plot-ballot-2",
+        title: "200 Sq Yds (8 Marla) Commercial Plot - Ballot 2",
+        tagline: "Large commercial plaza plot on 120-ft Avenue in DHA Margalla Enclave",
+        description: "Prestigious 200 Sq. Yds. (approx 8 Marla) commercial boulevard plot in DHA Margalla Enclave Islamabad (Ballot 2). Available on Lump Sum price of PKR 145,753,750 (within 30 days) or 1-Year (PKR 153,425,000), 2-Year (PKR 161,500,000), and 3-Year (PKR 170,000,000) payment plans with 20% down payment (PKR 34,000,000) and 12 quarterly installments of PKR 11,333,333. Non-refundable processing fee: PKR 50,000/-.",
+        type: "commercial_plot",
+        category: "Commercial Plots",
+        purpose: "sale",
+        price: 145753750,
+        priceUnit: "PKR",
+        size: 8,
+        sqYards: 200,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Main 120-ft Avenue Boulevard",
+        address: "Main 120-ft Avenue Boulevard, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Main Boulevard Commercial, DHA Margalla Enclave, Islamabad",
+        isFeatured: true,
+        isNewProject: false,
+        urgency: "super-hot",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Commercial Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-commercial-plots.jpg", isPrimary: true, alt: "200 Sq Yds Commercial Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-comm-boulevard.jpg", isPrimary: false, alt: "DHA Margalla Commercial Boulevard" },
+            { url: "assets/images/dha-comm-500sqyds.jpg", isPrimary: false, alt: "DHA Margalla Commercial Hub" },
+            { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
+        ],
+        features: [
+            "Ballot 2 Official Commercial Allotment",
+            "Lump Sum Price: PKR 145,753,750",
+            "1-Year Plan: PKR 153,425,000 (20% Down: PKR 30,685,000)",
+            "2-Year Plan: PKR 161,500,000 (20% Down: PKR 32,300,000)",
+            "3-Year Plan: PKR 170,000,000 (20% Down: PKR 34,000,000)",
+            "12x Quarterly Installments of PKR 11,333,333",
+            "Processing Fee: PKR 50,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 34000000,
+            monthly: 11333333,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 11,333,333) or Lump Sum PKR 145,753,750"
+        },
+        agentId: "user_002",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+
+    // 8. BALLOT 2: 500 Sq Yds (20 Marla / 1 Kanal) Commercial Plot
+    {
+        id: "prop-dha-margalla-ballot-2-500-sq-yds",
+        slug: "dha-margalla-enclave-500-sq-yds-commercial-plot-ballot-2",
+        title: "500 Sq Yds (20 Marla / 1 Kanal) Commercial Mega Plot - Ballot 2",
+        tagline: "Flagship 500 Sq. Yds. commercial mega-site for shopping mall, hotel or corporate headquarters",
+        description: "Grand 500 Sq. Yds. (20 Marla / 1 Kanal) prime commercial mega-site in DHA Margalla Enclave Islamabad (Ballot 2). Ideal for shopping malls, mixed-use towers, brand hotels, and corporate complexes. Available on Lump Sum price of PKR 342,950,000 (within 30 days) or 1-Year (PKR 361,000,000), 2-Year (PKR 380,000,000), and 3-Year (PKR 400,000,000) payment plans with 20% down payment (PKR 80,000,000) and 12 quarterly installments of PKR 26,666,667. Non-refundable processing fee: PKR 60,000/-.",
+        type: "commercial_plot",
+        category: "Commercial Plots",
+        purpose: "sale",
+        price: 342950000,
+        priceUnit: "PKR",
+        size: 20,
+        sqYards: 500,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Avenue Central Commercial Hub",
+        address: "Avenue Central Commercial Hub, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Avenue Central Commercial Hub, DHA Margalla Enclave, Islamabad",
+        isFeatured: true,
+        isNewProject: false,
+        urgency: "super-hot",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Commercial Mega Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-comm-500sqyds.jpg", isPrimary: true, alt: "500 Sq Yds Commercial Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-comm-boulevard.jpg", isPrimary: false, alt: "DHA Margalla Commercial Boulevard" },
+            { url: "assets/images/dha-commercial-plots.jpg", isPrimary: false, alt: "DHA Margalla Commercial Markaz" },
+            { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
+        ],
+        features: [
+            "Ballot 2 Flagship Commercial Mega-Site Allotment",
+            "Lump Sum Price: PKR 342,950,000",
+            "1-Year Plan: PKR 361,000,000 (20% Down: PKR 72,200,000)",
+            "2-Year Plan: PKR 380,000,000 (20% Down: PKR 76,000,000)",
+            "3-Year Plan: PKR 400,000,000 (20% Down: PKR 80,000,000)",
+            "12x Quarterly Installments of PKR 26,666,667",
+            "Processing Fee: PKR 60,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 80000000,
+            monthly: 26666667,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 26,666,667) or Lump Sum PKR 342,950,000"
+        },
+        agentId: "user_002",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+
+    // 9. BALLOT 3: 133.33 Sq Yds (LG+G+5) Commercial Plot
+    {
+        id: "prop-dha-margalla-ballot-3-133-sq-yds",
+        slug: "dha-margalla-enclave-133-33-sq-yds-commercial-plot-ballot-3",
+        title: "133.33 Sq Yds Commercial Plot (LG+G+5) - Ballot 3",
+        tagline: "Approved Multi-Storey (LG+G+5) commercial plot in DHA Margalla Enclave with 1, 2 & 3-Year plans",
+        description: "Official Ballot 3 approved multi-storey 133.33 Sq. Yds. (approx 5.33 Marla) commercial plot in DHA Margalla Enclave Islamabad. Approved for Lower Ground + Ground + 5 Floors construction. Available on Lump Sum price of PKR 135,830,000 (within 30 days) or 1-Year (PKR 143,820,000, 20% down: PKR 28,764,000), 2-Year (PKR 151,810,000, 20% down: PKR 30,362,000), and 3-Year (PKR 159,800,000, 20% down: PKR 31,960,000 with 12 quarterly installments of PKR 10,653,333). Non-refundable processing fee: PKR 40,000/-.",
+        type: "commercial_plot",
+        category: "Commercial Plots",
+        purpose: "sale",
+        price: 135830000,
+        priceUnit: "PKR",
+        size: 5.33,
+        sqYards: 133.33,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Commercial Sector LG+G+5",
+        address: "Multi-Storey Commercial Boulevard, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Commercial Avenue (LG+G+5 Zone), DHA Margalla Enclave, Islamabad",
+        isFeatured: true,
+        isNewProject: false,
+        urgency: "super-hot",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted LG+G+5 Commercial Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-ballot3-133sqyds.jpg", isPrimary: true, alt: "133.33 Sq Yds Commercial Plot LG+G+5 DHA Margalla Enclave" },
+            { url: "assets/images/dha-ballot3-chart.jpg", isPrimary: false, alt: "Ballot 3 Official Payment Plan Chart" },
+            { url: "assets/images/dha-comm-boulevard.jpg", isPrimary: false, alt: "DHA Margalla Commercial Boulevard" },
+            { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
+        ],
+        features: [
+            "Ballot 3 Approved Multi-Storey Commercial Plot",
+            "Permitted Height: Lower Ground + Ground + 5 Floors (LG+G+5)",
+            "Lump Sum Price: PKR 135,830,000 (Within 30 Days)",
+            "1-Year Plan: PKR 143,820,000 (20% Down: PKR 28,764,000)",
+            "2-Year Plan: PKR 151,810,000 (20% Down: PKR 30,362,000)",
+            "3-Year Plan: PKR 159,800,000 (20% Down: PKR 31,960,000)",
+            "12x Quarterly Installments of PKR 10,653,333",
+            "Processing Fee: PKR 40,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 31960000,
+            monthly: 10653333,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 10,653,333) or Lump Sum PKR 135,830,000"
+        },
+        agentId: "user_002",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+
+    // 10. BALLOT 3: 200 Sq Yds (LG+G+5) Commercial Plot
+    {
+        id: "prop-dha-margalla-ballot-3-200-sq-yds",
+        slug: "dha-margalla-enclave-200-sq-yds-commercial-plot-ballot-3",
+        title: "200 Sq Yds Commercial Plot (LG+G+5) - Ballot 3",
+        tagline: "Prime 200 Sq. Yds. multi-storey commercial plot approved for 6 floors (LG+G+5)",
+        description: "Official Ballot 3 approved multi-storey 200 Sq. Yds. (approx 8 Marla) commercial plot in DHA Margalla Enclave Islamabad. Approved for Lower Ground + Ground + 5 Floors construction. Available on Lump Sum price of PKR 196,520,000 (within 30 days) or 1-Year (PKR 208,080,000, 20% down: PKR 41,616,000), 2-Year (PKR 219,640,000, 20% down: PKR 43,928,000), and 3-Year (PKR 231,200,000, 20% down: PKR 46,240,000 with 12 quarterly installments of PKR 15,413,333). Non-refundable processing fee: PKR 50,000/-.",
+        type: "commercial_plot",
+        category: "Commercial Plots",
+        purpose: "sale",
+        price: 196520000,
+        priceUnit: "PKR",
+        size: 8,
+        sqYards: 200,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Commercial Sector LG+G+5",
+        address: "Central Commercial Boulevard LG+G+5, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Central Commercial Boulevard, DHA Margalla Enclave, Islamabad",
+        isFeatured: true,
+        isNewProject: false,
+        urgency: "super-hot",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted LG+G+5 Commercial Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-ballot3-200sqyds.jpg", isPrimary: true, alt: "200 Sq Yds Commercial Plot LG+G+5 DHA Margalla Enclave" },
+            { url: "assets/images/dha-ballot3-chart.jpg", isPrimary: false, alt: "Ballot 3 Official Payment Plan Chart" },
+            { url: "assets/images/dha-commercial-plots.jpg", isPrimary: false, alt: "DHA Margalla Commercial Boulevard" },
+            { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
+        ],
+        features: [
+            "Ballot 3 Approved Multi-Storey Commercial Plot",
+            "Permitted Height: Lower Ground + Ground + 5 Floors (LG+G+5)",
+            "Lump Sum Price: PKR 196,520,000 (Within 30 Days)",
+            "1-Year Plan: PKR 208,080,000 (20% Down: PKR 41,616,000)",
+            "2-Year Plan: PKR 219,640,000 (20% Down: PKR 43,928,000)",
+            "3-Year Plan: PKR 231,200,000 (20% Down: PKR 46,240,000)",
+            "12x Quarterly Installments of PKR 15,413,333",
+            "Processing Fee: PKR 50,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 46240000,
+            monthly: 15413333,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 15,413,333) or Lump Sum PKR 196,520,000"
+        },
+        agentId: "user_002",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+
+    // 11. BALLOT 3: 266.66 Sq Yds (LG+G+5) Commercial Plot
+    {
+        id: "prop-dha-margalla-ballot-3-266-sq-yds",
+        slug: "dha-margalla-enclave-266-66-sq-yds-commercial-plot-ballot-3",
+        title: "266.66 Sq Yds Commercial Plot (LG+G+5) - Ballot 3",
+        tagline: "Grand multi-storey commercial plaza site (LG+G+5) in DHA Margalla Enclave",
+        description: "Official Ballot 3 approved multi-storey 266.66 Sq. Yds. (approx 10.66 Marla) commercial plot in DHA Margalla Enclave Islamabad. Approved for Lower Ground + Ground + 5 Floors construction. Available on Lump Sum price of PKR 201,535,000 (within 30 days) or 1-Year (PKR 213,390,000, 20% down: PKR 42,678,000), 2-Year (PKR 225,245,000, 20% down: PKR 45,049,000), and 3-Year (PKR 237,100,000, 20% down: PKR 47,420,000 with 12 quarterly installments of PKR 15,806,667). Non-refundable processing fee: PKR 60,000/-.",
+        type: "commercial_plot",
+        category: "Commercial Plots",
+        purpose: "sale",
+        price: 201535000,
+        priceUnit: "PKR",
+        size: 10.66,
+        sqYards: 266.66,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Commercial Sector LG+G+5",
+        address: "Grand Commercial Boulevard LG+G+5, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Grand Commercial Boulevard, DHA Margalla Enclave, Islamabad",
+        isFeatured: true,
+        isNewProject: false,
+        urgency: "super-hot",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted LG+G+5 Commercial Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-ballot3-266sqyds.jpg", isPrimary: true, alt: "266.66 Sq Yds Commercial Plot LG+G+5 DHA Margalla Enclave" },
+            { url: "assets/images/dha-ballot3-chart.jpg", isPrimary: false, alt: "Ballot 3 Official Payment Plan Chart" },
+            { url: "assets/images/dha-comm-500sqyds.jpg", isPrimary: false, alt: "DHA Margalla Commercial Complex" },
+            { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
+        ],
+        features: [
+            "Ballot 3 Approved Multi-Storey Commercial Plot",
+            "Permitted Height: Lower Ground + Ground + 5 Floors (LG+G+5)",
+            "Lump Sum Price: PKR 201,535,000 (Within 30 Days)",
+            "1-Year Plan: PKR 213,390,000 (20% Down: PKR 42,678,000)",
+            "2-Year Plan: PKR 225,245,000 (20% Down: PKR 45,049,000)",
+            "3-Year Plan: PKR 237,100,000 (20% Down: PKR 47,420,000)",
+            "12x Quarterly Installments of PKR 15,806,667",
+            "Processing Fee: PKR 60,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 47420000,
+            monthly: 15806667,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 15,806,667) or Lump Sum PKR 201,535,000"
         },
         agentId: "user_002",
         createdAt: new Date().toISOString(),
@@ -944,63 +1140,21 @@ const DEFAULT_PROPERTIES = [
 
 const DEFAULT_BLOGS = [
     {
-        id: "blog-invest-murree-galyat-2026",
-        slug: "2026-real-estate-investment-outlook-islamabad-galyat",
-        title: "2026 Real Estate Investment Outlook: Why Islamabad & Galyat Alpine Properties are Outperforming",
-        excerpt: "An in-depth analysis of property yield dynamics, CDA infrastructure expansions, and the booming short-term tourist rental market in Nathia Gali and Murree.",
-        content: "<p class='lead'>The real estate landscape of the Islamabad Capital Territory and the surrounding Galyat alpine corridor is witnessing an unprecedented transformation in 2026. Investors are pivoting from speculative land flipping toward high-yielding tangible assets.</p><h3>1. The Rise of Serviced Alpine Vacation Homes</h3><p>Developments like <strong>Pine Valley Luxury Suites in Nathia Gali</strong> have demonstrated that vacation suites can generate between 14% to 18% annual rental returns during peak summer and winter snow seasons, far outpacing conventional urban residential leases.</p><h3>2. Infrastructure Connectivity</h3><p>The expansion of Margalla Avenue, ring road bypasses, and improved mountain highway networks have dramatically reduced commute times, making weekend getaways and remote work hubs feasible for Islamabad and Rawalpindi residents.</p><h3>3. Capital Preservation and Tangible Value</h3><p>With macroeconomic shifts, tangible real estate backed by solid title deeds in CDA-approved sectors and established societies like Bahria Enclave and Park View City continues to serve as the most resilient hedge against inflation.</p>",
-        coverImage: "assets/images/interior.png",
-        category: "Market Trends",
+        id: "blog-dha-margalla-enclave-ballot-guide",
+        slug: "dha-margalla-enclave-ballot-1-ballot-2-complete-payment-plan-guide",
+        title: "DHA Margalla Enclave Ballot 1 & Ballot 2: Official Payment Plans, Prices & Plot Sizes",
+        excerpt: "Comprehensive breakdown of DHA Margalla Enclave's residential (125, 250, 500 Sq Yds) and commercial (100, 133.25, 200, 500 Sq Yds) plot payment schedules, 20% down payment deadlines, and processing fees.",
+        content: "<p class='lead'>DHA Margalla Enclave Islamabad has announced official payment schedules for Ballot 1 (Residential Plots) and Ballot 2 (Commercial Plots), providing investors and home builders with flexible options ranging from Lump Sum settlement to 1, 2, and 3-Year quarterly installment plans.</p><h3>1. Ballot 1 — Residential Plots</h3><p>Residential plot inventory covers three highly sought-after categories: <strong>125 Sq. Yds. (approx 5 Marla)</strong> starting at PKR 21,434,375 (Lump Sum), <strong>250 Sq. Yds. (10 Marla)</strong> at PKR 42,011,375 (Lump Sum), and <strong>500 Sq. Yds. (1 Kanal)</strong> at PKR 72,876,875 (Lump Sum). All 3-year installment plans require a 20% down payment payable within 30 days of balloting, followed by 12 equal quarterly installments.</p><h3>2. Ballot 2 — Commercial Plots</h3><p>For high-yield retail and corporate investments, Ballot 2 commercial plots feature <strong>100 Sq. Yds. (4 Marla)</strong>, <strong>133.25 Sq. Yds. (5.33 Marla)</strong>, <strong>200 Sq. Yds. (8 Marla)</strong>, and <strong>500 Sq. Yds. (20 Marla / 1 Kanal)</strong> located on wide arterial boulevards and commercial hubs.</p><h3>3. Important Verification & Payment Timelines</h3><p>Successful applicants must ensure that their 20% down payment or Lump Sum settlement is deposited within 30 days of the ballot date to confirm allocation. All payments can be processed through official DHA challans at designated Askari Bank branches or online via Kuickpay.</p>",
+        coverImage: "assets/images/dha-margalla-hero.jpg",
+        category: "DHA Margalla Enclave",
         author: {
             name: "Ali Khan",
             role: "Principal Real Estate Consultant",
             avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
         },
         readTime: "5 min read",
-        views: 1840,
+        views: 4520,
         featured: true,
-        status: "published",
-        publishedAt: new Date().toISOString(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    },
-    {
-        id: "blog-cda-land-records-guide",
-        slug: "complete-guide-to-cda-land-records-online-title-verification",
-        title: "Complete Guide to CDA Land Records & Online Title Deed Verification in Islamabad",
-        excerpt: "Step-by-step procedure for verifying CDA sector plot allotments, transfer letters, NOC compliance, and avoiding common real estate pitfalls.",
-        content: "<p class='lead'>Navigating property documentation in Islamabad requires understanding the legal verification frameworks governed by the Capital Development Authority (CDA) and local revenue authorities.</p><h3>Key Verification Milestones:</h3><ul><li><strong>Allotment Letter Verification:</strong> Always request verified copies directly from the CDA One-Window Directorate.</li><li><strong>NOC and Layout Approval:</strong> For private housing societies in Zone IV and Zone II, cross-reference the approved layout plan on the official CDA portal.</li><li><strong>Non-Encumbrance Certificate (NEC):</strong> Confirm that no bank liens, litigation stays, or unpaid development charges exist on the title deed.</li></ul>",
-        coverImage: "assets/images/parkview.png",
-        category: "Legal & Records",
-        author: {
-            name: "Tanzil Minhas",
-            role: "Senior Legal & Property Advisor",
-            avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80"
-        },
-        readTime: "7 min read",
-        views: 2420,
-        featured: true,
-        status: "published",
-        publishedAt: new Date().toISOString(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    },
-    {
-        id: "blog-bahria-vs-parkview-2026",
-        slug: "bahria-enclave-vs-park-view-city-2026-comparison",
-        title: "Bahria Enclave vs. Park View City: Comprehensive 2026 Buyer's Comparison",
-        excerpt: "Comparing infrastructure, underground electrification, CDA NOC status, commercial hubs, and price per marla across Islamabad's top two gated communities.",
-        content: "<p class='lead'>Both Bahria Enclave and Park View City represent benchmark gated living in Zone IV Islamabad, but each caters to distinct investor preferences.</p><h3>Infrastructure & Amenities</h3><p>Bahria Enclave offers a fully mature lifestyle with underground electricity, active CineGold Plex, Commercial Arcades, and established parks. Park View City offers modern architectural guidelines, Downtown commercial fountain arena, and rapid modern expansions in the Overseas Block.</p>",
-        coverImage: "assets/images/bahria-villa.png",
-        category: "Investment Guide",
-        author: {
-            name: "Ali Khan",
-            role: "Principal Real Estate Consultant",
-            avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
-        },
-        readTime: "6 min read",
-        views: 3150,
-        featured: false,
         status: "published",
         publishedAt: new Date().toISOString(),
         createdAt: new Date().toISOString(),
@@ -1014,11 +1168,11 @@ const DEFAULT_USERS = [
         uid: "usr_admin_kp",
         name: "KP Admin",
         email: "admin@kp.com",
-        password: "admin",
+        password: "tanzil@minhas2007",
         phone: "+923340091127",
         role: "admin",
         photoUrl: "assets/images/logo.png",
-        specializedAreas: ["Islamabad", "Rawalpindi", "Murree", "Nathia Gali"],
+        specializedAreas: ["DHA Margalla Enclave", "Islamabad", "Rawalpindi"],
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -1028,11 +1182,11 @@ const DEFAULT_USERS = [
         uid: "usr_admin_default",
         name: "Ali Khan",
         email: "ali@kaghanproperties.com",
-        password: "admin",
+        password: "tanzil@minhas2007",
         phone: "+923340091127",
         role: "admin",
         photoUrl: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80",
-        specializedAreas: ["Bahria Enclave Islamabad", "Park Enclave", "Margalla Orchards"],
+        specializedAreas: ["DHA Margalla Enclave Ballot 1", "DHA Margalla Enclave Ballot 2"],
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -1042,11 +1196,11 @@ const DEFAULT_USERS = [
         uid: "usr_agent_default",
         name: "Tanzil Minhas",
         email: "tanzilminhas@kaghanproperties.com",
-        password: "admin",
+        password: "tanzil@minhas2007",
         phone: "+923340091127",
         role: "agent",
         photoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
-        specializedAreas: ["Bahria Enclave Islamabad", "Park View City", "Margalla Enclave", "Murree", "Nathia Gali"],
+        specializedAreas: ["DHA Margalla Enclave Commercial", "DHA Margalla Enclave Residential"],
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -1061,8 +1215,8 @@ const DEFAULT_SITE_SETTINGS = {
     contact: {
         phone: "+923340091127",
         email: "info@kaghanproperties.com",
-        address: "Office 203, 2nd Floor, Asian Arcade, opposite Zoo, C Avenue, Sector C, Bahria Enclave, Islamabad, Pakistan",
-        googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.467824128522!2d73.1932!3d33.6669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDQwJzAwLjgiTiA3M8KwMTEnMzUuNSJF!5e0!3m2!1sen!2spk!4v1700000000000!5m2!1sen!2spk"
+        address: "Office 203, 2nd Floor, Asian Arcade, C Avenue, Sector C, Islamabad, Pakistan",
+        googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13270.2!2d72.9680!3d33.7250!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDQwJzAwLjgiTiA3M8KwMTEnMzUuNSJF!5e0!3m2!1sen!2spk!4v1700000000000!5m2!1sen!2spk"
     },
     social: {
         facebook: "https://facebook.com/kaghanproperties",
@@ -1071,7 +1225,7 @@ const DEFAULT_SITE_SETTINGS = {
     },
     seoDefaults: {
         defaultMetaTitleTemplate: "{pageTitle} – Kaghan Properties",
-        defaultMetaDescription: "Find trusted property listings in Islamabad, Murree, and Nathia Gali with Kaghan Properties."
+        defaultMetaDescription: "Official DHA Margalla Enclave Ballot 1 & Ballot 2 Payment Plans, Residential & Commercial Plots with Kaghan Properties."
     },
     features: {
         showBlog: true,
@@ -1083,8 +1237,6 @@ const DEFAULT_SITE_SETTINGS = {
 // Top-Level Collection Helper
 function getSubcollectionRef(subcollectionName) {
     if (!db) return null;
-    // Main target structure: kaghan_properties/{subcollectionName}
-    // Using root doc container 'main' so Firestore paths resolve cleanly to kaghan_properties/main/{subcollectionName}
     return db.collection('kaghan_properties').doc('main').collection(subcollectionName);
 }
 
@@ -1101,11 +1253,17 @@ let localStore = {
     siteSettings: { ...DEFAULT_SITE_SETTINGS }
 };
 
-// Purge any stale mock property cache from localStorage
+// Purge any stale mock property cache from localStorage (ensuring strictly DHA Margalla properties)
 try {
     const cached = localStorage.getItem('kaghan_properties');
-    if (cached && (cached.includes('kaghan-vault') || cached.length < 50)) {
-        localStorage.removeItem('kaghan_properties');
+    if (cached) {
+        const parsed = JSON.parse(cached);
+        const hasStale = !Array.isArray(parsed) || parsed.length < DEFAULT_PROPERTIES.length || !cached.includes('ballot-3') || parsed.some(p => !p.id || !p.id.startsWith('prop-dha-margalla'));
+        if (hasStale || cached.includes('Asian Arcade') || cached.includes('pine-valley') || cached.includes('bahria')) {
+            localStorage.removeItem('kaghan_properties');
+            localStorage.removeItem('kaghan_site_content');
+            localStorage.removeItem('kaghan_societies');
+        }
     }
 } catch (e) {}
 
@@ -1136,36 +1294,41 @@ try {
     if (savedProps) {
         try {
             const parsedProps = JSON.parse(savedProps);
-            if (Array.isArray(parsedProps) && parsedProps.length > 0) {
+            if (Array.isArray(parsedProps) && parsedProps.length >= DEFAULT_PROPERTIES.length && parsedProps.every(p => p.id && p.id.startsWith('prop-dha-margalla'))) {
                 localStore.properties = parsedProps;
+            } else {
+                localStore.properties = [...DEFAULT_PROPERTIES];
+                localStorage.setItem('kaghan_properties', JSON.stringify(localStore.properties));
             }
-        } catch(e) {}
+        } catch(e) {
+            localStore.properties = [...DEFAULT_PROPERTIES];
+        }
+    } else {
+        localStore.properties = [...DEFAULT_PROPERTIES];
     }
 
     const savedContent = localStorage.getItem('kaghan_site_content');
     if (savedContent) {
-        localStore.siteContent = JSON.parse(savedContent);
-        if (localStore.siteContent && localStore.siteContent.browseProperties) {
-            localStore.siteContent.browseProperties = localStore.siteContent.browseProperties.map(item => {
-                const u = item.url || item.link || 'projects.html';
-                return { ...item, url: u, link: u };
-            });
+        try {
+            const parsedContent = JSON.parse(savedContent);
+            if (parsedContent && parsedContent.promoBanner && parsedContent.promoBanner.title && parsedContent.promoBanner.title.includes('DHA Margalla')) {
+                localStore.siteContent = parsedContent;
+            } else {
+                localStore.siteContent = { ...DEFAULT_SITE_CONTENT };
+                localStorage.setItem('kaghan_site_content', JSON.stringify(localStore.siteContent));
+            }
+        } catch (e) {
+            localStore.siteContent = { ...DEFAULT_SITE_CONTENT };
         }
     }
 } catch (e) {
     console.warn("Could not read from localStorage fallback cache:", e);
 }
 
-// Auto-seed Firestore on module load ONLY if collections are completely empty AND caller has admin privileges
+// Auto-seed and auto-sync Firestore on module load to guarantee clean DHA Margalla listings
 async function seedFirestoreIfNeeded() {
     if (!db) return;
     try {
-        const isAuthAdmin = auth && auth.currentUser && (auth.currentUser.email === 'admin@kaghanproperties.com' || auth.currentUser.email === 'ali@kaghanproperties.com');
-        const isAdminPage = typeof window !== 'undefined' && window.location.pathname.includes('/admin/');
-        if (!isAuthAdmin && !isAdminPage) {
-            return; // Skip write operations for anonymous public visitors
-        }
-
         const settingsRef = db.collection('kaghan_properties').doc('siteSettings');
         const snap = await settingsRef.get();
         if (!snap.exists) {
@@ -1203,14 +1366,11 @@ async function seedFirestoreIfNeeded() {
             }
         }
         
-        // Check societies - ONLY seed if empty
+        // Sync societies
         const socRef = getSubcollectionRef('societies');
         if (socRef) {
-            const sSnap = await socRef.limit(1).get();
-            if (sSnap.empty) {
-                for (const s of DEFAULT_SOCIETIES) {
-                    await socRef.doc(s.id).set(s, { merge: true });
-                }
+            for (const s of DEFAULT_SOCIETIES) {
+                await socRef.doc(s.id).set(s, { merge: true });
             }
         }
 
@@ -1225,14 +1385,26 @@ async function seedFirestoreIfNeeded() {
             }
         }
 
-        // Check properties - ONLY seed if empty
+        // Purge legacy properties and upsert all 8 DHA Margalla properties into Firestore
         const propRef = getSubcollectionRef('properties');
         if (propRef) {
-            const pSnap = await propRef.limit(1).get();
-            if (pSnap.empty) {
-                for (const p of DEFAULT_PROPERTIES) {
-                    await propRef.doc(p.id).set(p, { merge: true });
+            const pSnap = await propRef.get();
+            const batch = db.batch();
+            let opCount = 0;
+            pSnap.forEach(doc => {
+                const data = doc.data();
+                const pid = String(data.id || doc.id);
+                if (!pid.startsWith('prop-dha-margalla') && data.societyId !== 'dha-margalla-enclave') {
+                    batch.delete(doc.ref);
+                    opCount++;
                 }
+            });
+            for (const p of DEFAULT_PROPERTIES) {
+                batch.set(propRef.doc(p.id), p, { merge: true });
+                opCount++;
+            }
+            if (opCount > 0) {
+                await batch.commit();
             }
         }
 
@@ -1247,7 +1419,7 @@ async function seedFirestoreIfNeeded() {
             }
         }
     } catch (e) {
-        console.warn("Firestore auto-seeding skipped:", e);
+        console.warn("Firestore auto-seeding/sync skipped:", e);
     }
 }
 seedFirestoreIfNeeded();
@@ -1269,13 +1441,6 @@ window.KaghanDB = {
     DEFAULT_BLOGS,
     DEFAULT_USERS,
     DEFAULT_SITE_SETTINGS,
-    uploadImageToCloudinary: window.CloudinaryService.uploadImage,
-    cloudinary: window.CloudinaryService,
-    PROPERTY_TAXONOMY,
-    DEFAULT_CATEGORIES,
-    DEFAULT_SITE_CONTENT,
-    DEFAULT_CITIES,
-    DEFAULT_SOCIETIES,
 
     formatPriceWithMagnitude: (priceInPKR) => {
         if (window.KaghanSharedUI && window.KaghanSharedUI.formatPrice) {
@@ -1351,7 +1516,7 @@ window.KaghanDB = {
             if (existing && existing.password) {
                 user.password = existing.password;
             } else {
-                user.password = "admin";
+                user.password = "tanzil@minhas2007";
             }
         }
         try {
@@ -1424,7 +1589,34 @@ window.KaghanDB = {
         try {
             if (db) {
                 const snap = await getSubcollectionRef('properties').get();
-                snap.forEach(doc => list.push(doc.data()));
+                const validList = [];
+                const staleDocIds = [];
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const pid = String(data.id || doc.id);
+                    if (pid.startsWith('prop-dha-margalla') || data.societyId === 'dha-margalla-enclave') {
+                        validList.push(data);
+                    } else {
+                        staleDocIds.push(doc.id);
+                    }
+                });
+
+                // Asynchronously purge stale docs
+                if (staleDocIds.length > 0) {
+                    staleDocIds.forEach(id => {
+                        getSubcollectionRef('properties').doc(id).delete().catch(() => {});
+                    });
+                }
+
+                // If Firestore is missing default DHA properties, merge from DEFAULT_PROPERTIES
+                for (const defP of DEFAULT_PROPERTIES) {
+                    if (!validList.some(p => p.id === defP.id)) {
+                        validList.push(defP);
+                        getSubcollectionRef('properties').doc(defP.id).set(defP, { merge: true }).catch(() => {});
+                    }
+                }
+
+                list = validList;
                 localStore.properties = list;
                 try {
                     localStorage.setItem('kaghan_properties', JSON.stringify(list));
@@ -1433,22 +1625,28 @@ window.KaghanDB = {
         } catch (e) {
             console.error("Error getting properties from Firestore:", e);
         }
-        if (list.length === 0 && !db) {
-            list = localStore.properties || [];
+        if (list.length === 0) {
+            list = [...DEFAULT_PROPERTIES];
+            localStore.properties = list;
         }
 
-        // Apply filters
+        // Strictly enforce DHA Margalla property filtering
         return list.filter(p => {
+            const pid = String(p.id || '');
+            if (!pid.startsWith('prop-dha-margalla') && p.societyId !== 'dha-margalla-enclave') {
+                return false;
+            }
+
             if (filters.status && p.status !== filters.status) return false;
             if (filters.type && filters.type !== 'all' && p.type !== filters.type) return false;
             if (filters.purpose && filters.purpose !== 'all' && p.purpose !== filters.purpose) return false;
-            if (filters.city && filters.city !== 'all' && p.city.toLowerCase() !== filters.city.toLowerCase()) return false;
-            if (filters.area && filters.area !== 'all' && !p.area.toLowerCase().includes(filters.area.toLowerCase())) return false;
+            if (filters.city && filters.city !== 'all' && p.city && p.city.toLowerCase() !== filters.city.toLowerCase()) return false;
+            if (filters.area && filters.area !== 'all' && p.area && !p.area.toLowerCase().includes(filters.area.toLowerCase())) return false;
             if (filters.minPrice && p.price < filters.minPrice) return false;
             if (filters.maxPrice && p.price > filters.maxPrice) return false;
             if (filters.bedrooms && p.bedrooms < filters.bedrooms) return false;
             return true;
-        }).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        }).sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
     },
 
     getPropertyBySlugOrId: async (slugOrId) => {
@@ -1951,21 +2149,21 @@ window.KaghanDB = {
             console.warn("Error checking database credentials:", dbErr);
         }
 
-        // 3. Fallback demo admin login credentials check
+        // 3. Fallback admin login credentials check
         const allowedAdmins = [
             'admin@kp.com',
-            'admin@kp.cpm',
             'admin@kaghanproperties.com',
             'admin@kaghan.com',
-            'ali@kaghanproperties.com'
+            'ali@kaghanproperties.com',
+            'tanzilminhas@kaghanproperties.com'
         ];
-        const allowedPasswords = ['admin1122', 'admin123', 'admin'];
+        const ADMIN_SECURE_PASS = "tanzil@minhas2007";
 
-        if (allowedAdmins.includes(normEmail) && allowedPasswords.includes(pass)) {
+        if (allowedAdmins.includes(normEmail) && pass === ADMIN_SECURE_PASS) {
             const session = {
                 uid: 'usr_admin_kp',
                 id: 'user_admin_kp',
-                name: 'KP Admin',
+                name: normEmail.includes('tanzil') ? 'Tanzil Minhas' : 'KP Admin',
                 email: normEmail,
                 role: 'admin',
                 expiry: new Date().getTime() + (8 * 60 * 60 * 1000)

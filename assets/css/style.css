@@ -1343,3 +1343,58 @@ h1, h2, h3, h4, h5, h6, .outfit {
         font-size: 0.75rem !important;
     }
 }
+
+/* ==========================================================================
+   Universal High-Converting DHA Margalla Ballot Launch Popup
+   ========================================================================== */
+#modal-dha-launch-popup {
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
+}
+
+#modal-dha-launch-popup.active {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+}
+
+#modal-dha-launch-popup.active .kaghan-popup-card {
+    transform: scale(1) translateY(0) !important;
+    opacity: 1 !important;
+}
+
+.kaghan-popup-card {
+    transform: scale(0.92) translateY(20px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(212, 175, 55, 0.15);
+}
+
+.popup-glow-border {
+    position: relative;
+}
+
+.popup-glow-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.6), rgba(7, 121, 67, 0.4), rgba(168, 85, 247, 0.5));
+    border-radius: inherit;
+    z-index: -1;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 1.5px;
+}
+
+.popup-chip-btn {
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.popup-chip-btn.active {
+    background: linear-gradient(135deg, #077943, #044827) !important;
+    color: #ffffff !important;
+    border-color: #34d399 !important;
+    box-shadow: 0 4px 12px rgba(7, 121, 67, 0.35);
+}
+
