@@ -1173,6 +1173,7 @@ const DEFAULT_USERS = [
         role: "admin",
         photoUrl: "assets/images/logo.png",
         specializedAreas: ["DHA Margalla Enclave", "Islamabad", "Rawalpindi"],
+        allowMaintenanceAccess: true,
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -1187,6 +1188,7 @@ const DEFAULT_USERS = [
         role: "admin",
         photoUrl: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80",
         specializedAreas: ["DHA Margalla Enclave Ballot 1", "DHA Margalla Enclave Ballot 2"],
+        allowMaintenanceAccess: true,
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -1201,6 +1203,7 @@ const DEFAULT_USERS = [
         role: "admin",
         photoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
         specializedAreas: ["DHA Margalla Enclave Commercial", "DHA Margalla Enclave Residential"],
+        allowMaintenanceAccess: true,
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -1230,6 +1233,21 @@ const DEFAULT_SITE_SETTINGS = {
     features: {
         showBlog: true,
         showWhatsAppButton: true
+    },
+    underConstruction: {
+        enabled: false,
+        headline: "We Are Upgrading Our Digital Experience",
+        subheadline: "Kaghan Properties is currently undergoing scheduled platform upgrades, infrastructure enhancements, and portfolio synchronization. We will be back online shortly.",
+        estimatedEndTime: "",
+        contactEmail: "info@kaghanproperties.com",
+        contactPhone: "+923340091127",
+        contactWhatsApp: "+923340091127",
+        bypassPasscode: "KAGHAN-VIP-2026",
+        allowedRoles: ["admin"],
+        allowedEmails: ["tanzilminhas2007@gmail.com", "admin@kaghanproperties.com", "ali@kaghanproperties.com"],
+        noticeBadge: "Scheduled Maintenance Mode",
+        allowEmergencyContact: true,
+        allowLeadCapture: true
     },
     updatedAt: new Date().toISOString()
 };
@@ -1319,6 +1337,23 @@ try {
             }
         } catch (e) {
             localStore.siteContent = { ...DEFAULT_SITE_CONTENT };
+        }
+    }
+
+    const savedSettings = localStorage.getItem('kaghan_site_settings');
+    if (savedSettings) {
+        try {
+            const parsedSettings = JSON.parse(savedSettings);
+            localStore.siteSettings = {
+                ...DEFAULT_SITE_SETTINGS,
+                ...parsedSettings,
+                underConstruction: {
+                    ...DEFAULT_SITE_SETTINGS.underConstruction,
+                    ...(parsedSettings.underConstruction || {})
+                }
+            };
+        } catch (e) {
+            localStore.siteSettings = { ...DEFAULT_SITE_SETTINGS };
         }
     }
 } catch (e) {
@@ -1465,7 +1500,30 @@ window.KaghanDB = {
             if (db) {
                 const snap = await db.collection('kaghan_properties').doc('siteSettings').get();
                 if (snap.exists) {
-                    return snap.data();
+                    const data = snap.data();
+                    const merged = {
+                        ...DEFAULT_SITE_SETTINGS,
+                        ...data,
+                        underConstruction: {
+                            ...DEFAULT_SITE_SETTINGS.underConstruction,
+                            ...((data && data.underConstruction) || {})
+                        },
+                        features: {
+                            ...DEFAULT_SITE_SETTINGS.features,
+                            ...((data && data.features) || {})
+                        },
+                        contact: {
+                            ...DEFAULT_SITE_SETTINGS.contact,
+                            ...((data && data.contact) || {})
+                        },
+                        social: {
+                            ...DEFAULT_SITE_SETTINGS.social,
+                            ...((data && data.social) || {})
+                        }
+                    };
+                    localStore.siteSettings = merged;
+                    localStorage.setItem('kaghan_site_settings', JSON.stringify(merged));
+                    return merged;
                 }
             }
         } catch (e) {
@@ -1476,15 +1534,105 @@ window.KaghanDB = {
 
     saveSiteSettings: async (settings) => {
         settings.updatedAt = new Date().toISOString();
+        const merged = {
+            ...localStore.siteSettings,
+            ...settings,
+            underConstruction: {
+                ...(localStore.siteSettings.underConstruction || DEFAULT_SITE_SETTINGS.underConstruction),
+                ...((settings && settings.underConstruction) || {})
+            }
+        };
+
         try {
             if (db) {
-                await db.collection('kaghan_properties').doc('siteSettings').set(settings, { merge: true });
+                await db.collection('kaghan_properties').doc('siteSettings').set(merged, { merge: true });
             }
         } catch (e) {
             console.error("Error saving site settings:", e);
         }
-        localStore.siteSettings = { ...localStore.siteSettings, ...settings };
-        return { success: true };
+        localStore.siteSettings = merged;
+        localStorage.setItem('kaghan_site_settings', JSON.stringify(merged));
+        
+        // Dispatch event for instant UI reaction if any listener is active
+        window.dispatchEvent(new CustomEvent('siteSettingsUpdated', { detail: merged }));
+        return { success: true, settings: merged };
+    },
+
+    // Site Maintenance / Under-Construction API
+    getMaintenanceSettings: async () => {
+        const settings = await window.KaghanDB.getSiteSettings();
+        const under = (settings && settings.underConstruction) ? settings.underConstruction : DEFAULT_SITE_SETTINGS.underConstruction;
+        return {
+            ...DEFAULT_SITE_SETTINGS.underConstruction,
+            ...under
+        };
+    },
+
+    setMaintenanceMode: async (enabled, config = {}) => {
+        const settings = await window.KaghanDB.getSiteSettings();
+        const currentUnder = settings.underConstruction || { ...DEFAULT_SITE_SETTINGS.underConstruction };
+        const updatedUnder = {
+            ...currentUnder,
+            ...config,
+            enabled: !!enabled,
+            updatedAt: new Date().toISOString()
+        };
+        const res = await window.KaghanDB.saveSiteSettings({
+            ...settings,
+            underConstruction: updatedUnder
+        });
+        return { success: true, underConstruction: updatedUnder };
+    },
+
+    canUserBypassMaintenance: (settings, user, bypassKey) => {
+        const maint = (settings && settings.underConstruction) ? settings.underConstruction : DEFAULT_SITE_SETTINGS.underConstruction;
+        if (!maint || !maint.enabled) return { allowed: true, reason: 'maintenance_disabled' };
+
+        // 1. Logged in Admin
+        if (user && user.role === 'admin') {
+            return { allowed: true, reason: 'admin' };
+        }
+
+        // 2. User has explicit allowMaintenanceAccess permission flag
+        if (user && user.allowMaintenanceAccess === true) {
+            return { allowed: true, reason: 'user_permission' };
+        }
+
+        // 3. User role is in allowedRoles
+        const allowedRoles = Array.isArray(maint.allowedRoles) ? maint.allowedRoles : ['admin'];
+        if (user && user.role && allowedRoles.includes(user.role)) {
+            return { allowed: true, reason: 'role_allowed' };
+        }
+
+        // 4. User email is in whitelist
+        const allowedEmails = Array.isArray(maint.allowedEmails) 
+            ? maint.allowedEmails.map(e => String(e).toLowerCase().trim()) 
+            : ['tanzilminhas2007@gmail.com', 'admin@kaghanproperties.com', 'ali@kaghanproperties.com'];
+        if (user && user.email && allowedEmails.includes(String(user.email).toLowerCase().trim())) {
+            return { allowed: true, reason: 'email_whitelisted' };
+        }
+
+        // 5. VIP Passcode match
+        const configuredPasscode = (maint.bypassPasscode || 'KAGHAN-VIP-2026').trim();
+        if (bypassKey && String(bypassKey).trim() === configuredPasscode) {
+            return { allowed: true, reason: 'passcode' };
+        }
+
+        return { allowed: false, reason: 'unauthorized' };
+    },
+
+    setMaintenanceBypassKey: (key) => {
+        if (!key) return false;
+        localStorage.setItem('kaghan_maintenance_bypass', String(key).trim());
+        return true;
+    },
+
+    clearMaintenanceBypassKey: () => {
+        localStorage.removeItem('kaghan_maintenance_bypass');
+    },
+
+    getMaintenanceBypassKey: () => {
+        return localStorage.getItem('kaghan_maintenance_bypass') || '';
     },
 
     // Users API
@@ -1511,6 +1659,12 @@ window.KaghanDB = {
         user.updatedAt = new Date().toISOString();
         if (!user.createdAt) user.createdAt = new Date().toISOString();
         if (!user.id) user.id = `user_${Date.now()}`;
+        if (user.role === 'admin') {
+            user.allowMaintenanceAccess = true;
+        } else if (user.allowMaintenanceAccess === undefined) {
+            const existing = (localStore.users || []).find(u => u.id === user.id);
+            user.allowMaintenanceAccess = existing ? !!existing.allowMaintenanceAccess : false;
+        }
         if (!user.password) {
             const existing = (localStore.users || []).find(u => u.id === user.id || (u.email && user.email && u.email.toLowerCase() === user.email.toLowerCase()));
             if (existing && existing.password) {

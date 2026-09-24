@@ -222,3 +222,25 @@ self.addEventListener('fetch', (event) => {
   // Respond with caching strategy...
 });
 ```
+
+---
+
+## 7. Site Maintenance & Under-Construction Access Control (`assets/js/db.js`, `assets/js/shared.js`)
+
+A non-invasive, zero-UI-modification site maintenance engine that allows taking the entire public frontend offline while granting selective access to administrators, permitted staff/agents, whitelisted emails, and stakeholders via secret preview keys.
+
+### Key Capabilities:
+1. **Zero Template Invasiveness**: Operates via `assets/js/shared.js` and `assets/js/db.js` loaded globally. Requires zero markup alteration to existing HTML pages.
+2. **Admin Panel Master Toggle**: Admins can toggle maintenance ON / OFF in real-time from the **Site Settings** tab (`admin/index.html`).
+3. **Role & Permission Guarding**:
+   - **Administrators**: Always allowed to browse the full site and admin console.
+   - **Staff / Agents**: Configurable in User Management with `allowMaintenanceAccess: true` or role permissions.
+   - **Email Whitelist**: Specific emails (e.g. clients/investors) can be added to the whitelist.
+   - **VIP Secret Passcode & 1-Click Preview Link**: Generates a shareable URL (`?preview_key=KAGHAN-VIP-2026`) that automatically sets a bypass token and unlocks the site with a VIP preview ribbon.
+4. **Interactive Public Maintenance Screen**:
+   - Luxury dark gold/emerald aesthetic matching brand identity.
+   - Real-time countdown timer to scheduled launch date.
+   - Direct emergency concierge actions (WhatsApp, phone call, email).
+   - "Notify Me When Live" lead capture that syncs directly into Firestore.
+   - Inline portal unlock modal for staff and VIP passcode holders.
+

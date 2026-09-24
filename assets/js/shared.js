@@ -9,6 +9,7 @@ window.KaghanSharedUI = {
     language: localStorage.getItem('kaghan_lang') || 'EN',
 
     init: function() {
+        if (window.KaghanMaintenance) window.KaghanMaintenance.init();
         this.renderHeader();
         this.renderFooter();
         this.renderModals();
@@ -999,9 +1000,541 @@ window.KaghanSharedUI = {
     }
 };
 
+// ==========================================================================
+// Kaghan Properties - Global Under-Construction & Maintenance Mode Engine
+// ==========================================================================
+window.KaghanMaintenance = {
+    timerInterval: null,
+    firestoreUnsub: null,
+
+    isExemptPage: function() {
+        const path = window.location.pathname.toLowerCase();
+        return path.includes('kp-sec-access-9182.html') ||
+               path.includes('/admin/') ||
+               path.includes('admin/index.html') ||
+               path.includes('populate-firestore.html') ||
+               path.includes('clear-firestore.html');
+    },
+
+    init: async function() {
+        if (this.isExemptPage()) return;
+
+        // 1. Check URL Query Parameters for Bypass Key (?preview_key=... or ?maintenance_key=... or ?bypass=...)
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryBypassKey = urlParams.get('preview_key') || urlParams.get('maintenance_key') || urlParams.get('bypass') || urlParams.get('key');
+            if (queryBypassKey) {
+                localStorage.setItem('kaghan_maintenance_bypass', queryBypassKey.trim());
+            }
+        } catch (e) {}
+
+        // 2. Fetch current settings and evaluate
+        const settings = window.KaghanDB ? await window.KaghanDB.getSiteSettings() : null;
+        this.evaluate(settings);
+
+        // 3. Listen for local setting changes
+        window.addEventListener('siteSettingsUpdated', (e) => {
+            if (e.detail) this.evaluate(e.detail);
+        });
+
+        // 4. Listen for real-time Firestore settings updates
+        if (typeof firebase !== 'undefined' && firebase.firestore && !this.firestoreUnsub) {
+            try {
+                const db = firebase.firestore();
+                this.firestoreUnsub = db.collection('kaghan_properties').doc('siteSettings')
+                    .onSnapshot((snap) => {
+                        if (snap.exists) {
+                            const data = snap.data();
+                            this.evaluate(data);
+                        }
+                    }, (err) => {
+                        console.warn('Maintenance Firestore snapshot listener:', err);
+                    });
+            } catch (e) {
+                console.warn('Could not attach Firestore maintenance listener:', e);
+            }
+        }
+    },
+
+    evaluate: function(settings) {
+        if (this.isExemptPage()) return;
+
+        const underConstruction = (settings && settings.underConstruction) ? settings.underConstruction : (window.KaghanDB ? window.KaghanDB.DEFAULT_SITE_SETTINGS.underConstruction : null);
+        const isEnabled = !!(underConstruction && underConstruction.enabled);
+
+        if (!isEnabled) {
+            this.removeUnderConstructionScreen();
+            this.removeVIPBanner();
+            return;
+        }
+
+        // Under construction is active - check if visitor is authorized to bypass
+        const currentUser = (window.CorporateDB && window.CorporateDB.getCurrentUser) ? window.CorporateDB.getCurrentUser() : null;
+        const storedBypassKey = localStorage.getItem('kaghan_maintenance_bypass') || '';
+
+        const check = (window.KaghanDB && window.KaghanDB.canUserBypassMaintenance) 
+            ? window.KaghanDB.canUserBypassMaintenance(settings, currentUser, storedBypassKey)
+            : { allowed: false };
+
+        if (check.allowed) {
+            // Authorized visitor: remove blocker and display VIP Preview Ribbon
+            this.removeUnderConstructionScreen();
+            this.renderVIPBanner(underConstruction, check.reason, currentUser);
+        } else {
+            // Unauthorized visitor: remove VIP banner and render full Under Construction Screen
+            this.removeVIPBanner();
+            this.renderUnderConstructionScreen(underConstruction);
+        }
+    },
+
+    renderVIPBanner: function(maint, reason, user) {
+        let banner = document.getElementById('kaghan-maintenance-vip-bar');
+        if (!banner) {
+            banner = document.createElement('div');
+            banner.id = 'kaghan-maintenance-vip-bar';
+            document.body.prepend(banner);
+        }
+
+        let reasonLabel = 'VIP Preview';
+        if (reason === 'admin') reasonLabel = `Admin (${(user && user.name) || 'Authorized'})`;
+        else if (reason === 'user_permission' || reason === 'role_allowed') reasonLabel = `Staff User (${(user && user.name) || (user && user.role) || 'Agent'})`;
+        else if (reason === 'email_whitelisted') reasonLabel = `Whitelisted (${(user && user.email) || 'Verified'})`;
+        else if (reason === 'passcode') reasonLabel = 'Passcode Access';
+
+        banner.className = 'sticky top-0 z-[99999] bg-gradient-to-r from-amber-950 via-slate-900 to-amber-950 border-b border-amber-500/40 text-amber-200 text-xs px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 shadow-2xl backdrop-blur-md';
+        banner.innerHTML = `
+            <div class="flex items-center gap-2.5">
+                <span class="relative flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+                </span>
+                <span class="font-bold text-[11px] uppercase tracking-wider text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">
+                    Under Construction Active
+                </span>
+                <span class="text-slate-300 text-xs hidden sm:inline">
+                    You have authorized access via <strong class="text-amber-300">${reasonLabel}</strong>. Public visitors see the maintenance screen.
+                </span>
+            </div>
+            <div class="flex items-center gap-2 ml-auto">
+                ${(user && user.role === 'admin') ? `
+                    <a href="admin/index.html" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-3 py-1 rounded-lg text-[10px] uppercase tracking-wider transition-all flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-sliders"></i> Admin Console
+                    </a>
+                ` : ''}
+                <button type="button" onclick="window.KaghanMaintenance.exitPreview()" class="bg-slate-800 hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 border border-slate-700 hover:border-rose-500/40 px-2.5 py-1 rounded-lg text-[10px] uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer">
+                    <i class="fa-solid fa-right-from-bracket"></i> Lock / Exit Preview
+                </button>
+            </div>
+        `;
+    },
+
+    removeVIPBanner: function() {
+        const banner = document.getElementById('kaghan-maintenance-vip-bar');
+        if (banner) banner.remove();
+    },
+
+    renderUnderConstructionScreen: function(maint) {
+        document.body.style.overflow = 'hidden';
+        let overlay = document.getElementById('kaghan-under-construction-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'kaghan-under-construction-overlay';
+            document.body.appendChild(overlay);
+        }
+
+        const headline = (maint && maint.headline) || "We Are Upgrading Our Digital Experience";
+        const subheadline = (maint && maint.subheadline) || "Kaghan Properties is currently undergoing scheduled platform upgrades, infrastructure enhancements, and portfolio synchronization. We will be back online shortly.";
+        const phone = (maint && maint.contactPhone) || "+923340091127";
+        const email = (maint && maint.contactEmail) || "info@kaghanproperties.com";
+        const whatsapp = (maint && maint.contactWhatsApp) || "+923340091127";
+        const whatsappClean = whatsapp.replace(/[^0-9]/g, '');
+        const endTime = maint && maint.estimatedEndTime ? maint.estimatedEndTime : null;
+        const noticeBadge = (maint && maint.noticeBadge) || "Scheduled Platform Maintenance";
+
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.zIndex = '999999';
+        overlay.style.overflowY = 'auto';
+        overlay.style.backgroundColor = '#070b14';
+
+        overlay.innerHTML = `
+            <div class="min-h-screen bg-[#070b14] text-slate-100 flex flex-col justify-between items-center relative overflow-hidden px-4 py-8 sm:p-12 font-sans select-none">
+                <!-- Background Glowing Gradients -->
+                <div class="absolute top-[-15%] left-[-10%] w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] bg-[#077943]/20 rounded-full blur-[140px] pointer-events-none"></div>
+                <div class="absolute bottom-[-15%] right-[-10%] w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] bg-[#D4AF37]/15 rounded-full blur-[140px] pointer-events-none"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] max-w-[450px] max-h-[450px] bg-emerald-600/10 rounded-full blur-[160px] pointer-events-none"></div>
+
+                <!-- Top Brand Header -->
+                <header class="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
+                    <div class="flex items-center gap-3">
+                        <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-10 sm:h-12 w-auto object-contain drop-shadow-md" onerror="this.src='assets/images/logo.png'">
+                        <div>
+                            <span class="font-extrabold text-base sm:text-lg tracking-wider uppercase text-white font-['Outfit'] block">Kaghan Properties</span>
+                            <span class="text-[9px] uppercase tracking-widest text-[#D4AF37] font-semibold">Pakistan Premier Real Estate Marketplace</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 bg-slate-900/90 border border-amber-500/30 px-3.5 py-1.5 rounded-full shadow-lg backdrop-blur-md">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                        </span>
+                        <span class="text-[11px] font-bold text-amber-300 font-mono tracking-wide uppercase">${noticeBadge}</span>
+                    </div>
+                </header>
+
+                <!-- Central Content Box -->
+                <main class="w-full max-w-3xl my-8 relative z-10 text-center space-y-7">
+                    <!-- Icon / Brand Badge -->
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-amber-500/20 via-slate-900 to-emerald-500/20 border border-amber-500/30 shadow-2xl relative group">
+                        <i class="fa-solid fa-compass-drafting text-3xl text-[#D4AF37] group-hover:scale-110 transition-transform duration-300"></i>
+                        <span class="absolute -top-1 -right-1 flex h-4 w-4">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-4 w-4 bg-[#077943] border-2 border-slate-950"></span>
+                        </span>
+                    </div>
+
+                    <!-- Headline & Subtitle -->
+                    <div class="space-y-3">
+                        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight font-['Outfit'] text-white leading-tight">
+                            <span class="bg-gradient-to-r from-white via-slate-100 to-[#D4AF37] bg-clip-text text-transparent">
+                                ${headline}
+                            </span>
+                        </h1>
+                        <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                            ${subheadline}
+                        </p>
+                    </div>
+
+                    <!-- Countdown Timer Block (if endTime is provided) -->
+                    ${endTime ? `
+                        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 backdrop-blur-md shadow-2xl max-w-xl mx-auto">
+                            <div class="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] mb-4 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-clock"></i> Estimated Re-Launch Countdown
+                            </div>
+                            <div id="maint-countdown-grid" class="grid grid-cols-4 gap-2 sm:gap-4 font-['Outfit']">
+                                <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-center">
+                                    <span id="maint-count-days" class="block text-2xl sm:text-4xl font-extrabold text-white">00</span>
+                                    <span class="text-[9px] uppercase tracking-wider text-slate-400 font-sans font-bold">Days</span>
+                                </div>
+                                <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-center">
+                                    <span id="maint-count-hours" class="block text-2xl sm:text-4xl font-extrabold text-white">00</span>
+                                    <span class="text-[9px] uppercase tracking-wider text-slate-400 font-sans font-bold">Hours</span>
+                                </div>
+                                <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-center">
+                                    <span id="maint-count-mins" class="block text-2xl sm:text-4xl font-extrabold text-white">00</span>
+                                    <span class="text-[9px] uppercase tracking-wider text-slate-400 font-sans font-bold">Mins</span>
+                                </div>
+                                <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-center">
+                                    <span id="maint-count-secs" class="block text-2xl sm:text-4xl font-extrabold text-[#D4AF37]">00</span>
+                                    <span class="text-[9px] uppercase tracking-wider text-slate-400 font-sans font-bold">Secs</span>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Quick Direct Action Buttons -->
+                    <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+                        <a href="https://wa.me/${whatsappClean}?text=Hello%20Kaghan%20Properties%20Team%2C%20I%20am%20inquiring%20about%20a%20property%20listing." target="_blank" class="bg-[#25D366] hover:bg-[#1ebd5a] text-slate-950 font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg shadow-emerald-950/50 cursor-pointer">
+                            <i class="fa-brands fa-whatsapp text-base"></i> Direct WhatsApp Concierge
+                        </a>
+                        <a href="tel:${phone}" class="bg-slate-900/90 hover:bg-slate-800 text-white border border-slate-700 px-5 py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-xs text-[#D4AF37]"></i> Call ${phone}
+                        </a>
+                        <a href="mailto:${email}" class="bg-slate-900/90 hover:bg-slate-800 text-white border border-slate-700 px-5 py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-envelope text-xs text-[#D4AF37]"></i> Email Inquiries
+                        </a>
+                    </div>
+
+                    <!-- Lead Capture Notify Form -->
+                    <div class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-5 max-w-md mx-auto backdrop-blur-sm">
+                        <div class="text-xs text-slate-300 font-semibold mb-2 flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-bell text-[#D4AF37]"></i> Get notified when we go live
+                        </div>
+                        <form id="maint-notify-form" onsubmit="window.KaghanMaintenance.handleNotifySubmit(event)" class="flex gap-2">
+                            <input type="email" id="maint-notify-email" required placeholder="Enter your email address" class="flex-1 bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all">
+                            <button type="submit" id="maint-notify-btn" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-wider transition-all shrink-0 cursor-pointer">
+                                Notify Me
+                            </button>
+                        </form>
+                        <div id="maint-notify-msg" class="hidden text-xs text-emerald-400 mt-2 font-medium"></div>
+                    </div>
+                </main>
+
+                <!-- Bottom Footer with VIP Unlock Button -->
+                <footer class="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-900/80 relative z-10 text-xs text-slate-500">
+                    <div>
+                        © ${new Date().getFullYear()} Kaghan Properties. All Rights Reserved.
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <button type="button" onclick="window.KaghanMaintenance.openUnlockModal()" class="text-slate-400 hover:text-[#D4AF37] flex items-center gap-1.5 text-xs font-semibold transition-colors cursor-pointer">
+                            <i class="fa-solid fa-key text-[11px] text-[#D4AF37]"></i>
+                            <span>Staff Login & VIP Preview</span>
+                        </button>
+                    </div>
+                </footer>
+
+                <!-- VIP & STAFF ACCESS UNLOCK MODAL -->
+                <div id="maint-unlock-modal" class="fixed inset-0 z-[1000000] bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 shadow-2xl relative text-left">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37]">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </span>
+                                <div>
+                                    <h3 class="text-base font-bold text-white font-['Outfit']">Authorized Personnel Access</h3>
+                                    <p class="text-[10px] text-slate-400">Unlock live site preview or management console</p>
+                                </div>
+                            </div>
+                            <button type="button" onclick="window.KaghanMaintenance.closeUnlockModal()" class="text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+
+                        <!-- Tab Selection: Passcode vs Portal Login -->
+                        <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-bold">
+                            <button type="button" id="maint-tab-passcode-btn" onclick="window.KaghanMaintenance.switchModalTab('passcode')" class="flex-1 py-2 rounded-lg bg-[#D4AF37] text-slate-950 transition-all text-center cursor-pointer">
+                                <i class="fa-solid fa-key mr-1"></i> VIP Passcode
+                            </button>
+                            <button type="button" id="maint-tab-login-btn" onclick="window.KaghanMaintenance.switchModalTab('login')" class="flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition-all text-center cursor-pointer">
+                                <i class="fa-solid fa-user-lock mr-1"></i> Staff Login
+                            </button>
+                        </div>
+
+                        <!-- Form 1: VIP Passcode -->
+                        <form id="maint-passcode-form" onsubmit="window.KaghanMaintenance.handlePasscodeSubmit(event)" class="space-y-4 text-xs">
+                            <div>
+                                <label class="text-slate-400 uppercase font-bold block mb-1.5 text-[10px] tracking-wider">Bypass Passcode</label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-lock absolute left-3.5 top-3 text-slate-500"></i>
+                                    <input type="password" id="maint-passcode-input" required placeholder="Enter secret VIP passcode" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl pl-10 pr-4 py-2.5 text-white font-mono focus:outline-none focus:ring-1 focus:ring-[#D4AF37]">
+                                </div>
+                                <p class="text-[10px] text-slate-500 mt-1">Provided by Kaghan Properties administration for authorized clients & stakeholders.</p>
+                            </div>
+                            <button type="submit" id="maint-passcode-btn" class="w-full bg-[#D4AF37] hover:bg-white text-slate-950 font-bold py-3 rounded-xl uppercase tracking-wider text-xs transition-all flex items-center justify-center gap-2 cursor-pointer">
+                                <span>Unlock VIP Preview</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                            <div id="maint-passcode-error" class="hidden text-xs text-rose-400 text-center font-semibold"></div>
+                        </form>
+
+                        <!-- Form 2: Staff Login -->
+                        <form id="maint-login-form" onsubmit="window.KaghanMaintenance.handleStaffLoginSubmit(event)" class="space-y-3.5 text-xs hidden">
+                            <div>
+                                <label class="text-slate-400 uppercase font-bold block mb-1 text-[10px] tracking-wider">Email Address</label>
+                                <input type="email" id="maint-staff-email" placeholder="agent@kaghanproperties.com" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-2.5 text-white focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="text-slate-400 uppercase font-bold block mb-1 text-[10px] tracking-wider">Password</label>
+                                <input type="password" id="maint-staff-password" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-2.5 text-white focus:outline-none">
+                            </div>
+                            <button type="submit" id="maint-login-submit-btn" class="w-full bg-gradient-to-r from-[#D4AF37] to-amber-500 hover:from-white hover:to-white text-slate-950 font-bold py-3 rounded-xl uppercase tracking-wider text-xs transition-all flex items-center justify-center gap-2 mt-2 cursor-pointer">
+                                <span>Sign In & Unlock</span>
+                                <i class="fa-solid fa-unlock text-[10px]"></i>
+                            </button>
+                            <div id="maint-login-error" class="hidden text-xs text-rose-400 text-center font-semibold"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        if (endTime) {
+            this.startCountdown(endTime);
+        }
+    },
+
+    removeUnderConstructionScreen: function() {
+        document.body.style.overflow = '';
+        const overlay = document.getElementById('kaghan-under-construction-overlay');
+        if (overlay) overlay.remove();
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
+        }
+    },
+
+    startCountdown: function(targetTimeStr) {
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        const target = new Date(targetTimeStr).getTime();
+        if (isNaN(target)) return;
+
+        const tick = () => {
+            const now = new Date().getTime();
+            const diff = target - now;
+
+            const daysEl = document.getElementById('maint-count-days');
+            const hoursEl = document.getElementById('maint-count-hours');
+            const minsEl = document.getElementById('maint-count-mins');
+            const secsEl = document.getElementById('maint-count-secs');
+
+            if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
+
+            if (diff <= 0) {
+                daysEl.innerText = "00";
+                hoursEl.innerText = "00";
+                minsEl.innerText = "00";
+                secsEl.innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            daysEl.innerText = String(days).padStart(2, '0');
+            hoursEl.innerText = String(hours).padStart(2, '0');
+            minsEl.innerText = String(minutes).padStart(2, '0');
+            secsEl.innerText = String(seconds).padStart(2, '0');
+        };
+
+        tick();
+        this.timerInterval = setInterval(tick, 1000);
+    },
+
+    openUnlockModal: function() {
+        const modal = document.getElementById('maint-unlock-modal');
+        if (modal) modal.classList.remove('hidden');
+    },
+
+    closeUnlockModal: function() {
+        const modal = document.getElementById('maint-unlock-modal');
+        if (modal) modal.classList.add('hidden');
+    },
+
+    switchModalTab: function(tab) {
+        const passForm = document.getElementById('maint-passcode-form');
+        const loginForm = document.getElementById('maint-login-form');
+        const passBtn = document.getElementById('maint-tab-passcode-btn');
+        const loginBtn = document.getElementById('maint-tab-login-btn');
+
+        if (tab === 'passcode') {
+            passForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+            passBtn.className = 'flex-1 py-2 rounded-lg bg-[#D4AF37] text-slate-950 transition-all text-center cursor-pointer';
+            loginBtn.className = 'flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition-all text-center cursor-pointer';
+        } else {
+            passForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+            loginBtn.className = 'flex-1 py-2 rounded-lg bg-[#D4AF37] text-slate-950 transition-all text-center cursor-pointer';
+            passBtn.className = 'flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition-all text-center cursor-pointer';
+        }
+    },
+
+    handlePasscodeSubmit: async function(e) {
+        e.preventDefault();
+        const input = document.getElementById('maint-passcode-input');
+        const err = document.getElementById('maint-passcode-error');
+        const code = input ? input.value.trim() : '';
+
+        if (!code) return;
+        err.classList.add('hidden');
+
+        const settings = window.KaghanDB ? await window.KaghanDB.getSiteSettings() : null;
+        const maint = (settings && settings.underConstruction) ? settings.underConstruction : (window.KaghanDB ? window.KaghanDB.DEFAULT_SITE_SETTINGS.underConstruction : null);
+        const expected = (maint && maint.bypassPasscode ? maint.bypassPasscode : 'KAGHAN-VIP-2026').trim();
+
+        if (code === expected) {
+            localStorage.setItem('kaghan_maintenance_bypass', code);
+            this.closeUnlockModal();
+            this.evaluate(settings);
+        } else {
+            err.innerText = "Invalid bypass passcode. Please check and try again.";
+            err.classList.remove('hidden');
+        }
+    },
+
+    handleStaffLoginSubmit: async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('maint-staff-email').value.trim();
+        const password = document.getElementById('maint-staff-password').value.trim();
+        const err = document.getElementById('maint-login-error');
+        const btn = document.getElementById('maint-login-submit-btn');
+
+        if (!email || !password) return;
+        err.classList.add('hidden');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Authenticating...';
+
+        try {
+            const res = await window.CorporateDB.login(email, password);
+            if (res.success) {
+                const settings = await window.KaghanDB.getSiteSettings();
+                const check = window.KaghanDB.canUserBypassMaintenance(settings, res.session, '');
+                if (check.allowed) {
+                    this.closeUnlockModal();
+                    this.evaluate(settings);
+                } else {
+                    err.innerText = "Your user account does not have permission to access the site during maintenance.";
+                    err.classList.remove('hidden');
+                }
+            } else {
+                err.innerText = res.message || "Invalid credentials.";
+                err.classList.remove('hidden');
+            }
+        } catch (error) {
+            err.innerText = "System error during authentication. Please check connection.";
+            err.classList.remove('hidden');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = 'Sign In & Unlock <i class="fa-solid fa-unlock text-[10px]"></i>';
+        }
+    },
+
+    handleNotifySubmit: async function(e) {
+        e.preventDefault();
+        const emailInput = document.getElementById('maint-notify-email');
+        const msg = document.getElementById('maint-notify-msg');
+        const btn = document.getElementById('maint-notify-btn');
+
+        if (!emailInput || !emailInput.value) return;
+        const email = emailInput.value.trim();
+
+        btn.disabled = true;
+        btn.innerText = 'Subscribing...';
+
+        try {
+            if (window.CorporateDB && window.CorporateDB.addSubscriber) {
+                await window.CorporateDB.addSubscriber(email);
+            } else if (window.KaghanDB && window.KaghanDB.createLead) {
+                await window.KaghanDB.createLead({
+                    name: 'Launch Notification Subscriber',
+                    email: email,
+                    phone: '',
+                    message: 'Requested launch notification when site goes live',
+                    sourcePage: window.location.pathname
+                });
+            }
+            msg.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> You are on the VIP launch list! We will notify you immediately.';
+            msg.classList.remove('hidden');
+            emailInput.value = '';
+        } catch (err) {
+            msg.innerText = 'Thank you for your interest! We have registered your email.';
+            msg.classList.remove('hidden');
+        } finally {
+            btn.disabled = false;
+            btn.innerText = 'Notify Me';
+        }
+    },
+
+    exitPreview: function() {
+        localStorage.removeItem('kaghan_maintenance_bypass');
+        window.location.reload();
+    }
+};
+
 // Auto-run on DOM ready
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => window.KaghanSharedUI.init());
+    document.addEventListener('DOMContentLoaded', () => {
+        window.KaghanSharedUI.init();
+        if (window.KaghanMaintenance) window.KaghanMaintenance.init();
+    });
 } else {
     window.KaghanSharedUI.init();
+    if (window.KaghanMaintenance) window.KaghanMaintenance.init();
 }
+

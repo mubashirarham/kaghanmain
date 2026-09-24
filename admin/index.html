@@ -307,6 +307,12 @@
 
             <!-- Sidebar Footer -->
             <div class="p-4 border-t border-slate-800/60 space-y-2">
+                <div id="sidebar-maint-status" class="px-3 py-2 bg-slate-950/60 rounded-xl border border-slate-800 text-[10px] flex items-center justify-between">
+                    <span class="text-slate-400">Site Mode:</span>
+                    <span id="sidebar-maint-badge" class="font-bold text-emerald-400 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Live Online
+                    </span>
+                </div>
                 <a href="../index.html" target="_blank" class="w-full flex items-center justify-center gap-2 bg-slate-800/50 border border-slate-700 hover:bg-slate-800 text-slate-300 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
                     <i class="fa-solid fa-globe"></i>
                     Public Site
@@ -323,9 +329,24 @@
 
             <!-- TAB 1: OVERVIEW -->
             <div id="tab-overview" class="tab-content space-y-8">
-                <div>
-                    <h1 class="text-2xl font-bold outfit text-white tracking-wider">Dashboard Overview</h1>
-                    <p class="text-slate-400 text-xs mt-1">Real-time stats from Firestore database collection: <code class="text-[#D4AF37]">kaghan_properties</code></p>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold outfit text-white tracking-wider">Dashboard Overview</h1>
+                        <p class="text-slate-400 text-xs mt-1">Real-time stats from Firestore database collection: <code class="text-[#D4AF37]">kaghan_properties</code></p>
+                    </div>
+                    <!-- Quick Maintenance Mode Status Widget -->
+                    <div id="overview-maint-widget" class="flex items-center gap-3 bg-slate-900 border border-slate-800 p-3 px-4 rounded-2xl shadow-lg shrink-0">
+                        <div class="flex items-center gap-2.5">
+                            <span id="overview-maint-indicator" class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                            <div>
+                                <span id="overview-maint-text" class="text-xs font-bold text-white block">Site Status: LIVE ONLINE</span>
+                                <span id="overview-maint-subtext" class="text-[10px] text-slate-400">Public visitors can access</span>
+                            </div>
+                        </div>
+                        <button type="button" onclick="switchTab('settings')" class="bg-[#D4AF37]/10 hover:bg-[#D4AF37] hover:text-slate-950 text-[#D4AF37] border border-[#D4AF37]/30 px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all ml-1 cursor-pointer">
+                            <i class="fa-solid fa-screwdriver-wrench mr-1"></i> Mode Settings
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Stats Grid -->
@@ -627,6 +648,7 @@
                                 <th class="p-4">User</th>
                                 <th class="p-4">Role</th>
                                 <th class="p-4">Specialized Areas</th>
+                                <th class="p-4">Under-Construction Access</th>
                                 <th class="p-4">Active</th>
                                 <th class="p-4 text-right">Actions</th>
                             </tr>
@@ -907,6 +929,147 @@
                 </div>
 
                 <form onsubmit="saveSiteSettings(event)" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6 text-xs max-w-3xl">
+                    <!-- SITE MAINTENANCE & UNDER-CONSTRUCTION ENGINE -->
+                    <div class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 border-2 border-amber-500/40 rounded-3xl p-6 sm:p-7 space-y-6 shadow-2xl relative overflow-hidden">
+                        <!-- Top glowing accent -->
+                        <div class="absolute -top-16 -right-16 w-44 h-44 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-700/20 border border-amber-500/40 flex items-center justify-center text-[#D4AF37] text-xl shadow-lg shrink-0">
+                                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="text-base sm:text-lg font-bold text-white outfit tracking-wide">Under Construction & Maintenance Mode</h3>
+                                        <span id="admin-maint-status-pill" class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                                            ● LIVE / ONLINE
+                                        </span>
+                                    </div>
+                                    <p class="text-slate-400 text-xs mt-0.5">Control live site accessibility, VIP preview keys, and visitor notification capture.</p>
+                                </div>
+                            </div>
+
+                            <!-- Master Switch -->
+                            <div class="flex items-center gap-3 bg-slate-950/80 border border-slate-800 p-2.5 px-4 rounded-2xl shrink-0">
+                                <span class="text-xs font-bold text-slate-300">Maintenance Mode:</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="set-maint-enabled" onchange="onMaintenanceToggleChange()" class="sr-only peer">
+                                    <div class="w-12 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Active Warning Banner (Visible when enabled) -->
+                        <div id="admin-maint-active-alert" class="hidden bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-xs text-amber-200 flex items-start gap-3">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-400 text-base mt-0.5 shrink-0"></i>
+                            <div class="space-y-1">
+                                <strong class="font-bold text-amber-300">Under Construction Mode is Active!</strong>
+                                <p class="text-slate-300 leading-relaxed">Regular visitors will see the luxury maintenance screen with countdown timer and inquiry form. Authorized personnel and users with the VIP Passcode can browse the live site normally.</p>
+                            </div>
+                        </div>
+
+                        <!-- Headline & Subheadline -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="text-slate-300 font-bold uppercase block mb-1 text-[11px]">Notice Badge / Tag</label>
+                                <input type="text" id="set-maint-badge" value="Scheduled Platform Maintenance" placeholder="e.g. Scheduled System Upgrade" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-white">
+                            </div>
+                            <div>
+                                <label class="text-slate-300 font-bold uppercase block mb-1 text-[11px]">Estimated Re-Launch Date & Time</label>
+                                <input type="datetime-local" id="set-maint-endtime" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-white font-mono">
+                                <p class="text-[10px] text-slate-500 mt-1">Leaves real-time countdown clock ticking on maintenance screen.</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-slate-300 font-bold uppercase block mb-1 text-[11px]">Under Construction Headline *</label>
+                            <input type="text" id="set-maint-headline" required value="We Are Upgrading Our Digital Experience" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-white">
+                        </div>
+
+                        <div>
+                            <label class="text-slate-300 font-bold uppercase block mb-1 text-[11px]">Detailed Subtitle / Explanation Message *</label>
+                            <textarea id="set-maint-subheadline" rows="2" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-3 text-white leading-relaxed">Kaghan Properties is currently undergoing scheduled platform upgrades, infrastructure enhancements, and portfolio synchronization. We will be back online shortly.</textarea>
+                        </div>
+
+                        <!-- Emergency Contacts during Maintenance -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="text-slate-300 font-bold uppercase block mb-1 text-[11px]">Emergency Inquiries Phone</label>
+                                <input type="text" id="set-maint-phone" value="+923340091127" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                            </div>
+                            <div>
+                                <label class="text-slate-300 font-bold uppercase block mb-1 text-[11px]">Emergency WhatsApp</label>
+                                <input type="text" id="set-maint-whatsapp" value="+923340091127" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                            </div>
+                            <div>
+                                <label class="text-slate-300 font-bold uppercase block mb-1 text-[11px]">Emergency Contact Email</label>
+                                <input type="email" id="set-maint-email" value="info@kaghanproperties.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                            </div>
+                        </div>
+
+                        <!-- PERMISSIONS, VIP PASSCODE & BYPASS PREVIEW LINK -->
+                        <div class="bg-slate-950/90 border border-slate-800/90 rounded-2xl p-5 space-y-5">
+                            <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+                                <div>
+                                    <h4 class="text-sm font-bold text-white outfit flex items-center gap-2">
+                                        <i class="fa-solid fa-key text-[#D4AF37]"></i> VIP Passcode & Stakeholder Bypass Link
+                                    </h4>
+                                    <p class="text-slate-400 text-[11px] mt-0.5">Share instant preview access with VIP clients, investors, or evaluators without requiring a full login.</p>
+                                </div>
+                                <button type="button" onclick="previewMaintenanceOverlayModal()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-[#D4AF37] hover:text-slate-950 text-slate-300 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+                                    <i class="fa-solid fa-eye text-xs"></i> Preview Screen
+                                </button>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <div class="flex items-center justify-between mb-1">
+                                        <label class="text-slate-300 font-bold uppercase text-[10px]">Secret VIP Bypass Passcode</label>
+                                        <button type="button" onclick="generateRandomPasscode()" class="text-[10px] text-[#D4AF37] hover:underline font-mono cursor-pointer">
+                                            <i class="fa-solid fa-rotate mr-1"></i> Generate New
+                                        </button>
+                                    </div>
+                                    <input type="text" id="set-maint-passcode" value="KAGHAN-VIP-2026" oninput="updateVIPPreviewUrlInput()" class="w-full bg-slate-900 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-2.5 text-white font-mono font-bold tracking-wider">
+                                    <p class="text-[10px] text-slate-500 mt-1">Visitors can enter this passcode on the maintenance screen to unlock the full site.</p>
+                                </div>
+
+                                <div>
+                                    <label class="text-slate-300 font-bold uppercase text-[10px] block mb-1">1-Click Shareable VIP Preview Link</label>
+                                    <div class="flex gap-2">
+                                        <input type="text" id="set-maint-preview-url" readonly value="" class="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-[11px] text-[#D4AF37] font-mono select-all">
+                                        <button type="button" onclick="copyVIPPreviewLink()" id="btn-copy-preview-link" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shrink-0 cursor-pointer">
+                                            <i class="fa-solid fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 mt-1">Anyone opening this link automatically bypasses under-construction mode.</p>
+                                </div>
+                            </div>
+
+                            <!-- ROLE & EMAIL WHITELIST -->
+                            <div class="pt-3 border-t border-slate-800/80 space-y-4">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                    <label class="text-slate-300 font-bold uppercase text-[10px]">Allowed Roles to Access Site:</label>
+                                    <div class="flex items-center gap-4">
+                                        <label class="flex items-center gap-2 cursor-pointer text-slate-300 text-xs">
+                                            <input type="checkbox" id="set-maint-role-admin" checked disabled class="w-4 h-4 rounded text-[#D4AF37]">
+                                            <span class="font-bold text-white">Admins (Always)</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer text-slate-300 text-xs">
+                                            <input type="checkbox" id="set-maint-role-agent" class="w-4 h-4 rounded text-[#D4AF37]">
+                                            <span>All Staff & Agents</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="text-slate-300 font-bold uppercase text-[10px] block mb-1">Whitelisted Specific User Emails (One per line or comma separated)</label>
+                                    <textarea id="set-maint-emails" rows="2" placeholder="tanzilminhas2007@gmail.com&#10;admin@kaghanproperties.com&#10;ali@kaghanproperties.com" class="w-full bg-slate-900 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-4 py-2 text-white font-mono text-xs focus:outline-none"></textarea>
+                                    <p class="text-[10px] text-slate-500 mt-1">Logged-in users matching these emails will bypass under-construction mode automatically.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="text-slate-400 font-bold uppercase block mb-1">Site Title</label>
@@ -2159,6 +2322,14 @@
                     <input type="text" id="form-usr-areas" placeholder="DHA Islamabad, Bahria Town, F-6" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-white">
                 </div>
 
+                <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3">
+                    <label class="flex items-center gap-2 cursor-pointer text-slate-300 font-semibold text-xs">
+                        <input type="checkbox" id="form-usr-maint-access" class="w-4 h-4 rounded text-[#D4AF37] focus:ring-0">
+                        <span>Allow Site Access During Under-Construction Mode</span>
+                    </label>
+                    <p class="text-[10px] text-slate-500 mt-1 pl-6">Allows this user to browse and test the full website even when maintenance mode is active.</p>
+                </div>
+
                 <div class="pt-3 flex justify-end gap-3 border-t border-slate-800">
                     <button type="button" onclick="closeUserModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300">Cancel</button>
                     <button type="submit" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-5 py-2 rounded-xl">Save User</button>
@@ -2280,6 +2451,27 @@
         </div>
     </div>
 
+    <!-- MODAL: PREVIEW UNDER-CONSTRUCTION SCREEN -->
+    <div id="modal-preview-maint" class="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-md hidden flex flex-col p-3 sm:p-6">
+        <div class="flex justify-between items-center bg-slate-900 border border-slate-800 px-5 py-3 rounded-2xl mb-3 shadow-xl">
+            <div class="flex items-center gap-3">
+                <span class="w-3 h-3 rounded-full bg-amber-400 animate-ping"></span>
+                <div>
+                    <h3 class="text-sm font-bold text-white outfit">Under Construction Screen Simulator</h3>
+                    <p class="text-[10px] text-slate-400">Live preview of what unauthorized visitors see when maintenance mode is active</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button type="button" onclick="closeMaintenancePreviewModal()" class="bg-slate-800 hover:bg-white hover:text-slate-950 text-slate-300 font-bold px-4 py-2 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i> Close Preview
+                </button>
+            </div>
+        </div>
+        <div class="flex-1 bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden relative shadow-2xl">
+            <iframe id="maint-preview-frame" src="../index.html" class="w-full h-full border-0"></iframe>
+        </div>
+    </div>
+
     <!-- Admin Panel Logic -->
     <script>
         let currentActiveLeadId = null;
@@ -2398,6 +2590,7 @@
             const leads = await window.KaghanDB.getLeads();
             const societies = await window.KaghanDB.getSocieties();
             const users = await window.KaghanDB.getUsers();
+            const settings = await window.KaghanDB.getSiteSettings();
 
             document.getElementById('stat-total-props').innerText = properties.length;
             document.getElementById('stat-published-props').innerText = `${properties.filter(p=>p.status==='published').length} Published`;
@@ -2405,6 +2598,10 @@
             document.getElementById('stat-new-leads').innerText = `${leads.filter(l=>l.status==='new').length} New Inquiries`;
             document.getElementById('stat-total-societies').innerText = societies.length;
             document.getElementById('stat-total-users').innerText = users.length;
+
+            if (typeof updateMaintenanceUIState === 'function') {
+                updateMaintenanceUIState(settings.underConstruction);
+            }
 
             // Render Recent Leads snippet
             const leadsContainer = document.getElementById('overview-leads-list');
@@ -3743,6 +3940,7 @@
             if (!tbody) return;
             tbody.innerHTML = users.map(u => {
                 const hasPassword = !!u.password;
+                const hasMaintAccess = u.role === 'admin' || u.allowMaintenanceAccess === true;
                 return `
                 <tr class="hover:bg-slate-900/50 transition-colors">
                     <td class="p-4 flex items-center gap-3">
@@ -3757,6 +3955,12 @@
                     </td>
                     <td class="p-4"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/20">${u.role}</span></td>
                     <td class="p-4 text-slate-300 text-xs">${(u.specializedAreas || []).join(', ') || 'General Markets'}</td>
+                    <td class="p-4">
+                        ${hasMaintAccess ? 
+                            '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5 w-fit"><i class="fa-solid fa-shield-check text-[9px]"></i> Granted</span>' : 
+                            '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-slate-800 text-slate-400 border border-slate-700 flex items-center gap-1.5 w-fit"><i class="fa-solid fa-lock text-[9px]"></i> Restricted</span>'
+                        }
+                    </td>
                     <td class="p-4"><span class="text-emerald-400 font-bold text-xs"><i class="fa-solid fa-circle text-[8px] mr-1"></i>Active</span></td>
                     <td class="p-4 text-right">
                         <div class="flex items-center justify-end gap-1.5">
@@ -3785,6 +3989,7 @@
             document.getElementById('form-usr-role').value = 'agent';
             document.getElementById('form-usr-areas').value = '';
             document.getElementById('form-usr-password').value = '';
+            document.getElementById('form-usr-maint-access').checked = false;
 
             if (userId) {
                 title.innerText = "Edit User / Agent";
@@ -3798,6 +4003,7 @@
                     document.getElementById('form-usr-role').value = u.role || 'agent';
                     document.getElementById('form-usr-areas').value = (u.specializedAreas || []).join(', ');
                     document.getElementById('form-usr-password').value = u.password || '';
+                    document.getElementById('form-usr-maint-access').checked = u.allowMaintenanceAccess === true || u.role === 'admin';
                 }
             } else {
                 title.innerText = "Add Staff / Agent User";
@@ -3818,6 +4024,7 @@
             const role = document.getElementById('form-usr-role').value;
             const password = document.getElementById('form-usr-password').value.trim();
             const areas = document.getElementById('form-usr-areas').value.split(',').map(s=>s.trim()).filter(s=>s);
+            const allowMaintenanceAccess = document.getElementById('form-usr-maint-access').checked || role === 'admin';
             
             const payload = {
                 name,
@@ -3825,6 +4032,7 @@
                 phone,
                 role,
                 specializedAreas: areas,
+                allowMaintenanceAccess,
                 isActive: true
             };
             if (id) payload.id = id;
@@ -4921,7 +5129,124 @@
 
         window.addEventListener('tinymce:ready', updateTinyMCEBadge);
 
-        // SITE SETTINGS
+        // ==========================================
+        // SITE SETTINGS & UNDER-CONSTRUCTION ENGINE
+        // ==========================================
+        function onMaintenanceToggleChange() {
+            const isChecked = document.getElementById('set-maint-enabled').checked;
+            updateMaintenanceUIState({ enabled: isChecked });
+        }
+
+        function updateMaintenanceUIState(maint) {
+            const isEnabled = maint ? !!maint.enabled : (document.getElementById('set-maint-enabled') ? document.getElementById('set-maint-enabled').checked : false);
+            
+            // 1. Settings Tab UI Indicators
+            const pill = document.getElementById('admin-maint-status-pill');
+            const alertBox = document.getElementById('admin-maint-active-alert');
+            const toggle = document.getElementById('set-maint-enabled');
+            if (toggle && maint && maint.enabled !== undefined) {
+                toggle.checked = !!maint.enabled;
+            }
+            if (pill) {
+                if (isEnabled) {
+                    pill.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30 animate-pulse';
+                    pill.innerHTML = '● UNDER CONSTRUCTION ACTIVE';
+                } else {
+                    pill.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30';
+                    pill.innerHTML = '● LIVE / ONLINE';
+                }
+            }
+            if (alertBox) {
+                alertBox.classList.toggle('hidden', !isEnabled);
+            }
+
+            // 2. Overview Tab Widget
+            const ovIndicator = document.getElementById('overview-maint-indicator');
+            const ovText = document.getElementById('overview-maint-text');
+            const ovSubtext = document.getElementById('overview-maint-subtext');
+            if (ovIndicator && ovText && ovSubtext) {
+                if (isEnabled) {
+                    ovIndicator.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping';
+                    ovText.innerText = 'Site Status: UNDER CONSTRUCTION';
+                    ovSubtext.innerText = 'Visitors see maintenance screen';
+                } else {
+                    ovIndicator.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400';
+                    ovText.innerText = 'Site Status: LIVE ONLINE';
+                    ovSubtext.innerText = 'Public visitors can access';
+                }
+            }
+
+            // 3. Sidebar Badge
+            const sideBadge = document.getElementById('sidebar-maint-badge');
+            if (sideBadge) {
+                if (isEnabled) {
+                    sideBadge.className = 'font-bold text-amber-400 flex items-center gap-1 animate-pulse';
+                    sideBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Under Maint';
+                } else {
+                    sideBadge.className = 'font-bold text-emerald-400 flex items-center gap-1';
+                    sideBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Live Online';
+                }
+            }
+
+            updateVIPPreviewUrlInput();
+        }
+
+        function updateVIPPreviewUrlInput() {
+            const passElem = document.getElementById('set-maint-passcode');
+            const urlElem = document.getElementById('set-maint-preview-url');
+            if (!urlElem) return;
+            const code = passElem ? passElem.value.trim() : 'KAGHAN-VIP-2026';
+            const origin = window.location.origin;
+            const pathname = window.location.pathname;
+            const baseDir = pathname.substring(0, pathname.lastIndexOf('/admin/'));
+            const finalUrl = `${origin}${baseDir}/index.html?preview_key=${encodeURIComponent(code)}`;
+            urlElem.value = finalUrl;
+        }
+
+        function generateRandomPasscode() {
+            const randomCode = `KP-VIP-${Math.random().toString(36).substring(2, 7).toUpperCase()}-${new Date().getFullYear()}`;
+            const passElem = document.getElementById('set-maint-passcode');
+            if (passElem) {
+                passElem.value = randomCode;
+                updateVIPPreviewUrlInput();
+            }
+        }
+
+        function copyVIPPreviewLink() {
+            const urlElem = document.getElementById('set-maint-preview-url');
+            const btn = document.getElementById('btn-copy-preview-link');
+            if (!urlElem || !urlElem.value) return;
+            
+            navigator.clipboard.writeText(urlElem.value).then(() => {
+                if (btn) {
+                    const originalHtml = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-check text-slate-950"></i> Copied!';
+                    btn.classList.add('bg-emerald-400', 'text-slate-950');
+                    setTimeout(() => {
+                        btn.innerHTML = originalHtml;
+                        btn.classList.remove('bg-emerald-400', 'text-slate-950');
+                    }, 2500);
+                }
+            }).catch(() => {
+                alert("Preview link: " + urlElem.value);
+            });
+        }
+
+        function previewMaintenanceOverlayModal() {
+            const modal = document.getElementById('modal-preview-maint');
+            const frame = document.getElementById('maint-preview-frame');
+            if (!modal || !frame) return;
+
+            // Load root page with a cache-buster so admin can preview the maintenance view
+            frame.src = `../index.html?nocache=${Date.now()}`;
+            modal.classList.remove('hidden');
+        }
+
+        function closeMaintenancePreviewModal() {
+            const modal = document.getElementById('modal-preview-maint');
+            if (modal) modal.classList.add('hidden');
+        }
+
         async function loadSettingsForm() {
             const set = await window.KaghanDB.getSiteSettings();
             document.getElementById('set-sitename').value = set.siteName || '';
@@ -4935,6 +5260,22 @@
             document.getElementById('set-youtube').value = set.social ? set.social.youtube : '';
             document.getElementById('set-feat-blog').checked = set.features ? (set.features.showBlog !== false) : true;
             document.getElementById('set-feat-whatsapp').checked = set.features ? (set.features.showWhatsAppButton !== false) : true;
+
+            // Load Maintenance / Under Construction Settings
+            const maint = (set && set.underConstruction) ? set.underConstruction : (window.KaghanDB ? window.KaghanDB.DEFAULT_SITE_SETTINGS.underConstruction : {});
+            document.getElementById('set-maint-enabled').checked = !!maint.enabled;
+            document.getElementById('set-maint-badge').value = maint.noticeBadge || 'Scheduled Platform Maintenance';
+            document.getElementById('set-maint-endtime').value = maint.estimatedEndTime || '';
+            document.getElementById('set-maint-headline').value = maint.headline || 'We Are Upgrading Our Digital Experience';
+            document.getElementById('set-maint-subheadline').value = maint.subheadline || 'Kaghan Properties is currently undergoing scheduled platform upgrades, infrastructure enhancements, and portfolio synchronization. We will be back online shortly.';
+            document.getElementById('set-maint-phone').value = maint.contactPhone || (set.contact ? set.contact.phone : '+923340091127');
+            document.getElementById('set-maint-whatsapp').value = maint.contactWhatsApp || '+923340091127';
+            document.getElementById('set-maint-email').value = maint.contactEmail || (set.contact ? set.contact.email : 'info@kaghanproperties.com');
+            document.getElementById('set-maint-passcode').value = maint.bypassPasscode || 'KAGHAN-VIP-2026';
+            document.getElementById('set-maint-role-agent').checked = !!(maint.allowedRoles && maint.allowedRoles.includes('agent'));
+            document.getElementById('set-maint-emails').value = (maint.allowedEmails && Array.isArray(maint.allowedEmails)) ? maint.allowedEmails.join('\n') : 'tanzilminhas2007@gmail.com\nadmin@kaghanproperties.com\nali@kaghanproperties.com';
+
+            updateMaintenanceUIState(maint);
 
             // Load New Features Settings
             document.getElementById('set-default-currency').value = set.defaultCurrency || localStorage.getItem('kaghan_currency') || 'PKR';
@@ -4971,6 +5312,36 @@
             const showBlog = document.getElementById('set-feat-blog').checked;
             const showWhatsAppButton = document.getElementById('set-feat-whatsapp').checked;
 
+            // Extract Maintenance Mode Settings
+            const maintEnabled = document.getElementById('set-maint-enabled').checked;
+            const maintBadge = document.getElementById('set-maint-badge').value.trim() || 'Scheduled Platform Maintenance';
+            const maintEndTime = document.getElementById('set-maint-endtime').value || '';
+            const maintHeadline = document.getElementById('set-maint-headline').value.trim() || 'We Are Upgrading Our Digital Experience';
+            const maintSubheadline = document.getElementById('set-maint-subheadline').value.trim() || 'Kaghan Properties is currently undergoing scheduled platform upgrades, infrastructure enhancements, and portfolio synchronization. We will be back online shortly.';
+            const maintPhone = document.getElementById('set-maint-phone').value.trim() || phone;
+            const maintWhatsApp = document.getElementById('set-maint-whatsapp').value.trim() || '+923340091127';
+            const maintEmail = document.getElementById('set-maint-email').value.trim() || email;
+            const maintPasscode = document.getElementById('set-maint-passcode').value.trim() || 'KAGHAN-VIP-2026';
+            const allowAgentRole = document.getElementById('set-maint-role-agent').checked;
+            const maintRoles = allowAgentRole ? ['admin', 'agent'] : ['admin'];
+            const maintEmailsRaw = document.getElementById('set-maint-emails').value;
+            const maintEmails = maintEmailsRaw.split('\n').flatMap(line => line.split(',')).map(e => e.trim().toLowerCase()).filter(Boolean);
+
+            const underConstruction = {
+                enabled: maintEnabled,
+                noticeBadge: maintBadge,
+                estimatedEndTime: maintEndTime,
+                headline: maintHeadline,
+                subheadline: maintSubheadline,
+                contactPhone: maintPhone,
+                contactWhatsApp: maintWhatsApp,
+                contactEmail: maintEmail,
+                bypassPasscode: maintPasscode,
+                allowedRoles: maintRoles,
+                allowedEmails: maintEmails,
+                updatedAt: new Date().toISOString()
+            };
+
             // Extract New Features Settings
             const defaultCurrency = document.getElementById('set-default-currency').value;
             const defaultAreaUnit = document.getElementById('set-default-unit').value;
@@ -4998,6 +5369,7 @@
                 defaultAreaUnit,
                 defaultLoanRate,
                 tinymceKeys: parsedKeys,
+                underConstruction,
                 features: { 
                     showBlog, 
                     showWhatsAppButton,
@@ -5007,8 +5379,9 @@
                 }
             });
             updateTinyMCEBadge();
-            if (window.AdminTools) window.AdminTools.logAudit("Updated site settings with currency, area unit, RDA & TinyMCE rotating API keys");
-            alert("Site settings, marketplace defaults and rotating API keys updated successfully!");
+            updateMaintenanceUIState(underConstruction);
+            if (window.AdminTools) window.AdminTools.logAudit(`Updated Site Settings & Maintenance Mode (${maintEnabled ? 'ACTIVE' : 'OFF'})`);
+            alert(`Site settings saved! Maintenance Mode is currently ${maintEnabled ? 'ACTIVE (Under Construction)' : 'OFF (Live Online)'}.`);
         }
 
         // FINANCIAL CALCULATORS RUNNERS
