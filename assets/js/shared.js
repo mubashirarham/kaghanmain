@@ -16,7 +16,7 @@ window.KaghanSharedUI = {
         this.renderFloatingWhatsApp();
         this.initScrollHandlers();
         this.hydrateSiteSettings();
-        this.initLeadPopupTimer();
+        // this.initLeadPopupTimer(); // Globally disabled per admin instruction
     },
 
     getActivePage: function() {
@@ -757,25 +757,13 @@ window.KaghanSharedUI = {
         });
     },
 
-    // Popup Lifecycle & Timer Management (Opens 3-5 seconds after page visit)
+    // Popup Lifecycle & Timer Management (Disabled globally)
     initLeadPopupTimer: function() {
-        const isDismissed = sessionStorage.getItem('kaghan_popup_dismissed');
-        if (isDismissed) return;
-
-        // Auto-trigger popup after 3.5 seconds
-        setTimeout(() => {
-            if (!sessionStorage.getItem('kaghan_popup_dismissed')) {
-                this.openLeadPopup();
-            }
-        }, 3500);
+        return; // Disabled globally
     },
 
     openLeadPopup: function() {
-        const popup = document.getElementById('modal-dha-launch-popup');
-        if (popup) {
-            popup.classList.remove('invisible', 'pointer-events-none');
-            popup.classList.add('active');
-        }
+        return; // Disabled globally
     },
 
     closeLeadPopup: function() {
