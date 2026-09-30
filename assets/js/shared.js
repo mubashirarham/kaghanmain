@@ -21,6 +21,7 @@ window.KaghanSharedUI = {
 
     getActivePage: function() {
         const path = window.location.pathname.toLowerCase();
+        if (path.includes('dha-margalla-enclave.html') || path.includes('dha-margalla')) return 'dha-margalla';
         if (path.includes('projects.html') || path.includes('/projects')) return 'projects';
         if (path.includes('property.html') || path.includes('/property')) return 'property-detail';
         if (path.includes('societies.html') || path.includes('/societies')) return 'societies';
