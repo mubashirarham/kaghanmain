@@ -249,6 +249,23 @@
             box-shadow: 0 16px 25px -5px rgba(0, 0, 0, 0.12);
         }
 
+        /* Pulse glow for ads CTAs */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); }
+            50% { box-shadow: 0 0 0 12px rgba(212, 175, 55, 0); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 2.5s infinite;
+        }
+
+        @keyframes pulse-emerald {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+            50% { box-shadow: 0 0 0 14px rgba(16, 185, 129, 0); }
+        }
+        .animate-pulse-emerald {
+            animation: pulse-emerald 2.2s infinite;
+        }
+
         /* Responsive Custom Scrollbar for Smooth Swiping on Mobile */
         .custom-scrollbar::-webkit-scrollbar {
             height: 6px;
@@ -274,7 +291,7 @@
 
         /* Print optimization */
         @media print {
-            header, nav, #site-header, #site-footer, #floating-mobile-bar, #installment-calculator, button {
+            header, nav, #site-header, #site-footer, #floating-mobile-bar, #floating-desktop-wa, #installment-calculator, button, .no-print {
                 display: none !important;
             }
             body, main {
@@ -291,121 +308,199 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen antialiased selection:bg-gold selection:text-slate-900 pb-16 md:pb-0">
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen antialiased selection:bg-gold selection:text-slate-900 pb-20 md:pb-0">
 
     <!-- Global Dynamic Site Header (Rendered by shared.js) -->
     <div id="site-header"></div>
 
-    <!-- Top Announcement Ticker -->
-    <aside class="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 text-slate-200 border-b border-emerald-500/20 py-2.5 px-3 sm:px-4 text-xs">
+    <!-- TOP ANNOUNCEMENT TICKER (High-Conversion Ad Banner) -->
+    <aside class="bg-gradient-to-r from-slate-950 via-emerald-950 to-slate-950 text-slate-200 border-b border-emerald-500/30 py-2.5 px-3 sm:px-4 text-xs">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
             <div class="flex items-center gap-2">
-                <span class="bg-gold text-slate-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse shrink-0">Official Rates</span>
-                <span class="text-slate-300 font-medium text-[11px] sm:text-xs">DHA Margalla Enclave 1st, 2nd & 3rd Ballot lists verified.</span>
+                <span class="bg-gold text-slate-950 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse shrink-0 shadow">
+                    Official Ballot Live
+                </span>
+                <span class="text-slate-200 font-semibold text-[11px] sm:text-xs">
+                    DHA Margalla Enclave 1st, 2nd & 3rd Ballot Lists Verified • 15%-20% Down Payment
+                </span>
             </div>
             <div class="flex items-center gap-3 text-xs font-semibold">
-                <span class="text-gold hidden md:inline"><i class="fa-solid fa-shield-halved text-emerald-400"></i> CDA & DHAI-R Joint Venture</span>
+                <span class="text-emerald-400 hidden md:inline"><i class="fa-solid fa-shield-halved text-gold"></i> CDA Zone 4 & DHAI-R Joint Venture</span>
                 <span class="text-slate-600 hidden md:inline">|</span>
-                <a href="tel:03340091127" class="text-white hover:text-gold flex items-center gap-1.5 py-1 px-2 rounded-lg bg-slate-800/80 md:bg-transparent">
-                    <i class="fa-solid fa-phone text-gold text-[11px]"></i> <span class="font-bold">0334-0091127</span>
+                <a href="tel:03340091127" class="text-white hover:text-gold flex items-center gap-1.5 py-1 px-2.5 rounded-lg bg-emerald-900/60 md:bg-transparent border border-emerald-500/40 md:border-transparent transition-all">
+                    <i class="fa-solid fa-phone-volume text-gold text-xs"></i> <span class="font-bold tracking-wide">0334-0091127</span>
                 </a>
             </div>
         </div>
     </aside>
 
-    <!-- HERO SECTION -->
-    <header class="relative bg-slate-950 text-white overflow-hidden pt-6 pb-12 sm:pt-10 sm:pb-20 md:pt-14 md:pb-24 hero-pattern border-b border-slate-800">
+    <!-- HERO SECTION (OPTIMIZED FOR PAID ADS CONVERSIONS: META, GOOGLE, TIKTOK) -->
+    <header class="relative bg-slate-950 text-white overflow-hidden pt-6 pb-12 sm:pt-8 sm:pb-16 md:pt-12 md:pb-20 hero-pattern border-b border-slate-800">
         <div class="absolute -top-40 -left-40 w-96 h-96 bg-emerald-600/20 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-gold/15 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <!-- Semantic Breadcrumbs -->
-            <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-[11px] sm:text-xs text-slate-400 mb-5 font-medium flex-wrap">
+            <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-[11px] sm:text-xs text-slate-400 mb-4 sm:mb-6 font-medium flex-wrap">
                 <a href="index.html" class="hover:text-gold transition-colors">Home</a>
                 <i class="fa-solid fa-chevron-right text-[8px] text-slate-600"></i>
                 <a href="societies.html" class="hover:text-gold transition-colors">Societies</a>
                 <i class="fa-solid fa-chevron-right text-[8px] text-slate-600"></i>
-                <span class="text-gold font-semibold" aria-current="page">DHA Margalla Enclave Rates</span>
+                <span class="text-gold font-semibold" aria-current="page">DHA Margalla Enclave Official Rates</span>
             </nav>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
                 
-                <!-- Hero Left: Content -->
-                <div class="lg:col-span-7 space-y-5 sm:space-y-6">
+                <!-- Hero Left: High-Intent Sales Pitch & CTAs -->
+                <div class="lg:col-span-7 space-y-4 sm:space-y-6">
+                    
+                    <!-- Ad Urgency & Status Badges -->
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="bg-gold/15 text-gold border border-gold/40 px-3 py-1 rounded-full text-[11px] sm:text-xs font-extrabold uppercase tracking-widest inline-flex items-center gap-1.5">
-                            <i class="fa-solid fa-shield-halved text-[10px]"></i> Invest In Future
+                        <span class="bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black px-3 py-1 rounded-full text-[10px] sm:text-xs uppercase tracking-widest inline-flex items-center gap-1.5 shadow-md">
+                            <span class="w-2 h-2 rounded-full bg-slate-950 animate-ping"></span> Official Allotment Phase
                         </span>
-                        <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-bold inline-flex items-center gap-1.5">
-                            <i class="fa-solid fa-circle-check text-[9px] text-emerald-400"></i> DHA Islamabad Approved
+                        <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold inline-flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-check text-emerald-400"></i> DHA Islamabad Verified
                         </span>
-                        <span class="bg-slate-800/80 text-slate-300 border border-slate-700 px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-medium">
-                            <i class="fa-solid fa-file-invoice text-[10px] text-amber-400"></i> 1st, 2nd & 3rd Ballots
+                        <span class="bg-slate-900 text-slate-300 border border-slate-700 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-medium">
+                            <i class="fa-solid fa-file-invoice text-gold"></i> 1st, 2nd & 3rd Ballots
                         </span>
                     </div>
 
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold outfit leading-[1.12] text-white tracking-tight">
+                    <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-5xl font-black outfit leading-[1.15] text-white tracking-tight">
                         DHA Margalla <span class="gold-gradient-text">Enclave</span> Islamabad
                     </h1>
 
                     <p class="text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed font-light">
-                        Authorized Joint Venture Master Community in <strong class="text-white font-semibold">CDA Zone 4</strong> along Main Jinnah Avenue. Complete official rate lists, Lump Sum discounts, and flexible 1, 2 & 3-Year quarterly installment plans under verified leadership of <strong class="text-white font-semibold">Kaghan Properties (Pvt) Ltd.</strong>
+                        Authorized Joint Venture Master Community in <strong class="text-white font-semibold">CDA Zone 4</strong> on Main Jinnah Avenue (5 mins from Serena & Club Road). Verified official rates, 15% & 20% down payments, and 3-Year quarterly installment schedules under direct CEO advisory.
                     </p>
 
-                    <!-- Key Investment Highlights Banner -->
-                    <div class="p-4 bg-slate-900/95 rounded-2xl border border-gold/40 text-xs text-slate-300 space-y-1.5 shadow-lg">
-                        <div class="font-extrabold text-gold flex items-center gap-2 text-[11px] sm:text-xs uppercase tracking-wider">
-                            <i class="fa-solid fa-layer-group text-sm text-emerald-400"></i> Flexible Payment Structure & Allocation
+                    <!-- Key Ad Highlights Bullet Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                        <div class="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-200">
+                            <i class="fa-solid fa-circle-check text-emerald-400 text-sm shrink-0"></i>
+                            <span><strong>15% & 20% Down Payment</strong> (30-day settlement)</span>
                         </div>
-                        <p class="text-slate-300 text-xs leading-relaxed">
-                            Offering 1, 2 & 3-Year quarterly installment schedules with <strong class="text-white">15% Down Payment</strong> (1st & 2nd Ballot) and <strong class="text-white">20% Down Payment</strong> (3rd Ballot). Upfront Lump Sum settlements within 30 days receive significant price discounts.
-                        </p>
+                        <div class="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-200">
+                            <i class="fa-solid fa-circle-check text-emerald-400 text-sm shrink-0"></i>
+                            <span><strong>1, 2 & 3-Year</strong> quarterly installment plans</span>
+                        </div>
+                        <div class="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-200">
+                            <i class="fa-solid fa-circle-check text-emerald-400 text-sm shrink-0"></i>
+                            <span><strong>Lump Sum Discounts</strong> on immediate payment</span>
+                        </div>
+                        <div class="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-200">
+                            <i class="fa-solid fa-circle-check text-emerald-400 text-sm shrink-0"></i>
+                            <span><strong>DHA Directorate Transfer</strong> & full verification</span>
+                        </div>
                     </div>
 
-                    <!-- Action Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-3 pt-1">
-                        <a href="#ballot-rate-tables" class="w-full sm:w-auto text-center px-6 py-3.5 bg-gold hover:bg-gold-dark text-slate-950 font-black rounded-xl text-xs sm:text-sm outfit uppercase tracking-wider transition-all shadow-lg hover:shadow-gold/30 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-table-cells"></i> View All Ballot Rate Lists
+                    <!-- Instant Hero CTAs (WhatsApp, Call, Modal Trigger) -->
+                    <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                        <a id="hero-wa-btn" href="https://wa.me/923340091127?text=Hi%20Tanzil%20Ahmed%20Minhas%20(Kaghan%20Properties),%20I%20saw%20your%20DHA%20Margalla%20Enclave%20Campaign.%20Please%20send%20the%20official%20Ballot%20Rate%20List%20and%20booking%20procedure." target="_blank" rel="noopener" class="w-full sm:w-auto text-center px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold rounded-xl text-xs sm:text-sm outfit uppercase tracking-wider transition-all shadow-xl animate-pulse-emerald flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp CEO Desk (Instant)
                         </a>
-                        <a href="#installment-calculator" class="w-full sm:w-auto text-center px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs sm:text-sm border border-slate-700 hover:border-gold transition-all flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-calculator text-gold"></i> Installment Calculator
+                        <a href="tel:03340091127" class="w-full sm:w-auto text-center px-5 py-3.5 bg-gold hover:bg-gold-dark text-slate-950 font-black rounded-xl text-xs sm:text-sm outfit uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-phone"></i> Call 0334-0091127
                         </a>
-                        <a href="https://wa.me/923340091127?text=Hello%20Tanzil%20Ahmed%20Minhas,%20I%20am%20interested%20in%20DHA%20Margalla%20Enclave%20plots." target="_blank" rel="noopener" class="w-full sm:w-auto text-center px-5 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs sm:text-sm transition-all flex items-center justify-center gap-2">
-                            <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp CEO Desk
-                        </a>
+                        <button type="button" onclick="openLeadModal('Hero Brochure Download', '125 Sq Yds Residential (5 Marla)')" class="w-full sm:w-auto text-center px-5 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs sm:text-sm border border-slate-700 hover:border-gold transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download text-gold"></i> Download Brochure
+                        </button>
                     </div>
+
+                    <!-- Trust Bar Under Hero CTAs -->
+                    <div class="flex items-center gap-4 text-[11px] text-slate-400 pt-1 flex-wrap">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Zero Hidden Commission</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-check text-gold"></i> Direct CEO Guidance</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-clock text-amber-400"></i> 15-Min Response Guarantee</span>
+                    </div>
+
                 </div>
 
-                <!-- Hero Right: Visual Elevation Card -->
+                <!-- Hero Right: High-Converting Quick Lead Booking Card (Above-The-Fold Lead Capture for Ads) -->
                 <div class="lg:col-span-5">
-                    <div class="relative bg-slate-900 rounded-3xl p-2.5 border border-slate-800 shadow-2xl overflow-hidden group">
-                        <div class="relative h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden cursor-pointer" onclick="openLightbox('assets/images/dha-margalla-hero.jpg', 'DHA Margalla Enclave Master Elevation View')">
-                            <img src="assets/images/dha-margalla-hero.jpg" alt="DHA Margalla Enclave Master Elevation View" width="800" height="500" loading="eager" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
-                            
-                            <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-gold border border-gold/40 text-[10px] sm:text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                                Official Master Panorama
-                            </span>
-
-                            <span class="absolute top-3 right-3 bg-emerald-600 text-white text-[10px] sm:text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 shadow-md">
-                                <i class="fa-solid fa-expand text-[9px]"></i> Zoom View
-                            </span>
-
-                            <div class="absolute bottom-3 left-3 right-3 text-white">
-                                <div class="text-[11px] text-gold font-bold uppercase tracking-wider">Kaghan Properties (Pvt) Ltd.</div>
-                                <div class="text-sm sm:text-base font-bold outfit">Authorized Real Estate • Builders • Investment</div>
-                                <p class="text-[11px] text-slate-300 font-light mt-0.5">Direct advisory by CEO Tanzil Ahmed Minhas (<span class="text-white font-bold">0334-0091127</span>).</p>
+                    <div class="bg-slate-900/95 backdrop-blur-md rounded-3xl p-5 sm:p-7 border border-gold/40 shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-gold/10 rounded-full blur-2xl pointer-events-none"></div>
+                        
+                        <div class="relative z-10 space-y-4">
+                            <!-- Box Header -->
+                            <div class="border-b border-slate-800 pb-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-gold bg-gold/10 px-2.5 py-1 rounded-full border border-gold/30">
+                                        ⚡ Priority Booking Desk
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 font-semibold flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Desk Online
+                                    </span>
+                                </div>
+                                <h3 class="text-base sm:text-lg font-black outfit text-white mt-2">
+                                    Get Official Rate Sheet & Reserve
+                                </h3>
+                                <p class="text-slate-400 text-xs">Direct reservation guidance with complete payment breakdown.</p>
                             </div>
-                        </div>
 
-                        <!-- Scraped Official Links Bar -->
-                        <div class="p-3 bg-slate-950/90 rounded-2xl mt-2 border border-slate-800/80 flex items-center justify-between text-xs">
-                            <span class="text-slate-400 flex items-center gap-1.5 text-[11px]">
-                                <i class="fa-solid fa-globe text-gold"></i> Official DHAI-R Link:
-                            </span>
-                            <a href="https://www.dhai-r.com.pk/" target="_blank" rel="noopener" class="text-gold font-bold hover:underline flex items-center gap-1 text-[11px]">
-                                dhai-r.com.pk <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-                            </a>
+                            <!-- Lead Capture Form -->
+                            <form id="hero-lead-form" onsubmit="submitHeroLead(event)" class="space-y-3">
+                                <div>
+                                    <label for="hero-lead-name" class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Your Full Name *</label>
+                                    <input type="text" id="hero-lead-name" required placeholder="e.g. Tariq Mehmood" class="w-full bg-slate-950 border border-slate-700 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-all">
+                                </div>
+
+                                <div>
+                                    <label for="hero-lead-phone" class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">WhatsApp / Mobile Number *</label>
+                                    <input type="tel" id="hero-lead-phone" required placeholder="+92 334 0091127" class="w-full bg-slate-950 border border-slate-700 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-all">
+                                </div>
+
+                                <div>
+                                    <label for="hero-lead-plot" class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Select Preferred Plot Size</label>
+                                    <select id="hero-lead-plot" class="w-full bg-slate-950 border border-slate-700 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs text-white outline-none transition-all cursor-pointer font-medium">
+                                        <optgroup label="3rd Ballot — Residential (20% Down)">
+                                            <option value="3rd Ballot: 125 Sq Yds (5 Marla) Res" selected>3rd Ballot: 5 Marla (125 SqYds) Res - PKR 2.50 Cr</option>
+                                            <option value="3rd Ballot: 250 Sq Yds (10 Marla) Res">3rd Ballot: 10 Marla (250 SqYds) Res - PKR 4.90 Cr</option>
+                                            <option value="3rd Ballot: 500 Sq Yds (1 Kanal) Res">3rd Ballot: 1 Kanal (500 SqYds) Res - PKR 8.50 Cr</option>
+                                        </optgroup>
+                                        <optgroup label="1st Ballot — Residential (15% Down)">
+                                            <option value="1st Ballot: 125 Sq Yds (5 Marla) Res">1st Ballot: 5 Marla (125 SqYds) Res - PKR 1.40 Cr</option>
+                                            <option value="1st Ballot: 250 Sq Yds (10 Marla) Res">1st Ballot: 10 Marla (250 SqYds) Res - PKR 2.60 Cr</option>
+                                            <option value="1st Ballot: 500 Sq Yds (1 Kanal) Res">1st Ballot: 1 Kanal (500 SqYds) Res - PKR 5.00 Cr</option>
+                                        </optgroup>
+                                        <optgroup label="2nd Ballot — Residential (15% Down)">
+                                            <option value="2nd Ballot: 125 Sq Yds (5 Marla) Res">2nd Ballot: 5 Marla (125 SqYds) Res - PKR 1.80 Cr</option>
+                                            <option value="2nd Ballot: 250 Sq Yds (10 Marla) Res">2nd Ballot: 10 Marla (250 SqYds) Res - PKR 3.50 Cr</option>
+                                            <option value="2nd Ballot: 500 Sq Yds (1 Kanal) Res">2nd Ballot: 1 Kanal (500 SqYds) Res - PKR 6.50 Cr</option>
+                                        </optgroup>
+                                        <optgroup label="3rd Ballot — Commercial (20% Down)">
+                                            <option value="3rd Ballot: 100 Sq Yds (4 Marla) Comm">3rd Ballot: 4 Marla (100 SqYds) Comm - PKR 9.50 Cr</option>
+                                            <option value="3rd Ballot: 133.25 Sq Yds (5.33 Marla) Comm">3rd Ballot: 5.33 Marla (133.25 SqYds) Comm - PKR 14.00 Cr</option>
+                                            <option value="3rd Ballot: 200 Sq Yds (8 Marla) Comm">3rd Ballot: 8 Marla (200 SqYds) Comm - PKR 17.00 Cr</option>
+                                            <option value="3rd Ballot: 500 Sq Yds (20 Marla) Comm">3rd Ballot: 20 Marla (500 SqYds) Comm - PKR 40.00 Cr</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="hero-lead-goal" class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Your Investment Goal</label>
+                                    <select id="hero-lead-goal" class="w-full bg-slate-950 border border-slate-700 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs text-white outline-none transition-all cursor-pointer">
+                                        <option value="High Capital Gain / ROI Investment" selected>High Capital Gain / Investment ROI</option>
+                                        <option value="Future Personal Residence / Villa">Future Personal Residence / Villa</option>
+                                        <option value="Commercial Development / Rental Income">Commercial Development / Rental Income</option>
+                                        <option value="Overseas Pakistani Portfolio">Overseas Pakistani Portfolio</option>
+                                    </select>
+                                </div>
+
+                                <!-- Feedback Status -->
+                                <div id="hero-lead-feedback" class="hidden p-3 rounded-xl text-xs font-semibold text-center"></div>
+
+                                <button type="submit" id="hero-lead-submit-btn" class="w-full bg-gold hover:bg-gold-dark text-slate-950 font-black py-3 px-4 rounded-xl text-xs sm:text-sm outfit uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-paper-plane"></i> Request Official Payment Voucher
+                                </button>
+                            </form>
+
+                            <div class="pt-1 flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-800/80">
+                                <span class="flex items-center gap-1"><i class="fa-solid fa-lock text-emerald-400"></i> 100% Confidential</span>
+                                <a href="#installment-calculator" class="text-gold hover:underline font-bold">Use Calculator <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -414,35 +509,62 @@
         </div>
     </header>
 
-    <!-- KEY AMENITIES STRIP (Flyer Icons) -->
-    <section class="bg-white border-b border-slate-200 py-6">
+    <!-- SOCIAL PROOF & AD TRUST STRIP -->
+    <section class="bg-white border-b border-slate-200 py-4 sm:py-5 shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
+                <div class="p-2 flex flex-col items-center justify-center">
+                    <span class="text-base sm:text-xl font-black outfit text-emerald-700">100% Verified</span>
+                    <span class="text-[11px] sm:text-xs text-slate-500 font-medium">CDA Zone 4 & DHA Joint Venture</span>
+                </div>
+                <div class="p-2 flex flex-col items-center justify-center">
+                    <span class="text-base sm:text-xl font-black outfit text-slate-900">15% - 20%</span>
+                    <span class="text-[11px] sm:text-xs text-slate-500 font-medium">Affordable Down Payment</span>
+                </div>
+                <div class="p-2 flex flex-col items-center justify-center">
+                    <span class="text-base sm:text-xl font-black outfit text-slate-900">1 to 3 Years</span>
+                    <span class="text-[11px] sm:text-xs text-slate-500 font-medium">Quarterly Installment Schedules</span>
+                </div>
+                <div class="p-2 flex flex-col items-center justify-center">
+                    <span class="text-base sm:text-xl font-black outfit text-gold-dark">Tanzil A. Minhas</span>
+                    <span class="text-[11px] sm:text-xs text-slate-500 font-medium">Direct CEO Investment Guidance</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KEY AMENITIES STRIP (Flyer Icons) -->
+    <section class="bg-slate-100/70 border-b border-slate-200 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-4">
+                <span class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-slate-500">World-Class Master Community Infrastructure</span>
+            </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4 text-center">
-                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center space-y-1 hover-lift">
+                <div class="p-3 rounded-2xl bg-white border border-slate-200/80 flex flex-col items-center justify-center space-y-1 hover-lift">
                     <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm"><i class="fa-solid fa-archway"></i></div>
                     <span class="text-[11px] sm:text-xs font-bold text-slate-900">Gated Community</span>
                 </div>
-                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center space-y-1 hover-lift">
+                <div class="p-3 rounded-2xl bg-white border border-slate-200/80 flex flex-col items-center justify-center space-y-1 hover-lift">
                     <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-sm"><i class="fa-solid fa-shield-halved"></i></div>
                     <span class="text-[11px] sm:text-xs font-bold text-slate-900">24/7 Security</span>
                 </div>
-                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center space-y-1 hover-lift">
+                <div class="p-3 rounded-2xl bg-white border border-slate-200/80 flex flex-col items-center justify-center space-y-1 hover-lift">
                     <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm"><i class="fa-solid fa-road"></i></div>
                     <span class="text-[11px] sm:text-xs font-bold text-slate-900">Wide Road Network</span>
                 </div>
-                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center space-y-1 hover-lift">
+                <div class="p-3 rounded-2xl bg-white border border-slate-200/80 flex flex-col items-center justify-center space-y-1 hover-lift">
                     <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm"><i class="fa-solid fa-tree"></i></div>
                     <span class="text-[11px] sm:text-xs font-bold text-slate-900">Parks & Green Areas</span>
                 </div>
-                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center space-y-1 hover-lift">
+                <div class="p-3 rounded-2xl bg-white border border-slate-200/80 flex flex-col items-center justify-center space-y-1 hover-lift">
                     <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-sm"><i class="fa-solid fa-mosque"></i></div>
                     <span class="text-[11px] sm:text-xs font-bold text-slate-900">Grand Mosque</span>
                 </div>
-                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center space-y-1 hover-lift">
+                <div class="p-3 rounded-2xl bg-white border border-slate-200/80 flex flex-col items-center justify-center space-y-1 hover-lift">
                     <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-sm"><i class="fa-solid fa-graduation-cap"></i></div>
                     <span class="text-[11px] sm:text-xs font-bold text-slate-900">Schools & Facilities</span>
                 </div>
-                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center space-y-1 hover-lift col-span-2 sm:col-span-2 lg:col-span-1">
+                <div class="p-3 rounded-2xl bg-white border border-slate-200/80 flex flex-col items-center justify-center space-y-1 hover-lift col-span-2 sm:col-span-2 lg:col-span-1">
                     <div class="w-10 h-10 rounded-full bg-gold/20 text-gold-dark flex items-center justify-center text-sm"><i class="fa-solid fa-bag-shopping"></i></div>
                     <span class="text-[11px] sm:text-xs font-bold text-slate-900">Commercial Facilities</span>
                 </div>
@@ -454,12 +576,15 @@
     <nav aria-label="Section Quick Jump" class="sticky top-14 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs py-2 overflow-x-auto custom-scrollbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-2 text-[11px] sm:text-xs font-bold text-slate-700 whitespace-nowrap">
             <span class="text-slate-400 uppercase tracking-widest text-[9px] mr-1 shrink-0 hidden sm:inline">Jump:</span>
+            <a href="#quick-plot-finder" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white shrink-0 transition-colors"><i class="fa-solid fa-bolt mr-1"></i> Quick Plot Finder</a>
             <a href="#ballot-rate-tables" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white shrink-0 transition-colors">All Rate Lists</a>
             <a href="#ballot3-res" class="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 hover:bg-emerald-700 hover:text-white shrink-0 transition-colors">3rd Ballot Res (20%)</a>
             <a href="#ballot1-res" class="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-800 hover:bg-rose-700 hover:text-white shrink-0 transition-colors">1st Ballot Res (15%)</a>
             <a href="#ballot2-res" class="px-3 py-1.5 rounded-lg bg-amber-50 text-amber-800 hover:bg-amber-700 hover:text-white shrink-0 transition-colors">2nd Ballot Res (15%)</a>
             <a href="#ballot3-comm" class="px-3 py-1.5 rounded-lg bg-purple-50 text-purple-800 hover:bg-purple-700 hover:text-white shrink-0 transition-colors">3rd Ballot Commercial</a>
             <a href="#installment-calculator" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-900 hover:text-white shrink-0 transition-colors">Calculator</a>
+            <a href="#masterplan-gallery" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-900 hover:text-white shrink-0 transition-colors">Master Plan</a>
+            <a href="#why-invest" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-900 hover:text-white shrink-0 transition-colors">Why Invest</a>
             <a href="#contact-advisory" class="px-3 py-1.5 rounded-lg bg-gold text-slate-950 font-black hover:bg-slate-900 hover:text-white shrink-0 transition-colors">CEO Tanzil Minhas</a>
         </div>
     </nav>
@@ -467,7 +592,255 @@
     <!-- MAIN BODY CONTENT CONTAINER -->
     <main class="flex-grow space-y-12 sm:space-y-20 py-8 sm:py-16">
 
-        <!-- SECTION 1: ALL 4 OFFICIAL BALLOT RATE LISTS (WITH MOBILE-SWIPE HINT) -->
+        <!-- SECTION: INTERACTIVE QUICK PLOT FINDER & AD ACTION CARDS -->
+        <section id="quick-plot-finder" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-2.5">
+                <span class="bg-emerald-100 text-emerald-800 border border-emerald-300 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-widest inline-block">
+                    ⚡ Instant Booking Categories
+                </span>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold outfit text-slate-900">
+                    Find Your Target Plot Size & Price
+                </h2>
+                <p class="text-slate-500 text-xs sm:text-sm font-light">
+                    Directly view official prices, down payment breakdown, and book via WhatsApp or priority callback.
+                </p>
+                
+                <!-- Category Switcher Tabs -->
+                <div class="flex items-center justify-center gap-2 pt-2">
+                    <button type="button" onclick="switchPlotFinderTab('res')" id="tab-res-btn" class="px-5 py-2.5 rounded-xl bg-slate-900 text-white font-bold text-xs sm:text-sm shadow-md transition-all">
+                        <i class="fa-solid fa-house mr-1 text-gold"></i> Residential Plots (5M, 10M, 1K)
+                    </button>
+                    <button type="button" onclick="switchPlotFinderTab('comm')" id="tab-comm-btn" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs sm:text-sm transition-all">
+                        <i class="fa-solid fa-building mr-1 text-purple-600"></i> Commercial Plots (4M to 20M)
+                    </button>
+                </div>
+            </div>
+
+            <!-- RESIDENTIAL CARDS GRID -->
+            <div id="plot-cards-res" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- 5 Marla Card -->
+                <div class="bg-white rounded-3xl p-6 border-2 border-emerald-500 shadow-xl space-y-4 hover-lift relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-bl-xl">
+                        Most Popular
+                    </div>
+                    <div>
+                        <span class="text-emerald-700 font-bold text-xs uppercase tracking-wider">3rd Ballot Residential</span>
+                        <h3 class="text-2xl font-black outfit text-slate-900 mt-1">125 Sq Yds <span class="text-sm font-semibold text-slate-500">(5 Marla)</span></h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Ideal for modern villa living and supreme capital ROI.</p>
+                    </div>
+                    <div class="space-y-2 py-3 border-y border-slate-100 text-xs">
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>3-Yr Sale Price:</span>
+                            <span class="font-extrabold text-slate-900 text-sm">PKR 25,000,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>20% Down Payment:</span>
+                            <span class="font-extrabold text-emerald-700 text-sm">PKR 5,000,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>12 Qtrly Installments:</span>
+                            <span class="font-bold text-slate-800">PKR 1,666,667 / Qtr</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-500 text-[11px]">
+                            <span>Lump Sum (30 Days):</span>
+                            <span class="font-bold text-slate-700">PKR 21,434,375</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2 pt-1">
+                        <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Ahmed%20Minhas,%20I%20want%20to%20book%20a%205%20Marla%20(125%20SqYds)%20Residential%20plot%20in%20DHA%20Margalla%20Enclave.%20Please%20share%20allotment%20details." target="_blank" rel="noopener" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md transition-all">
+                            <i class="fa-brands fa-whatsapp text-base"></i> Book 5 Marla (WhatsApp)
+                        </a>
+                        <button type="button" onclick="openLeadModal('Quick Quote 5 Marla', '125 Sq Yds Residential (5 Marla)')" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold py-2.5 rounded-xl text-xs transition-all">
+                            Request Official Booking Form
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 10 Marla Card -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xl space-y-4 hover-lift">
+                    <div>
+                        <span class="text-emerald-700 font-bold text-xs uppercase tracking-wider">3rd Ballot Residential</span>
+                        <h3 class="text-2xl font-black outfit text-slate-900 mt-1">250 Sq Yds <span class="text-sm font-semibold text-slate-500">(10 Marla)</span></h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Spacious luxury home size with grand elevation frontage.</p>
+                    </div>
+                    <div class="space-y-2 py-3 border-y border-slate-100 text-xs">
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>3-Yr Sale Price:</span>
+                            <span class="font-extrabold text-slate-900 text-sm">PKR 49,000,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>20% Down Payment:</span>
+                            <span class="font-extrabold text-emerald-700 text-sm">PKR 9,800,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>12 Qtrly Installments:</span>
+                            <span class="font-bold text-slate-800">PKR 3,266,667 / Qtr</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-500 text-[11px]">
+                            <span>Lump Sum (30 Days):</span>
+                            <span class="font-bold text-slate-700">PKR 42,011,375</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2 pt-1">
+                        <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Ahmed%20Minhas,%20I%20want%20to%20book%20a%2010%20Marla%20(250%20SqYds)%20Residential%20plot%20in%20DHA%20Margalla%20Enclave.%20Please%20share%20details." target="_blank" rel="noopener" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md transition-all">
+                            <i class="fa-brands fa-whatsapp text-base"></i> Book 10 Marla (WhatsApp)
+                        </a>
+                        <button type="button" onclick="openLeadModal('Quick Quote 10 Marla', '250 Sq Yds Residential (10 Marla)')" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold py-2.5 rounded-xl text-xs transition-all">
+                            Request Official Booking Form
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 1 Kanal Card -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xl space-y-4 hover-lift">
+                    <div>
+                        <span class="text-emerald-700 font-bold text-xs uppercase tracking-wider">3rd Ballot Residential</span>
+                        <h3 class="text-2xl font-black outfit text-slate-900 mt-1">500 Sq Yds <span class="text-sm font-semibold text-slate-500">(1 Kanal)</span></h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Flagship estate plot with scenic Margalla view orientation.</p>
+                    </div>
+                    <div class="space-y-2 py-3 border-y border-slate-100 text-xs">
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>3-Yr Sale Price:</span>
+                            <span class="font-extrabold text-slate-900 text-sm">PKR 85,000,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>20% Down Payment:</span>
+                            <span class="font-extrabold text-emerald-700 text-sm">PKR 17,000,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>12 Qtrly Installments:</span>
+                            <span class="font-bold text-slate-800">PKR 5,666,667 / Qtr</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-500 text-[11px]">
+                            <span>Lump Sum (30 Days):</span>
+                            <span class="font-bold text-slate-700">PKR 72,876,875</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2 pt-1">
+                        <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Ahmed%20Minhas,%20I%20want%20to%20book%20a%201%20Kanal%20(500%20SqYds)%20Residential%20plot%20in%20DHA%20Margalla%20Enclave.%20Please%20share%20details." target="_blank" rel="noopener" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md transition-all">
+                            <i class="fa-brands fa-whatsapp text-base"></i> Book 1 Kanal (WhatsApp)
+                        </a>
+                        <button type="button" onclick="openLeadModal('Quick Quote 1 Kanal', '500 Sq Yds Residential (1 Kanal)')" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold py-2.5 rounded-xl text-xs transition-all">
+                            Request Official Booking Form
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- COMMERCIAL CARDS GRID (HIDDEN BY DEFAULT, TOGGLED VIA TABS) -->
+            <div id="plot-cards-comm" class="grid grid-cols-1 md:grid-cols-3 gap-6 hidden">
+                
+                <!-- 4 Marla Commercial -->
+                <div class="bg-white rounded-3xl p-6 border-2 border-purple-400 shadow-xl space-y-4 hover-lift">
+                    <div>
+                        <span class="text-purple-700 font-bold text-xs uppercase tracking-wider">3rd Ballot Commercial</span>
+                        <h3 class="text-2xl font-black outfit text-slate-900 mt-1">100 Sq Yds <span class="text-sm font-semibold text-slate-500">(4 Marla)</span></h3>
+                        <p class="text-xs text-slate-500 mt-0.5">High footfall commercial unit suitable for plazas and offices.</p>
+                    </div>
+                    <div class="space-y-2 py-3 border-y border-slate-100 text-xs">
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>3-Yr Sale Price:</span>
+                            <span class="font-extrabold text-slate-900 text-sm">PKR 95,000,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>20% Down Payment:</span>
+                            <span class="font-extrabold text-purple-700 text-sm">PKR 19,000,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>12 Qtrly Installments:</span>
+                            <span class="font-bold text-slate-800">PKR 6,333,333 / Qtr</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-500 text-[11px]">
+                            <span>Lump Sum (30 Days):</span>
+                            <span class="font-bold text-slate-700">PKR 81,450,625</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2 pt-1">
+                        <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Ahmed%20Minhas,%20I%20want%20to%20inquire%20about%20a%204%20Marla%20(100%20SqYds)%20Commercial%20plot%20in%20DHA%20Margalla%20Enclave." target="_blank" rel="noopener" class="w-full bg-purple-700 hover:bg-purple-600 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md transition-all">
+                            <i class="fa-brands fa-whatsapp text-base"></i> Book 4 Marla Commercial
+                        </a>
+                        <button type="button" onclick="openLeadModal('Quick Quote 4 Marla Commercial', '100 Sq Yds Commercial (4 Marla)')" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold py-2.5 rounded-xl text-xs transition-all">
+                            Request Commercial Plan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5.33 Marla Commercial -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xl space-y-4 hover-lift">
+                    <div>
+                        <span class="text-purple-700 font-bold text-xs uppercase tracking-wider">3rd Ballot Commercial</span>
+                        <h3 class="text-2xl font-black outfit text-slate-900 mt-1">133.25 Sq Yds <span class="text-sm font-semibold text-slate-500">(5.33 Marla)</span></h3>
+                        <p class="text-xs text-slate-500 mt-0.5">High-Rise LG+G+5 commercial building footprint.</p>
+                    </div>
+                    <div class="space-y-2 py-3 border-y border-slate-100 text-xs">
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>3-Yr Sale Price:</span>
+                            <span class="font-extrabold text-slate-900 text-sm">PKR 140,000,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>20% Down Payment:</span>
+                            <span class="font-extrabold text-purple-700 text-sm">PKR 28,000,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>12 Qtrly Installments:</span>
+                            <span class="font-bold text-slate-800">PKR 9,333,333 / Qtr</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-500 text-[11px]">
+                            <span>Lump Sum (30 Days):</span>
+                            <span class="font-bold text-slate-700">PKR 120,032,500</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2 pt-1">
+                        <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Ahmed%20Minhas,%20I%20want%20to%20inquire%20about%20a%205.33%20Marla%20(133.25%20SqYds)%20Commercial%20plot%20in%20DHA%20Margalla%20Enclave." target="_blank" rel="noopener" class="w-full bg-purple-700 hover:bg-purple-600 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md transition-all">
+                            <i class="fa-brands fa-whatsapp text-base"></i> Book 5.33 Marla Commercial
+                        </a>
+                        <button type="button" onclick="openLeadModal('Quick Quote 5.33 Marla Commercial', '133.25 Sq Yds Commercial (5.33 Marla)')" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold py-2.5 rounded-xl text-xs transition-all">
+                            Request Commercial Plan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 8 Marla Commercial -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xl space-y-4 hover-lift">
+                    <div>
+                        <span class="text-purple-700 font-bold text-xs uppercase tracking-wider">3rd Ballot Commercial</span>
+                        <h3 class="text-2xl font-black outfit text-slate-900 mt-1">200 Sq Yds <span class="text-sm font-semibold text-slate-500">(8 Marla)</span></h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Prime corner & boulevard location for corporate headquarters.</p>
+                    </div>
+                    <div class="space-y-2 py-3 border-y border-slate-100 text-xs">
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>3-Yr Sale Price:</span>
+                            <span class="font-extrabold text-slate-900 text-sm">PKR 170,000,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>20% Down Payment:</span>
+                            <span class="font-extrabold text-purple-700 text-sm">PKR 34,000,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>12 Qtrly Installments:</span>
+                            <span class="font-bold text-slate-800">PKR 11,333,333 / Qtr</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-500 text-[11px]">
+                            <span>Lump Sum (30 Days):</span>
+                            <span class="font-bold text-slate-700">PKR 145,753,750</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2 pt-1">
+                        <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Ahmed%20Minhas,%20I%20want%20to%20inquire%20about%20an%208%20Marla%20(200%20SqYds)%20Commercial%20plot%20in%20DHA%20Margalla%20Enclave." target="_blank" rel="noopener" class="w-full bg-purple-700 hover:bg-purple-600 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md transition-all">
+                            <i class="fa-brands fa-whatsapp text-base"></i> Book 8 Marla Commercial
+                        </a>
+                        <button type="button" onclick="openLeadModal('Quick Quote 8 Marla Commercial', '200 Sq Yds Commercial (8 Marla)')" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold py-2.5 rounded-xl text-xs transition-all">
+                            Request Commercial Plan
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 1: ALL 4 OFFICIAL BALLOT RATE LISTS (WITH MOBILE-SWIPE HINT & INLINE BOOKING CTAS) -->
         <section id="ballot-rate-tables" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
             
             <div class="text-center max-w-3xl mx-auto space-y-2.5">
@@ -494,15 +867,16 @@
                 </div>
 
                 <div class="overflow-x-auto custom-scrollbar">
-                    <table class="w-full text-left border-collapse text-xs min-w-[720px]">
+                    <table class="w-full text-left border-collapse text-xs min-w-[760px]">
                         <thead>
                             <tr class="bg-emerald-950 text-white outfit uppercase tracking-wider font-extrabold text-[11px]">
                                 <th class="p-3.5 rounded-tl-xl" scope="col">Size (SqYds)</th>
-                                <th class="p-3.5" scope="col">Processing Fee (Non Refundable)</th>
-                                <th class="p-3.5" scope="col">Lump Sum Price (Within 30 Days)</th>
-                                <th class="p-3.5 text-center bg-emerald-900" colspan="2" scope="col">1 Year Plan (4 Qtrly Installments)<br><span class="font-normal text-[10px] text-emerald-200">Sale Price | 20% Down</span></th>
-                                <th class="p-3.5 text-center bg-emerald-800" colspan="2" scope="col">2 Year Plan (8 Qtrly Installments)<br><span class="font-normal text-[10px] text-emerald-200">Sale Price | 20% Down</span></th>
-                                <th class="p-3.5 text-center bg-emerald-900 rounded-tr-xl" colspan="2" scope="col">3 Year Plan (12 Qtrly Installments)<br><span class="font-normal text-[10px] text-emerald-200">Sale Price | 20% Down</span></th>
+                                <th class="p-3.5" scope="col">Processing Fee</th>
+                                <th class="p-3.5" scope="col">Lump Sum (30D)</th>
+                                <th class="p-3.5 text-center bg-emerald-900" colspan="2" scope="col">1 Year Plan (4 Qtrs)<br><span class="font-normal text-[10px] text-emerald-200">Price | 20% Down</span></th>
+                                <th class="p-3.5 text-center bg-emerald-800" colspan="2" scope="col">2 Year Plan (8 Qtrs)<br><span class="font-normal text-[10px] text-emerald-200">Price | 20% Down</span></th>
+                                <th class="p-3.5 text-center bg-emerald-900" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-emerald-200">Price | 20% Down</span></th>
+                                <th class="p-3.5 text-center bg-gold text-slate-950 rounded-tr-xl" scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
@@ -516,6 +890,11 @@
                                 <td class="p-3.5 text-emerald-700 font-bold">4,750,000</td>
                                 <td class="p-3.5 font-extrabold text-emerald-900">25,000,000</td>
                                 <td class="p-3.5 text-emerald-700 font-black">5,000,000</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%205%20Marla%20(125%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                             <tr class="hover:bg-emerald-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">250 <span class="text-xs text-slate-500 font-normal">(10 Marla)</span></td>
@@ -527,6 +906,11 @@
                                 <td class="p-3.5 text-emerald-700 font-bold">9,310,000</td>
                                 <td class="p-3.5 font-extrabold text-emerald-900">49,000,000</td>
                                 <td class="p-3.5 text-emerald-700 font-black">9,800,000</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%2010%20Marla%20(250%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                             <tr class="hover:bg-emerald-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">500 <span class="text-xs text-slate-500 font-normal">(1 Kanal)</span></td>
@@ -538,6 +922,11 @@
                                 <td class="p-3.5 text-emerald-700 font-bold">16,150,000</td>
                                 <td class="p-3.5 font-extrabold text-emerald-900">85,000,000</td>
                                 <td class="p-3.5 text-emerald-700 font-black">17,000,000</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%201%20Kanal%20(500%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -559,15 +948,16 @@
                 </div>
 
                 <div class="overflow-x-auto custom-scrollbar">
-                    <table class="w-full text-left border-collapse text-xs min-w-[720px]">
+                    <table class="w-full text-left border-collapse text-xs min-w-[760px]">
                         <thead>
                             <tr class="bg-rose-950 text-white outfit uppercase tracking-wider font-extrabold text-[11px]">
                                 <th class="p-3.5 rounded-tl-xl" scope="col">Size (SqYds)</th>
-                                <th class="p-3.5" scope="col">Processing Fee (Non Refundable)</th>
-                                <th class="p-3.5" scope="col">Lump Sum Price (Within 30 Days)</th>
-                                <th class="p-3.5 text-center bg-rose-900" colspan="2" scope="col">1 Year Plan (4 Qtrly Installments)<br><span class="font-normal text-[10px] text-rose-200">Sale Price | 15% Down</span></th>
-                                <th class="p-3.5 text-center bg-rose-800" colspan="2" scope="col">2 Year Plan (8 Qtrly Installments)<br><span class="font-normal text-[10px] text-rose-200">Sale Price | 15% Down</span></th>
-                                <th class="p-3.5 text-center bg-rose-900 rounded-tr-xl" colspan="2" scope="col">3 Year Plan (12 Qtrly Installments)<br><span class="font-normal text-[10px] text-rose-200">Sale Price | 15% Down</span></th>
+                                <th class="p-3.5" scope="col">Processing Fee</th>
+                                <th class="p-3.5" scope="col">Lump Sum (30D)</th>
+                                <th class="p-3.5 text-center bg-rose-900" colspan="2" scope="col">1 Year Plan (4 Qtrs)<br><span class="font-normal text-[10px] text-rose-200">Price | 15% Down</span></th>
+                                <th class="p-3.5 text-center bg-rose-800" colspan="2" scope="col">2 Year Plan (8 Qtrs)<br><span class="font-normal text-[10px] text-rose-200">Price | 15% Down</span></th>
+                                <th class="p-3.5 text-center bg-rose-900" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-rose-200">Price | 15% Down</span></th>
+                                <th class="p-3.5 text-center bg-gold text-slate-950 rounded-tr-xl" scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
@@ -581,6 +971,11 @@
                                 <td class="p-3.5 text-rose-700 font-bold">1,980,000/-</td>
                                 <td class="p-3.5 font-extrabold text-rose-900">14,000,000/-</td>
                                 <td class="p-3.5 text-rose-700 font-black">2,100,000/-</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%201st%20Ballot%205%20Marla%20(125%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-rose-700 hover:bg-rose-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                             <tr class="hover:bg-rose-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">250 <span class="text-xs text-slate-500 font-normal">(10 Marla)</span></td>
@@ -592,6 +987,11 @@
                                 <td class="p-3.5 text-rose-700 font-bold">3,630,000/-</td>
                                 <td class="p-3.5 font-extrabold text-rose-900">26,000,000/-</td>
                                 <td class="p-3.5 text-rose-700 font-black">3,900,000/-</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%201st%20Ballot%2010%20Marla%20(250%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-rose-700 hover:bg-rose-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                             <tr class="hover:bg-rose-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">500 <span class="text-xs text-slate-500 font-normal">(1 Kanal)</span></td>
@@ -603,6 +1003,11 @@
                                 <td class="p-3.5 text-rose-700 font-bold">6,930,000/-</td>
                                 <td class="p-3.5 font-extrabold text-rose-900">50,000,000/-</td>
                                 <td class="p-3.5 text-rose-700 font-black">7,500,000/-</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%201st%20Ballot%201%20Kanal%20(500%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-rose-700 hover:bg-rose-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -624,15 +1029,16 @@
                 </div>
 
                 <div class="overflow-x-auto custom-scrollbar">
-                    <table class="w-full text-left border-collapse text-xs min-w-[720px]">
+                    <table class="w-full text-left border-collapse text-xs min-w-[760px]">
                         <thead>
                             <tr class="bg-amber-950 text-white outfit uppercase tracking-wider font-extrabold text-[11px]">
                                 <th class="p-3.5 rounded-tl-xl" scope="col">Size (SqYds)</th>
-                                <th class="p-3.5" scope="col">Processing Fee (Non Refundable)</th>
-                                <th class="p-3.5" scope="col">Lump Sum Price (Within 30 Days)</th>
-                                <th class="p-3.5 text-center bg-amber-900" colspan="2" scope="col">1 Year Plan (4 Qtrly Installments)<br><span class="font-normal text-[10px] text-amber-200">Sale Price | 15% Down</span></th>
-                                <th class="p-3.5 text-center bg-amber-800" colspan="2" scope="col">2 Year Plan (8 Qtrly Installments)<br><span class="font-normal text-[10px] text-amber-200">Sale Price | 15% Down</span></th>
-                                <th class="p-3.5 text-center bg-amber-900 rounded-tr-xl" colspan="2" scope="col">3 Year Plan (12 Qtrly Installments)<br><span class="font-normal text-[10px] text-amber-200">Sale Price | 15% Down</span></th>
+                                <th class="p-3.5" scope="col">Processing Fee</th>
+                                <th class="p-3.5" scope="col">Lump Sum (30D)</th>
+                                <th class="p-3.5 text-center bg-amber-900" colspan="2" scope="col">1 Year Plan (4 Qtrs)<br><span class="font-normal text-[10px] text-amber-200">Price | 15% Down</span></th>
+                                <th class="p-3.5 text-center bg-amber-800" colspan="2" scope="col">2 Year Plan (8 Qtrs)<br><span class="font-normal text-[10px] text-amber-200">Price | 15% Down</span></th>
+                                <th class="p-3.5 text-center bg-amber-900" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-amber-200">Price | 15% Down</span></th>
+                                <th class="p-3.5 text-center bg-gold text-slate-950 rounded-tr-xl" scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
@@ -646,6 +1052,11 @@
                                 <td class="p-3.5 text-amber-700 font-bold">2,565,500/-</td>
                                 <td class="p-3.5 font-extrabold text-amber-900">18,000,000/-</td>
                                 <td class="p-3.5 text-amber-700 font-black">2,700,000/-</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%202nd%20Ballot%205%20Marla%20(125%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                             <tr class="hover:bg-amber-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">250 <span class="text-xs text-slate-500 font-normal">(10 Marla)</span></td>
@@ -657,6 +1068,11 @@
                                 <td class="p-3.5 text-amber-700 font-bold">4,965,000/-</td>
                                 <td class="p-3.5 font-extrabold text-amber-900">35,000,000/-</td>
                                 <td class="p-3.5 text-amber-700 font-black">5,250,000/-</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%202nd%20Ballot%2010%20Marla%20(250%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                             <tr class="hover:bg-amber-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">500 <span class="text-xs text-slate-500 font-normal">(1 Kanal)</span></td>
@@ -668,6 +1084,11 @@
                                 <td class="p-3.5 text-amber-700 font-bold">9,300,000/-</td>
                                 <td class="p-3.5 font-extrabold text-amber-900">65,000,000/-</td>
                                 <td class="p-3.5 text-amber-700 font-black">9,750,000/-</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%202nd%20Ballot%201%20Kanal%20(500%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -689,15 +1110,16 @@
                 </div>
 
                 <div class="overflow-x-auto custom-scrollbar">
-                    <table class="w-full text-left border-collapse text-xs min-w-[720px]">
+                    <table class="w-full text-left border-collapse text-xs min-w-[760px]">
                         <thead>
                             <tr class="bg-purple-950 text-white outfit uppercase tracking-wider font-extrabold text-[11px]">
                                 <th class="p-3.5 rounded-tl-xl" scope="col">Size (SqYds)</th>
-                                <th class="p-3.5" scope="col">Processing Fee (Non Refundable)</th>
-                                <th class="p-3.5" scope="col">Lump Sum Price (Within 30 Days)</th>
-                                <th class="p-3.5 text-center bg-purple-900" colspan="2" scope="col">1 Year Plan (4 Qtrly Installments)<br><span class="font-normal text-[10px] text-purple-200">Sale Price | 20% Down</span></th>
-                                <th class="p-3.5 text-center bg-purple-800" colspan="2" scope="col">2 Year Plan (8 Qtrly Installments)<br><span class="font-normal text-[10px] text-purple-200">Sale Price | 20% Down</span></th>
-                                <th class="p-3.5 text-center bg-purple-900 rounded-tr-xl" colspan="2" scope="col">3 Year Plan (12 Qtrly Installments)<br><span class="font-normal text-[10px] text-purple-200">Sale Price | 20% Down</span></th>
+                                <th class="p-3.5" scope="col">Processing Fee</th>
+                                <th class="p-3.5" scope="col">Lump Sum (30D)</th>
+                                <th class="p-3.5 text-center bg-purple-900" colspan="2" scope="col">1 Year Plan (4 Qtrs)<br><span class="font-normal text-[10px] text-purple-200">Price | 20% Down</span></th>
+                                <th class="p-3.5 text-center bg-purple-800" colspan="2" scope="col">2 Year Plan (8 Qtrs)<br><span class="font-normal text-[10px] text-purple-200">Price | 20% Down</span></th>
+                                <th class="p-3.5 text-center bg-purple-900" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-purple-200">Price | 20% Down</span></th>
+                                <th class="p-3.5 text-center bg-gold text-slate-950 rounded-tr-xl" scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
@@ -711,6 +1133,11 @@
                                 <td class="p-3.5 text-purple-700 font-bold">18,050,000</td>
                                 <td class="p-3.5 font-extrabold text-purple-900">95,000,000</td>
                                 <td class="p-3.5 text-purple-700 font-black">19,000,000</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%204%20Marla%20(100%20SqYds)%20Commercial." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-purple-700 hover:bg-purple-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                             <tr class="hover:bg-purple-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">133.25 <span class="text-xs text-slate-500 font-normal">(5.33 Marla)</span></td>
@@ -722,6 +1149,11 @@
                                 <td class="p-3.5 text-purple-700 font-bold">26,600,000</td>
                                 <td class="p-3.5 font-extrabold text-purple-900">140,000,000</td>
                                 <td class="p-3.5 text-purple-700 font-black">28,000,000</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%205.33%20Marla%20(133.25%20SqYds)%20Commercial." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-purple-700 hover:bg-purple-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                             <tr class="hover:bg-purple-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">200 <span class="text-xs text-slate-500 font-normal">(8 Marla)</span></td>
@@ -733,6 +1165,11 @@
                                 <td class="p-3.5 text-purple-700 font-bold">32,300,000</td>
                                 <td class="p-3.5 font-extrabold text-purple-900">170,000,000</td>
                                 <td class="p-3.5 text-purple-700 font-black">34,000,000</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%208%20Marla%20(200%20SqYds)%20Commercial." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-purple-700 hover:bg-purple-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                             <tr class="hover:bg-purple-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">500 <span class="text-xs text-slate-500 font-normal">(20 Marla / 1 Kanal)</span></td>
@@ -744,13 +1181,81 @@
                                 <td class="p-3.5 text-purple-700 font-bold">76,000,000</td>
                                 <td class="p-3.5 font-extrabold text-purple-900">400,000,000</td>
                                 <td class="p-3.5 text-purple-700 font-black">80,000,000</td>
+                                <td class="p-3.5 text-center">
+                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%2020%20Marla%20(500%20SqYds)%20Commercial." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-purple-700 hover:bg-purple-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
+                                        <i class="fa-brands fa-whatsapp"></i> Book
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </article>
 
+        </section>
 
+        <!-- SECTION: MASTER PLAN, SECTOR ELEVATIONS & VISUAL GALLERY -->
+        <section id="masterplan-gallery" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <span class="bg-gold/15 text-gold border border-gold/30 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider inline-block mb-1.5">
+                        High-Resolution Visual Maps
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black outfit text-slate-900">
+                        Official Master Plan & Elevations
+                    </h2>
+                    <p class="text-slate-500 text-xs sm:text-sm">Click any map to view full-screen zoom elevation.</p>
+                </div>
+                <div>
+                    <button type="button" onclick="openLeadModal('Master Plan Request', 'Master Layout Plan Map')" class="px-5 py-2.5 bg-slate-900 hover:bg-gold hover:text-slate-950 text-white font-bold rounded-xl text-xs transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-map-location-dot"></i> Request PDF Master Plan
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- Elevation 1 -->
+                <div class="bg-white rounded-2xl p-2 border border-slate-200 shadow-md group cursor-pointer hover-lift" onclick="openLightbox('assets/images/dha-margalla-hero.jpg', 'DHA Margalla Enclave Official Master Elevation')">
+                    <div class="relative h-48 rounded-xl overflow-hidden">
+                        <img src="assets/images/dha-margalla-hero.jpg" alt="DHA Margalla Enclave Official Elevation" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute bottom-2 left-2 bg-slate-950/80 text-gold text-[10px] font-bold px-2 py-0.5 rounded-md">Master Panorama</span>
+                        <span class="absolute top-2 right-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md"><i class="fa-solid fa-expand"></i> Zoom</span>
+                    </div>
+                    <div class="p-2 text-xs font-bold text-slate-800">Official Master Panorama</div>
+                </div>
+
+                <!-- Elevation 2 -->
+                <div class="bg-white rounded-2xl p-2 border border-slate-200 shadow-md group cursor-pointer hover-lift" onclick="openLightbox('assets/images/dha-masterplan.jpg', 'DHA Margalla Enclave Master Plan Layout Map')">
+                    <div class="relative h-48 rounded-xl overflow-hidden">
+                        <img src="assets/images/dha-masterplan.jpg" alt="DHA Margalla Enclave Master Plan Layout Map" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute bottom-2 left-2 bg-slate-950/80 text-gold text-[10px] font-bold px-2 py-0.5 rounded-md">Sector Master Plan</span>
+                        <span class="absolute top-2 right-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md"><i class="fa-solid fa-expand"></i> Zoom</span>
+                    </div>
+                    <div class="p-2 text-xs font-bold text-slate-800">Master Layout Sector Map</div>
+                </div>
+
+                <!-- Elevation 3 -->
+                <div class="bg-white rounded-2xl p-2 border border-slate-200 shadow-md group cursor-pointer hover-lift" onclick="openLightbox('assets/images/dha-commercial-plots.jpg', 'DHA Margalla Commercial Boulevard Elevation')">
+                    <div class="relative h-48 rounded-xl overflow-hidden">
+                        <img src="assets/images/dha-commercial-plots.jpg" alt="DHA Margalla Commercial Boulevard Elevation" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute bottom-2 left-2 bg-slate-950/80 text-purple-400 text-[10px] font-bold px-2 py-0.5 rounded-md">Commercial Boulevard</span>
+                        <span class="absolute top-2 right-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md"><i class="fa-solid fa-expand"></i> Zoom</span>
+                    </div>
+                    <div class="p-2 text-xs font-bold text-slate-800">Commercial Boulevard Avenue</div>
+                </div>
+
+                <!-- Elevation 4 -->
+                <div class="bg-white rounded-2xl p-2 border border-slate-200 shadow-md group cursor-pointer hover-lift" onclick="openLightbox('assets/images/dha-residential-plots.jpg', 'DHA Margalla Residential Sector Master Elevation')">
+                    <div class="relative h-48 rounded-xl overflow-hidden">
+                        <img src="assets/images/dha-residential-plots.jpg" alt="DHA Margalla Residential Sector Master Elevation" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute bottom-2 left-2 bg-slate-950/80 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-md">Residential Sectors</span>
+                        <span class="absolute top-2 right-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md"><i class="fa-solid fa-expand"></i> Zoom</span>
+                    </div>
+                    <div class="p-2 text-xs font-bold text-slate-800">Residential Villa Clusters</div>
+                </div>
+
+            </div>
         </section>
 
         <!-- SECTION 2: INTERACTIVE REAL-TIME INSTALLMENT CALCULATOR (ALL BALLOTS) -->
@@ -847,16 +1352,108 @@
 
                             <!-- CTA Buttons -->
                             <div class="pt-2 space-y-2">
-                                <button type="button" onclick="shareCalculatedPlan()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2">
+                                <button type="button" onclick="shareCalculatedPlan()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg">
                                     <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp This Plan To CEO
                                 </button>
-                                <a href="#contact-advisory" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold py-2.5 rounded-xl text-xs text-center block transition-colors border border-slate-800">
-                                    Request Official Booking Voucher
-                                </a>
+                                <button type="button" onclick="bookCalculatedPlan()" class="w-full bg-gold hover:bg-gold-dark text-slate-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md">
+                                    <i class="fa-solid fa-file-signature"></i> Book This Calculated Plot
+                                </button>
                             </div>
                         </div>
                     </div>
 
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: WHY INVEST IN DHA MARGALLA ENCLAVE (KEY AD VALUE PROPOSITIONS) -->
+        <section id="why-invest" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-2">
+                <span class="bg-gold/15 text-gold border border-gold/30 px-3.5 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider inline-block">
+                    Supreme Investment Merits
+                </span>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-black outfit text-slate-900">
+                    Why Invest In DHA Margalla Enclave?
+                </h2>
+                <p class="text-slate-500 text-xs sm:text-sm">
+                    A rare confluence of CDA Zone 4 prime geography, DHA prestige, and high-velocity capital appreciation.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-lg space-y-3 hover-lift">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-location-crosshairs"></i>
+                    </div>
+                    <h3 class="text-lg font-black outfit text-slate-900">Unbeatable Location</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">
+                        Situated on Main Jinnah Avenue in CDA Zone 4 Islamabad. Only 5 minutes from Serena Hotel, Club Road, Park Road, and direct Murree Expressway corridor.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-lg space-y-3 hover-lift">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-lg font-black outfit text-slate-900">100% Legal & Safe Security</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">
+                        Official Joint Venture between CDA and DHA Islamabad. All transfers and allotments are computerized and verified at the DHA Phase 1 Directorate.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-lg space-y-3 hover-lift">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-lg font-black outfit text-slate-900">High ROI & Rental Yield</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">
+                        Early ballot allotments offer exceptional price entry points with rapid appreciation as development accelerates on Jinnah Avenue.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION: STEP-BY-STEP OFFICIAL BOOKING WORKFLOW -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-slate-900 rounded-3xl p-6 sm:p-10 border border-slate-800 text-white space-y-8">
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-gold bg-gold/10 px-3 py-1 rounded-full border border-gold/30">
+                        3-Step Transparent Procedure
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black outfit text-white">
+                        How To Book Your DHA Margalla Plot
+                    </h2>
+                    <p class="text-slate-400 text-xs sm:text-sm">Effortless, computerized, and fully verified allocation.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-3 relative">
+                        <div class="w-10 h-10 rounded-full bg-gold text-slate-950 font-black flex items-center justify-center mx-auto text-sm">1</div>
+                        <h3 class="text-base font-bold outfit text-white">Select Plot Category</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">Choose your preferred residential or commercial plot size across 1st, 2nd, or 3rd Ballot lists.</p>
+                    </div>
+
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-3 relative">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500 text-white font-black flex items-center justify-center mx-auto text-sm">2</div>
+                        <h3 class="text-base font-bold outfit text-white">Deposit 15-20% Down Payment</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">Submit your down payment and processing fee directly via official pay order / bank deposit.</p>
+                    </div>
+
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-3 relative">
+                        <div class="w-10 h-10 rounded-full bg-purple-500 text-white font-black flex items-center justify-center mx-auto text-sm">3</div>
+                        <h3 class="text-base font-bold outfit text-white">Official DHA Allotment</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">Receive your verified computerized DHA transfer letter with transparent quarterly schedule.</p>
+                    </div>
+
+                </div>
+
+                <div class="text-center pt-2">
+                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Ahmed%20Minhas,%20please%20guide%20me%20on%20the%20step-by-step%20booking%20of%20DHA%20Margalla%20Enclave." target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs sm:text-sm uppercase tracking-wider transition-all shadow-lg">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Start Booking With CEO Office
+                    </a>
                 </div>
             </div>
         </section>
@@ -934,11 +1531,10 @@
 
                         <div class="pt-2.5 border-t border-slate-800 flex items-center gap-4 text-slate-400 text-sm">
                             <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Official Socials:</span>
-                            <a href="#" aria-label="Facebook" class="hover:text-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
-                            <a href="#" aria-label="Instagram" class="hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="#" aria-label="YouTube" class="hover:text-gold transition-colors"><i class="fa-brands fa-youtube"></i></a>
-                            <a href="#" aria-label="TikTok" class="hover:text-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
-                            <a href="https://wa.me/923340091127" aria-label="WhatsApp" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                            <a href="https://facebook.com/kaghanproperties" target="_blank" rel="noopener" aria-label="Facebook" class="hover:text-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                            <a href="https://instagram.com/kaghanproperties" target="_blank" rel="noopener" aria-label="Instagram" class="hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="https://youtube.com/@kaghanproperties" target="_blank" rel="noopener" aria-label="YouTube" class="hover:text-gold transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                            <a href="https://wa.me/923340091127" target="_blank" rel="noopener" aria-label="WhatsApp" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
                         </div>
                     </div>
 
@@ -947,20 +1543,152 @@
             </div>
         </section>
 
+        <!-- SECTION: FAQS (HIGH INTENT BUYER OBJECTIONS RESOLVED) -->
+        <section id="faqs" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="text-center space-y-2">
+                <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">Frequently Asked Questions</span>
+                <h2 class="text-2xl sm:text-3xl font-black outfit text-slate-900">DHA Margalla Enclave FAQs</h2>
+                <p class="text-slate-500 text-xs sm:text-sm">Key answers regarding balloting, transfers, down payments, and location.</p>
+            </div>
+
+            <div class="space-y-3">
+                <details class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm group">
+                    <summary class="font-bold text-slate-900 text-sm cursor-pointer list-none flex justify-between items-center">
+                        <span>Where is DHA Margalla Enclave located in Islamabad?</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="text-xs text-slate-600 leading-relaxed mt-3 pt-3 border-t border-slate-100">
+                        DHA Margalla Enclave is located in CDA Zone 4 along Main Jinnah Avenue Islamabad, right opposite Serena Hotel / Club Road access corridor, adjacent to Bahria Enclave and Park Road.
+                    </p>
+                </details>
+
+                <details class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm group">
+                    <summary class="font-bold text-slate-900 text-sm cursor-pointer list-none flex justify-between items-center">
+                        <span>What is the down payment required for 3rd Ballot plots?</span>
+                        <summary-icon></summary-icon>
+                        <i class="fa-solid fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="text-xs text-slate-600 leading-relaxed mt-3 pt-3 border-t border-slate-100">
+                        3rd Ballot Residential and Commercial plots require a 20% Down Payment payable within 30 days of the ballot date. The remaining balance is payable in 1, 2, or 3-Year quarterly installments.
+                    </p>
+                </details>
+
+                <details class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm group">
+                    <summary class="font-bold text-slate-900 text-sm cursor-pointer list-none flex justify-between items-center">
+                        <span>Can Overseas Pakistanis book plots without visiting Pakistan?</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="text-xs text-slate-600 leading-relaxed mt-3 pt-3 border-t border-slate-100">
+                        Yes! Kaghan Properties provides dedicated end-to-end overseas concierge services. Overseas buyers can transfer funds via official banking channels (Roshan Digital Account or direct swift transfer) and receive scanned & courier-delivered computerized allotment files.
+                    </p>
+                </details>
+
+                <details class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm group">
+                    <summary class="font-bold text-slate-900 text-sm cursor-pointer list-none flex justify-between items-center">
+                        <span>What are the discounts for upfront Lump Sum payment?</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="text-xs text-slate-600 leading-relaxed mt-3 pt-3 border-t border-slate-100">
+                        Investors paying 100% upfront within 30 days receive significant price concessions. For example, a 5 Marla 3rd Ballot plot on the 3-Year plan is PKR 25,000,000, whereas the Lump Sum price is only PKR 21,434,375.
+                    </p>
+                </details>
+            </div>
+        </section>
+
     </main>
 
-    <!-- FLOATING MOBILE QUICK-ACTION BAR (MOBILE ONLY) -->
+    <!-- FLOATING MOBILE QUICK-ACTION BAR (MOBILE ADS OPTIMIZED) -->
     <aside id="floating-mobile-bar" aria-label="Mobile Contact Bar" class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-2.5 flex items-center justify-between gap-2 shadow-2xl">
-        <a href="tel:03340091127" class="flex-1 py-2.5 bg-gold text-slate-950 font-black rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md">
+        <a href="tel:03340091127" class="flex-1 py-3 bg-gold text-slate-950 font-black rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md">
             <i class="fa-solid fa-phone"></i> Call CEO
         </a>
-        <a href="https://wa.me/923340091127?text=Hello%20Tanzil%20Ahmed%20Minhas,%20I%20am%20interested%20in%20DHA%20Margalla%20Enclave%20plots." target="_blank" rel="noopener" class="flex-1 py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md">
+        <a href="https://wa.me/923340091127?text=Hello%20Tanzil%20Ahmed%20Minhas,%20I%20am%20interested%20in%20DHA%20Margalla%20Enclave%20plots." target="_blank" rel="noopener" class="flex-1 py-3 bg-emerald-600 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md animate-pulse-emerald">
             <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
         </a>
-        <a href="#installment-calculator" class="py-2.5 px-3 bg-slate-800 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 flex items-center justify-center">
-            <i class="fa-solid fa-calculator text-gold"></i>
-        </a>
+        <button type="button" onclick="openLeadModal('Floating Mobile Bar', '125 Sq Yds Residential (5 Marla)')" class="py-3 px-3.5 bg-slate-800 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 flex items-center justify-center">
+            <i class="fa-solid fa-file-invoice text-gold"></i>
+        </button>
     </aside>
+
+    <!-- FLOATING DESKTOP WHATSAPP BADGE -->
+    <div id="floating-desktop-wa" class="hidden md:flex fixed bottom-6 right-6 z-40 items-center gap-3">
+        <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Ahmed%20Minhas,%20I%20am%20interested%20in%20DHA%20Margalla%20Enclave%20Ballot%20rates." target="_blank" rel="noopener" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-full shadow-2xl flex items-center gap-2.5 transition-all hover:scale-105 border border-emerald-400">
+            <i class="fa-brands fa-whatsapp text-2xl"></i>
+            <div class="text-left leading-tight">
+                <div class="text-[10px] uppercase font-bold text-emerald-100">Direct CEO Hotline</div>
+                <div class="text-xs font-black">Chat on WhatsApp</div>
+            </div>
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-300 animate-ping ml-1"></span>
+        </a>
+    </div>
+
+    <!-- UNIVERSAL HIGH-CONVERTING LEAD CAPTURE MODAL (DOWNLOAD BROCHURE / BOOKING) -->
+    <div id="lead-capture-modal" role="dialog" aria-modal="true" aria-label="Book Plot & Download Brochure" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all" onclick="if(event.target === this) closeLeadModal()">
+        <div class="relative bg-slate-900 rounded-3xl max-w-lg w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-gold/40 text-white">
+            
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-slate-950 via-emerald-950 to-slate-950 p-5 border-b border-emerald-800/40 relative">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-gold">Official Allocation Desk</span>
+                    </div>
+                    <button type="button" onclick="closeLeadModal()" aria-label="Close modal" class="w-8 h-8 rounded-full bg-white/10 hover:bg-rose-600 text-white flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <h3 class="text-lg sm:text-xl font-black outfit text-white mt-1">
+                    Download DHA Margalla Brochure & Rates
+                </h3>
+                <p class="text-xs text-slate-300">Complete official rate lists, payment schedules, and verified booking voucher.</p>
+            </div>
+
+            <!-- Modal Body Form -->
+            <div class="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs">
+                
+                <form id="modal-lead-form" onsubmit="submitModalLead(event)" class="space-y-3">
+                    <div>
+                        <label for="modal-lead-name" class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Your Full Name *</label>
+                        <input type="text" id="modal-lead-name" required placeholder="e.g. Tariq Mehmood" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-gold">
+                    </div>
+
+                    <div>
+                        <label for="modal-lead-phone" class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Phone / WhatsApp Number *</label>
+                        <input type="tel" id="modal-lead-phone" required placeholder="+92 334 0091127" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-gold">
+                    </div>
+
+                    <div>
+                        <label for="modal-lead-plot-select" class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Target Plot Category</label>
+                        <select id="modal-lead-plot-select" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-gold font-medium">
+                            <optgroup label="Residential Plots">
+                                <option value="125 Sq Yds Residential (5 Marla)">125 Sq Yds (5 Marla) Residential</option>
+                                <option value="250 Sq Yds Residential (10 Marla)">250 Sq Yds (10 Marla) Residential</option>
+                                <option value="500 Sq Yds Residential (1 Kanal)">500 Sq Yds (1 Kanal) Residential</option>
+                            </optgroup>
+                            <optgroup label="Commercial Plots">
+                                <option value="100 Sq Yds Commercial (4 Marla)">100 Sq Yds (4 Marla) Commercial</option>
+                                <option value="133.25 Sq Yds Commercial (5.33 Marla)">133.25 Sq Yds (5.33 Marla) Commercial</option>
+                                <option value="200 Sq Yds Commercial (8 Marla)">200 Sq Yds (8 Marla) Commercial</option>
+                                <option value="500 Sq Yds Commercial (20 Marla)">500 Sq Yds (20 Marla) Commercial</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div id="modal-lead-feedback" class="hidden p-3 rounded-xl text-center text-xs font-bold"></div>
+
+                    <button type="submit" id="modal-submit-btn" class="w-full bg-gold hover:bg-gold-dark text-slate-950 font-black py-3 px-4 rounded-xl text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all">
+                        <i class="fa-solid fa-download"></i> Download & Send Via WhatsApp
+                    </button>
+                </form>
+
+                <div class="pt-2 flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-800">
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-shield-halved text-emerald-400"></i> No Spam Guarantee</span>
+                    <a href="tel:03340091127" class="text-gold hover:underline font-bold"><i class="fa-solid fa-phone mr-1"></i> 0334-0091127</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <!-- FULLSCREEN LIGHTBOX MODAL -->
     <div id="image-lightbox-modal" role="dialog" aria-modal="true" aria-label="Full Image View" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all" onclick="closeLightbox()">
@@ -976,8 +1704,90 @@
     <!-- Global Dynamic Site Footer (Rendered by shared.js) -->
     <div id="site-footer"></div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT LOGIC & AD CAMPAIGN TRACKING -->
     <script>
+        // UTM & Ads Campaign Parameter Handler
+        const utmParams = {
+            source: '',
+            medium: '',
+            campaign: '',
+            term: '',
+            content: '',
+            gclid: '',
+            fbclid: '',
+            ttclid: ''
+        };
+
+        function initUtmTracking() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'ttclid'].forEach(key => {
+                    const val = urlParams.get(key);
+                    if (val) {
+                        const cleanKey = key.replace('utm_', '');
+                        utmParams[cleanKey] = val;
+                        sessionStorage.setItem(`kaghan_${key}`, val);
+                    } else {
+                        const stored = sessionStorage.getItem(`kaghan_${key}`);
+                        if (stored) {
+                            const cleanKey = key.replace('utm_', '');
+                            utmParams[cleanKey] = stored;
+                        }
+                    }
+                });
+
+                // Update WhatsApp CTAs with campaign context
+                const campaignTag = utmParams.campaign || utmParams.source ? ` [AdRef: ${utmParams.source || 'Ads'}-${utmParams.campaign || 'DHA'}]` : '';
+                if (campaignTag) {
+                    const heroWa = document.getElementById('hero-wa-btn');
+                    if (heroWa) {
+                        const currentHref = heroWa.getAttribute('href');
+                        heroWa.setAttribute('href', currentHref + encodeURIComponent(campaignTag));
+                    }
+                }
+            } catch (err) {
+                console.error('UTM parser notice:', err);
+            }
+        }
+
+        // Ad Conversion Event Dispatcher (Meta Pixel / Google Ads / Custom)
+        function trackAdConversion(eventName, eventData = {}) {
+            try {
+                // Meta Pixel
+                if (typeof window.fbq === 'function') {
+                    window.fbq('track', eventName, eventData);
+                }
+                // Google Ads / Analytics
+                if (typeof window.gtag === 'function') {
+                    window.gtag('event', eventName, eventData);
+                }
+                console.log(`[Ad Track Event] ${eventName}:`, eventData);
+            } catch (e) {
+                console.warn('Ad event tracker notice:', e);
+            }
+        }
+
+        // Plot Finder Tabs (Residential vs Commercial)
+        function switchPlotFinderTab(type) {
+            const resGrid = document.getElementById('plot-cards-res');
+            const commGrid = document.getElementById('plot-cards-comm');
+            const resBtn = document.getElementById('tab-res-btn');
+            const commBtn = document.getElementById('tab-comm-btn');
+
+            if (type === 'res') {
+                resGrid.classList.remove('hidden');
+                commGrid.classList.add('hidden');
+                resBtn.className = "px-5 py-2.5 rounded-xl bg-slate-900 text-white font-bold text-xs sm:text-sm shadow-md transition-all";
+                commBtn.className = "px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs sm:text-sm transition-all";
+            } else {
+                resGrid.classList.add('hidden');
+                commGrid.classList.remove('hidden');
+                commBtn.className = "px-5 py-2.5 rounded-xl bg-purple-900 text-white font-bold text-xs sm:text-sm shadow-md transition-all";
+                resBtn.className = "px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs sm:text-sm transition-all";
+            }
+        }
+
+        // Lightbox Functions
         function openLightbox(src, caption) {
             const modal = document.getElementById('image-lightbox-modal');
             const img = document.getElementById('lightbox-img');
@@ -991,9 +1801,144 @@
             document.getElementById('image-lightbox-modal').classList.add('hidden');
         }
 
+        // Lead Modal Functions
+        let currentModalContext = 'General Inquiry';
+        function openLeadModal(contextTitle, defaultPlot) {
+            currentModalContext = contextTitle || 'General Inquiry';
+            const modal = document.getElementById('lead-capture-modal');
+            const select = document.getElementById('modal-lead-plot-select');
+            if (select && defaultPlot) {
+                select.value = defaultPlot;
+            }
+            if (modal) modal.classList.remove('hidden');
+            trackAdConversion('InitiateCheckout', { context: currentModalContext, plot: defaultPlot });
+        }
+
+        function closeLeadModal() {
+            const modal = document.getElementById('lead-capture-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closeLeadModal();
+            }
         });
+
+        // Hero Lead Form Submission (Firestore + UTM + Instant WhatsApp)
+        async function submitHeroLead(e) {
+            e.preventDefault();
+            const name = document.getElementById('hero-lead-name').value.trim();
+            const phone = document.getElementById('hero-lead-phone').value.trim();
+            const plot = document.getElementById('hero-lead-plot').value;
+            const goal = document.getElementById('hero-lead-goal').value;
+            const btn = document.getElementById('hero-lead-submit-btn');
+            const feedback = document.getElementById('hero-lead-feedback');
+
+            if (!name || !phone) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing Voucher...';
+
+            const leadData = {
+                name,
+                phone,
+                unitPreference: plot,
+                investmentGoal: goal,
+                propertyTitle: `DHA Margalla Enclave (${plot})`,
+                propertyId: 'dha-margalla-enclave-ads',
+                sourcePage: 'dha-margalla-enclave.html',
+                campaign: utmParams.campaign || 'direct',
+                source: utmParams.source || 'ads-hero',
+                medium: utmParams.medium || '',
+                message: `[Ads Campaign Inquiry] Target: ${plot} | Goal: ${goal}`,
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                if (window.KaghanDB && window.KaghanDB.createLead) {
+                    await window.KaghanDB.createLead(leadData);
+                } else if (window.CorporateDB && window.CorporateDB.addInquiry) {
+                    await window.CorporateDB.addInquiry(leadData);
+                }
+
+                trackAdConversion('Lead', { name, phone, plot, campaign: utmParams.campaign });
+
+                feedback.className = 'p-3 rounded-xl text-xs font-bold bg-emerald-900/80 border border-emerald-500 text-emerald-200 block text-center';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Request Received! Connecting you with CEO Tanzil Minhas...';
+
+                // Automatically forward to WhatsApp with complete prefilled breakdown
+                setTimeout(() => {
+                    const waMsg = encodeURIComponent(`Hi Tanzil Ahmed Minhas (CEO Kaghan Properties)!\n\nI just submitted an inquiry for DHA Margalla Enclave:\n• Name: ${name}\n• Phone: ${phone}\n• Target Plot: ${plot}\n• Goal: ${goal}\n\nPlease share the official payment plan and priority booking voucher.`);
+                    window.open(`https://wa.me/923340091127?text=${waMsg}`, '_blank');
+                }, 1000);
+
+            } catch (err) {
+                console.error('Lead error:', err);
+                feedback.className = 'p-3 rounded-xl text-xs font-bold bg-rose-900/80 border border-rose-500 text-rose-200 block text-center';
+                feedback.innerText = 'Connecting you directly with the CEO desk...';
+                window.open(`https://wa.me/923340091127?text=Hi%20Tanzil%20Ahmed%20Minhas,%20I%20am%20interested%20in%20${encodeURIComponent(plot)}`, '_blank');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Request Submitted';
+            }
+        }
+
+        // Modal Lead Form Submission
+        async function submitModalLead(e) {
+            e.preventDefault();
+            const name = document.getElementById('modal-lead-name').value.trim();
+            const phone = document.getElementById('modal-lead-phone').value.trim();
+            const plot = document.getElementById('modal-lead-plot-select').value;
+            const btn = document.getElementById('modal-submit-btn');
+            const feedback = document.getElementById('modal-lead-feedback');
+
+            if (!name || !phone) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Preparing PDF Brochure...';
+
+            const leadData = {
+                name,
+                phone,
+                unitPreference: plot,
+                propertyTitle: `DHA Margalla Enclave (${plot})`,
+                propertyId: 'dha-margalla-enclave-ads',
+                sourcePage: 'dha-margalla-enclave.html',
+                campaign: utmParams.campaign || 'direct',
+                source: utmParams.source || 'ads-modal',
+                medium: utmParams.medium || '',
+                message: `[Modal Lead: ${currentModalContext}] Target: ${plot}`,
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                if (window.KaghanDB && window.KaghanDB.createLead) {
+                    await window.KaghanDB.createLead(leadData);
+                } else if (window.CorporateDB && window.CorporateDB.addInquiry) {
+                    await window.CorporateDB.addInquiry(leadData);
+                }
+
+                trackAdConversion('Lead', { name, phone, plot, context: currentModalContext });
+
+                feedback.className = 'p-3 rounded-xl text-xs font-bold bg-emerald-900/80 border border-emerald-500 text-emerald-200 block';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Brochure Sent! Opening WhatsApp consultation...';
+
+                setTimeout(() => {
+                    closeLeadModal();
+                    const waMsg = encodeURIComponent(`Hi Tanzil Ahmed Minhas (Kaghan Properties)!\n\nI requested the official DHA Margalla Enclave Brochure & Rate Sheet for: ${plot}.\n• Name: ${name}\n• Phone: ${phone}\n\nPlease share the detailed payment schedule.`);
+                    window.open(`https://wa.me/923340091127?text=${waMsg}`, '_blank');
+                }, 1200);
+
+            } catch (err) {
+                console.error('Modal lead error:', err);
+                closeLeadModal();
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Sent';
+            }
+        }
 
         // Installment Calculator Logic
         let currentTenure = '3yr';
@@ -1067,11 +2012,22 @@
             const qtr = document.getElementById('calc-qtr-amount').innerText;
             const tenure = currentTenure.toUpperCase();
 
-            const text = encodeURIComponent(`Hello Tanzil Ahmed Minhas (Kaghan Properties)! I generated an installment plan for DHA Margalla Enclave:\n\n• Plot: ${title}\n• Tenure: ${tenure}\n• Total Price: ${total}\n• Down Payment: ${dp}\n• Quarterly Installment: ${qtr}\n\nPlease advise on current availability, booking procedures, and payment schedules.`);
+            const campaignRef = utmParams.campaign ? `\n• Campaign Ref: ${utmParams.source}-${utmParams.campaign}` : '';
+
+            const text = encodeURIComponent(`Hello Tanzil Ahmed Minhas (Kaghan Properties)! I calculated an installment plan for DHA Margalla Enclave:\n\n• Plot: ${title}\n• Tenure: ${tenure}\n• Total Price: ${total}\n• Down Payment: ${dp}\n• Quarterly Installment: ${qtr}${campaignRef}\n\nPlease advise on current availability, booking procedures, and allotment vouchers.`);
             window.open(`https://wa.me/923340091127?text=${text}`, '_blank');
         }
 
-        window.addEventListener('load', updateCalculator);
+        function bookCalculatedPlan() {
+            const select = document.getElementById('calc-plot-select');
+            const title = select.options[select.selectedIndex].text;
+            openLeadModal('Calculated Plan Booking', title);
+        }
+
+        window.addEventListener('load', () => {
+            initUtmTracking();
+            updateCalculator();
+        });
     </script>
     <script src="assets/js/shared.js"></script>
 </body>
