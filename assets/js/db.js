@@ -637,7 +637,7 @@ const DEFAULT_PROPERTIES = [
         location: "Sector B, DHA Margalla Enclave, Islamabad",
         isFeatured: true,
         isNewProject: false,
-        urgency: "hot",
+        urgency: "standard",
         status: "published",
         developer: "Defence Housing Authority (DHA)",
         constructionStatus: "Balloted Plot",
@@ -695,7 +695,7 @@ const DEFAULT_PROPERTIES = [
         location: "Executive Sector C, DHA Margalla Enclave, Islamabad",
         isFeatured: true,
         isNewProject: false,
-        urgency: "super-hot",
+        urgency: "standard",
         status: "published",
         developer: "Defence Housing Authority (DHA)",
         constructionStatus: "Balloted Plot",
@@ -753,7 +753,7 @@ const DEFAULT_PROPERTIES = [
         location: "Commercial Boulevard Sector A, DHA Margalla Enclave, Islamabad",
         isFeatured: true,
         isNewProject: false,
-        urgency: "super-hot",
+        urgency: "standard",
         status: "published",
         developer: "Defence Housing Authority (DHA)",
         constructionStatus: "Balloted Commercial Plot",
@@ -811,7 +811,7 @@ const DEFAULT_PROPERTIES = [
         location: "Central Commercial Markaz, DHA Margalla Enclave, Islamabad",
         isFeatured: true,
         isNewProject: false,
-        urgency: "hot",
+        urgency: "standard",
         status: "published",
         developer: "Defence Housing Authority (DHA)",
         constructionStatus: "Balloted Commercial Plot",
@@ -869,7 +869,7 @@ const DEFAULT_PROPERTIES = [
         location: "Main Boulevard Commercial, DHA Margalla Enclave, Islamabad",
         isFeatured: true,
         isNewProject: false,
-        urgency: "super-hot",
+        urgency: "standard",
         status: "published",
         developer: "Defence Housing Authority (DHA)",
         constructionStatus: "Balloted Commercial Plot",
@@ -985,7 +985,7 @@ const DEFAULT_PROPERTIES = [
         location: "Commercial Avenue (LG+G+5 Zone), DHA Margalla Enclave, Islamabad",
         isFeatured: true,
         isNewProject: false,
-        urgency: "super-hot",
+        urgency: "standard",
         status: "published",
         developer: "Defence Housing Authority (DHA)",
         constructionStatus: "Balloted LG+G+5 Commercial Plot",
@@ -1044,7 +1044,7 @@ const DEFAULT_PROPERTIES = [
         location: "Central Commercial Boulevard, DHA Margalla Enclave, Islamabad",
         isFeatured: true,
         isNewProject: false,
-        urgency: "super-hot",
+        urgency: "standard",
         status: "published",
         developer: "Defence Housing Authority (DHA)",
         constructionStatus: "Balloted LG+G+5 Commercial Plot",
@@ -1103,7 +1103,7 @@ const DEFAULT_PROPERTIES = [
         location: "Grand Commercial Boulevard, DHA Margalla Enclave, Islamabad",
         isFeatured: true,
         isNewProject: false,
-        urgency: "super-hot",
+        urgency: "standard",
         status: "published",
         developer: "Defence Housing Authority (DHA)",
         constructionStatus: "Balloted LG+G+5 Commercial Plot",
@@ -1308,8 +1308,9 @@ try {
     const savedSocs = localStorage.getItem('kaghan_societies');
     if (savedSocs) localStore.societies = JSON.parse(savedSocs);
 
+    const propCacheVer = localStorage.getItem('kaghan_properties_ver');
     const savedProps = localStorage.getItem('kaghan_properties');
-    if (savedProps) {
+    if (savedProps && propCacheVer === 'v2') {
         try {
             const parsedProps = JSON.parse(savedProps);
             if (Array.isArray(parsedProps) && parsedProps.length >= DEFAULT_PROPERTIES.length && parsedProps.every(p => p.id && p.id.startsWith('prop-dha-margalla'))) {
@@ -1323,6 +1324,8 @@ try {
         }
     } else {
         localStore.properties = [...DEFAULT_PROPERTIES];
+        localStorage.setItem('kaghan_properties', JSON.stringify(localStore.properties));
+        localStorage.setItem('kaghan_properties_ver', 'v2');
     }
 
     const savedContent = localStorage.getItem('kaghan_site_content');

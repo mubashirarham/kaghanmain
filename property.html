@@ -122,7 +122,7 @@
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                 <div class="space-y-1.5 max-w-4xl">
                     <div class="flex items-center gap-2 flex-wrap">
-                        <span id="badge-urgency" class="badge-urgency-superhot">Super Hot</span>
+                        <span id="badge-urgency" class="hidden"></span>
                         <span id="badge-verified" class="badge-verified"><i class="fa-solid fa-circle-check"></i> Verified Property</span>
                         <span id="badge-tier" class="badge-tier-titanium"><i class="fa-solid fa-star"></i> Titanium Agency</span>
                         <span class="text-[11px] text-slate-400 font-medium ml-1" id="detail-meta-added">Added: 2 hours ago</span>
@@ -742,6 +742,24 @@
             const crumbSoc = document.getElementById('crumb-society');
             if (crumbCity) crumbCity.innerText = p.city;
             if (crumbSoc) crumbSoc.innerText = p.area;
+
+            // Property Label / Urgency Pin: Super Hot, Hot Deal, or No Label
+            const badgeUrgency = document.getElementById('badge-urgency');
+            if (badgeUrgency) {
+                if (p.urgency === 'super-hot') {
+                    badgeUrgency.className = 'badge-urgency-superhot';
+                    badgeUrgency.innerText = 'Super Hot';
+                    badgeUrgency.style.display = 'inline-block';
+                } else if (p.urgency === 'hot') {
+                    badgeUrgency.className = 'badge-urgency-hot';
+                    badgeUrgency.innerText = 'Hot Deal';
+                    badgeUrgency.style.display = 'inline-block';
+                } else {
+                    badgeUrgency.className = 'hidden';
+                    badgeUrgency.style.display = 'none';
+                    badgeUrgency.innerText = '';
+                }
+            }
 
             // Subbar
             const subTitle = document.getElementById('subbar-title');

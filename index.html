@@ -525,7 +525,7 @@
                                     <i class="fa-solid fa-chevron-down hero-dropdown-chevron"></i>
                                 </div>
                             </button>
-                            <div class="hero-dropdown-popover align-right w-full sm:w-[340px]" id="popover-area-beds">
+                            <div class="hero-dropdown-popover align-right w-full sm:w-[380px]" id="popover-area-beds">
                                 <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-100">
                                     <span class="text-xs font-bold text-slate-800 outfit">Area Size & Bedrooms</span>
                                     <button type="button" onclick="resetHeroAreaBeds()" class="text-[10px] text-emerald-700 hover:underline font-bold">Reset</button>
@@ -548,11 +548,15 @@
                                     </div>
                                     <div class="flex flex-wrap gap-1 mb-2.5" id="hero-area-presets-container">
                                         <button type="button" onclick="selectHeroAreaPreset('', '', 'Any Size')" class="hero-chip active" data-area-chip="all">Any Size</button>
+                                        <button type="button" onclick="selectHeroAreaPreset('3', '3', '3 Marla')" class="hero-chip" data-area-chip="3">3 Marla</button>
+                                        <button type="button" onclick="selectHeroAreaPreset('4', '4', '4 Marla')" class="hero-chip" data-area-chip="4">4 Marla</button>
                                         <button type="button" onclick="selectHeroAreaPreset('5', '5', '5 Marla')" class="hero-chip" data-area-chip="5">5 Marla</button>
                                         <button type="button" onclick="selectHeroAreaPreset('8', '8', '8 Marla')" class="hero-chip" data-area-chip="8">8 Marla</button>
                                         <button type="button" onclick="selectHeroAreaPreset('10', '10', '10 Marla')" class="hero-chip" data-area-chip="10">10 Marla</button>
                                         <button type="button" onclick="selectHeroAreaPreset('20', '20', '1 Kanal')" class="hero-chip" data-area-chip="20">1 Kanal</button>
-                                        <button type="button" onclick="selectHeroAreaPreset('40', '80', '2-4 Kanal+')" class="hero-chip" data-area-chip="40">2-4 Kanal+</button>
+                                        <button type="button" onclick="selectHeroAreaPreset('40', '40', '2 Kanal')" class="hero-chip" data-area-chip="40">2 Kanal</button>
+                                        <button type="button" onclick="selectHeroAreaPreset('80', '80', '4 Kanal')" class="hero-chip" data-area-chip="80">4 Kanal</button>
+                                        <button type="button" onclick="selectHeroAreaPreset('100', '100', '5 Kanal')" class="hero-chip" data-area-chip="100">5 Kanal</button>
                                     </div>
                                     <div class="hero-range-inputs">
                                         <div class="hero-range-box">
@@ -560,10 +564,14 @@
                                             <select id="hero-custom-min-area" onchange="syncAreaInputs()">
                                                 <option value="">Min</option>
                                                 <option value="3">3 Marla</option>
+                                                <option value="4">4 Marla</option>
                                                 <option value="5">5 Marla</option>
                                                 <option value="8">8 Marla</option>
                                                 <option value="10">10 Marla</option>
                                                 <option value="20">1 Kanal</option>
+                                                <option value="40">2 Kanal</option>
+                                                <option value="80">4 Kanal</option>
+                                                <option value="100">5 Kanal</option>
                                             </select>
                                         </div>
                                         <span class="text-slate-400 font-bold text-xs">-</span>
@@ -571,11 +579,15 @@
                                             <span>Max Size</span>
                                             <select id="hero-custom-max-area" onchange="syncAreaInputs()">
                                                 <option value="">Max</option>
+                                                <option value="3">3 Marla</option>
+                                                <option value="4">4 Marla</option>
                                                 <option value="5">5 Marla</option>
+                                                <option value="8">8 Marla</option>
                                                 <option value="10">10 Marla</option>
                                                 <option value="20">1 Kanal</option>
                                                 <option value="40">2 Kanal</option>
-                                                <option value="80">4 Kanal+</option>
+                                                <option value="80">4 Kanal</option>
+                                                <option value="100">5 Kanal+</option>
                                             </select>
                                         </div>
                                     </div>
@@ -602,7 +614,7 @@
                         <div>
                             <button type="submit" id="hero-submit-btn" class="w-full min-h-[58px] btn-primary rounded-xl font-extrabold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all">
                                 <i class="fa-solid fa-magnifying-glass text-sm"></i>
-                                <span id="hero-submit-label">Find Homes</span>
+                                <span id="hero-submit-label">Find</span>
                             </button>
                         </div>
                     </form>
@@ -1135,27 +1147,39 @@
                 label: 'Marla',
                 presets: [
                     { min: '', max: '', label: 'Any Size', key: 'all' },
+                    { min: '3', max: '3', label: '3 Marla', key: '3' },
+                    { min: '4', max: '4', label: '4 Marla', key: '4' },
                     { min: '5', max: '5', label: '5 Marla', key: '5' },
                     { min: '8', max: '8', label: '8 Marla', key: '8' },
                     { min: '10', max: '10', label: '10 Marla', key: '10' },
                     { min: '20', max: '20', label: '1 Kanal', key: '20' },
-                    { min: '40', max: '80', label: '2-4 Kanal+', key: '40' }
+                    { min: '40', max: '40', label: '2 Kanal', key: '40' },
+                    { min: '80', max: '80', label: '4 Kanal', key: '80' },
+                    { min: '100', max: '100', label: '5 Kanal', key: '100' }
                 ],
                 mins: [
                     { val: '', label: 'Min' },
                     { val: '3', label: '3 Marla' },
+                    { val: '4', label: '4 Marla' },
                     { val: '5', label: '5 Marla' },
                     { val: '8', label: '8 Marla' },
                     { val: '10', label: '10 Marla' },
-                    { val: '20', label: '1 Kanal' }
+                    { val: '20', label: '1 Kanal' },
+                    { val: '40', label: '2 Kanal' },
+                    { val: '80', label: '4 Kanal' },
+                    { val: '100', label: '5 Kanal' }
                 ],
                 maxs: [
                     { val: '', label: 'Max' },
+                    { val: '3', label: '3 Marla' },
+                    { val: '4', label: '4 Marla' },
                     { val: '5', label: '5 Marla' },
+                    { val: '8', label: '8 Marla' },
                     { val: '10', label: '10 Marla' },
                     { val: '20', label: '1 Kanal' },
                     { val: '40', label: '2 Kanal' },
-                    { val: '80', label: '4 Kanal+' }
+                    { val: '80', label: '4 Kanal' },
+                    { val: '100', label: '5 Kanal+' }
                 ]
             },
             sqft: {
@@ -1243,27 +1267,36 @@
                 label: 'Kanal',
                 presets: [
                     { min: '', max: '', label: 'Any Size', key: 'all' },
-                    { min: '0.25', max: '0.25', label: '0.25 Kanal', key: '0.25' },
-                    { min: '0.5', max: '0.5', label: '0.5 Kanal', key: '0.5' },
+                    { min: '0.15', max: '0.15', label: '3 Marla', key: '0.15' },
+                    { min: '0.2', max: '0.2', label: '4 Marla', key: '0.2' },
+                    { min: '0.25', max: '0.25', label: '0.25 Kanal (5M)', key: '0.25' },
+                    { min: '0.5', max: '0.5', label: '0.5 Kanal (10M)', key: '0.5' },
                     { min: '1', max: '1', label: '1 Kanal', key: '1' },
                     { min: '2', max: '2', label: '2 Kanal', key: '2' },
-                    { min: '4', max: '8', label: '4-8 Kanal+', key: '4' }
+                    { min: '4', max: '4', label: '4 Kanal', key: '4' },
+                    { min: '5', max: '5', label: '5 Kanal', key: '5' }
                 ],
                 mins: [
                     { val: '', label: 'Min' },
+                    { val: '0.15', label: '3 Marla (0.15K)' },
+                    { val: '0.2', label: '4 Marla (0.2K)' },
                     { val: '0.25', label: '0.25 Kanal' },
                     { val: '0.5', label: '0.5 Kanal' },
                     { val: '1', label: '1 Kanal' },
                     { val: '2', label: '2 Kanal' },
-                    { val: '4', label: '4 Kanal' }
+                    { val: '4', label: '4 Kanal' },
+                    { val: '5', label: '5 Kanal' }
                 ],
                 maxs: [
                     { val: '', label: 'Max' },
+                    { val: '0.15', label: '3 Marla' },
+                    { val: '0.2', label: '4 Marla' },
+                    { val: '0.25', label: '0.25 Kanal' },
                     { val: '0.5', label: '0.5 Kanal' },
                     { val: '1', label: '1 Kanal' },
                     { val: '2', label: '2 Kanal' },
                     { val: '4', label: '4 Kanal' },
-                    { val: '8', label: '8 Kanal+' }
+                    { val: '5', label: '5 Kanal+' }
                 ]
             }
         };
@@ -1407,13 +1440,13 @@
 
             if (purpose === 'sale') {
                 btnBuy.className = 'px-3 sm:px-5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-700 text-white shadow-sm transition-all flex items-center justify-center gap-1.5';
-                if (submitLabel) submitLabel.innerText = 'Find Homes';
+                if (submitLabel) submitLabel.innerText = 'Find';
             } else if (purpose === 'rent') {
                 btnRent.className = 'px-3 sm:px-5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-700 text-white shadow-sm transition-all flex items-center justify-center gap-1.5';
-                if (submitLabel) submitLabel.innerText = 'Find Rentals';
+                if (submitLabel) submitLabel.innerText = 'Find';
             } else if (purpose === 'invest') {
                 btnInvest.className = 'px-2 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-700 text-white shadow-sm transition-all flex items-center justify-center gap-1';
-                if (submitLabel) submitLabel.innerText = 'Explore Yields';
+                if (submitLabel) submitLabel.innerText = 'Find';
             }
         }
 

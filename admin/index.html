@@ -504,11 +504,12 @@
                         </select>
                     </div>
                     <div>
-                        <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Marketplace Signal & Tier</label>
+                        <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Property Label & Signal Filter</label>
                         <select id="prop-filter-signal" onchange="renderPropertiesTable()" class="bg-slate-950 border border-slate-800 text-[#D4AF37] font-semibold rounded-lg px-3 py-2 focus:outline-none">
-                            <option value="all">All Signals & Badges</option>
-                            <option value="super-hot">⚡ Super Hot 🔥</option>
-                            <option value="hot">🔥 Hot Listing</option>
+                            <option value="all">All Labels & Badges</option>
+                            <option value="super-hot">⚡ Super Hot (Pinned)</option>
+                            <option value="hot">🔥 Hot Deal (Pinned)</option>
+                            <option value="unpinned">⚪ No Label (Unpinned)</option>
                             <option value="verified">✓ Verified Only</option>
                             <option value="project">🏗️ New Projects</option>
                             <option value="titanium">👑 Titanium Partners</option>
@@ -1634,11 +1635,11 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                         <div>
-                            <label class="text-slate-400 uppercase text-[10px] font-bold block mb-1">Listing Urgency</label>
+                            <label class="text-slate-400 uppercase text-[10px] font-bold block mb-1">Property Label / Pin Status</label>
                             <select id="form-prop-urgency" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white text-xs">
-                                <option value="standard">Standard Listing</option>
-                                <option value="hot">🔥 Hot Listing</option>
-                                <option value="super-hot">⚡ Super Hot 🔥</option>
+                                <option value="standard">None (No Label - Unpinned)</option>
+                                <option value="hot">🔥 Hot Deal (Pinned)</option>
+                                <option value="super-hot">⚡ Super Hot (Pinned)</option>
                             </select>
                         </div>
                         <div>
@@ -2651,6 +2652,7 @@
             if (signal !== 'all') {
                 if (signal === 'super-hot') properties = properties.filter(p => p.urgency === 'super-hot');
                 else if (signal === 'hot') properties = properties.filter(p => p.urgency === 'hot');
+                else if (signal === 'unpinned') properties = properties.filter(p => !p.urgency || p.urgency === 'standard' || p.urgency === 'none');
                 else if (signal === 'verified') properties = properties.filter(p => p.isVerified);
                 else if (signal === 'project') properties = properties.filter(p => p.isNewProject);
                 else if (signal === 'titanium') properties = properties.filter(p => p.agencyTier === 'Titanium');
@@ -2691,10 +2693,10 @@
                                 </div>
                                 <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
                                     ${p.urgency === 'super-hot' 
-                                        ? '<span class="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-extrabold flex items-center gap-1"><i class="fa-solid fa-bolt"></i> SUPER HOT 🔥</span>' 
+                                        ? '<span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-extrabold flex items-center gap-1 shadow-sm"><i class="fa-solid fa-bolt"></i> SUPER HOT <span class="text-[7px] bg-rose-500/30 px-1 rounded uppercase tracking-wider">Pinned</span></span>' 
                                         : p.urgency === 'hot' 
-                                        ? '<span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[9px] font-bold flex items-center gap-1"><i class="fa-solid fa-fire"></i> HOT</span>' 
-                                        : ''}
+                                        ? '<span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[9px] font-bold flex items-center gap-1 shadow-sm"><i class="fa-solid fa-fire"></i> HOT DEAL <span class="text-[7px] bg-amber-500/30 px-1 rounded uppercase tracking-wider">Pinned</span></span>' 
+                                        : '<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-500 text-[9px]">No Label</span>'}
                                     ${p.isVerified 
                                         ? '<span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Verified</span>' 
                                         : '<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-500 text-[9px]">Unverified</span>'}
@@ -2721,8 +2723,9 @@
                                 <button onclick="togglePropertyVerified('${p.id}')" title="Click to toggle Verified badge" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-[10px] ${p.isVerified ? 'text-emerald-400' : 'text-slate-500'}">
                                     <i class="fa-solid fa-shield-halved"></i>
                                 </button>
-                                <button onclick="cyclePropertyUrgency('${p.id}')" title="Click to cycle urgency: standard -> hot -> super-hot" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-[10px] ${p.urgency === 'super-hot' ? 'text-rose-400' : p.urgency === 'hot' ? 'text-amber-400' : 'text-slate-500'}">
-                                    <i class="fa-solid fa-fire-flame-curved"></i>
+                                <button onclick="cyclePropertyUrgency('${p.id}')" title="Property Label: ${p.urgency === 'super-hot' ? 'Super Hot (Pinned)' : p.urgency === 'hot' ? 'Hot Deal (Pinned)' : 'No Label (Unpinned)'}. Click to toggle/cycle: No Label -> Hot Deal -> Super Hot" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[10px] flex items-center gap-1 font-bold ${p.urgency === 'super-hot' ? 'text-rose-400 border border-rose-500/40 bg-rose-950/30' : p.urgency === 'hot' ? 'text-amber-400 border border-amber-500/40 bg-amber-950/30' : 'text-slate-400 border border-slate-700'}">
+                                    <i class="fa-solid fa-thumbtack ${p.urgency === 'super-hot' || p.urgency === 'hot' ? 'text-[#D4AF37]' : 'text-slate-500'}"></i>
+                                    <span>${p.urgency === 'super-hot' ? 'Super Hot' : p.urgency === 'hot' ? 'Hot Deal' : 'Pin Label'}</span>
                                 </button>
                             </div>
                         </td>
@@ -2753,11 +2756,12 @@
             const prop = await window.KaghanDB.getPropertyBySlugOrId(id);
             if (!prop) return;
             const current = prop.urgency || 'standard';
-            const next = current === 'standard' ? 'hot' : (current === 'hot' ? 'super-hot' : 'standard');
+            const next = (current === 'standard' || current === 'none' || !current) ? 'hot' : (current === 'hot' ? 'super-hot' : 'standard');
             prop.urgency = next;
             await window.KaghanDB.saveProperty(prop);
             renderPropertiesTable();
-            if (window.AdminTools) window.AdminTools.logAudit(`Cycled urgency for ${prop.title} to: ${next}`);
+            const labelTitle = next === 'super-hot' ? 'Super Hot (Pinned)' : (next === 'hot' ? 'Hot Deal (Pinned)' : 'No Label (Unpinned)');
+            if (window.AdminTools) window.AdminTools.logAudit(`Updated property label pin for "${prop.title}" to: ${labelTitle}`);
         }
 
         // Helpers for Project Units Matrix & Nearby POIs

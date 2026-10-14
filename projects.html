@@ -129,12 +129,15 @@
                 <div class="shrink-0 flex items-center gap-1">
                     <select id="filter-area-range" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
                         <option value="all">Area: Any Size</option>
+                        <option value="3">3 Marla</option>
+                        <option value="4">4 Marla</option>
                         <option value="5">5 Marla</option>
                         <option value="8">8 Marla</option>
                         <option value="10">10 Marla</option>
                         <option value="20">1 Kanal (20 Marla)</option>
                         <option value="40">2 Kanal (40 Marla)</option>
-                        <option value="80">4 Kanal+ Estate</option>
+                        <option value="80">4 Kanal (80 Marla)</option>
+                        <option value="100">5 Kanal (100 Marla)</option>
                     </select>
                     <select id="filter-area-unit" onchange="changeFilterAreaUnit(this.value)" class="bg-slate-100 border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none focus:border-emerald-600" title="Area Unit">
                         <option value="marla">Marla</option>
@@ -681,47 +684,62 @@
         const PROJECT_AREA_UNIT_PRESETS = {
             marla: [
                 { val: 'all', label: 'Area: Any Size' },
+                { val: '3', label: '3 Marla' },
+                { val: '4', label: '4 Marla' },
                 { val: '5', label: '5 Marla' },
                 { val: '8', label: '8 Marla' },
                 { val: '10', label: '10 Marla' },
                 { val: '20', label: '1 Kanal (20 Marla)' },
                 { val: '40', label: '2 Kanal (40 Marla)' },
-                { val: '80', label: '4 Kanal+ Estate' }
+                { val: '80', label: '4 Kanal (80 Marla)' },
+                { val: '100', label: '5 Kanal (100 Marla)' }
             ],
             sqft: [
                 { val: 'all', label: 'Area: Any Size' },
+                { val: '3', label: '675 Sq. Ft. (3M)' },
+                { val: '4', label: '900 Sq. Ft. (4M)' },
                 { val: '5', label: '1,125 Sq. Ft. (5M)' },
                 { val: '8', label: '1,800 Sq. Ft. (8M)' },
                 { val: '10', label: '2,250 Sq. Ft. (10M)' },
                 { val: '20', label: '4,500 Sq. Ft. (1 Kanal)' },
                 { val: '40', label: '9,000 Sq. Ft. (2 Kanal)' },
-                { val: '80', label: '18,000+ Sq. Ft.' }
+                { val: '80', label: '18,000 Sq. Ft. (4 Kanal)' },
+                { val: '100', label: '22,500+ Sq. Ft. (5 Kanal)' }
             ],
             sqyd: [
                 { val: 'all', label: 'Area: Any Size' },
+                { val: '3', label: '75 Sq. Yd. (3M)' },
+                { val: '4', label: '100 Sq. Yd. (4M)' },
                 { val: '5', label: '125 Sq. Yd. (5M)' },
                 { val: '8', label: '200 Sq. Yd. (8M)' },
                 { val: '10', label: '250 Sq. Yd. (10M)' },
                 { val: '20', label: '500 Sq. Yd. (1 Kanal)' },
                 { val: '40', label: '1,000 Sq. Yd. (2 Kanal)' },
-                { val: '80', label: '2,000+ Sq. Yd.' }
+                { val: '80', label: '2,000 Sq. Yd. (4 Kanal)' },
+                { val: '100', label: '2,500+ Sq. Yd. (5 Kanal)' }
             ],
             sqm: [
                 { val: 'all', label: 'Area: Any Size' },
+                { val: '3', label: '63 Sq. M. (3M)' },
+                { val: '4', label: '84 Sq. M. (4M)' },
                 { val: '5', label: '105 Sq. M. (5M)' },
                 { val: '8', label: '167 Sq. M. (8M)' },
                 { val: '10', label: '209 Sq. M. (10M)' },
                 { val: '20', label: '418 Sq. M. (1 Kanal)' },
                 { val: '40', label: '836 Sq. M. (2 Kanal)' },
-                { val: '80', label: '1,672+ Sq. M.' }
+                { val: '80', label: '1,672 Sq. M. (4 Kanal)' },
+                { val: '100', label: '2,090+ Sq. M. (5 Kanal)' }
             ],
             kanal: [
                 { val: 'all', label: 'Area: Any Size' },
+                { val: '3', label: '3 Marla (0.15 Kanal)' },
+                { val: '4', label: '4 Marla (0.2 Kanal)' },
                 { val: '5', label: '0.25 Kanal (5 Marla)' },
                 { val: '10', label: '0.5 Kanal (10 Marla)' },
                 { val: '20', label: '1 Kanal' },
                 { val: '40', label: '2 Kanal' },
-                { val: '80', label: '4 Kanal+ Estate' }
+                { val: '80', label: '4 Kanal' },
+                { val: '100', label: '5 Kanal' }
             ]
         };
 
@@ -1028,9 +1046,9 @@
 
                 // Area
                 if (areaRange !== 'all') {
-                    const targetArea = parseInt(areaRange, 10);
-                    if (targetArea <= 20 && p.size !== targetArea) return false;
-                    if (targetArea > 20 && p.size < targetArea) return false;
+                    const targetArea = parseFloat(areaRange);
+                    if (targetArea < 100 && Math.abs(p.size - targetArea) > 0.01) return false;
+                    if (targetArea >= 100 && p.size < targetArea) return false;
                 }
 
                 // Price range
