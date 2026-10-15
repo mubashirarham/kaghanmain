@@ -458,9 +458,31 @@
                         <h1 class="text-2xl font-bold outfit text-white">Properties Catalog</h1>
                         <p class="text-slate-400 text-xs">Path: <code class="text-[#D4AF37]">kaghan_properties/properties/</code></p>
                     </div>
-                    <button onclick="openPropertyModal()" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2">
-                        <i class="fa-solid fa-plus"></i> New Property
-                    </button>
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <button onclick="openDhaBallotPropertyModal()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold px-4 py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg shadow-emerald-950/40">
+                            <i class="fa-solid fa-stamp text-[#D4AF37]"></i> + Add DHA Ballot Plot
+                        </button>
+                        <button onclick="openPropertyModal()" class="bg-[#D4AF37] hover:bg-white text-slate-950 font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md">
+                            <i class="fa-solid fa-plus"></i> New Property
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick DHA Margalla Ballot Filter Strip -->
+                <div class="bg-gradient-to-r from-emerald-950/60 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-3 px-4 flex flex-wrap items-center justify-between gap-3 text-xs shadow-md">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-layer-group text-[#D4AF37]"></i> DHA Margalla Ballot Filter:
+                        </span>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-1.5 text-xs">
+                        <button type="button" onclick="filterByDhaBallot('all_dha')" id="dha-ballot-chip-all" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-[11px] transition-all">🏛️ All DHA Plots</button>
+                        <button type="button" onclick="filterByDhaBallot('ballot3')" id="dha-ballot-chip-b3" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-[11px] transition-all">3rd Ballot (20%)</button>
+                        <button type="button" onclick="filterByDhaBallot('ballot1')" id="dha-ballot-chip-b1" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-[11px] transition-all">1st Ballot (15%)</button>
+                        <button type="button" onclick="filterByDhaBallot('ballot2')" id="dha-ballot-chip-b2" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-[11px] transition-all">2nd Ballot (Comm)</button>
+                        <button type="button" onclick="filterByDhaBallot('reset')" id="dha-ballot-chip-reset" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 font-medium text-[11px] transition-all"><i class="fa-solid fa-rotate-left mr-1"></i>All Inventory</button>
+                    </div>
                 </div>
 
                 <!-- Filters Bar -->
@@ -1535,6 +1557,62 @@
                     <div>
                         <label class="text-slate-400 uppercase font-bold block mb-1">Bathrooms</label>
                         <input type="number" id="form-prop-bathrooms" value="4" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white">
+                    </div>
+                </div>
+
+                <!-- DHA Margalla Enclave Official Ballot Configuration -->
+                <div class="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-amber-950/30 border border-emerald-500/40 rounded-2xl p-4 sm:p-5 space-y-3.5 shadow-lg">
+                    <div class="flex items-center justify-between border-b border-emerald-500/20 pb-2.5">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#D4AF37] animate-pulse"></span>
+                            <label class="text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-stamp text-[#D4AF37]"></i> DHA Margalla Enclave Ballot Configuration
+                            </label>
+                        </div>
+                        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">Firestore Ballot Fields</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Ballot Phase</label>
+                            <select id="form-prop-ballot-phase" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs">
+                                <option value="">None / Regular Listing</option>
+                                <option value="ballot3_res">3rd Ballot — Residential (20% Down)</option>
+                                <option value="ballot3_comm">3rd Ballot — Commercial (20% Down)</option>
+                                <option value="ballot3_lgg5">3rd Ballot — LG+G+5 Multi-Storey Commercial (20% Down)</option>
+                                <option value="ballot1_res">1st Ballot — Residential (15% Down)</option>
+                                <option value="ballot2_res">2nd Ballot — Residential (15% Down)</option>
+                                <option value="ballot2_comm">2nd Ballot — Commercial (20% Down)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Down Payment %</label>
+                            <select id="form-prop-downpayment-pct" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs">
+                                <option value="20">20% Down Payment (30 Days)</option>
+                                <option value="15">15% Down Payment (30 Days)</option>
+                                <option value="25">25% Down Payment</option>
+                                <option value="10">10% Down Payment</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Down Payment Amount (PKR)</label>
+                            <input type="number" id="form-prop-downpayment-amount" placeholder="e.g. 5000000" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Lump Sum Settlement (PKR)</label>
+                            <input type="number" id="form-prop-lumpsum-price" placeholder="e.g. 21434375" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Quarterly Installment (PKR / Qtr)</label>
+                            <input type="number" id="form-prop-quarterly-amount" placeholder="e.g. 1666667" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Processing Fee (PKR)</label>
+                            <input type="number" id="form-prop-processing-fee" placeholder="e.g. 10000" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
                     </div>
                 </div>
 
@@ -2638,6 +2716,50 @@
             }
         }
 
+        // DHA Margalla Enclave Quick Filter Handler
+        let activeDhaBallotFilter = 'reset';
+        function filterByDhaBallot(filterType) {
+            activeDhaBallotFilter = filterType;
+            ['all', 'b3', 'b1', 'b2', 'reset'].forEach(key => {
+                const el = document.getElementById(`dha-ballot-chip-${key}`);
+                if (el) {
+                    el.className = "px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 font-medium text-[11px] transition-all";
+                }
+            });
+            const activeChip = filterType === 'all_dha' ? 'all' : filterType === 'ballot3' ? 'b3' : filterType === 'ballot1' ? 'b1' : filterType === 'ballot2' ? 'b2' : 'reset';
+            const activeEl = document.getElementById(`dha-ballot-chip-${activeChip}`);
+            if (activeEl) {
+                activeEl.className = "px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-[11px] transition-all shadow-md";
+            }
+            renderPropertiesTable();
+        }
+
+        // Dedicated Quick Add DHA Margalla Ballot Plot Modal Trigger
+        function openDhaBallotPropertyModal() {
+            openPropertyModal();
+            document.getElementById('modal-prop-title').innerText = "Add DHA Margalla Ballot Listing";
+            document.getElementById('form-prop-city').value = 'Islamabad';
+            document.getElementById('form-prop-area').value = 'DHA Margalla Enclave';
+            document.getElementById('form-prop-sector').value = 'Sector A';
+            document.getElementById('form-prop-type').value = 'residential_plot';
+            document.getElementById('form-prop-purpose').value = 'sale';
+            document.getElementById('form-prop-status').value = 'published';
+            document.getElementById('form-prop-size').value = 5;
+            document.getElementById('form-prop-sizeunit').value = 'marla';
+            document.getElementById('form-prop-ballot-phase').value = 'ballot3_res';
+            document.getElementById('form-prop-downpayment-pct').value = '20';
+            document.getElementById('form-prop-price').value = 25000000;
+            document.getElementById('form-prop-downpayment-amount').value = 5000000;
+            document.getElementById('form-prop-lumpsum-price').value = 21434375;
+            document.getElementById('form-prop-quarterly-amount').value = 1666667;
+            document.getElementById('form-prop-processing-fee').value = 10000;
+            document.getElementById('form-prop-title').value = '125 Sq Yds (5 Marla) Residential Plot - 3rd Ballot';
+            document.getElementById('form-prop-slug').value = `dha-margalla-enclave-125-sq-yds-3rd-ballot-${Date.now().toString().slice(-4)}`;
+            document.getElementById('form-prop-image').value = 'assets/images/dha-res-125sqyds.jpg';
+            document.getElementById('form-prop-urgency').value = 'super-hot';
+            document.getElementById('form-prop-verified').checked = true;
+        }
+
         // PROPERTIES MANAGEMENT
         async function renderPropertiesTable() {
             const status = document.getElementById('prop-filter-status').value;
@@ -2656,6 +2778,19 @@
                 else if (signal === 'verified') properties = properties.filter(p => p.isVerified);
                 else if (signal === 'project') properties = properties.filter(p => p.isNewProject);
                 else if (signal === 'titanium') properties = properties.filter(p => p.agencyTier === 'Titanium');
+            }
+
+            // Apply DHA Margalla Ballot Filter
+            if (activeDhaBallotFilter !== 'reset') {
+                if (activeDhaBallotFilter === 'all_dha') {
+                    properties = properties.filter(p => (p.area && p.area.toLowerCase().includes('margalla')) || (p.societyId === 'dha-margalla-enclave') || (p.id && String(p.id).startsWith('prop-dha-margalla')));
+                } else if (activeDhaBallotFilter === 'ballot3') {
+                    properties = properties.filter(p => (p.ballotPhase && p.ballotPhase.includes('ballot3')) || (p.title && p.title.toLowerCase().includes('3rd ballot')));
+                } else if (activeDhaBallotFilter === 'ballot1') {
+                    properties = properties.filter(p => (p.ballotPhase && p.ballotPhase.includes('ballot1')) || (p.title && p.title.toLowerCase().includes('1st ballot')) || (p.title && p.title.toLowerCase().includes('ballot 1')));
+                } else if (activeDhaBallotFilter === 'ballot2') {
+                    properties = properties.filter(p => (p.ballotPhase && p.ballotPhase.includes('ballot2')) || (p.title && p.title.toLowerCase().includes('2nd ballot')) || (p.title && p.title.toLowerCase().includes('ballot 2')));
+                }
             }
 
             // Apply Keyword Search
@@ -2679,6 +2814,18 @@
                 const img = window.KaghanDB.getDriveDirectUrl(p.images && p.images[0] ? p.images[0].url : '');
                 const formattedPrice = window.KaghanDB.formatPriceWithMagnitude(p.price);
                 const hasProjectUnits = p.isNewProject && p.projectUnits && p.projectUnits.length > 0;
+
+                const isDhaBallot = (p.area && p.area.toLowerCase().includes('margalla')) || (p.societyId === 'dha-margalla-enclave') || p.ballotPhase;
+                const ballotBadgeText = p.ballotPhase === 'ballot3_res' ? '3rd Ballot Res (20%)' :
+                                       p.ballotPhase === 'ballot3_comm' ? '3rd Ballot Comm (20%)' :
+                                       p.ballotPhase === 'ballot3_lgg5' ? '3rd Ballot LG+G+5 (20%)' :
+                                       p.ballotPhase === 'ballot1_res' ? '1st Ballot Res (15%)' :
+                                       p.ballotPhase === 'ballot2_res' ? '2nd Ballot Res (15%)' :
+                                       p.ballotPhase === 'ballot2_comm' ? '2nd Ballot Comm (20%)' :
+                                       (p.title && p.title.includes('3rd Ballot')) ? '3rd Ballot (20%)' :
+                                       (p.title && (p.title.includes('1st Ballot') || p.title.includes('Ballot 1'))) ? '1st Ballot (15%)' :
+                                       (p.title && (p.title.includes('2nd Ballot') || p.title.includes('Ballot 2'))) ? '2nd Ballot (15%)' :
+                                       isDhaBallot ? 'DHA Ballot Plot' : '';
                 
                 return `
                     <tr class="hover:bg-slate-900/60 transition-colors">
@@ -2692,6 +2839,7 @@
                                     <span class="text-slate-500">${p.addedRelative || 'Recent'}</span>
                                 </div>
                                 <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
+                                    ${ballotBadgeText ? `<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] font-extrabold flex items-center gap-1 shadow-xs"><i class="fa-solid fa-stamp text-amber-400"></i> ${ballotBadgeText}</span>` : ''}
                                     ${p.urgency === 'super-hot' 
                                         ? '<span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-extrabold flex items-center gap-1 shadow-sm"><i class="fa-solid fa-bolt"></i> SUPER HOT <span class="text-[7px] bg-rose-500/30 px-1 rounded uppercase tracking-wider">Pinned</span></span>' 
                                         : p.urgency === 'hot' 
@@ -3468,6 +3616,14 @@
                 document.getElementById('form-prop-agent').value = prop.agentId || 'user_001';
                 document.getElementById('form-prop-meta').value = prop.metaDescription || '';
 
+                // DHA Margalla Ballot Fields
+                document.getElementById('form-prop-ballot-phase').value = prop.ballotPhase || (prop.title && prop.title.includes('3rd Ballot') ? 'ballot3_res' : prop.title && prop.title.includes('1st Ballot') ? 'ballot1_res' : prop.title && prop.title.includes('2nd Ballot') ? 'ballot2_comm' : '');
+                document.getElementById('form-prop-downpayment-pct').value = prop.downPaymentPct || (prop.installments && prop.installments.advance ? '20' : '20');
+                document.getElementById('form-prop-downpayment-amount').value = prop.downPaymentAmount || (prop.installments ? prop.installments.advance : '');
+                document.getElementById('form-prop-lumpsum-price').value = prop.lumpSumPrice || '';
+                document.getElementById('form-prop-quarterly-amount').value = prop.quarterlyAmount || (prop.installments ? prop.installments.monthly : '');
+                document.getElementById('form-prop-processing-fee').value = prop.processingFee || '';
+
                 // NEW FEATURE ATTRIBUTES
                 document.getElementById('form-prop-urgency').value = prop.urgency || 'standard';
                 document.getElementById('form-prop-agencytier').value = prop.agencyTier || 'Titanium';
@@ -3570,6 +3726,14 @@
                 document.getElementById('form-prop-doc').value = '';
                 document.getElementById('form-prop-meta').value = '';
 
+                // DHA Margalla Ballot Fields Reset
+                document.getElementById('form-prop-ballot-phase').value = '';
+                document.getElementById('form-prop-downpayment-pct').value = '20';
+                document.getElementById('form-prop-downpayment-amount').value = '';
+                document.getElementById('form-prop-lumpsum-price').value = '';
+                document.getElementById('form-prop-quarterly-amount').value = '';
+                document.getElementById('form-prop-processing-fee').value = '';
+
                 // NEW FEATURE ATTRIBUTES RESET
                 document.getElementById('form-prop-urgency').value = 'standard';
                 document.getElementById('form-prop-agencytier').value = 'Titanium';
@@ -3651,6 +3815,14 @@
             const docUrl = document.getElementById('form-prop-doc').value.trim();
             const agentId = document.getElementById('form-prop-agent').value;
             const metaDescription = document.getElementById('form-prop-meta').value;
+
+            // Extract DHA Margalla Ballot Fields
+            const ballotPhase = document.getElementById('form-prop-ballot-phase')?.value || '';
+            const downPaymentPct = parseInt(document.getElementById('form-prop-downpayment-pct')?.value) || 20;
+            const downPaymentAmount = parseFloat(document.getElementById('form-prop-downpayment-amount')?.value) || 0;
+            const lumpSumPrice = parseFloat(document.getElementById('form-prop-lumpsum-price')?.value) || 0;
+            const quarterlyAmount = parseFloat(document.getElementById('form-prop-quarterly-amount')?.value) || 0;
+            const processingFee = parseFloat(document.getElementById('form-prop-processing-fee')?.value) || 0;
 
             // Extract New Marketplace Signals & Attributes
             const urgency = document.getElementById('form-prop-urgency').value;
@@ -3765,6 +3937,8 @@
 
             const user = await window.KaghanDB.getUserByUidOrEmail(agentId);
 
+            const isDhaBallotItem = (area && area.toLowerCase().includes('margalla')) || !!ballotPhase;
+
             const propObj = {
                 id: id || slug,
                 title, slug, type, purpose, status, price, city, area, sector, address,
@@ -3772,6 +3946,21 @@
                 urgency, agencyTier, addedRelative, isVerified, isNewProject,
                 projectUnits, floorPlans, paymentPlan,
                 categorizedAmenities, nearbyPOIs,
+                ballotPhase: ballotPhase || (isDhaBallotItem ? (title.includes('3rd Ballot') ? 'ballot3_res' : title.includes('1st Ballot') ? 'ballot1_res' : title.includes('2nd Ballot') ? 'ballot2_comm' : '') : ''),
+                downPaymentPct,
+                downPaymentAmount: downPaymentAmount || (price ? Math.round(price * (downPaymentPct / 100)) : 0),
+                lumpSumPrice: lumpSumPrice || (price ? Math.round(price * 0.857375) : 0),
+                quarterlyAmount: quarterlyAmount || (price ? Math.round((price * (1 - downPaymentPct / 100)) / 12) : 0),
+                processingFee,
+                societyId: isDhaBallotItem ? 'dha-margalla-enclave' : (area && area.toLowerCase().includes('bahria') ? 'bahria-enclave' : ''),
+                developer: isDhaBallotItem ? 'Defence Housing Authority (DHA)' : 'Kaghan Properties',
+                installments: {
+                    available: true,
+                    advance: downPaymentAmount || (price ? Math.round(price * (downPaymentPct / 100)) : 0),
+                    monthly: quarterlyAmount || (price ? Math.round((price * (1 - downPaymentPct / 100)) / 12) : 0),
+                    durationMonths: 36,
+                    planDetails: `3-Year Easy Quarterly Plan (${downPaymentPct}% Down Payment)`
+                },
                 amenities: flatAmenities.length > 0 ? flatAmenities : ['security', 'gated'],
                 description,
                 images: finalImages.length > 0 ? finalImages : (manualImageUrl ? [{ url: manualImageUrl, isPrimary: true }] : []),

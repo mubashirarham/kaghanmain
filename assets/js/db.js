@@ -554,17 +554,17 @@ const DEFAULT_PROPERTIES = [
         publishedAt: new Date().toISOString()
     },
 
-    // 2. BALLOT 1: 125 Sq Yds (5 Marla) Residential Plot
+    // 2. 3RD BALLOT RESIDENTIAL (20% Down Payment)
     {
-        id: "prop-dha-margalla-ballot-1-125-sq-yds",
-        slug: "dha-margalla-enclave-125-sq-yds-residential-plot-ballot-1",
-        title: "125 Sq Yds (5 Marla) Residential Plot - Ballot 1",
-        tagline: "DHA Margalla Enclave Ballot 1 residential plot with 1, 2 & 3-Year installment plans",
-        description: "Prime 125 Sq. Yds. (approx 5 Marla) residential plot in DHA Margalla Enclave Islamabad (Ballot 1). Available on Lump Sum price of PKR 21,434,375 (within 30 days) or 1-Year (PKR 22,562,500), 2-Year (PKR 23,750,000), and 3-Year (PKR 25,000,000) payment plans with 20% down payment (PKR 5,000,000) and 12 quarterly installments of PKR 1,666,667. Non-refundable processing fee: PKR 10,000/-.",
+        id: "prop-dha-margalla-ballot-3-125-sq-yds",
+        slug: "dha-margalla-enclave-125-sq-yds-residential-plot-ballot-3",
+        title: "125 Sq Yds (5 Marla) Residential Plot - 3rd Ballot",
+        tagline: "Official 3rd Ballot 5 Marla villa plot with 3-Year quarterly installment schedule",
+        description: "Official 3rd Ballot 125 Sq. Yds. (approx 5 Marla) residential plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 21,434,375 (settled within 30 days) or 3-Year payment plan of PKR 25,000,000 with 20% down payment (PKR 5,000,000) and 12 quarterly installments of PKR 1,666,667. Non-refundable processing fee: PKR 10,000/-.",
         type: "residential_plot",
         category: "Residential Plots",
         purpose: "sale",
-        price: 21434375,
+        price: 25000000,
         priceUnit: "PKR",
         size: 5,
         sqYards: 125,
@@ -577,6 +577,12 @@ const DEFAULT_PROPERTIES = [
         address: "Sector A, DHA Margalla Enclave",
         societyId: "dha-margalla-enclave",
         location: "Sector A, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot3_res",
+        downPaymentPct: 20,
+        downPaymentAmount: 5000000,
+        lumpSumPrice: 21434375,
+        quarterlyAmount: 1666667,
+        processingFee: 10000,
         isFeatured: true,
         isNewProject: false,
         urgency: "super-hot",
@@ -591,10 +597,8 @@ const DEFAULT_PROPERTIES = [
             { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
         ],
         features: [
-            "Ballot 1 Official Allotment File",
+            "3rd Ballot Official Allotment File",
             "Lump Sum Price: PKR 21,434,375",
-            "1-Year Plan: PKR 22,562,500 (20% Down: PKR 4,512,500)",
-            "2-Year Plan: PKR 23,750,000 (20% Down: PKR 4,750,000)",
             "3-Year Plan: PKR 25,000,000 (20% Down: PKR 5,000,000)",
             "12x Quarterly Installments of PKR 1,666,667",
             "Processing Fee: PKR 10,000/- (Non-Refundable)"
@@ -611,18 +615,16 @@ const DEFAULT_PROPERTIES = [
         updatedAt: new Date().toISOString(),
         publishedAt: new Date().toISOString()
     },
-
-    // 3. BALLOT 1: 250 Sq Yds (10 Marla) Residential Plot
     {
-        id: "prop-dha-margalla-ballot-1-250-sq-yds",
-        slug: "dha-margalla-enclave-250-sq-yds-residential-plot-ballot-1",
-        title: "250 Sq Yds (10 Marla) Residential Plot - Ballot 1",
-        tagline: "Prime 10 Marla residential plot in DHA Margalla Enclave with easy quarterly installments",
-        description: "Prestigious 250 Sq. Yds. (approx 10 Marla) residential plot in DHA Margalla Enclave Islamabad (Ballot 1). Available on Lump Sum price of PKR 42,011,375 (within 30 days) or 1-Year (PKR 44,222,500), 2-Year (PKR 46,550,000), and 3-Year (PKR 49,000,000) payment plans with 20% down payment (PKR 9,800,000) and 12 quarterly installments of PKR 3,266,667. Non-refundable processing fee: PKR 15,000/-.",
+        id: "prop-dha-margalla-ballot-3-250-sq-yds",
+        slug: "dha-margalla-enclave-250-sq-yds-residential-plot-ballot-3",
+        title: "250 Sq Yds (10 Marla) Residential Plot - 3rd Ballot",
+        tagline: "Executive 3rd Ballot 10 Marla residential plot with scenic Margalla Hills views",
+        description: "Official 3rd Ballot 250 Sq. Yds. (approx 10 Marla) residential plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 42,011,375 (within 30 days) or 3-Year payment plan of PKR 49,000,000 with 20% down payment (PKR 9,800,000) and 12 quarterly installments of PKR 3,266,667. Non-refundable processing fee: PKR 15,000/-.",
         type: "residential_plot",
         category: "Residential Plots",
         purpose: "sale",
-        price: 42011375,
+        price: 49000000,
         priceUnit: "PKR",
         size: 10,
         sqYards: 250,
@@ -635,9 +637,15 @@ const DEFAULT_PROPERTIES = [
         address: "Sector B, DHA Margalla Enclave",
         societyId: "dha-margalla-enclave",
         location: "Sector B, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot3_res",
+        downPaymentPct: 20,
+        downPaymentAmount: 9800000,
+        lumpSumPrice: 42011375,
+        quarterlyAmount: 3266667,
+        processingFee: 15000,
         isFeatured: true,
         isNewProject: false,
-        urgency: "standard",
+        urgency: "hot",
         status: "published",
         developer: "Defence Housing Authority (DHA)",
         constructionStatus: "Balloted Plot",
@@ -649,10 +657,8 @@ const DEFAULT_PROPERTIES = [
             { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
         ],
         features: [
-            "Ballot 1 Official Allotment File",
+            "3rd Ballot Official Allotment File",
             "Lump Sum Price: PKR 42,011,375",
-            "1-Year Plan: PKR 44,222,500 (20% Down: PKR 8,844,500)",
-            "2-Year Plan: PKR 46,550,000 (20% Down: PKR 9,310,000)",
             "3-Year Plan: PKR 49,000,000 (20% Down: PKR 9,800,000)",
             "12x Quarterly Installments of PKR 3,266,667",
             "Processing Fee: PKR 15,000/- (Non-Refundable)"
@@ -669,33 +675,37 @@ const DEFAULT_PROPERTIES = [
         updatedAt: new Date().toISOString(),
         publishedAt: new Date().toISOString()
     },
-
-    // 4. BALLOT 1: 500 Sq Yds (1 Kanal) Residential Plot
     {
-        id: "prop-dha-margalla-ballot-1-500-sq-yds",
-        slug: "dha-margalla-enclave-500-sq-yds-residential-plot-ballot-1",
-        title: "500 Sq Yds (1 Kanal / 20 Marla) Residential Plot - Ballot 1",
-        tagline: "Luxury 1 Kanal residential estate plot in DHA Margalla Enclave at the foothills",
-        description: "Exclusive 500 Sq. Yds. (1 Kanal / 20 Marla) luxury residential plot in DHA Margalla Enclave Islamabad (Ballot 1). Available on Lump Sum price of PKR 72,876,875 (within 30 days) or 1-Year (PKR 76,712,500), 2-Year (PKR 80,750,000), and 3-Year (PKR 85,000,000) payment plans with 20% down payment (PKR 17,000,000) and 12 quarterly installments of PKR 5,666,667. Non-refundable processing fee: PKR 20,000/-.",
+        id: "prop-dha-margalla-ballot-3-500-sq-yds",
+        slug: "dha-margalla-enclave-500-sq-yds-residential-plot-ballot-3",
+        title: "500 Sq Yds (1 Kanal) Residential Plot - 3rd Ballot",
+        tagline: "Flagship 3rd Ballot 1 Kanal luxury estate plot on wide landscaped avenue",
+        description: "Official 3rd Ballot 500 Sq. Yds. (1 Kanal / 20 Marla) luxury residential estate plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 72,876,875 (within 30 days) or 3-Year payment plan of PKR 85,000,000 with 20% down payment (PKR 17,000,000) and 12 quarterly installments of PKR 5,666,667. Non-refundable processing fee: PKR 20,000/-.",
         type: "residential_plot",
         category: "Residential Plots",
         purpose: "sale",
-        price: 72876875,
+        price: 85000000,
         priceUnit: "PKR",
-        size: 20,
+        size: 1,
         sqYards: 500,
-        sizeUnit: "Marla",
+        sizeUnit: "Kanal",
         bedrooms: 0,
         bathrooms: 0,
         city: "Islamabad",
         area: "DHA Margalla Enclave",
-        sector: "Executive Sector C",
+        sector: "Sector C",
         address: "Executive Sector C, DHA Margalla Enclave",
         societyId: "dha-margalla-enclave",
         location: "Executive Sector C, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot3_res",
+        downPaymentPct: 20,
+        downPaymentAmount: 17000000,
+        lumpSumPrice: 72876875,
+        quarterlyAmount: 5666667,
+        processingFee: 20000,
         isFeatured: true,
         isNewProject: false,
-        urgency: "standard",
+        urgency: "hot",
         status: "published",
         developer: "Defence Housing Authority (DHA)",
         constructionStatus: "Balloted Plot",
@@ -707,10 +717,8 @@ const DEFAULT_PROPERTIES = [
             { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
         ],
         features: [
-            "Ballot 1 Official Allotment File",
+            "3rd Ballot Official Allotment File",
             "Lump Sum Price: PKR 72,876,875",
-            "1-Year Plan: PKR 76,712,500 (20% Down: PKR 15,342,500)",
-            "2-Year Plan: PKR 80,750,000 (20% Down: PKR 16,150,000)",
             "3-Year Plan: PKR 85,000,000 (20% Down: PKR 17,000,000)",
             "12x Quarterly Installments of PKR 5,666,667",
             "Processing Fee: PKR 20,000/- (Non-Refundable)"
@@ -728,17 +736,369 @@ const DEFAULT_PROPERTIES = [
         publishedAt: new Date().toISOString()
     },
 
-    // 5. BALLOT 2: 100 Sq Yds (4 Marla) Commercial Plot
+    // 3. 1ST BALLOT RESIDENTIAL (15% Down Payment)
     {
-        id: "prop-dha-margalla-ballot-2-100-sq-yds",
-        slug: "dha-margalla-enclave-100-sq-yds-commercial-plot-ballot-2",
-        title: "100 Sq Yds (4 Marla) Commercial Plot - Ballot 2",
+        id: "prop-dha-margalla-ballot-1-125-sq-yds",
+        slug: "dha-margalla-enclave-125-sq-yds-residential-plot-ballot-1",
+        title: "125 Sq Yds (5 Marla) Residential Plot - 1st Ballot",
+        tagline: "Original 1st Ballot allocation with low 15% down payment and immediate transfer",
+        description: "Official 1st Ballot 125 Sq. Yds. (approx 5 Marla) residential plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 12,000,000 (within 30 days) or 3-Year payment plan of PKR 14,000,000 with 15% down payment (PKR 2,100,000) and 12 quarterly installments of PKR 991,667. Non-refundable processing fee: PKR 10,000/-.",
+        type: "residential_plot",
+        category: "Residential Plots",
+        purpose: "sale",
+        price: 14000000,
+        priceUnit: "PKR",
+        size: 5,
+        sqYards: 125,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Sector A",
+        address: "Sector A, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Sector A, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot1_res",
+        downPaymentPct: 15,
+        downPaymentAmount: 2100000,
+        lumpSumPrice: 12000000,
+        quarterlyAmount: 991667,
+        processingFee: 10000,
+        isFeatured: false,
+        isNewProject: false,
+        urgency: "standard",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-res-125sqyds.jpg", isPrimary: true, alt: "125 Sq Yds Residential Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-residential-plots.jpg", isPrimary: false, alt: "DHA Margalla Residential Sector" }
+        ],
+        features: [
+            "1st Ballot Official Allotment File",
+            "Lump Sum Price: PKR 12,000,000",
+            "3-Year Plan: PKR 14,000,000 (15% Down: PKR 2,100,000)",
+            "12x Quarterly Installments of PKR 991,667",
+            "Processing Fee: PKR 10,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 2100000,
+            monthly: 991667,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 991,667) or Lump Sum PKR 12,000,000"
+        },
+        agentId: "user_001",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+    {
+        id: "prop-dha-margalla-ballot-1-250-sq-yds",
+        slug: "dha-margalla-enclave-250-sq-yds-residential-plot-ballot-1",
+        title: "250 Sq Yds (10 Marla) Residential Plot - 1st Ballot",
+        tagline: "Verified 1st Ballot 10 Marla residential plot with high capital appreciation",
+        description: "Official 1st Ballot 250 Sq. Yds. (approx 10 Marla) residential plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 22,000,000 (within 30 days) or 3-Year payment plan of PKR 26,000,000 with 15% down payment (PKR 3,900,000) and 12 quarterly installments of PKR 1,841,667. Non-refundable processing fee: PKR 15,000/-.",
+        type: "residential_plot",
+        category: "Residential Plots",
+        purpose: "sale",
+        price: 26000000,
+        priceUnit: "PKR",
+        size: 10,
+        sqYards: 250,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Sector B",
+        address: "Sector B, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Sector B, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot1_res",
+        downPaymentPct: 15,
+        downPaymentAmount: 3900000,
+        lumpSumPrice: 22000000,
+        quarterlyAmount: 1841667,
+        processingFee: 15000,
+        isFeatured: false,
+        isNewProject: false,
+        urgency: "standard",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-res-250sqyds.jpg", isPrimary: true, alt: "250 Sq Yds Residential Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-residential-plots.jpg", isPrimary: false, alt: "DHA Margalla Residential Sector" }
+        ],
+        features: [
+            "1st Ballot Official Allotment File",
+            "Lump Sum Price: PKR 22,000,000",
+            "3-Year Plan: PKR 26,000,000 (15% Down: PKR 3,900,000)",
+            "12x Quarterly Installments of PKR 1,841,667",
+            "Processing Fee: PKR 15,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 3900000,
+            monthly: 1841667,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 1,841,667) or Lump Sum PKR 22,000,000"
+        },
+        agentId: "user_001",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+    {
+        id: "prop-dha-margalla-ballot-1-500-sq-yds",
+        slug: "dha-margalla-enclave-500-sq-yds-residential-plot-ballot-1",
+        title: "500 Sq Yds (1 Kanal) Residential Plot - 1st Ballot",
+        tagline: "Exclusive 1st Ballot 1 Kanal luxury residential allotment at lowest ballot rates",
+        description: "Official 1st Ballot 500 Sq. Yds. (1 Kanal / 20 Marla) residential plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 42,000,000 (within 30 days) or 3-Year payment plan of PKR 50,000,000 with 15% down payment (PKR 7,500,000) and 12 quarterly installments of PKR 3,541,667. Non-refundable processing fee: PKR 20,000/-.",
+        type: "residential_plot",
+        category: "Residential Plots",
+        purpose: "sale",
+        price: 50000000,
+        priceUnit: "PKR",
+        size: 1,
+        sqYards: 500,
+        sizeUnit: "Kanal",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Sector C",
+        address: "Sector C, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Sector C, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot1_res",
+        downPaymentPct: 15,
+        downPaymentAmount: 7500000,
+        lumpSumPrice: 42000000,
+        quarterlyAmount: 3541667,
+        processingFee: 20000,
+        isFeatured: false,
+        isNewProject: false,
+        urgency: "standard",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-res-500sqyds.jpg", isPrimary: true, alt: "500 Sq Yds 1 Kanal Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-residential-plots.jpg", isPrimary: false, alt: "DHA Margalla Residential Sector" }
+        ],
+        features: [
+            "1st Ballot Official Allotment File",
+            "Lump Sum Price: PKR 42,000,000",
+            "3-Year Plan: PKR 50,000,000 (15% Down: PKR 7,500,000)",
+            "12x Quarterly Installments of PKR 3,541,667",
+            "Processing Fee: PKR 20,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 7500000,
+            monthly: 3541667,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 3,541,667) or Lump Sum PKR 42,000,000"
+        },
+        agentId: "user_001",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+
+    // 4. 2ND BALLOT RESIDENTIAL (15% Down Payment)
+    {
+        id: "prop-dha-margalla-ballot-2-125-sq-yds",
+        slug: "dha-margalla-enclave-125-sq-yds-residential-plot-ballot-2",
+        title: "125 Sq Yds (5 Marla) Residential Plot - 2nd Ballot",
+        tagline: "Prime 2nd Ballot 5 Marla plot with 15% down payment in central residential pocket",
+        description: "Official 2nd Ballot 125 Sq. Yds. (approx 5 Marla) residential plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 16,300,000 (within 30 days) or 3-Year payment plan of PKR 18,000,000 with 15% down payment (PKR 2,700,000) and 12 quarterly installments of PKR 1,275,000. Non-refundable processing fee: PKR 10,000/-.",
+        type: "residential_plot",
+        category: "Residential Plots",
+        purpose: "sale",
+        price: 18000000,
+        priceUnit: "PKR",
+        size: 5,
+        sqYards: 125,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Sector A",
+        address: "Sector A, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Sector A, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot2_res",
+        downPaymentPct: 15,
+        downPaymentAmount: 2700000,
+        lumpSumPrice: 16300000,
+        quarterlyAmount: 1275000,
+        processingFee: 10000,
+        isFeatured: false,
+        isNewProject: false,
+        urgency: "standard",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-res-125sqyds.jpg", isPrimary: true, alt: "125 Sq Yds Residential Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-residential-plots.jpg", isPrimary: false, alt: "DHA Margalla Residential Sector" }
+        ],
+        features: [
+            "2nd Ballot Official Allotment File",
+            "Lump Sum Price: PKR 16,300,000",
+            "3-Year Plan: PKR 18,000,000 (15% Down: PKR 2,700,000)",
+            "12x Quarterly Installments of PKR 1,275,000",
+            "Processing Fee: PKR 10,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 2700000,
+            monthly: 1275000,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 1,275,000) or Lump Sum PKR 16,300,000"
+        },
+        agentId: "user_001",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+    {
+        id: "prop-dha-margalla-ballot-2-250-sq-yds",
+        slug: "dha-margalla-enclave-250-sq-yds-residential-plot-ballot-2",
+        title: "250 Sq Yds (10 Marla) Residential Plot - 2nd Ballot",
+        tagline: "Prime 2nd Ballot 10 Marla residential plot with central boulevard access",
+        description: "Official 2nd Ballot 250 Sq. Yds. (approx 10 Marla) residential plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 30,000,000 (within 30 days) or 3-Year payment plan of PKR 35,000,000 with 15% down payment (PKR 5,250,000) and 12 quarterly installments of PKR 2,479,167. Non-refundable processing fee: PKR 15,000/-.",
+        type: "residential_plot",
+        category: "Residential Plots",
+        purpose: "sale",
+        price: 35000000,
+        priceUnit: "PKR",
+        size: 10,
+        sqYards: 250,
+        sizeUnit: "Marla",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Sector B",
+        address: "Sector B, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Sector B, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot2_res",
+        downPaymentPct: 15,
+        downPaymentAmount: 5250000,
+        lumpSumPrice: 30000000,
+        quarterlyAmount: 2479167,
+        processingFee: 15000,
+        isFeatured: false,
+        isNewProject: false,
+        urgency: "standard",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-res-250sqyds.jpg", isPrimary: true, alt: "250 Sq Yds Residential Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-residential-plots.jpg", isPrimary: false, alt: "DHA Margalla Residential Sector" }
+        ],
+        features: [
+            "2nd Ballot Official Allotment File",
+            "Lump Sum Price: PKR 30,000,000",
+            "3-Year Plan: PKR 35,000,000 (15% Down: PKR 5,250,000)",
+            "12x Quarterly Installments of PKR 2,479,167",
+            "Processing Fee: PKR 15,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 5250000,
+            monthly: 2479167,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 2,479,167) or Lump Sum PKR 30,000,000"
+        },
+        agentId: "user_001",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+    {
+        id: "prop-dha-margalla-ballot-2-500-sq-yds",
+        slug: "dha-margalla-enclave-500-sq-yds-residential-plot-ballot-2",
+        title: "500 Sq Yds (1 Kanal) Residential Plot - 2nd Ballot",
+        tagline: "2nd Ballot 1 Kanal luxury residential parcel facing Margalla hill ridges",
+        description: "Official 2nd Ballot 500 Sq. Yds. (1 Kanal / 20 Marla) luxury residential plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 56,000,000 (within 30 days) or 3-Year payment plan of PKR 65,000,000 with 15% down payment (PKR 9,750,000) and 12 quarterly installments of PKR 4,604,167. Non-refundable processing fee: PKR 20,000/-.",
+        type: "residential_plot",
+        category: "Residential Plots",
+        purpose: "sale",
+        price: 65000000,
+        priceUnit: "PKR",
+        size: 1,
+        sqYards: 500,
+        sizeUnit: "Kanal",
+        bedrooms: 0,
+        bathrooms: 0,
+        city: "Islamabad",
+        area: "DHA Margalla Enclave",
+        sector: "Sector C",
+        address: "Sector C, DHA Margalla Enclave",
+        societyId: "dha-margalla-enclave",
+        location: "Sector C, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot2_res",
+        downPaymentPct: 15,
+        downPaymentAmount: 9750000,
+        lumpSumPrice: 56000000,
+        quarterlyAmount: 4604167,
+        processingFee: 20000,
+        isFeatured: false,
+        isNewProject: false,
+        urgency: "standard",
+        status: "published",
+        developer: "Defence Housing Authority (DHA)",
+        constructionStatus: "Balloted Plot",
+        deliveryDate: "Immediate Transfer",
+        images: [
+            { url: "assets/images/dha-res-500sqyds.jpg", isPrimary: true, alt: "500 Sq Yds 1 Kanal Plot DHA Margalla Enclave" },
+            { url: "assets/images/dha-residential-plots.jpg", isPrimary: false, alt: "DHA Margalla Residential Sector" }
+        ],
+        features: [
+            "2nd Ballot Official Allotment File",
+            "Lump Sum Price: PKR 56,000,000",
+            "3-Year Plan: PKR 65,000,000 (15% Down: PKR 9,750,000)",
+            "12x Quarterly Installments of PKR 4,604,167",
+            "Processing Fee: PKR 20,000/- (Non-Refundable)"
+        ],
+        installments: {
+            available: true,
+            advance: 9750000,
+            monthly: 4604167,
+            durationMonths: 36,
+            planDetails: "3-Year Quarterly Plan (12 Quarters of PKR 4,604,167) or Lump Sum PKR 56,000,000"
+        },
+        agentId: "user_001",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+    },
+
+    // 5. 3RD BALLOT COMMERCIAL (20% Down Payment)
+    {
+        id: "prop-dha-margalla-ballot-3-comm-100-sq-yds",
+        slug: "dha-margalla-enclave-100-sq-yds-commercial-plot-ballot-3",
+        title: "100 Sq Yds (4 Marla) Commercial Plot - 3rd Ballot",
         tagline: "Prime boulevard commercial plot in DHA Margalla Enclave with high business yield",
-        description: "High-value 100 Sq. Yds. (approx 4 Marla) commercial plot in DHA Margalla Enclave Islamabad (Ballot 2). Available on Lump Sum price of PKR 81,450,625 (within 30 days) or 1-Year (PKR 85,737,500), 2-Year (PKR 90,250,000), and 3-Year (PKR 95,000,000) payment plans with 20% down payment (PKR 19,000,000) and 12 quarterly installments of PKR 6,333,333. Non-refundable processing fee: PKR 30,000/-.",
+        description: "Official 3rd Ballot high-value 100 Sq. Yds. (approx 4 Marla) commercial plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 81,450,625 (within 30 days) or 3-Year payment plan of PKR 95,000,000 with 20% down payment (PKR 19,000,000) and 12 quarterly installments of PKR 6,333,333. Non-refundable processing fee: PKR 30,000/-.",
         type: "commercial_plot",
         category: "Commercial Plots",
         purpose: "sale",
-        price: 81450625,
+        price: 95000000,
         priceUnit: "PKR",
         size: 4,
         sqYards: 100,
@@ -751,9 +1111,15 @@ const DEFAULT_PROPERTIES = [
         address: "Commercial Boulevard Sector A, DHA Margalla Enclave",
         societyId: "dha-margalla-enclave",
         location: "Commercial Boulevard Sector A, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot3_comm",
+        downPaymentPct: 20,
+        downPaymentAmount: 19000000,
+        lumpSumPrice: 81450625,
+        quarterlyAmount: 6333333,
+        processingFee: 30000,
         isFeatured: true,
         isNewProject: false,
-        urgency: "standard",
+        urgency: "super-hot",
         status: "published",
         developer: "Defence Housing Authority (DHA)",
         constructionStatus: "Balloted Commercial Plot",
@@ -765,10 +1131,8 @@ const DEFAULT_PROPERTIES = [
             { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
         ],
         features: [
-            "Ballot 2 Official Commercial Allotment",
+            "3rd Ballot Official Commercial Allotment",
             "Lump Sum Price: PKR 81,450,625",
-            "1-Year Plan: PKR 85,737,500 (20% Down: PKR 17,147,500)",
-            "2-Year Plan: PKR 90,250,000 (20% Down: PKR 18,050,000)",
             "3-Year Plan: PKR 95,000,000 (20% Down: PKR 19,000,000)",
             "12x Quarterly Installments of PKR 6,333,333",
             "Processing Fee: PKR 30,000/- (Non-Refundable)"
@@ -785,18 +1149,16 @@ const DEFAULT_PROPERTIES = [
         updatedAt: new Date().toISOString(),
         publishedAt: new Date().toISOString()
     },
-
-    // 6. BALLOT 2: 133.25 Sq Yds (5.33 Marla) Commercial Plot
     {
-        id: "prop-dha-margalla-ballot-2-133-sq-yds",
-        slug: "dha-margalla-enclave-133-sq-yds-commercial-plot-ballot-2",
-        title: "133.25 Sq Yds (5.33 Marla) Commercial Plot - Ballot 2",
+        id: "prop-dha-margalla-ballot-3-comm-133-sq-yds",
+        slug: "dha-margalla-enclave-133-sq-yds-commercial-plot-ballot-3",
+        title: "133.25 Sq Yds (5.33 Marla) Commercial Plot - 3rd Ballot",
         tagline: "Main commercial markaz plot in DHA Margalla Enclave for retail plazas & corporate hubs",
-        description: "Prominent 133.25 Sq. Yds. (approx 5.33 Marla) commercial plot in DHA Margalla Enclave Islamabad (Ballot 2). Available on Lump Sum price of PKR 120,032,500 (within 30 days) or 1-Year (PKR 126,350,000), 2-Year (PKR 133,000,000), and 3-Year (PKR 140,000,000) payment plans with 20% down payment (PKR 28,000,000) and 12 quarterly installments of PKR 9,333,333. Non-refundable processing fee: PKR 40,000/-.",
+        description: "Official 3rd Ballot prominent 133.25 Sq. Yds. (approx 5.33 Marla) commercial plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 120,032,500 (within 30 days) or 3-Year payment plan of PKR 140,000,000 with 20% down payment (PKR 28,000,000) and 12 quarterly installments of PKR 9,333,333. Non-refundable processing fee: PKR 40,000/-.",
         type: "commercial_plot",
         category: "Commercial Plots",
         purpose: "sale",
-        price: 120032500,
+        price: 140000000,
         priceUnit: "PKR",
         size: 5.33,
         sqYards: 133.25,
@@ -809,6 +1171,12 @@ const DEFAULT_PROPERTIES = [
         address: "Central Commercial Markaz, DHA Margalla Enclave",
         societyId: "dha-margalla-enclave",
         location: "Central Commercial Markaz, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot3_comm",
+        downPaymentPct: 20,
+        downPaymentAmount: 28000000,
+        lumpSumPrice: 120032500,
+        quarterlyAmount: 9333333,
+        processingFee: 40000,
         isFeatured: true,
         isNewProject: false,
         urgency: "standard",
@@ -823,10 +1191,8 @@ const DEFAULT_PROPERTIES = [
             { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
         ],
         features: [
-            "Ballot 2 Official Commercial Allotment",
+            "3rd Ballot Official Commercial Allotment",
             "Lump Sum Price: PKR 120,032,500",
-            "1-Year Plan: PKR 126,350,000 (20% Down: PKR 25,270,000)",
-            "2-Year Plan: PKR 133,000,000 (20% Down: PKR 26,600,000)",
             "3-Year Plan: PKR 140,000,000 (20% Down: PKR 28,000,000)",
             "12x Quarterly Installments of PKR 9,333,333",
             "Processing Fee: PKR 40,000/- (Non-Refundable)"
@@ -843,18 +1209,16 @@ const DEFAULT_PROPERTIES = [
         updatedAt: new Date().toISOString(),
         publishedAt: new Date().toISOString()
     },
-
-    // 7. BALLOT 2: 200 Sq Yds (8 Marla) Commercial Plot
     {
-        id: "prop-dha-margalla-ballot-2-200-sq-yds",
-        slug: "dha-margalla-enclave-200-sq-yds-commercial-plot-ballot-2",
-        title: "200 Sq Yds (8 Marla) Commercial Plot - Ballot 2",
+        id: "prop-dha-margalla-ballot-3-comm-200-sq-yds",
+        slug: "dha-margalla-enclave-200-sq-yds-commercial-plot-ballot-3",
+        title: "200 Sq Yds (8 Marla) Commercial Plot - 3rd Ballot",
         tagline: "Large commercial plaza plot on 120-ft Avenue in DHA Margalla Enclave",
-        description: "Prestigious 200 Sq. Yds. (approx 8 Marla) commercial boulevard plot in DHA Margalla Enclave Islamabad (Ballot 2). Available on Lump Sum price of PKR 145,753,750 (within 30 days) or 1-Year (PKR 153,425,000), 2-Year (PKR 161,500,000), and 3-Year (PKR 170,000,000) payment plans with 20% down payment (PKR 34,000,000) and 12 quarterly installments of PKR 11,333,333. Non-refundable processing fee: PKR 50,000/-.",
+        description: "Official 3rd Ballot 200 Sq. Yds. (approx 8 Marla) commercial boulevard plot in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 145,753,750 (within 30 days) or 3-Year payment plan of PKR 170,000,000 with 20% down payment (PKR 34,000,000) and 12 quarterly installments of PKR 11,333,333. Non-refundable processing fee: PKR 50,000/-.",
         type: "commercial_plot",
         category: "Commercial Plots",
         purpose: "sale",
-        price: 145753750,
+        price: 170000000,
         priceUnit: "PKR",
         size: 8,
         sqYards: 200,
@@ -867,6 +1231,12 @@ const DEFAULT_PROPERTIES = [
         address: "Main 120-ft Avenue Boulevard, DHA Margalla Enclave",
         societyId: "dha-margalla-enclave",
         location: "Main Boulevard Commercial, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot3_comm",
+        downPaymentPct: 20,
+        downPaymentAmount: 34000000,
+        lumpSumPrice: 145753750,
+        quarterlyAmount: 11333333,
+        processingFee: 50000,
         isFeatured: true,
         isNewProject: false,
         urgency: "standard",
@@ -881,10 +1251,8 @@ const DEFAULT_PROPERTIES = [
             { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
         ],
         features: [
-            "Ballot 2 Official Commercial Allotment",
+            "3rd Ballot Official Commercial Allotment",
             "Lump Sum Price: PKR 145,753,750",
-            "1-Year Plan: PKR 153,425,000 (20% Down: PKR 30,685,000)",
-            "2-Year Plan: PKR 161,500,000 (20% Down: PKR 32,300,000)",
             "3-Year Plan: PKR 170,000,000 (20% Down: PKR 34,000,000)",
             "12x Quarterly Installments of PKR 11,333,333",
             "Processing Fee: PKR 50,000/- (Non-Refundable)"
@@ -901,18 +1269,16 @@ const DEFAULT_PROPERTIES = [
         updatedAt: new Date().toISOString(),
         publishedAt: new Date().toISOString()
     },
-
-    // 8. BALLOT 2: 500 Sq Yds (20 Marla / 1 Kanal) Commercial Plot
     {
-        id: "prop-dha-margalla-ballot-2-500-sq-yds",
-        slug: "dha-margalla-enclave-500-sq-yds-commercial-plot-ballot-2",
-        title: "500 Sq Yds (20 Marla / 1 Kanal) Commercial Mega Plot - Ballot 2",
+        id: "prop-dha-margalla-ballot-3-comm-500-sq-yds",
+        slug: "dha-margalla-enclave-500-sq-yds-commercial-plot-ballot-3",
+        title: "500 Sq Yds (20 Marla / 1 Kanal) Commercial Mega Plot - 3rd Ballot",
         tagline: "Flagship 500 Sq. Yds. commercial mega-site for shopping mall, hotel or corporate headquarters",
-        description: "Grand 500 Sq. Yds. (20 Marla / 1 Kanal) prime commercial mega-site in DHA Margalla Enclave Islamabad (Ballot 2). Ideal for shopping malls, mixed-use towers, brand hotels, and corporate complexes. Available on Lump Sum price of PKR 342,950,000 (within 30 days) or 1-Year (PKR 361,000,000), 2-Year (PKR 380,000,000), and 3-Year (PKR 400,000,000) payment plans with 20% down payment (PKR 80,000,000) and 12 quarterly installments of PKR 26,666,667. Non-refundable processing fee: PKR 60,000/-.",
+        description: "Official 3rd Ballot Grand 500 Sq. Yds. (20 Marla / 1 Kanal) prime commercial mega-site in DHA Margalla Enclave Islamabad. Available on Lump Sum price of PKR 342,950,000 (within 30 days) or 3-Year payment plan of PKR 400,000,000 with 20% down payment (PKR 80,000,000) and 12 quarterly installments of PKR 26,666,667. Non-refundable processing fee: PKR 60,000/-.",
         type: "commercial_plot",
         category: "Commercial Plots",
         purpose: "sale",
-        price: 342950000,
+        price: 400000000,
         priceUnit: "PKR",
         size: 20,
         sqYards: 500,
@@ -925,6 +1291,12 @@ const DEFAULT_PROPERTIES = [
         address: "Avenue Central Commercial Hub, DHA Margalla Enclave",
         societyId: "dha-margalla-enclave",
         location: "Avenue Central Commercial Hub, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "ballot3_comm",
+        downPaymentPct: 20,
+        downPaymentAmount: 80000000,
+        lumpSumPrice: 342950000,
+        quarterlyAmount: 26666667,
+        processingFee: 60000,
         isFeatured: true,
         isNewProject: false,
         urgency: "super-hot",
@@ -939,10 +1311,8 @@ const DEFAULT_PROPERTIES = [
             { url: "assets/images/dha-masterplan.jpg", isPrimary: false, alt: "Masterplan Map" }
         ],
         features: [
-            "Ballot 2 Flagship Commercial Mega-Site Allotment",
+            "3rd Ballot Flagship Commercial Mega-Site Allotment",
             "Lump Sum Price: PKR 342,950,000",
-            "1-Year Plan: PKR 361,000,000 (20% Down: PKR 72,200,000)",
-            "2-Year Plan: PKR 380,000,000 (20% Down: PKR 76,000,000)",
             "3-Year Plan: PKR 400,000,000 (20% Down: PKR 80,000,000)",
             "12x Quarterly Installments of PKR 26,666,667",
             "Processing Fee: PKR 60,000/- (Non-Refundable)"
@@ -960,17 +1330,17 @@ const DEFAULT_PROPERTIES = [
         publishedAt: new Date().toISOString()
     },
 
-    // 9. BALLOT 3: 133.33 Sq Yds (LG+G+5) Commercial Plot
+    // 6. 3RD BALLOT LG+G+5 MULTI-STOREY COMMERCIAL (HIGH RISE)
     {
         id: "prop-dha-margalla-ballot-3-133-sq-yds",
         slug: "dha-margalla-enclave-133-33-sq-yds-commercial-plot-ballot-3",
         title: "133.33 Sq Yds Commercial Plot (LG+G+5) - Ballot 3",
-        tagline: "Approved Multi-Storey (LG+G+5) commercial plot in DHA Margalla Enclave with 1, 2 & 3-Year plans",
-        description: "Official Ballot 3 approved multi-storey 133.33 Sq. Yds. (approx 5.33 Marla) commercial plot in DHA Margalla Enclave Islamabad. Approved for Lower Ground + Ground + 5 Floors construction. Available on Lump Sum price of PKR 135,830,000 (within 30 days) or 1-Year (PKR 143,820,000, 20% down: PKR 28,764,000), 2-Year (PKR 151,810,000, 20% down: PKR 30,362,000), and 3-Year (PKR 159,800,000, 20% down: PKR 31,960,000 with 12 quarterly installments of PKR 10,653,333). Non-refundable processing fee: PKR 40,000/-.",
+        tagline: "Approved Multi-Storey (LG+G+5) commercial plot in DHA Margalla Enclave with 3-Year plan",
+        description: "Official Ballot 3 approved multi-storey 133.33 Sq. Yds. (approx 5.33 Marla) commercial plot in DHA Margalla Enclave Islamabad. Approved for Lower Ground + Ground + 5 Floors construction. Available on Lump Sum price of PKR 135,830,000 (within 30 days) or 3-Year plan of PKR 159,800,000 with 20% down payment (PKR 31,960,000) and 12 quarterly installments of PKR 10,653,333. Non-refundable processing fee: PKR 40,000/-.",
         type: "commercial_plot",
         category: "Commercial Plots",
         purpose: "sale",
-        price: 135830000,
+        price: 159800000,
         priceUnit: "PKR",
         size: 5.33,
         sqYards: 133.33,
@@ -983,6 +1353,12 @@ const DEFAULT_PROPERTIES = [
         address: "Multi-Storey Commercial Boulevard, DHA Margalla Enclave",
         societyId: "dha-margalla-enclave",
         location: "Commercial Avenue (LG+G+5 Zone), DHA Margalla Enclave, Islamabad",
+        ballotPhase: "high_rise",
+        downPaymentPct: 20,
+        downPaymentAmount: 31960000,
+        lumpSumPrice: 135830000,
+        quarterlyAmount: 10653333,
+        processingFee: 40000,
         isFeatured: true,
         isNewProject: false,
         urgency: "standard",
@@ -1000,8 +1376,6 @@ const DEFAULT_PROPERTIES = [
             "Ballot 3 Approved Multi-Storey Commercial Plot",
             "Permitted Height: Lower Ground + Ground + 5 Floors (LG+G+5)",
             "Lump Sum Price: PKR 135,830,000 (Within 30 Days)",
-            "1-Year Plan: PKR 143,820,000 (20% Down: PKR 28,764,000)",
-            "2-Year Plan: PKR 151,810,000 (20% Down: PKR 30,362,000)",
             "3-Year Plan: PKR 159,800,000 (20% Down: PKR 31,960,000)",
             "12x Quarterly Installments of PKR 10,653,333",
             "Processing Fee: PKR 40,000/- (Non-Refundable)"
@@ -1018,18 +1392,16 @@ const DEFAULT_PROPERTIES = [
         updatedAt: new Date().toISOString(),
         publishedAt: new Date().toISOString()
     },
-
-    // 10. BALLOT 3: 200 Sq Yds (LG+G+5) Commercial Plot
     {
         id: "prop-dha-margalla-ballot-3-200-sq-yds",
         slug: "dha-margalla-enclave-200-sq-yds-commercial-plot-ballot-3",
         title: "200 Sq Yds Commercial Plot (LG+G+5) - Ballot 3",
         tagline: "Prime 200 Sq. Yds. multi-storey commercial plot approved for 6 floors (LG+G+5)",
-        description: "Official Ballot 3 approved multi-storey 200 Sq. Yds. (approx 8 Marla) commercial plot in DHA Margalla Enclave Islamabad. Approved for Lower Ground + Ground + 5 Floors construction. Available on Lump Sum price of PKR 196,520,000 (within 30 days) or 1-Year (PKR 208,080,000, 20% down: PKR 41,616,000), 2-Year (PKR 219,640,000, 20% down: PKR 43,928,000), and 3-Year (PKR 231,200,000, 20% down: PKR 46,240,000 with 12 quarterly installments of PKR 15,413,333). Non-refundable processing fee: PKR 50,000/-.",
+        description: "Official Ballot 3 approved multi-storey 200 Sq. Yds. (approx 8 Marla) commercial plot in DHA Margalla Enclave Islamabad. Approved for Lower Ground + Ground + 5 Floors construction. Available on Lump Sum price of PKR 196,520,000 (within 30 days) or 3-Year plan of PKR 231,200,000 with 20% down payment (PKR 46,240,000) and 12 quarterly installments of PKR 15,413,333. Non-refundable processing fee: PKR 50,000/-.",
         type: "commercial_plot",
         category: "Commercial Plots",
         purpose: "sale",
-        price: 196520000,
+        price: 231200000,
         priceUnit: "PKR",
         size: 8,
         sqYards: 200,
@@ -1042,6 +1414,12 @@ const DEFAULT_PROPERTIES = [
         address: "Central Commercial Boulevard LG+G+5, DHA Margalla Enclave",
         societyId: "dha-margalla-enclave",
         location: "Central Commercial Boulevard, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "high_rise",
+        downPaymentPct: 20,
+        downPaymentAmount: 46240000,
+        lumpSumPrice: 196520000,
+        quarterlyAmount: 15413333,
+        processingFee: 50000,
         isFeatured: true,
         isNewProject: false,
         urgency: "standard",
@@ -1059,8 +1437,6 @@ const DEFAULT_PROPERTIES = [
             "Ballot 3 Approved Multi-Storey Commercial Plot",
             "Permitted Height: Lower Ground + Ground + 5 Floors (LG+G+5)",
             "Lump Sum Price: PKR 196,520,000 (Within 30 Days)",
-            "1-Year Plan: PKR 208,080,000 (20% Down: PKR 41,616,000)",
-            "2-Year Plan: PKR 219,640,000 (20% Down: PKR 43,928,000)",
             "3-Year Plan: PKR 231,200,000 (20% Down: PKR 46,240,000)",
             "12x Quarterly Installments of PKR 15,413,333",
             "Processing Fee: PKR 50,000/- (Non-Refundable)"
@@ -1077,18 +1453,16 @@ const DEFAULT_PROPERTIES = [
         updatedAt: new Date().toISOString(),
         publishedAt: new Date().toISOString()
     },
-
-    // 11. BALLOT 3: 266.66 Sq Yds (LG+G+5) Commercial Plot
     {
         id: "prop-dha-margalla-ballot-3-266-sq-yds",
         slug: "dha-margalla-enclave-266-66-sq-yds-commercial-plot-ballot-3",
         title: "266.66 Sq Yds Commercial Plot (LG+G+5) - Ballot 3",
         tagline: "Grand multi-storey commercial plaza site (LG+G+5) in DHA Margalla Enclave",
-        description: "Official Ballot 3 approved multi-storey 266.66 Sq. Yds. (approx 10.66 Marla) commercial plot in DHA Margalla Enclave Islamabad. Approved for Lower Ground + Ground + 5 Floors construction. Available on Lump Sum price of PKR 201,535,000 (within 30 days) or 1-Year (PKR 213,390,000, 20% down: PKR 42,678,000), 2-Year (PKR 225,245,000, 20% down: PKR 45,049,000), and 3-Year (PKR 237,100,000, 20% down: PKR 47,420,000 with 12 quarterly installments of PKR 15,806,667). Non-refundable processing fee: PKR 60,000/-.",
+        description: "Official Ballot 3 approved multi-storey 266.66 Sq. Yds. (approx 10.66 Marla) commercial plot in DHA Margalla Enclave Islamabad. Approved for Lower Ground + Ground + 5 Floors construction. Available on Lump Sum price of PKR 201,535,000 (within 30 days) or 3-Year plan of PKR 237,100,000 with 20% down payment (PKR 47,420,000) and 12 quarterly installments of PKR 15,806,667. Non-refundable processing fee: PKR 60,000/-.",
         type: "commercial_plot",
         category: "Commercial Plots",
         purpose: "sale",
-        price: 201535000,
+        price: 237100000,
         priceUnit: "PKR",
         size: 10.66,
         sqYards: 266.66,
@@ -1101,6 +1475,12 @@ const DEFAULT_PROPERTIES = [
         address: "Grand Commercial Boulevard LG+G+5, DHA Margalla Enclave",
         societyId: "dha-margalla-enclave",
         location: "Grand Commercial Boulevard, DHA Margalla Enclave, Islamabad",
+        ballotPhase: "high_rise",
+        downPaymentPct: 20,
+        downPaymentAmount: 47420000,
+        lumpSumPrice: 201535000,
+        quarterlyAmount: 15806667,
+        processingFee: 60000,
         isFeatured: true,
         isNewProject: false,
         urgency: "standard",
@@ -1118,8 +1498,6 @@ const DEFAULT_PROPERTIES = [
             "Ballot 3 Approved Multi-Storey Commercial Plot",
             "Permitted Height: Lower Ground + Ground + 5 Floors (LG+G+5)",
             "Lump Sum Price: PKR 201,535,000 (Within 30 Days)",
-            "1-Year Plan: PKR 213,390,000 (20% Down: PKR 42,678,000)",
-            "2-Year Plan: PKR 225,245,000 (20% Down: PKR 45,049,000)",
             "3-Year Plan: PKR 237,100,000 (20% Down: PKR 47,420,000)",
             "12x Quarterly Installments of PKR 15,806,667",
             "Processing Fee: PKR 60,000/- (Non-Refundable)"
@@ -1310,7 +1688,7 @@ try {
 
     const propCacheVer = localStorage.getItem('kaghan_properties_ver');
     const savedProps = localStorage.getItem('kaghan_properties');
-    if (savedProps && propCacheVer === 'v2') {
+    if (savedProps && propCacheVer === 'v3') {
         try {
             const parsedProps = JSON.parse(savedProps);
             if (Array.isArray(parsedProps) && parsedProps.length >= DEFAULT_PROPERTIES.length && parsedProps.every(p => p.id && p.id.startsWith('prop-dha-margalla'))) {
@@ -1325,7 +1703,7 @@ try {
     } else {
         localStore.properties = [...DEFAULT_PROPERTIES];
         localStorage.setItem('kaghan_properties', JSON.stringify(localStore.properties));
-        localStorage.setItem('kaghan_properties_ver', 'v2');
+        localStorage.setItem('kaghan_properties_ver', 'v3');
     }
 
     const savedContent = localStorage.getItem('kaghan_site_content');
@@ -1423,22 +1801,27 @@ async function seedFirestoreIfNeeded() {
             }
         }
 
-        // Purge legacy properties and upsert all 8 DHA Margalla properties into Firestore
+        // Purge legacy properties and upsert all pristine DHA Margalla properties into Firestore
         const propRef = getSubcollectionRef('properties');
         if (propRef) {
             const pSnap = await propRef.get();
             const batch = db.batch();
             let opCount = 0;
+            const validIds = new Set(DEFAULT_PROPERTIES.map(p => p.id));
             pSnap.forEach(doc => {
                 const data = doc.data();
                 const pid = String(data.id || doc.id);
-                if (!pid.startsWith('prop-dha-margalla') && data.societyId !== 'dha-margalla-enclave') {
+                // Purge obsolete ballot docs or non-DHA docs
+                if (pid.startsWith('prop-dha-margalla-ballot-') && !validIds.has(pid)) {
+                    batch.delete(doc.ref);
+                    opCount++;
+                } else if (!pid.startsWith('prop-dha-margalla') && data.societyId !== 'dha-margalla-enclave') {
                     batch.delete(doc.ref);
                     opCount++;
                 }
             });
             for (const p of DEFAULT_PROPERTIES) {
-                batch.set(propRef.doc(p.id), p, { merge: true });
+                batch.set(propRef.doc(p.id), p);
                 opCount++;
             }
             if (opCount > 0) {
