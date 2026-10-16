@@ -513,19 +513,26 @@
 
             <!-- TABLE 1: RESIDENTIAL PLOTS — 3RD BALLOT -->
             <article id="ballot3-res" class="table-container bg-white rounded-3xl p-4 sm:p-7 border border-emerald-200 shadow-xl space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 pb-3.5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3.5">
                     <div class="flex items-center gap-2.5">
                         <span class="bg-emerald-900 text-white text-[11px] sm:text-xs font-extrabold px-3 py-1 rounded-xl uppercase tracking-wider">
                             3RD BALLOT
                         </span>
                         <h3 class="text-lg sm:text-xl md:text-2xl font-black outfit text-slate-900">RESIDENTIAL PLOTS (20% Down Payment)</h3>
                     </div>
-                    <span class="text-[11px] sm:text-xs text-slate-600 font-semibold bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-100 self-start sm:self-auto">
-                        Down Payment: 20% (Within 30 Days of Ballot)
-                    </span>
+                    <div class="flex items-center gap-2 flex-wrap self-start sm:self-auto">
+                        <span class="text-[11px] sm:text-xs text-slate-600 font-semibold bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">
+                            Down Payment: 20% (Within 30 Days of Ballot)
+                        </span>
+                        <a href="projects.html?area=DHA+Margalla&type=residential_plot&keyword=3rd+Ballot" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-xs inline-flex items-center gap-1.5 shadow-sm transition-all">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
+                            <span>View Properties</span>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="overflow-x-auto custom-scrollbar">
+                <!-- Desktop / Tablet Table View (Responsive Horizontal Scroll) -->
+                <div class="hidden md:block overflow-x-auto custom-scrollbar">
                     <table class="w-full text-left border-collapse text-xs min-w-[760px]">
                         <thead>
                             <tr class="bg-emerald-950 text-white outfit uppercase tracking-wider font-extrabold text-[11px]">
@@ -534,8 +541,7 @@
                                 <th class="p-3.5" scope="col">Lump Sum (30D)</th>
                                 <th class="p-3.5 text-center bg-emerald-900" colspan="2" scope="col">1 Year Plan (4 Qtrs)<br><span class="font-normal text-[10px] text-emerald-200">Price | 20% Down</span></th>
                                 <th class="p-3.5 text-center bg-emerald-800" colspan="2" scope="col">2 Year Plan (8 Qtrs)<br><span class="font-normal text-[10px] text-emerald-200">Price | 20% Down</span></th>
-                                <th class="p-3.5 text-center bg-emerald-900" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-emerald-200">Price | 20% Down</span></th>
-                                <th class="p-3.5 text-center bg-gold text-slate-950 rounded-tr-xl" scope="col">Action</th>
+                                <th class="p-3.5 text-center bg-emerald-900 rounded-tr-xl" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-emerald-200">Price | 20% Down</span></th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
@@ -549,11 +555,6 @@
                                 <td class="p-3.5 text-emerald-700 font-bold">4,750,000</td>
                                 <td class="p-3.5 font-extrabold text-emerald-900">25,000,000</td>
                                 <td class="p-3.5 text-emerald-700 font-black">5,000,000</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%205%20Marla%20(125%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                             <tr class="hover:bg-emerald-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">250 <span class="text-xs text-slate-500 font-normal">(10 Marla)</span></td>
@@ -565,11 +566,6 @@
                                 <td class="p-3.5 text-emerald-700 font-bold">9,310,000</td>
                                 <td class="p-3.5 font-extrabold text-emerald-900">49,000,000</td>
                                 <td class="p-3.5 text-emerald-700 font-black">9,800,000</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%2010%20Marla%20(250%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                             <tr class="hover:bg-emerald-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">500 <span class="text-xs text-slate-500 font-normal">(1 Kanal)</span></td>
@@ -581,55 +577,145 @@
                                 <td class="p-3.5 text-emerald-700 font-bold">16,150,000</td>
                                 <td class="p-3.5 font-extrabold text-emerald-900">85,000,000</td>
                                 <td class="p-3.5 text-emerald-700 font-black">17,000,000</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%201%20Kanal%20(500%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Dedicated Properties Under 3rd Ballot Residential Banner -->
-                <div class="pt-6 border-t border-emerald-100 space-y-4">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                <h4 class="text-sm sm:text-base font-black outfit text-slate-900 uppercase tracking-wide">
-                                    Available 3rd Ballot Residential Properties
-                                </h4>
-                            </div>
-                            <p class="text-xs text-slate-500">Live verified inventory from Firestore & Admin Panel for 3rd Ballot Residential (20% Down).</p>
+                <!-- Mobile-Friendly Card View (Optimized for Small Screens) -->
+                <div class="block md:hidden space-y-3.5">
+                    <!-- 125 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-emerald-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">125 Sq Yds <span class="text-xs text-slate-500 font-medium">(5 Marla)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 10,000/-</span>
                         </div>
-                        <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 self-start sm:self-auto">
-                            20% Down Payment • 3-Year Quarterly Plan
-                        </span>
+                        <div class="flex items-center justify-between text-xs bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+                            <span class="font-medium text-emerald-900">Lump Sum (30D):</span>
+                            <span class="font-black text-emerald-800 text-sm">PKR 21,434,375</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">22,562,500</span>
+                                <span class="text-[10px] text-emerald-700 font-bold">DP: 4,512,500</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">23,750,000</span>
+                                <span class="text-[10px] text-emerald-700 font-bold">DP: 4,750,000</span>
+                            </div>
+                            <div class="bg-emerald-50/80 p-2 rounded-xl border border-emerald-200 text-center">
+                                <span class="text-[10px] text-emerald-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-emerald-950 block text-xs">25,000,000</span>
+                                <span class="text-[10px] text-emerald-700 font-black">DP: 5,000,000</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Dynamic Property Cards Grid for 3rd Ballot Residential -->
-                    <div id="grid-ballot3-res" class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                        <!-- Populated dynamically by JS from Firestore -->
+                    <!-- 250 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-emerald-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">250 Sq Yds <span class="text-xs text-slate-500 font-medium">(10 Marla)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 15,000/-</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+                            <span class="font-medium text-emerald-900">Lump Sum (30D):</span>
+                            <span class="font-black text-emerald-800 text-sm">PKR 42,011,375</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">44,222,500</span>
+                                <span class="text-[10px] text-emerald-700 font-bold">DP: 8,844,500</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">46,550,000</span>
+                                <span class="text-[10px] text-emerald-700 font-bold">DP: 9,310,000</span>
+                            </div>
+                            <div class="bg-emerald-50/80 p-2 rounded-xl border border-emerald-200 text-center">
+                                <span class="text-[10px] text-emerald-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-emerald-950 block text-xs">49,000,000</span>
+                                <span class="text-[10px] text-emerald-700 font-black">DP: 9,800,000</span>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- 500 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-emerald-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">500 Sq Yds <span class="text-xs text-slate-500 font-normal">(1 Kanal)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 20,000/-</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100">
+                            <span class="font-medium text-emerald-900">Lump Sum (30D):</span>
+                            <span class="font-black text-emerald-800 text-sm">PKR 72,876,875</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">76,712,500</span>
+                                <span class="text-[10px] text-emerald-700 font-bold">DP: 15,342,500</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">80,750,000</span>
+                                <span class="text-[10px] text-emerald-700 font-bold">DP: 16,150,000</span>
+                            </div>
+                            <div class="bg-emerald-50/80 p-2 rounded-xl border border-emerald-200 text-center">
+                                <span class="text-[10px] text-emerald-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-emerald-950 block text-xs">85,000,000</span>
+                                <span class="text-[10px] text-emerald-700 font-black">DP: 17,000,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Banner Linking to Property Search Page with Pre-filtered 3rd Ballot -->
+                <div class="pt-5 border-t border-emerald-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-emerald-50/90 via-emerald-50/40 to-white p-4 sm:p-5 rounded-2xl border border-emerald-200/80 shadow-xs">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg shrink-0 shadow-sm">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs sm:text-sm font-extrabold text-slate-900">
+                                Available 3rd Ballot Residential Plots
+                            </div>
+                            <p class="text-[11px] text-slate-600">
+                                Browse verified 5 Marla, 10 Marla & 1 Kanal allotment files on our search page with instant filters.
+                            </p>
+                        </div>
+                    </div>
+                    <a href="projects.html?area=DHA+Margalla&type=residential_plot&keyword=3rd+Ballot" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black rounded-xl outfit uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 shrink-0">
+                        <span>View Properties on This Ballot</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
                 </div>
             </article>
 
             <!-- TABLE 2: RESIDENTIAL PLOTS — 1ST BALLOT -->
             <article id="ballot1-res" class="table-container bg-white rounded-3xl p-4 sm:p-7 border border-rose-200 shadow-xl space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 pb-3.5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3.5">
                     <div class="flex items-center gap-2.5">
                         <span class="bg-rose-900 text-white text-[11px] sm:text-xs font-extrabold px-3 py-1 rounded-xl uppercase tracking-wider">
                             1ST BALLOT
                         </span>
                         <h3 class="text-lg sm:text-xl md:text-2xl font-black outfit text-slate-900">RESIDENTIAL PLOTS (15% Down Payment)</h3>
                     </div>
-                    <span class="text-[11px] sm:text-xs text-slate-600 font-semibold bg-rose-50 px-3 py-1 rounded-lg border border-rose-100 self-start sm:self-auto">
-                        Down Payment: 15% (Within 30 Days of Ballot)
-                    </span>
+                    <div class="flex items-center gap-2 flex-wrap self-start sm:self-auto">
+                        <span class="text-[11px] sm:text-xs text-slate-600 font-semibold bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-100">
+                            Down Payment: 15% (Within 30 Days of Ballot)
+                        </span>
+                        <a href="projects.html?area=DHA+Margalla&type=residential_plot&keyword=1st+Ballot" class="px-3.5 py-1.5 bg-rose-700 hover:bg-rose-600 text-white rounded-lg font-bold text-xs inline-flex items-center gap-1.5 shadow-sm transition-all">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
+                            <span>View Properties</span>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="overflow-x-auto custom-scrollbar">
+                <!-- Desktop / Tablet Table View (Responsive Horizontal Scroll) -->
+                <div class="hidden md:block overflow-x-auto custom-scrollbar">
                     <table class="w-full text-left border-collapse text-xs min-w-[760px]">
                         <thead>
                             <tr class="bg-rose-950 text-white outfit uppercase tracking-wider font-extrabold text-[11px]">
@@ -638,8 +724,7 @@
                                 <th class="p-3.5" scope="col">Lump Sum (30D)</th>
                                 <th class="p-3.5 text-center bg-rose-900" colspan="2" scope="col">1 Year Plan (4 Qtrs)<br><span class="font-normal text-[10px] text-rose-200">Price | 15% Down</span></th>
                                 <th class="p-3.5 text-center bg-rose-800" colspan="2" scope="col">2 Year Plan (8 Qtrs)<br><span class="font-normal text-[10px] text-rose-200">Price | 15% Down</span></th>
-                                <th class="p-3.5 text-center bg-rose-900" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-rose-200">Price | 15% Down</span></th>
-                                <th class="p-3.5 text-center bg-gold text-slate-950 rounded-tr-xl" scope="col">Action</th>
+                                <th class="p-3.5 text-center bg-rose-900 rounded-tr-xl" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-rose-200">Price | 15% Down</span></th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
@@ -653,11 +738,6 @@
                                 <td class="p-3.5 text-rose-700 font-bold">1,980,000/-</td>
                                 <td class="p-3.5 font-extrabold text-rose-900">14,000,000/-</td>
                                 <td class="p-3.5 text-rose-700 font-black">2,100,000/-</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%201st%20Ballot%205%20Marla%20(125%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-rose-700 hover:bg-rose-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                             <tr class="hover:bg-rose-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">250 <span class="text-xs text-slate-500 font-normal">(10 Marla)</span></td>
@@ -669,11 +749,6 @@
                                 <td class="p-3.5 text-rose-700 font-bold">3,630,000/-</td>
                                 <td class="p-3.5 font-extrabold text-rose-900">26,000,000/-</td>
                                 <td class="p-3.5 text-rose-700 font-black">3,900,000/-</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%201st%20Ballot%2010%20Marla%20(250%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-rose-700 hover:bg-rose-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                             <tr class="hover:bg-rose-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">500 <span class="text-xs text-slate-500 font-normal">(1 Kanal)</span></td>
@@ -685,55 +760,145 @@
                                 <td class="p-3.5 text-rose-700 font-bold">6,930,000/-</td>
                                 <td class="p-3.5 font-extrabold text-rose-900">50,000,000/-</td>
                                 <td class="p-3.5 text-rose-700 font-black">7,500,000/-</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%201st%20Ballot%201%20Kanal%20(500%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-rose-700 hover:bg-rose-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Dedicated Properties Under 1st Ballot Residential Banner -->
-                <div class="pt-6 border-t border-rose-100 space-y-4">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
-                                <h4 class="text-sm sm:text-base font-black outfit text-slate-900 uppercase tracking-wide">
-                                    Available 1st Ballot Residential Properties
-                                </h4>
-                            </div>
-                            <p class="text-xs text-slate-500">Live verified inventory from Firestore & Admin Panel for 1st Ballot Residential (15% Down).</p>
+                <!-- Mobile-Friendly Card View (Optimized for Small Screens) -->
+                <div class="block md:hidden space-y-3.5">
+                    <!-- 125 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-rose-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">125 Sq Yds <span class="text-xs text-slate-500 font-medium">(5 Marla)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 10,000/-</span>
                         </div>
-                        <span class="text-[11px] font-bold text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200 self-start sm:self-auto">
-                            15% Down Payment • Instant Transfer
-                        </span>
+                        <div class="flex items-center justify-between text-xs bg-rose-50/70 p-2.5 rounded-xl border border-rose-100">
+                            <span class="font-medium text-rose-900">Lump Sum (30D):</span>
+                            <span class="font-black text-rose-800 text-sm">PKR 12,000,000/-</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">12,600,000</span>
+                                <span class="text-[10px] text-rose-700 font-bold">DP: 1,890,000</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">13,200,000</span>
+                                <span class="text-[10px] text-rose-700 font-bold">DP: 1,980,000</span>
+                            </div>
+                            <div class="bg-rose-50/80 p-2 rounded-xl border border-rose-200 text-center">
+                                <span class="text-[10px] text-rose-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-rose-950 block text-xs">14,000,000</span>
+                                <span class="text-[10px] text-rose-700 font-black">DP: 2,100,000</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Dynamic Property Cards Grid for 1st Ballot Residential -->
-                    <div id="grid-ballot1-res" class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                        <!-- Populated dynamically by JS from Firestore -->
+                    <!-- 250 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-rose-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">250 Sq Yds <span class="text-xs text-slate-500 font-medium">(10 Marla)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 15,000/-</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs bg-rose-50/70 p-2.5 rounded-xl border border-rose-100">
+                            <span class="font-medium text-rose-900">Lump Sum (30D):</span>
+                            <span class="font-black text-rose-800 text-sm">PKR 22,000,000/-</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">23,100,000</span>
+                                <span class="text-[10px] text-rose-700 font-bold">DP: 3,465,000</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">24,200,000</span>
+                                <span class="text-[10px] text-rose-700 font-bold">DP: 3,630,000</span>
+                            </div>
+                            <div class="bg-rose-50/80 p-2 rounded-xl border border-rose-200 text-center">
+                                <span class="text-[10px] text-rose-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-rose-950 block text-xs">26,000,000</span>
+                                <span class="text-[10px] text-rose-700 font-black">DP: 3,900,000</span>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- 500 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-rose-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">500 Sq Yds <span class="text-xs text-slate-500 font-normal">(1 Kanal)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 20,000/-</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs bg-rose-50/70 p-2.5 rounded-xl border border-rose-100">
+                            <span class="font-medium text-rose-900">Lump Sum (30D):</span>
+                            <span class="font-black text-rose-800 text-sm">PKR 42,000,000/-</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">44,100,000</span>
+                                <span class="text-[10px] text-rose-700 font-bold">DP: 6,615,000</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">46,200,000</span>
+                                <span class="text-[10px] text-rose-700 font-bold">DP: 6,930,000</span>
+                            </div>
+                            <div class="bg-rose-50/80 p-2 rounded-xl border border-rose-200 text-center">
+                                <span class="text-[10px] text-rose-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-rose-950 block text-xs">50,000,000</span>
+                                <span class="text-[10px] text-rose-700 font-black">DP: 7,500,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Banner Linking to Property Search Page with Pre-filtered 1st Ballot -->
+                <div class="pt-5 border-t border-rose-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-rose-50/90 via-rose-50/40 to-white p-4 sm:p-5 rounded-2xl border border-rose-200/80 shadow-xs">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-rose-700 text-white flex items-center justify-center text-lg shrink-0 shadow-sm">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs sm:text-sm font-extrabold text-slate-900">
+                                Available 1st Ballot Residential Plots
+                            </div>
+                            <p class="text-[11px] text-slate-600">
+                                Search 1st Ballot plots with affordable 15% down payment and immediate transfer records.
+                            </p>
+                        </div>
+                    </div>
+                    <a href="projects.html?area=DHA+Margalla&type=residential_plot&keyword=1st+Ballot" class="px-5 py-2.5 bg-rose-700 hover:bg-rose-600 text-white text-xs font-black rounded-xl outfit uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 shrink-0">
+                        <span>View Properties on This Ballot</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
                 </div>
             </article>
 
             <!-- TABLE 3: RESIDENTIAL PLOTS — 2ND BALLOT -->
             <article id="ballot2-res" class="table-container bg-white rounded-3xl p-4 sm:p-7 border border-amber-200 shadow-xl space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 pb-3.5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3.5">
                     <div class="flex items-center gap-2.5">
                         <span class="bg-amber-800 text-white text-[11px] sm:text-xs font-extrabold px-3 py-1 rounded-xl uppercase tracking-wider">
                             2ND BALLOT
                         </span>
                         <h3 class="text-lg sm:text-xl md:text-2xl font-black outfit text-slate-900">RESIDENTIAL PLOTS (15% Down Payment)</h3>
                     </div>
-                    <span class="text-[11px] sm:text-xs text-slate-600 font-semibold bg-amber-50 px-3 py-1 rounded-lg border border-amber-100 self-start sm:self-auto">
-                        Down Payment: 15% (Within 30 Days of Ballot)
-                    </span>
+                    <div class="flex items-center gap-2 flex-wrap self-start sm:self-auto">
+                        <span class="text-[11px] sm:text-xs text-slate-600 font-semibold bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-100">
+                            Down Payment: 15% (Within 30 Days of Ballot)
+                        </span>
+                        <a href="projects.html?area=DHA+Margalla&type=residential_plot&keyword=2nd+Ballot" class="px-3.5 py-1.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg font-bold text-xs inline-flex items-center gap-1.5 shadow-sm transition-all">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
+                            <span>View Properties</span>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="overflow-x-auto custom-scrollbar">
+                <!-- Desktop / Tablet Table View (Responsive Horizontal Scroll) -->
+                <div class="hidden md:block overflow-x-auto custom-scrollbar">
                     <table class="w-full text-left border-collapse text-xs min-w-[760px]">
                         <thead>
                             <tr class="bg-amber-950 text-white outfit uppercase tracking-wider font-extrabold text-[11px]">
@@ -742,8 +907,7 @@
                                 <th class="p-3.5" scope="col">Lump Sum (30D)</th>
                                 <th class="p-3.5 text-center bg-amber-900" colspan="2" scope="col">1 Year Plan (4 Qtrs)<br><span class="font-normal text-[10px] text-amber-200">Price | 15% Down</span></th>
                                 <th class="p-3.5 text-center bg-amber-800" colspan="2" scope="col">2 Year Plan (8 Qtrs)<br><span class="font-normal text-[10px] text-amber-200">Price | 15% Down</span></th>
-                                <th class="p-3.5 text-center bg-amber-900" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-amber-200">Price | 15% Down</span></th>
-                                <th class="p-3.5 text-center bg-gold text-slate-950 rounded-tr-xl" scope="col">Action</th>
+                                <th class="p-3.5 text-center bg-amber-900 rounded-tr-xl" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-amber-200">Price | 15% Down</span></th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
@@ -757,11 +921,6 @@
                                 <td class="p-3.5 text-amber-700 font-bold">2,565,500/-</td>
                                 <td class="p-3.5 font-extrabold text-amber-900">18,000,000/-</td>
                                 <td class="p-3.5 text-amber-700 font-black">2,700,000/-</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%202nd%20Ballot%205%20Marla%20(125%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                             <tr class="hover:bg-amber-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">250 <span class="text-xs text-slate-500 font-normal">(10 Marla)</span></td>
@@ -773,11 +932,6 @@
                                 <td class="p-3.5 text-amber-700 font-bold">4,965,000/-</td>
                                 <td class="p-3.5 font-extrabold text-amber-900">35,000,000/-</td>
                                 <td class="p-3.5 text-amber-700 font-black">5,250,000/-</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%202nd%20Ballot%2010%20Marla%20(250%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                             <tr class="hover:bg-amber-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">500 <span class="text-xs text-slate-500 font-normal">(1 Kanal)</span></td>
@@ -789,55 +943,145 @@
                                 <td class="p-3.5 text-amber-700 font-bold">9,300,000/-</td>
                                 <td class="p-3.5 font-extrabold text-amber-900">65,000,000/-</td>
                                 <td class="p-3.5 text-amber-700 font-black">9,750,000/-</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%202nd%20Ballot%201%20Kanal%20(500%20SqYds)%20Residential." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Dedicated Properties Under 2nd Ballot Residential Banner -->
-                <div class="pt-6 border-t border-amber-100 space-y-4">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
-                                <h4 class="text-sm sm:text-base font-black outfit text-slate-900 uppercase tracking-wide">
-                                    Available 2nd Ballot Residential Properties
-                                </h4>
-                            </div>
-                            <p class="text-xs text-slate-500">Live verified inventory from Firestore & Admin Panel for 2nd Ballot Residential (15% Down).</p>
+                <!-- Mobile-Friendly Card View (Optimized for Small Screens) -->
+                <div class="block md:hidden space-y-3.5">
+                    <!-- 125 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-amber-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">125 Sq Yds <span class="text-xs text-slate-500 font-medium">(5 Marla)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 10,000/-</span>
                         </div>
-                        <span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-3 py-1 rounded-full border border-amber-200 self-start sm:self-auto">
-                            15% Down Payment • Prime Location
-                        </span>
+                        <div class="flex items-center justify-between text-xs bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+                            <span class="font-medium text-amber-900">Lump Sum (30D):</span>
+                            <span class="font-black text-amber-800 text-sm">PKR 16,300,000/-</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">15,500,000</span>
+                                <span class="text-[10px] text-amber-700 font-bold">DP: 2,445,000</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">17,100,000</span>
+                                <span class="text-[10px] text-amber-700 font-bold">DP: 2,565,500</span>
+                            </div>
+                            <div class="bg-amber-50/80 p-2 rounded-xl border border-amber-200 text-center">
+                                <span class="text-[10px] text-amber-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-amber-950 block text-xs">18,000,000</span>
+                                <span class="text-[10px] text-amber-700 font-black">DP: 2,700,000</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Dynamic Property Cards Grid for 2nd Ballot Residential -->
-                    <div id="grid-ballot2-res" class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                        <!-- Populated dynamically by JS from Firestore -->
+                    <!-- 250 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-amber-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">250 Sq Yds <span class="text-xs text-slate-500 font-medium">(10 Marla)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 15,000/-</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+                            <span class="font-medium text-amber-900">Lump Sum (30D):</span>
+                            <span class="font-black text-amber-800 text-sm">PKR 30,000,000/-</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">31,500,000</span>
+                                <span class="text-[10px] text-amber-700 font-bold">DP: 4,725,000</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">33,000,000</span>
+                                <span class="text-[10px] text-amber-700 font-bold">DP: 4,965,000</span>
+                            </div>
+                            <div class="bg-amber-50/80 p-2 rounded-xl border border-amber-200 text-center">
+                                <span class="text-[10px] text-amber-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-amber-950 block text-xs">35,000,000</span>
+                                <span class="text-[10px] text-amber-700 font-black">DP: 5,250,000</span>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- 500 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-amber-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">500 Sq Yds <span class="text-xs text-slate-500 font-normal">(1 Kanal)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 20,000/-</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs bg-amber-50/70 p-2.5 rounded-xl border border-amber-100">
+                            <span class="font-medium text-amber-900">Lump Sum (30D):</span>
+                            <span class="font-black text-amber-800 text-sm">PKR 56,000,000/-</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">59,000,000</span>
+                                <span class="text-[10px] text-amber-700 font-bold">DP: 8,850,000</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">62,000,000</span>
+                                <span class="text-[10px] text-amber-700 font-bold">DP: 9,300,000</span>
+                            </div>
+                            <div class="bg-amber-50/80 p-2 rounded-xl border border-amber-200 text-center">
+                                <span class="text-[10px] text-amber-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-amber-950 block text-xs">65,000,000</span>
+                                <span class="text-[10px] text-amber-700 font-black">DP: 9,750,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Banner Linking to Property Search Page with Pre-filtered 2nd Ballot -->
+                <div class="pt-5 border-t border-amber-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-amber-50/90 via-amber-50/40 to-white p-4 sm:p-5 rounded-2xl border border-amber-200/80 shadow-xs">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-amber-700 text-white flex items-center justify-center text-lg shrink-0 shadow-sm">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs sm:text-sm font-extrabold text-slate-900">
+                                Available 2nd Ballot Residential Plots
+                            </div>
+                            <p class="text-[11px] text-slate-600">
+                                Explore prime 2nd Ballot residential plots in established sectors with central boulevard access.
+                            </p>
+                        </div>
+                    </div>
+                    <a href="projects.html?area=DHA+Margalla&type=residential_plot&keyword=2nd+Ballot" class="px-5 py-2.5 bg-amber-700 hover:bg-amber-600 text-white text-xs font-black rounded-xl outfit uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 shrink-0">
+                        <span>View Properties on This Ballot</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
                 </div>
             </article>
 
             <!-- TABLE 4: COMMERCIAL PLOTS — 3RD BALLOT -->
             <article id="ballot3-comm" class="table-container bg-white rounded-3xl p-4 sm:p-7 border border-purple-200 shadow-xl space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 pb-3.5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3.5">
                     <div class="flex items-center gap-2.5">
                         <span class="bg-purple-900 text-white text-[11px] sm:text-xs font-extrabold px-3 py-1 rounded-xl uppercase tracking-wider">
                             3RD BALLOT
                         </span>
                         <h3 class="text-lg sm:text-xl md:text-2xl font-black outfit text-slate-900">COMMERCIAL PLOTS (20% Down Payment)</h3>
                     </div>
-                    <span class="text-[11px] sm:text-xs text-slate-600 font-semibold bg-purple-50 px-3 py-1 rounded-lg border border-purple-100 self-start sm:self-auto">
-                        Down Payment: 20% (Within 30 Days of Ballot)
-                    </span>
+                    <div class="flex items-center gap-2 flex-wrap self-start sm:self-auto">
+                        <span class="text-[11px] sm:text-xs text-slate-600 font-semibold bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-100">
+                            Down Payment: 20% (Within 30 Days of Ballot)
+                        </span>
+                        <a href="projects.html?area=DHA+Margalla&type=commercial_plot" class="px-3.5 py-1.5 bg-purple-700 hover:bg-purple-600 text-white rounded-lg font-bold text-xs inline-flex items-center gap-1.5 shadow-sm transition-all">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
+                            <span>View Properties</span>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="overflow-x-auto custom-scrollbar">
+                <!-- Desktop / Tablet Table View (Responsive Horizontal Scroll) -->
+                <div class="hidden md:block overflow-x-auto custom-scrollbar">
                     <table class="w-full text-left border-collapse text-xs min-w-[760px]">
                         <thead>
                             <tr class="bg-purple-950 text-white outfit uppercase tracking-wider font-extrabold text-[11px]">
@@ -846,8 +1090,7 @@
                                 <th class="p-3.5" scope="col">Lump Sum (30D)</th>
                                 <th class="p-3.5 text-center bg-purple-900" colspan="2" scope="col">1 Year Plan (4 Qtrs)<br><span class="font-normal text-[10px] text-purple-200">Price | 20% Down</span></th>
                                 <th class="p-3.5 text-center bg-purple-800" colspan="2" scope="col">2 Year Plan (8 Qtrs)<br><span class="font-normal text-[10px] text-purple-200">Price | 20% Down</span></th>
-                                <th class="p-3.5 text-center bg-purple-900" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-purple-200">Price | 20% Down</span></th>
-                                <th class="p-3.5 text-center bg-gold text-slate-950 rounded-tr-xl" scope="col">Action</th>
+                                <th class="p-3.5 text-center bg-purple-900 rounded-tr-xl" colspan="2" scope="col">3 Year Plan (12 Qtrs)<br><span class="font-normal text-[10px] text-purple-200">Price | 20% Down</span></th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
@@ -861,11 +1104,6 @@
                                 <td class="p-3.5 text-purple-700 font-bold">18,050,000</td>
                                 <td class="p-3.5 font-extrabold text-purple-900">95,000,000</td>
                                 <td class="p-3.5 text-purple-700 font-black">19,000,000</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%204%20Marla%20(100%20SqYds)%20Commercial." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-purple-700 hover:bg-purple-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                             <tr class="hover:bg-purple-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">133.25 <span class="text-xs text-slate-500 font-normal">(5.33 Marla)</span></td>
@@ -877,11 +1115,6 @@
                                 <td class="p-3.5 text-purple-700 font-bold">26,600,000</td>
                                 <td class="p-3.5 font-extrabold text-purple-900">140,000,000</td>
                                 <td class="p-3.5 text-purple-700 font-black">28,000,000</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%205.33%20Marla%20(133.25%20SqYds)%20Commercial." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-purple-700 hover:bg-purple-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                             <tr class="hover:bg-purple-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">200 <span class="text-xs text-slate-500 font-normal">(8 Marla)</span></td>
@@ -893,11 +1126,6 @@
                                 <td class="p-3.5 text-purple-700 font-bold">32,300,000</td>
                                 <td class="p-3.5 font-extrabold text-purple-900">170,000,000</td>
                                 <td class="p-3.5 text-purple-700 font-black">34,000,000</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%208%20Marla%20(200%20SqYds)%20Commercial." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-purple-700 hover:bg-purple-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                             <tr class="hover:bg-purple-50/60 transition-colors">
                                 <td class="p-3.5 font-bold text-slate-900 text-sm">500 <span class="text-xs text-slate-500 font-normal">(20 Marla / 1 Kanal)</span></td>
@@ -909,37 +1137,149 @@
                                 <td class="p-3.5 text-purple-700 font-bold">76,000,000</td>
                                 <td class="p-3.5 font-extrabold text-purple-900">400,000,000</td>
                                 <td class="p-3.5 text-purple-700 font-black">80,000,000</td>
-                                <td class="p-3.5 text-center">
-                                    <a href="https://wa.me/923340091127?text=Hi%20Tanzil%20Minhas,%20I%20am%20interested%20in%203rd%20Ballot%2020%20Marla%20(500%20SqYds)%20Commercial." target="_blank" rel="noopener" class="px-2.5 py-1.5 bg-purple-700 hover:bg-purple-600 text-white rounded-lg font-bold text-[11px] inline-flex items-center gap-1 shadow">
-                                        <i class="fa-brands fa-whatsapp"></i> Book
-                                    </a>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Dedicated Properties Under 3rd Ballot Commercial Banner -->
-                <div class="pt-6 border-t border-purple-100 space-y-4">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-purple-500 animate-pulse"></span>
-                                <h4 class="text-sm sm:text-base font-black outfit text-slate-900 uppercase tracking-wide">
-                                    Available 3rd Ballot Commercial & High-Rise Properties
-                                </h4>
-                            </div>
-                            <p class="text-xs text-slate-500">Live verified commercial inventory from Firestore & Admin Panel including LG+G+5 high-rise plots.</p>
+                <!-- Mobile-Friendly Card View (Optimized for Small Screens) -->
+                <div class="block md:hidden space-y-3.5">
+                    <!-- 100 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-purple-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">100 Sq Yds <span class="text-xs text-slate-500 font-medium">(4 Marla)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 30,000/-</span>
                         </div>
-                        <span class="text-[11px] font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-200 self-start sm:self-auto">
-                            20% Down Payment • 4 to 20 Marla Plazas
-                        </span>
+                        <div class="flex items-center justify-between text-xs bg-purple-50/70 p-2.5 rounded-xl border border-purple-100">
+                            <span class="font-medium text-purple-900">Lump Sum (30D):</span>
+                            <span class="font-black text-purple-800 text-sm">PKR 81,450,625</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">85,737,500</span>
+                                <span class="text-[10px] text-purple-700 font-bold">DP: 17,147,500</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">90,250,000</span>
+                                <span class="text-[10px] text-purple-700 font-bold">DP: 18,050,000</span>
+                            </div>
+                            <div class="bg-purple-50/80 p-2 rounded-xl border border-purple-200 text-center">
+                                <span class="text-[10px] text-purple-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-purple-950 block text-xs">95,000,000</span>
+                                <span class="text-[10px] text-purple-700 font-black">DP: 19,000,000</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Dynamic Property Cards Grid for 3rd Ballot Commercial -->
-                    <div id="grid-ballot3-comm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                        <!-- Populated dynamically by JS from Firestore -->
+                    <!-- 133.25 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-purple-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">133.25 Sq Yds <span class="text-xs text-slate-500 font-medium">(5.33 Marla)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 40,000/-</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs bg-purple-50/70 p-2.5 rounded-xl border border-purple-100">
+                            <span class="font-medium text-purple-900">Lump Sum (30D):</span>
+                            <span class="font-black text-purple-800 text-sm">PKR 120,032,500</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">126,350,000</span>
+                                <span class="text-[10px] text-purple-700 font-bold">DP: 25,270,000</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">133,000,000</span>
+                                <span class="text-[10px] text-purple-700 font-bold">DP: 26,600,000</span>
+                            </div>
+                            <div class="bg-purple-50/80 p-2 rounded-xl border border-purple-200 text-center">
+                                <span class="text-[10px] text-purple-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-purple-950 block text-xs">140,000,000</span>
+                                <span class="text-[10px] text-purple-700 font-black">DP: 28,000,000</span>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- 200 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-purple-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">200 Sq Yds <span class="text-xs text-slate-500 font-medium">(8 Marla)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 50,000/-</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs bg-purple-50/70 p-2.5 rounded-xl border border-purple-100">
+                            <span class="font-medium text-purple-900">Lump Sum (30D):</span>
+                            <span class="font-black text-purple-800 text-sm">PKR 145,753,750</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">153,425,000</span>
+                                <span class="text-[10px] text-purple-700 font-bold">DP: 30,685,000</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">161,500,000</span>
+                                <span class="text-[10px] text-purple-700 font-bold">DP: 32,300,000</span>
+                            </div>
+                            <div class="bg-purple-50/80 p-2 rounded-xl border border-purple-200 text-center">
+                                <span class="text-[10px] text-purple-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-purple-950 block text-xs">170,000,000</span>
+                                <span class="text-[10px] text-purple-700 font-black">DP: 34,000,000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 500 Sq Yds Mobile Card -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-purple-100 shadow-xs space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <span class="font-extrabold text-slate-900 text-sm">500 Sq Yds <span class="text-xs text-slate-500 font-normal">(20 Marla / 1 Kanal)</span></span>
+                            <span class="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Fee: 60,000/-</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs bg-purple-50/70 p-2.5 rounded-xl border border-purple-100">
+                            <span class="font-medium text-purple-900">Lump Sum (30D):</span>
+                            <span class="font-black text-purple-800 text-sm">PKR 342,950,000</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">1-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">361,000,000</span>
+                                <span class="text-[10px] text-purple-700 font-bold">DP: 72,200,000</span>
+                            </div>
+                            <div class="bg-white p-2 rounded-xl border border-slate-200 text-center">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase">2-Yr Plan</span>
+                                <span class="font-bold text-slate-800 block text-xs">380,000,000</span>
+                                <span class="text-[10px] text-purple-700 font-bold">DP: 76,000,000</span>
+                            </div>
+                            <div class="bg-purple-50/80 p-2 rounded-xl border border-purple-200 text-center">
+                                <span class="text-[10px] text-purple-800 block font-black uppercase">3-Yr Plan</span>
+                                <span class="font-extrabold text-purple-950 block text-xs">400,000,000</span>
+                                <span class="text-[10px] text-purple-700 font-black">DP: 80,000,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Banner Linking to Property Search Page with Pre-filtered Commercial -->
+                <div class="pt-5 border-t border-purple-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-purple-50/90 via-purple-50/40 to-white p-4 sm:p-5 rounded-2xl border border-purple-200/80 shadow-xs">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-purple-700 text-white flex items-center justify-center text-lg shrink-0 shadow-sm">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs sm:text-sm font-extrabold text-slate-900">
+                                Available 3rd Ballot Commercial & High-Rise Plots
+                            </div>
+                            <p class="text-[11px] text-slate-600">
+                                Search 4, 5.33, 8 & 20 Marla commercial plots and LG+G+5 high-rise commercial files.
+                            </p>
+                        </div>
+                    </div>
+                    <a href="projects.html?area=DHA+Margalla&type=commercial_plot" class="px-5 py-2.5 bg-purple-700 hover:bg-purple-600 text-white text-xs font-black rounded-xl outfit uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 shrink-0">
+                        <span>View Properties on This Ballot</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
                 </div>
             </article>
 

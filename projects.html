@@ -619,9 +619,15 @@
                     }
                 }
             }
-            if (params.get('area')) {
+            if (params.get('area') || params.get('society') || params.get('location')) {
+                const locVal = params.get('area') || params.get('society') || params.get('location');
                 const areaEl = document.getElementById('filter-location');
-                if (areaEl) areaEl.value = params.get('area');
+                if (areaEl) areaEl.value = locVal;
+            }
+            if (params.get('keyword') || params.get('q')) {
+                const kwVal = params.get('keyword') || params.get('q');
+                const kwEl = document.getElementById('filter-keyword');
+                if (kwEl) kwEl.value = kwVal;
             }
             if (params.get('type')) {
                 const typeEl = document.getElementById('filter-type');
