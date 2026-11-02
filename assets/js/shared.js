@@ -33,6 +33,7 @@ window.KaghanSharedUI = {
         if (path.includes('faqs.html') || path.includes('/faqs')) return 'faqs';
         if (path.includes('contact.html') || path.includes('/contact')) return 'contact';
         if (path.includes('about.html') || path.includes('/about')) return 'about';
+        if (path.includes('privacy')) return 'privacy';
         return 'home';
     },
 
@@ -411,7 +412,8 @@ window.KaghanSharedUI = {
                                 <li><a href="about.html#careers" class="hover:text-emerald-400 transition-colors">Careers & Jobs</a></li>
                                 <li><a href="faqs.html" class="hover:text-emerald-400 transition-colors">Help & Support</a></li>
                                 <li><a href="contact.html?type=advertise" class="hover:text-emerald-400 transition-colors">Advertise with Us</a></li>
-                                <li><a href="faqs.html#terms" class="hover:text-emerald-400 transition-colors">Terms of Use & Privacy</a></li>
+                                <li><a href="privacy-policy.html" class="hover:text-emerald-400 transition-colors">Privacy Policy</a></li>
+                                <li><a href="faqs.html#terms" class="hover:text-emerald-400 transition-colors">Terms of Use</a></li>
                             </ul>
                         </div>
 
@@ -491,7 +493,7 @@ window.KaghanSharedUI = {
 
                     <!-- Bottom Bar with Copyright -->
                     <div class="pt-8 border-t border-slate-800/80 text-center text-slate-500 text-[11px]">
-                        <p>&copy; 2026 Kaghan Properties (Pvt) Ltd. All rights reserved. Transforming real estate discovery across Pakistan.</p>
+                        <p>&copy; 2026 Kaghan Properties (Pvt) Ltd. All rights reserved. Transforming real estate discovery across Pakistan. &bull; <a href="privacy-policy.html" class="hover:text-emerald-400 underline transition-colors">Privacy Policy</a></p>
                     </div>
                 </div>
             </footer>
