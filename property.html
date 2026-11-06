@@ -50,6 +50,9 @@
         }
     </script>
     
+    <!-- Leaflet GIS & Satellite Plot Mapping -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <!-- Token Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -60,6 +63,19 @@
     <!-- App Data Store & Shared UI Engine -->
     <script src="assets/js/db.js"></script>
     <script src="assets/js/shared.js"></script>
+
+    <style>
+        #property-plot-map {
+            width: 100%;
+            height: 420px;
+            z-index: 10;
+        }
+        .property-plot-pin {
+            background: transparent;
+            border: none;
+        }
+    </style>
+
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
@@ -1023,7 +1039,14 @@
                     }
                 }
                 if (pane) {
-                    if (t === tab) pane.classList.remove('hidden');
+                    if (t === tab) {
+                    pane.classList.remove('hidden');
+                    if (t === 'location') {
+                        setTimeout(() => {
+                            initPropertyPlotMap(currentProperty);
+                        }, 150);
+                    }
+                }
                     else pane.classList.add('hidden');
                 }
             });
@@ -1160,5 +1183,150 @@
             alert('Listing flagged for verification review by Kaghan Compliance Team. Reference ticket logged.');
         }
     </script>
+
+    <!-- Property Plot Map Engine -->
+    <script>
+        let propertyPlotMap = null;
+        let propHybridLayer = null;
+        let propStreetLayer = null;
+        let propPlotMarker = null;
+
+        function initPropertyPlotMap(p) {
+            const container = document.getElementById('property-plot-map');
+            if (!container || typeof L === 'undefined') return;
+
+            const defaultLat = 33.700100;
+            const defaultLng = 73.181000;
+            const lat = p && (p.lat || (p.coords && p.coords[0])) ? parseFloat(p.lat || p.coords[0]) : defaultLat;
+            const lng = p && (p.lng || (p.coords && p.coords[1])) ? parseFloat(p.lng || p.coords[1]) : defaultLng;
+
+            // Update GPS Nav CTA
+            const gpsBtn = document.getElementById('prop-gps-nav-btn');
+            if (gpsBtn) {
+                gpsBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+            }
+
+            // Update Plot Demarcation Banner
+            const headline = document.getElementById('prop-plot-headline');
+            const subline = document.getElementById('prop-plot-subline');
+            const tag = document.getElementById('prop-plot-badge-tag');
+            const cadBtn = document.getElementById('btn-toggle-cad-view');
+
+            if (p && (p.plotNumber || p.lat)) {
+                if (headline) headline.innerText = `${p.plotNumber || 'Demarcated Plot'} ${p.plotDimensions ? '(' + p.plotDimensions + ')' : ''}`;
+                if (subline) subline.innerText = `${p.plotStreet ? p.plotStreet + ' • ' : ''}${p.plotSector || p.sector || ''} • ${p.area || p.city}`;
+                if (tag) tag.innerText = 'Pinned Plot Demarcation';
+            } else if (p) {
+                if (headline) headline.innerText = `${p.title} Location`;
+                if (subline) subline.innerText = `${p.address || p.sector || ''}, ${p.area}, ${p.city}`;
+            }
+
+            // Enable Society CAD map button if Margalla Enclave
+            const isMargalla = p && ((p.societyId && p.societyId.includes('margalla')) || (p.area && p.area.toLowerCase().includes('margalla')) || (p.title && p.title.toLowerCase().includes('margalla')));
+            if (cadBtn) {
+                cadBtn.classList.toggle('hidden', !isMargalla);
+            }
+
+            if (!propertyPlotMap) {
+                propertyPlotMap = L.map('property-plot-map', {
+                    center: [lat, lng],
+                    zoom: 16.5,
+                    minZoom: 13,
+                    maxZoom: 20,
+                    zoomControl: true,
+                    scrollWheelZoom: false
+                });
+
+                // Google Hybrid (Satellite + Road Labels)
+                propHybridLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                    maxZoom: 20,
+                    attribution: 'Google Satellite &bull; Kaghan Properties'
+                });
+
+                // Google Streets
+                propStreetLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                    maxZoom: 20,
+                    attribution: 'Google Maps'
+                });
+
+                propHybridLayer.addTo(propertyPlotMap);
+
+                // Custom Glowing Plot Marker
+                const plotLabel = (p && p.plotNumber) ? p.plotNumber : 'Plot Location';
+                const plotIcon = L.divIcon({
+                    className: 'property-plot-pin',
+                    html: `<div style="display:flex; flex-direction:column; align-items:center;">
+                        <span style="background:#10B981; color:#ffffff; font-size:11px; font-weight:800; padding:3px 8px; border-radius:8px; box-shadow:0 6px 14px rgba(16,185,129,0.5); border:2px solid #ffffff; white-space:nowrap;">${plotLabel}</span>
+                        <div style="width:12px; height:12px; background:#10B981; transform:rotate(45deg); margin-top:-6px; border-right:2px solid #ffffff; border-bottom:2px solid #ffffff;"></div>
+                    </div>`,
+                    iconSize: [80, 36],
+                    iconAnchor: [40, 32]
+                });
+
+                propPlotMarker = L.marker([lat, lng], { icon: plotIcon }).addTo(propertyPlotMap);
+
+                propPlotMarker.bindPopup(`
+                    <div style="min-width:180px; padding:4px;">
+                        <strong style="color:#0f172a; font-size:13px; display:block;">${p ? p.title : 'Plot Demarcation'}</strong>
+                        <span style="color:#059669; font-size:11px; font-weight:700;">${p && p.plotDimensions ? p.plotDimensions : ''}</span>
+                        <div style="color:#64748b; font-size:10px; margin-top:3px;">Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}</div>
+                    </div>
+                `);
+            } else {
+                propertyPlotMap.setView([lat, lng], 16.5);
+                if (propPlotMarker) {
+                    propPlotMarker.setLatLng([lat, lng]);
+                }
+            }
+
+            setTimeout(() => {
+                if (propertyPlotMap) propertyPlotMap.invalidateSize();
+            }, 250);
+        }
+
+        function setPropertyMapTileLayer(type) {
+            if (!propertyPlotMap || !propHybridLayer || !propStreetLayer) return;
+            const btnHybrid = document.getElementById('prop-map-hybrid-btn');
+            const btnStreet = document.getElementById('prop-map-street-btn');
+
+            if (type === 'hybrid') {
+                propertyPlotMap.removeLayer(propStreetLayer);
+                propertyPlotMap.addLayer(propHybridLayer);
+                if (btnHybrid) btnHybrid.className = 'px-2.5 py-1 rounded-lg bg-slate-900 text-white font-bold text-[11px] shadow-xs';
+                if (btnStreet) btnStreet.className = 'px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-bold text-[11px] hover:bg-slate-200';
+            } else {
+                propertyPlotMap.removeLayer(propHybridLayer);
+                propertyPlotMap.addLayer(propStreetLayer);
+                if (btnStreet) btnStreet.className = 'px-2.5 py-1 rounded-lg bg-slate-900 text-white font-bold text-[11px] shadow-xs';
+                if (btnHybrid) btnHybrid.className = 'px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-bold text-[11px] hover:bg-slate-200';
+            }
+        }
+
+        let isCadFrameActive = false;
+        function togglePropertyCadFrame() {
+            const mapDiv = document.getElementById('property-plot-map');
+            const cadFrame = document.getElementById('property-cad-frame');
+            const btn = document.getElementById('btn-toggle-cad-view');
+            if (!mapDiv || !cadFrame) return;
+
+            isCadFrameActive = !isCadFrameActive;
+            if (isCadFrameActive) {
+                if (cadFrame.src === 'about:blank' || !cadFrame.src.includes('emap.pk')) {
+                    cadFrame.src = 'https://emap.pk/margalla-enclave-islamabad-map';
+                }
+                mapDiv.classList.add('hidden');
+                cadFrame.classList.remove('hidden');
+                if (btn) btn.innerHTML = '<i class="fa-solid fa-satellite text-emerald-400"></i> Satellite Map';
+            } else {
+                cadFrame.classList.add('hidden');
+                mapDiv.classList.remove('hidden');
+                if (btn) btn.innerHTML = '<i class="fa-solid fa-layer-group text-amber-400"></i> Society CAD Map';
+                if (propertyPlotMap) {
+                    setTimeout(() => propertyPlotMap.invalidateSize(), 150);
+                }
+            }
+        }
+    </script>
+
 </body>
 </html>

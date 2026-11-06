@@ -51,6 +51,9 @@
         }
     </script>
     
+    <!-- Leaflet GIS Mapping & Vector Plot Tracing Engine -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <!-- Token Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -77,6 +80,47 @@
             }
         }
     </script>
+
+    <style>
+        #project-interactive-map {
+            width: 100%;
+            height: 560px;
+            z-index: 10;
+        }
+        .plot-popup .leaflet-popup-content-wrapper {
+            background: #0b0f19;
+            color: #f8fafc;
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            border-radius: 1.25rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            padding: 0;
+            overflow: hidden;
+        }
+        .plot-popup .leaflet-popup-content {
+            margin: 0;
+            padding: 1.15rem;
+            line-height: 1.45;
+        }
+        .plot-popup .leaflet-popup-tip {
+            background: #0b0f19;
+            border: 1px solid rgba(212, 175, 55, 0.45);
+        }
+        .plot-pin-marker {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        .pulse-badge {
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: mapPulse 2s infinite;
+        }
+        @keyframes mapPulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+    </style>
+
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen font-['Inter']">
 
@@ -898,54 +942,289 @@
             </div>
         </section>
 
-        <!-- ======================================================================
-             SECTION 4: LOCATION & INTERACTIVE MAP (§7)
+                <!-- ======================================================================
+             SECTION 4: LOCATION & INTERACTIVE GIS PLOT TRACER (§7)
              ====================================================================== -->
-        <section id="location" class="scroll-mt-28 space-y-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
-                <div>
-                    <h2 class="text-2xl md:text-3xl font-extrabold outfit text-slate-900 tracking-tight">
-                        Strategic Location & Connectivity
+        <section id="location" class="scroll-mt-28 space-y-6">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2 border-b border-slate-200">
+                <div class="space-y-2">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-emerald-600/15 text-emerald-800 border border-emerald-600/30 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider inline-flex items-center gap-1.5">
+                            <i class="fa-solid fa-satellite text-emerald-600"></i> Official GIS &amp; Satellite Plot Mapping
+                        </span>
+                        <span class="bg-amber-500/15 text-amber-900 border border-amber-500/30 px-2.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider">
+                            Zone 4 Margalla Corridor
+                        </span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black outfit text-slate-900 tracking-tight">
+                        Google Maps Location &amp; Interactive Plot Tracer
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-500 mt-1">
-                        Explore driving distances, Margalla Avenue corridor access, sector linkages, and nearby landmarks.
+                    <p class="text-slate-600 text-xs sm:text-sm max-w-3xl leading-relaxed">
+                        Trace official sector boundaries, explore marked plots with verified dimensions across 1st, 2nd, and 3rd Ballots, toggle high-resolution satellite layers, and inspect pinned plots live.
                     </p>
                 </div>
-                <!-- Category Filter Pills (§7) -->
-                <div class="flex items-center gap-1.5 overflow-x-auto pb-1" id="poi-filter-pills">
-                    <button onclick="filterPOIs('all')" class="category-chip-btn active" data-poi="all">All Nearby</button>
-                    <button onclick="filterPOIs('Connectivity')" class="category-chip-btn" data-poi="Connectivity">Roads & Access</button>
-                    <button onclick="filterPOIs('Sectors')" class="category-chip-btn" data-poi="Sectors">CDA Sectors</button>
-                    <button onclick="filterPOIs('Attractions')" class="category-chip-btn" data-poi="Attractions">Landmarks</button>
+
+                <div class="flex items-center gap-2.5 flex-wrap">
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=33.7001,73.1810" target="_blank" rel="noopener" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition-all shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-location-arrow text-emerald-400"></i>
+                        <span>Get Directions (GPS)</span>
+                    </a>
+                    <a href="https://emap.pk/margalla-enclave-islamabad-map" target="_blank" rel="noopener" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl transition-all shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-up-right-from-square text-xs"></i>
+                        <span>Open emap.pk Full Screen</span>
+                    </a>
                 </div>
             </div>
 
-            <!-- Full-Width Map + POI Sidebar Cards (§7) -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-6 shadow-sm">
-                
-                <!-- Map Container -->
-                <div class="lg:col-span-8 h-[360px] sm:h-[460px] rounded-2xl overflow-hidden border border-slate-200 relative">
-                    <iframe 
-                        id="location-map-frame"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13270.2!2d72.9680!3d33.7250!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfbe6b7b250000%3A0x1000000000000000!2sMargalla%20Avenue%2C%20Islamabad!5e0!3m2!1sen!2s!4v1710000000000!5m2!1sen!2s" 
-                        class="w-full h-full border-0" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+            <!-- GIS MULTI-VIEW SWITCHER CONTROL TRAY -->
+            <div class="bg-slate-900 p-2 sm:p-2.5 rounded-2xl border border-slate-800 shadow-xl flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 overflow-x-auto">
+                    <button type="button" id="tab-gis-cad" onclick="switchGisViewMode('cad')" class="gis-tab-btn active px-3.5 py-2 rounded-lg font-black text-xs transition-all flex items-center gap-2 whitespace-nowrap bg-emerald-600 text-white shadow-md">
+                        <i class="fa-solid fa-layer-group text-sm"></i>
+                        <span>Mode 1: CAD Plot-by-Plot Map</span>
+                        <span class="text-[9px] bg-white/20 px-1.5 py-0.5 rounded-full uppercase">Numbered</span>
+                    </button>
+                    <button type="button" id="tab-gis-satellite" onclick="switchGisViewMode('satellite')" class="gis-tab-btn px-3.5 py-2 rounded-lg font-bold text-xs transition-all flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-satellite text-sm"></i>
+                        <span>Mode 2: Satellite Ground Overlay</span>
+                        <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded-full uppercase">Opacity Slider</span>
+                    </button>
+                    <button type="button" id="tab-gis-sheets" onclick="switchGisViewMode('sheets')" class="gis-tab-btn px-3.5 py-2 rounded-lg font-bold text-xs transition-all flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-map text-sm"></i>
+                        <span>Mode 3: High-Res Layout Sheets</span>
+                    </button>
+                </div>
 
-                    <!-- Map Overlay Pin Tag -->
-                    <div class="absolute top-4 left-4 bg-slate-900/90 backdrop-blur text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-lg border border-slate-700 flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                        <span>DHA Margalla Enclave Site (Margalla Avenue Corridor)</span>
+                <div class="flex items-center gap-2 px-2 text-slate-400 text-xs self-end sm:self-auto">
+                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                    <span class="text-[11px] font-medium">Margalla Enclave Official Mapping Engine</span>
+                </div>
+            </div>
+
+            <!-- MODE 1: LIVE INTERACTIVE CAD PLOT-BY-PLOT MAP (EMBEDDED EMAP GIS) -->
+            <div id="gis-panel-cad" class="gis-view-panel space-y-3">
+                <div class="relative w-full h-[640px] sm:h-[720px] rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950">
+                    <!-- Floating Top Info Overlay -->
+                    <div class="absolute top-3 left-3 right-3 z-10 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+                        <div class="bg-slate-900/90 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-slate-700 text-white text-xs font-bold pointer-events-auto flex items-center gap-2 shadow-lg">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span>CAD Plot Grid: Every Plot #, Street Width &amp; Dimension</span>
+                        </div>
+                        <div class="flex items-center gap-2 pointer-events-auto">
+                            <span class="hidden sm:inline-block bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700 text-amber-300 text-[11px] font-bold shadow-lg">
+                                <i class="fa-solid fa-globe text-emerald-400 mr-1"></i> Use bottom-left globe icon to toggle Satellite View
+                            </span>
+                            <a href="https://emap.pk/margalla-enclave-islamabad-map" target="_blank" rel="noopener" class="px-3.5 py-1.5 bg-slate-900/90 hover:bg-slate-800 backdrop-blur-md text-white text-xs font-bold rounded-xl border border-slate-700 shadow-lg flex items-center gap-1.5 transition-colors">
+                                <i class="fa-solid fa-up-right-from-square text-emerald-400"></i> Full Screen
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Live GIS Interactive Frame -->
+                    <iframe 
+                        src="https://emap.pk/margalla-enclave-islamabad-map" 
+                        class="w-full h-full border-0" 
+                        loading="lazy" 
+                        title="DHA Margalla Enclave Interactive GIS Plot Map"
+                        allow="geolocation">
+                    </iframe>
+                </div>
+
+                <!-- Guidance Bar -->
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-600">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-emerald-600 text-base"></i>
+                        <span><strong>Interactive Controls:</strong> Pan and pinch/scroll to zoom into Street 10&ndash;44, Grand Mosque, Ring Road, and individual 50'x90' and 35'x65' plots. Click the globe icon at the bottom-left of the map for high-res satellite ground alignment.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODE 2: SATELLITE GROUND OVERLAY & OPACITY SLIDER WITH BALLOT ALLOCATION INSPECTOR -->
+            <div id="gis-panel-satellite" class="gis-view-panel hidden space-y-4">
+                
+                <!-- Satellite Overlay Control Bar -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 flex-wrap">
+                        
+                        <!-- Opacity Slider -->
+                        <div class="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 w-full sm:w-auto">
+                            <span class="text-xs font-black uppercase tracking-wider text-slate-700 flex items-center gap-1.5 shrink-0">
+                                <i class="fa-solid fa-sliders text-emerald-600"></i> Masterplan Opacity:
+                            </span>
+                            <input type="range" id="masterplan-opacity-slider" min="0" max="100" value="75" oninput="setMasterplanOpacity(this.value)" class="w-32 sm:w-44 accent-emerald-600 cursor-pointer">
+                            <span id="opacity-val-display" class="font-extrabold text-xs text-emerald-800 w-10 text-right">75%</span>
+                        </div>
+
+                        <!-- Plot Size Filter Chips -->
+                        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 custom-scrollbar text-xs">
+                            <span class="text-[10px] uppercase tracking-wider font-extrabold text-slate-400 mr-1 shrink-0"><i class="fa-solid fa-filter"></i> Size:</span>
+                            <button type="button" onclick="filterMapPlots('all')" class="map-filter-btn active px-3 py-1.5 rounded-lg font-bold text-xs bg-slate-900 text-white transition-all shrink-0" data-filter="all">All Sizes</button>
+                            <button type="button" onclick="filterMapPlots('5marla')" class="map-filter-btn px-3 py-1.5 rounded-lg font-bold text-xs bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition-all shrink-0" data-filter="5marla">5 Marla (125 Yds)</button>
+                            <button type="button" onclick="filterMapPlots('10marla')" class="map-filter-btn px-3 py-1.5 rounded-lg font-bold text-xs bg-slate-100 text-slate-700 hover:bg-sky-50 hover:text-sky-700 transition-all shrink-0" data-filter="10marla">10 Marla (250 Yds)</button>
+                            <button type="button" onclick="filterMapPlots('1kanal')" class="map-filter-btn px-3 py-1.5 rounded-lg font-bold text-xs bg-slate-100 text-slate-700 hover:bg-purple-50 hover:text-purple-700 transition-all shrink-0" data-filter="1kanal">1 Kanal (500 Yds)</button>
+                            <button type="button" onclick="filterMapPlots('commercial')" class="map-filter-btn px-3 py-1.5 rounded-lg font-bold text-xs bg-slate-100 text-slate-700 hover:bg-amber-50 hover:text-amber-700 transition-all shrink-0" data-filter="commercial">Commercial</button>
+                        </div>
+
+                        <!-- Satellite Layer Mode Buttons -->
+                        <div class="flex items-center gap-2">
+                            <button type="button" id="btn-layer-hybrid" onclick="switchMapTileLayer('hybrid')" class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all">
+                                <i class="fa-solid fa-satellite text-emerald-400"></i> Satellite Hybrid
+                            </button>
+                            <button type="button" id="btn-layer-street" onclick="switchMapTileLayer('street')" class="px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold text-xs flex items-center gap-1.5 transition-all">
+                                <i class="fa-solid fa-road text-slate-500"></i> Roads &amp; Streets
+                            </button>
+                        </div>
+
                     </div>
                 </div>
 
-                <!-- POI Points of Interest List -->
-                <div class="lg:col-span-4 flex flex-col justify-between space-y-3 max-h-[460px] overflow-y-auto pr-1" id="poi-items-list">
-                    <!-- Dynamic POI Cards Injected by JS -->
+                <!-- Map and Live Allocation Inspector Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                    
+                    <!-- Main Leaflet Map Viewport -->
+                    <div class="lg:col-span-8 relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950">
+                        <div id="project-interactive-map"></div>
+
+                        <!-- Top-Left Floating Map Legend -->
+                        <div class="absolute top-3 left-3 z-[1000] bg-slate-900/90 backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-700 text-[11px] text-white shadow-xl pointer-events-none hidden sm:block">
+                            <div class="font-bold text-xs text-amber-400 mb-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-map-pin"></i> Ballot Plot Allocation Tracing
+                            </div>
+                            <div class="flex items-center gap-3 text-[10px] text-slate-300">
+                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500 inline-block"></span> 5 Marla</span>
+                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-sky-500 inline-block"></span> 10 Marla</span>
+                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-purple-500 inline-block"></span> 1 Kanal</span>
+                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500 inline-block"></span> Commercial</span>
+                            </div>
+                        </div>
+
+                        <!-- Floating Reset View Control -->
+                        <div class="absolute bottom-4 right-4 z-[1000]">
+                            <button type="button" onclick="resetProjectMapView()" class="px-3.5 py-2 bg-slate-900/95 hover:bg-slate-800 backdrop-blur-md text-white font-bold text-xs rounded-xl border border-slate-700 shadow-xl flex items-center gap-1.5 transition-all">
+                                <i class="fa-solid fa-arrows-to-dot text-emerald-400"></i> Reset Center
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Inspector & Pinned Plots Directory -->
+                    <div class="lg:col-span-4 space-y-4">
+                        
+                        <!-- Selected Plot Inspector Card -->
+                        <div id="selected-plot-inspector" class="bg-white rounded-3xl p-5 border border-slate-200 shadow-lg space-y-4">
+                            <div class="flex items-start justify-between gap-3 border-b border-slate-100 pb-3">
+                                <div>
+                                    <span id="inspect-plot-cat" class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        Residential Allotment
+                                    </span>
+                                    <h3 id="inspect-plot-no" class="text-xl font-black outfit text-slate-900 mt-1">
+                                        Plot #B-14
+                                    </h3>
+                                    <p id="inspect-plot-sector" class="text-xs text-slate-500 font-medium">
+                                        Sector A &bull; 50'x90' Boulevard
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <span id="inspect-plot-dim" class="font-extrabold text-xs text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg inline-block">
+                                        50' &times; 90'
+                                    </span>
+                                    <span id="inspect-plot-ballot" class="block text-[10px] text-amber-800 font-bold mt-1">
+                                        1st Ballot (15% DP)
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Price Breakdown Grid -->
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Down Payment</span>
+                                    <span id="inspect-plot-dp" class="text-sm font-black text-emerald-800">PKR 97.50 Lakh</span>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Total Official Price</span>
+                                    <span id="inspect-plot-total" class="text-sm font-black text-slate-900">PKR 6.50 Crore</span>
+                                </div>
+                            </div>
+
+                            <!-- Allocation Status Indicator -->
+                            <div class="flex items-center justify-between text-xs px-3 py-2 rounded-xl bg-emerald-50/70 border border-emerald-200/80 text-emerald-950 font-bold">
+                                <span class="flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                                    <span id="inspect-plot-status">Official CDA Demarcation</span>
+                                </span>
+                                <span id="inspect-plot-usd" class="text-[11px] text-emerald-800 font-semibold">$233,800 USD</span>
+                            </div>
+
+                            <!-- WhatsApp Direct Booking CTA -->
+                            <a id="inspect-plot-whatsapp" href="https://wa.me/923340091127?text=Hi%20Tanzil%20Ahmed%20Minhas%2C%20I%20am%20interested%20in%20Plot%20%23B-14%20at%20DHA%20Margalla%20Enclave." target="_blank" rel="noopener" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 outfit uppercase tracking-wider">
+                                <i class="fa-brands fa-whatsapp text-base"></i>
+                                <span>Confirm Plot Allocation on WhatsApp</span>
+                            </a>
+                        </div>
+
+                        <!-- Ballot Plot Directory Tray -->
+                        <div class="bg-white rounded-3xl p-4 border border-slate-200 shadow-sm space-y-3">
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                                <span class="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-list-check text-emerald-600"></i> Marked Plots Directory
+                                </span>
+                                <span id="marked-plots-count" class="text-[10px] font-bold bg-slate-100 px-2 py-0.5 rounded-full text-slate-600">14 Plots</span>
+                            </div>
+                            
+                            <div id="marked-plots-list" class="space-y-1.5 max-h-56 overflow-y-auto pr-1 text-xs custom-scrollbar">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
 
+            </div>
+
+            <!-- MODE 3: HIGH-RESOLUTION SECTOR ZOOM SHEETS GALLERY -->
+            <div id="gis-panel-sheets" class="gis-view-panel hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Sheet 1 -->
+                    <div class="bg-white rounded-3xl p-3 border border-slate-200 shadow-md group cursor-pointer hover-lift" onclick="openLightbox('assets/images/margalla-enclave-gis-zoom.jpg', 'Margalla Enclave Sector Masterplan (Streets 10 to 44, 50x90 & 35x65 Plots)')">
+                        <div class="relative h-64 rounded-2xl overflow-hidden border border-slate-100">
+                            <img src="assets/images/margalla-enclave-gis-zoom.jpg" alt="Margalla Enclave Street 10 to 44 Masterplan" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-slate-900/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg backdrop-blur-sm"><i class="fa-solid fa-expand"></i> HD Zoom</span>
+                            <span class="absolute bottom-3 left-3 bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-lg">Streets 10&ndash;44 Grid</span>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-bold text-sm text-slate-900 outfit mb-1">Streets 10&ndash;44 CAD Plot Layout</h4>
+                            <p class="text-xs text-slate-500">Shows all individual 50'x90' 1 Kanal plots (pink), 35'x65' (orange), School 8.67K, and Mosque 4.95K.</p>
+                        </div>
+                    </div>
+
+                    <!-- Sheet 2 -->
+                    <div class="bg-white rounded-3xl p-3 border border-slate-200 shadow-md group cursor-pointer hover-lift" onclick="openLightbox('assets/images/margalla-enclave-gis-mosque-sector.jpg', 'Margalla Enclave Grand Mosque & Ring Road Sector Plan')">
+                        <div class="relative h-64 rounded-2xl overflow-hidden border border-slate-100">
+                            <img src="assets/images/margalla-enclave-gis-mosque-sector.jpg" alt="Margalla Enclave Grand Mosque & Ring Road Layout" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-slate-900/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg backdrop-blur-sm"><i class="fa-solid fa-expand"></i> HD Zoom</span>
+                            <span class="absolute bottom-3 left-3 bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-lg">Grand Mosque Sector</span>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-bold text-sm text-slate-900 outfit mb-1">Grand Mosque &amp; Ring Road Layout</h4>
+                            <p class="text-xs text-slate-500">Detailed CAD layout showing Grand Mosque 18.22K, Public Building 18.25K, and Sports Complex 18.61K.</p>
+                        </div>
+                    </div>
+
+                    <!-- Sheet 3 -->
+                    <div class="bg-white rounded-3xl p-3 border border-slate-200 shadow-md group cursor-pointer hover-lift" onclick="openLightbox('assets/images/margalla-enclave-masterplan-overview.jpg', 'Margalla Enclave Full Masterplan Aerial Boundary')">
+                        <div class="relative h-64 rounded-2xl overflow-hidden border border-slate-100">
+                            <img src="assets/images/margalla-enclave-masterplan-overview.jpg" alt="Margalla Enclave Full Aerial Boundary" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-slate-900/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg backdrop-blur-sm"><i class="fa-solid fa-expand"></i> HD Zoom</span>
+                            <span class="absolute bottom-3 left-3 bg-slate-900 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-lg">Full Aerial Layout</span>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-bold text-sm text-slate-900 outfit mb-1">Full Aerial Masterplan Overview</h4>
+                            <p class="text-xs text-slate-500">Complete georeferenced master layout between Botanical Garden, Park View City, and Bahria Enclave.</p>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </section>
 
@@ -2198,5 +2477,311 @@
             });
         }
     </script>
+
+    <!-- Leaflet GIS Map & Satellite Ground Overlay Engine -->
+    <script>
+        const MARGALLA_CENTER = [33.700100, 73.181000];
+        let projectMap = null;
+        let projHybridLayer = null;
+        let projStreetLayer = null;
+        let masterplanOverlay = null;
+        let projPlotsLayerGroup = null;
+        let projPlotMarkerMap = new Map();
+        let activeGisFilter = 'all';
+
+        const VERIFIED_BALLOT_PLOTS = [
+            {
+                id: 'plot-a-14',
+                plotNo: 'Plot #14',
+                sector: 'Sector A (Streets 10–14)',
+                type: '1kanal',
+                dimensions: "50' × 90'",
+                ballotLabel: '1st Ballot (15% DP)',
+                dpPKR: 'PKR 97.50 Lakh',
+                pricePKR: 'PKR 6.50 Crore',
+                usdPrice: '$233,800 USD',
+                status: 'Direct CDA Demarcation',
+                center: [33.708500, 73.184000]
+            },
+            {
+                id: 'plot-b-28',
+                plotNo: 'Plot #28',
+                sector: 'Sector B (Road-2 60W)',
+                type: '10marla',
+                dimensions: "35' × 65'",
+                ballotLabel: '1st Ballot (15% DP)',
+                dpPKR: 'PKR 49.65 Lakh',
+                pricePKR: 'PKR 3.30 Crore',
+                usdPrice: '$118,700 USD',
+                status: 'Boulevard Frontage',
+                center: [33.702000, 73.178000]
+            },
+            {
+                id: 'plot-c-05',
+                plotNo: 'Plot #05',
+                sector: 'Sector C (Eco Green Belt)',
+                type: '5marla',
+                dimensions: "25' × 45'",
+                ballotLabel: '1st Ballot (15% DP)',
+                dpPKR: 'PKR 24.45 Lakh',
+                pricePKR: 'PKR 1.63 Crore',
+                usdPrice: '$58,600 USD',
+                status: 'Park Facing Corner',
+                center: [33.698500, 73.176000]
+            },
+            {
+                id: 'plot-comm-04',
+                plotNo: 'Commercial #04',
+                sector: 'Grand Commercial Hub',
+                type: 'commercial',
+                dimensions: "100 Sq. Yds",
+                ballotLabel: '2nd Ballot (20% DP)',
+                dpPKR: 'PKR 70.00 Lakh',
+                pricePKR: 'PKR 3.50 Crore',
+                usdPrice: '$125,900 USD',
+                status: 'Boulevard Commercial Hub',
+                center: [33.696000, 73.174000]
+            },
+            {
+                id: 'plot-mosque-sec',
+                plotNo: 'Plot #M-12',
+                sector: 'Grand Mosque & Ring Road',
+                type: '1kanal',
+                dimensions: "50' × 90'",
+                ballotLabel: '3rd Ballot (20% DP)',
+                dpPKR: 'PKR 1.30 Crore',
+                pricePKR: 'PKR 6.50 Crore',
+                usdPrice: '$233,800 USD',
+                status: 'Walking Distance to Grand Mosque',
+                center: [33.705000, 73.182500]
+            }
+        ];
+
+        function switchGisViewMode(mode) {
+            ['cad', 'satellite', 'sheets'].forEach(m => {
+                const panel = document.getElementById('gis-panel-' + m);
+                const btn = document.getElementById('tab-gis-' + m);
+                if (panel) panel.classList.toggle('hidden', m !== mode);
+                if (btn) {
+                    if (m === mode) {
+                        btn.className = 'gis-tab-btn active px-3.5 py-2 rounded-lg font-black text-xs transition-all flex items-center gap-2 whitespace-nowrap bg-emerald-600 text-white shadow-md';
+                    } else {
+                        btn.className = 'gis-tab-btn px-3.5 py-2 rounded-lg font-bold text-xs transition-all flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white hover:bg-slate-800';
+                    }
+                }
+            });
+
+            if (mode === 'satellite') {
+                initProjectGisMap();
+                setTimeout(() => {
+                    if (projectMap) projectMap.invalidateSize();
+                }, 250);
+            }
+        }
+
+        async function initProjectGisMap() {
+            const container = document.getElementById('project-interactive-map');
+            if (!container || typeof L === 'undefined') return;
+            if (projectMap) return;
+
+            projectMap = L.map('project-interactive-map', {
+                center: MARGALLA_CENTER,
+                zoom: 15,
+                minZoom: 13,
+                maxZoom: 19,
+                zoomControl: true,
+                scrollWheelZoom: false
+            });
+
+            // Google Hybrid
+            projHybridLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                attribution: 'Google Satellite &bull; Kaghan Properties GIS'
+            });
+
+            // Google Streets
+            projStreetLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                attribution: 'Google Maps'
+            });
+
+            projHybridLayer.addTo(projectMap);
+
+            // Georeferenced Master Plan Image Overlay
+            const overlayBounds = [[33.688000, 73.165000], [33.715000, 73.196500]];
+            masterplanOverlay = L.imageOverlay('assets/images/margalla-enclave-masterplan-overview.jpg', overlayBounds, {
+                opacity: 0.75,
+                interactive: false
+            }).addTo(projectMap);
+
+            projPlotsLayerGroup = L.layerGroup().addTo(projectMap);
+
+            // Load properties from KaghanDB and merge with verified ballot plots
+            let allPlots = [...VERIFIED_BALLOT_PLOTS];
+            try {
+                if (window.KaghanDB && window.KaghanDB.getProperties) {
+                    const dbProps = await window.KaghanDB.getProperties();
+                    dbProps.forEach(p => {
+                        const lat = p.lat || (p.coords && p.coords[0]);
+                        const lng = p.lng || (p.coords && p.coords[1]);
+                        if (lat && lng && (p.plotNumber || p.title.toLowerCase().includes('margalla'))) {
+                            allPlots.push({
+                                id: p.id,
+                                plotNo: p.plotNumber || p.title,
+                                sector: p.plotSector || p.sector || 'Margalla Enclave',
+                                type: (p.size && p.size <= 5) ? '5marla' : (p.size && p.size <= 10) ? '10marla' : p.type.includes('comm') ? 'commercial' : '1kanal',
+                                dimensions: p.plotDimensions || (p.size + ' ' + (p.sizeUnit || 'Marla')),
+                                ballotLabel: p.ballotPhase || 'Official Ballot',
+                                dpPKR: p.downPaymentAmount ? ('PKR ' + (p.downPaymentAmount / 100000).toFixed(2) + ' Lakh') : 'Contact for DP',
+                                pricePKR: p.price ? ('PKR ' + (p.price / 10000000).toFixed(2) + ' Crore') : 'Call for Price',
+                                usdPrice: p.price ? ('$' + Math.round(p.price / 278).toLocaleString() + ' USD') : 'Inquire',
+                                status: p.status || 'Verified Allocation',
+                                center: [lat, lng]
+                            });
+                        }
+                    });
+                }
+            } catch (e) {
+                console.warn('Could not fetch DB plots for map:', e);
+            }
+
+            renderProjectPlotsOnMap(allPlots);
+        }
+
+        function renderProjectPlotsOnMap(plots) {
+            if (!projectMap || !projPlotsLayerGroup) return;
+            projPlotsLayerGroup.clearLayers();
+            projPlotMarkerMap.clear();
+
+            const filtered = activeGisFilter === 'all' 
+                ? plots 
+                : plots.filter(p => p.type === activeGisFilter);
+
+            filtered.forEach(plot => {
+                const color = plot.type === '5marla' ? '#10B981' : plot.type === '10marla' ? '#0EA5E9' : plot.type === 'commercial' ? '#F59E0B' : '#A855F7';
+                
+                const pinIcon = L.divIcon({
+                    className: 'plot-pin-marker',
+                    html: `<div style="display:flex; flex-direction:column; align-items:center;">
+                        <span style="background:${color}; color:#ffffff; font-size:10px; font-weight:800; padding:2px 6px; border-radius:6px; box-shadow:0 4px 10px rgba(0,0,0,0.5); border:1.5px solid #ffffff; white-space:nowrap;">${plot.plotNo}</span>
+                        <div style="width:10px; height:10px; background:${color}; transform:rotate(45deg); margin-top:-5px; border-right:1.5px solid #ffffff; border-bottom:1.5px solid #ffffff;"></div>
+                    </div>`,
+                    iconSize: [60, 30],
+                    iconAnchor: [30, 25]
+                });
+
+                const marker = L.marker(plot.center, { icon: pinIcon }).addTo(projPlotsLayerGroup);
+                
+                marker.bindPopup(`
+                    <div style="min-width:200px;">
+                        <div style="font-size:10px; color:#D4AF37; font-weight:800; text-transform:uppercase;">${plot.sector}</div>
+                        <h4 style="font-size:14px; font-weight:800; color:#ffffff; margin:3px 0;">${plot.plotNo} (${plot.dimensions})</h4>
+                        <div style="font-size:11px; color:#cbd5e1; margin-bottom:8px;">${plot.ballotLabel} &bull; ${plot.pricePKR}</div>
+                        <a href="https://wa.me/923340091127?text=${encodeURIComponent('Hi Tanzil Minhas, I am inquiring about ' + plot.plotNo + ' at Margalla Enclave.')}" target="_blank" style="display:block; text-align:center; background:#10B981; color:#ffffff; font-weight:800; font-size:11px; padding:6px 12px; border-radius:8px; text-decoration:none;">
+                            Inquire on WhatsApp
+                        </a>
+                    </div>
+                `, { className: 'plot-popup' });
+
+                marker.on('click', () => {
+                    inspectPlotDetails(plot);
+                });
+
+                projPlotMarkerMap.set(plot.id, { marker, plot });
+            });
+
+            renderMarkedPlotsDirectory(filtered);
+
+            if (filtered.length > 0) {
+                inspectPlotDetails(filtered[0]);
+            }
+        }
+
+        function inspectPlotDetails(plot) {
+            document.getElementById('inspect-plot-no').innerText = plot.plotNo;
+            document.getElementById('inspect-plot-sector').innerText = plot.sector;
+            document.getElementById('inspect-plot-dim').innerText = plot.dimensions;
+            document.getElementById('inspect-plot-ballot').innerText = plot.ballotLabel;
+            document.getElementById('inspect-plot-dp').innerText = plot.dpPKR;
+            document.getElementById('inspect-plot-total').innerText = plot.pricePKR;
+            document.getElementById('inspect-plot-usd').innerText = plot.usdPrice;
+            document.getElementById('inspect-plot-status').innerText = plot.status;
+
+            const waMsg = encodeURIComponent('Hi Tanzil Ahmed Minhas, I am interested in ' + plot.plotNo + ' (' + plot.dimensions + ', ' + plot.sector + ') at Margalla Enclave. Total: ' + plot.pricePKR + '. Please confirm allotment.');
+            document.getElementById('inspect-plot-whatsapp').href = 'https://wa.me/923340091127?text=' + waMsg;
+        }
+
+        function renderMarkedPlotsDirectory(plots) {
+            const list = document.getElementById('marked-plots-list');
+            const count = document.getElementById('marked-plots-count');
+            if (!list) return;
+            if (count) count.innerText = plots.length + ' Plots';
+
+            list.innerHTML = plots.map(p => `
+                <div onclick="selectPlotFromDir('${p.id}')" class="p-2 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-100 hover:border-emerald-200 cursor-pointer flex items-center justify-between transition-colors">
+                    <div>
+                        <div class="font-extrabold text-slate-800 text-xs">${p.plotNo} <span class="font-normal text-slate-500 text-[10px]">(${p.dimensions})</span></div>
+                        <div class="text-[10px] text-slate-500">${p.sector}</div>
+                    </div>
+                    <span class="text-[10px] font-bold text-emerald-700 bg-white px-2 py-0.5 rounded border border-slate-200">${p.pricePKR}</span>
+                </div>
+            `).join('');
+        }
+
+        function selectPlotFromDir(id) {
+            const item = projPlotMarkerMap.get(id);
+            if (item && projectMap) {
+                projectMap.flyTo(item.plot.center, 17, { duration: 0.8 });
+                item.marker.openPopup();
+                inspectPlotDetails(item.plot);
+            }
+        }
+
+        function setMasterplanOpacity(val) {
+            if (masterplanOverlay) {
+                masterplanOverlay.setOpacity(val / 100);
+            }
+            const label = document.getElementById('opacity-val-display');
+            if (label) label.innerText = val + '%';
+        }
+
+        function filterMapPlots(filter) {
+            activeGisFilter = filter;
+            document.querySelectorAll('.map-filter-btn').forEach(btn => {
+                const isActive = btn.dataset.filter === filter;
+                btn.className = isActive 
+                    ? 'map-filter-btn active px-3 py-1.5 rounded-lg font-bold text-xs bg-slate-900 text-white transition-all shrink-0'
+                    : 'map-filter-btn px-3 py-1.5 rounded-lg font-bold text-xs bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition-all shrink-0';
+            });
+            renderProjectPlotsOnMap(VERIFIED_BALLOT_PLOTS);
+        }
+
+        function switchMapTileLayer(type) {
+            if (!projectMap || !projHybridLayer || !projStreetLayer) return;
+            const btnHybrid = document.getElementById('btn-layer-hybrid');
+            const btnStreet = document.getElementById('btn-layer-street');
+
+            if (type === 'hybrid') {
+                projectMap.removeLayer(projStreetLayer);
+                projectMap.addLayer(projHybridLayer);
+                if (masterplanOverlay) masterplanOverlay.bringToFront();
+                if (btnHybrid) btnHybrid.className = 'px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all';
+                if (btnStreet) btnStreet.className = 'px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold text-xs flex items-center gap-1.5 transition-all';
+            } else {
+                projectMap.removeLayer(projHybridLayer);
+                projectMap.addLayer(projStreetLayer);
+                if (masterplanOverlay) masterplanOverlay.bringToFront();
+                if (btnStreet) btnStreet.className = 'px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all';
+                if (btnHybrid) btnHybrid.className = 'px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold text-xs flex items-center gap-1.5 transition-all';
+            }
+        }
+
+        function resetProjectMapView() {
+            if (projectMap) {
+                projectMap.flyTo(MARGALLA_CENTER, 15, { duration: 1 });
+            }
+        }
+    </script>
+
 </body>
 </html>

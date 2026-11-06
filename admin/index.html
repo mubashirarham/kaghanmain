@@ -21,6 +21,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Leaflet GIS & Satellite Mapping -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <!-- Google Fonts: Outfit & Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 
@@ -147,6 +150,7 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
+        #admin-plot-picker-map { z-index: 10; border-radius: 0.75rem; }
         .sidebar-active {
             color: #D4AF37 !important;
             background-color: rgba(212, 175, 55, 0.08) !important;
@@ -1616,6 +1620,118 @@
                     </div>
                 </div>
 
+                
+                <!-- INTERACTIVE PLOT DEMARCATION & SATELLITE PINNING (GIS MAP PICKER) -->
+                <div class="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-slate-950 border border-emerald-500/40 rounded-2xl p-4 sm:p-5 space-y-4 shadow-lg">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-emerald-500/20 pb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm shrink-0">
+                                <i class="fa-solid fa-map-pin"></i>
+                            </div>
+                            <div>
+                                <label class="text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                    Plot Demarcation &amp; Interactive Map Pinning (GIS &amp; Satellite)
+                                </label>
+                                <p class="text-[10px] text-slate-400">Pinpoint the exact plot on the satellite map or pick presets. When saved, this plot is highlighted on public listings!</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold self-start sm:self-auto">
+                            Live GPS Coordinates
+                        </span>
+                    </div>
+
+                    <!-- Plot Specifications Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Plot Number / Tag</label>
+                            <input type="text" id="form-prop-plot-no" placeholder="e.g. Plot #14, Plot #B-305" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Street / Road Width</label>
+                            <input type="text" id="form-prop-plot-street" placeholder="e.g. Street 10 (40' Wide), Road-1 (60')" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Sector / Block</label>
+                            <input type="text" id="form-prop-plot-sector" placeholder="e.g. Sector A, Sector B, Grand Mosque" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Plot Dimensions</label>
+                            <input type="text" id="form-prop-plot-dim" placeholder="e.g. 50' × 90' (1 Kanal), 35' × 65'" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs">
+                        </div>
+                    </div>
+
+                    <!-- Coordinates & Quick Society Presets Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Latitude (Lat)</label>
+                            <input type="number" step="any" id="form-prop-lat" placeholder="33.700100" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs font-mono">
+                        </div>
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">Longitude (Lng)</label>
+                            <input type="number" step="any" id="form-prop-lng" placeholder="73.181000" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs font-mono">
+                        </div>
+                        <div>
+                            <label class="text-slate-300 uppercase font-bold text-[10px] block mb-1">GIS Society Map Engine</label>
+                            <select id="form-prop-plot-society" class="w-full bg-slate-950 border border-slate-800 focus:border-[#D4AF37] rounded-xl px-3 py-2 text-white text-xs">
+                                <option value="margalla-enclave">Margalla Enclave (CAD &amp; Satellite)</option>
+                                <option value="bahria-enclave">Bahria Enclave Islamabad</option>
+                                <option value="dha-islamabad">DHA Islamabad</option>
+                                <option value="park-view">Park View City Zone 4</option>
+                                <option value="custom">Standard Google Map Pin</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Quick Pinpoint Society Presets -->
+                    <div class="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800/80 space-y-1.5">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="text-slate-400 font-bold uppercase text-[10px] flex items-center gap-1.5">
+                                <i class="fa-solid fa-bullseye text-[#D4AF37]"></i> Quick Pinpoint Presets (Click to Auto-Position Marker):
+                            </span>
+                            <button type="button" onclick="useAdminCurrentLocation()" class="text-emerald-400 hover:text-white font-bold text-[10px] flex items-center gap-1">
+                                <i class="fa-solid fa-crosshairs"></i> Use My GPS Location
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button type="button" onclick="setAdminPlotCoords(33.700100, 73.181000, 'Margalla Enclave Center', 'Main Boulevard', 'Sector A', '50x90')" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white border border-slate-800 text-[10px] font-bold transition-all">
+                                📍 Margalla Enclave Center
+                            </button>
+                            <button type="button" onclick="setAdminPlotCoords(33.708500, 73.184000, 'Plot #14', 'Street 10 (40' W)', 'Sector A', '50' × 90' (1 Kanal)')" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white border border-slate-800 text-[10px] font-bold transition-all">
+                                📍 Margalla Enclave Sector A (50x90)
+                            </button>
+                            <button type="button" onclick="setAdminPlotCoords(33.702000, 73.178000, 'Plot #28', 'Road-2 (60' W)', 'Sector B', '35' × 65' (10 Marla)')" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white border border-slate-800 text-[10px] font-bold transition-all">
+                                📍 Margalla Enclave Sector B (35x65)
+                            </button>
+                            <button type="button" onclick="setAdminPlotCoords(33.705000, 73.182500, 'Grand Mosque Sector', 'Ring Road (80' W)', 'Central Zone', '18.22K Commercial')" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white border border-slate-800 text-[10px] font-bold transition-all">
+                                📍 Margalla Grand Mosque Sector
+                            </button>
+                            <button type="button" onclick="setAdminPlotCoords(33.696000, 73.174000, 'Commercial Plot #04', 'Commercial Boulevard', 'Commercial Hub', '100 Sq. Yds')" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white border border-slate-800 text-[10px] font-bold transition-all">
+                                📍 Margalla Commercial Hub
+                            </button>
+                            <button type="button" onclick="setAdminPlotCoords(33.682000, 73.208000, 'Plot #82', 'Street 8 (40' W)', 'Sector C', '10 Marla')" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white border border-slate-800 text-[10px] font-bold transition-all">
+                                📍 Bahria Enclave Sector C
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Map Container with Click-to-Pin Instruction -->
+                    <div class="space-y-1.5">
+                        <div class="flex items-center justify-between text-[11px] text-slate-400">
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-hand-pointer text-emerald-400"></i> Click anywhere on the satellite map or drag marker to pinpoint the exact plot:</span>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="setAdminMapLayer('hybrid')" id="admin-map-layer-hybrid" class="px-2 py-0.5 rounded bg-emerald-600 text-white font-bold text-[10px]">Satellite</button>
+                                <button type="button" onclick="setAdminMapLayer('streets')" id="admin-map-layer-streets" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-bold text-[10px]">Streets</button>
+                            </div>
+                        </div>
+                        <div id="admin-plot-picker-map" class="w-full h-72 sm:h-80 rounded-xl overflow-hidden border border-slate-700 bg-slate-950 relative shadow-inner">
+                        </div>
+                        <div class="flex items-center justify-between text-[10px] text-slate-400 px-1">
+                            <span id="admin-plot-coords-badge" class="font-mono text-emerald-400">Lat: 33.700100 | Lng: 73.181000</span>
+                            <span class="text-slate-500">Marker is draggable &bull; High resolution satellite imagery</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Cloudinary Multi-Image Upload Hub & Gallery Manager -->
                 <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 space-y-3">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
@@ -2840,6 +2956,7 @@
                                 </div>
                                 <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
                                     ${ballotBadgeText ? `<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] font-extrabold flex items-center gap-1 shadow-xs"><i class="fa-solid fa-stamp text-amber-400"></i> ${ballotBadgeText}</span>` : ''}
+                                    ${(p.plotNumber || p.lat) ? `<span class="px-2 py-0.5 rounded bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-[9px] font-extrabold flex items-center gap-1 shadow-xs"><i class="fa-solid fa-map-pin text-emerald-400"></i> ${p.plotNumber || 'Pinned Plot'} ${p.plotDimensions ? '(' + p.plotDimensions + ')' : ''}</span>` : ''}
                                     ${p.urgency === 'super-hot' 
                                         ? '<span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-extrabold flex items-center gap-1 shadow-sm"><i class="fa-solid fa-bolt"></i> SUPER HOT <span class="text-[7px] bg-rose-500/30 px-1 rounded uppercase tracking-wider">Pinned</span></span>' 
                                         : p.urgency === 'hot' 
@@ -3616,6 +3733,18 @@
                 document.getElementById('form-prop-agent').value = prop.agentId || 'user_001';
                 document.getElementById('form-prop-meta').value = prop.metaDescription || '';
 
+                // Populate Plot Demarcation & Coordinates
+                document.getElementById('form-prop-plot-no').value = prop.plotNumber || prop.plotNo || '';
+                document.getElementById('form-prop-plot-street').value = prop.plotStreet || prop.street || '';
+                document.getElementById('form-prop-plot-sector').value = prop.plotSector || prop.sector || '';
+                document.getElementById('form-prop-plot-dim').value = prop.plotDimensions || prop.dimensions || '';
+                const pLat = prop.lat || (prop.coords && prop.coords[0] ? prop.coords[0] : (prop.plotCoords ? prop.plotCoords.lat : ''));
+                const pLng = prop.lng || (prop.coords && prop.coords[1] ? prop.coords[1] : (prop.plotCoords ? prop.plotCoords.lng : ''));
+                document.getElementById('form-prop-lat').value = pLat ? Number(pLat).toFixed(6) : '';
+                document.getElementById('form-prop-lng').value = pLng ? Number(pLng).toFixed(6) : '';
+                document.getElementById('form-prop-plot-society').value = prop.plotGisSociety || prop.societyId || 'margalla-enclave';
+                initAdminPlotPickerMap(pLat, pLng);
+
                 // DHA Margalla Ballot Fields
                 document.getElementById('form-prop-ballot-phase').value = prop.ballotPhase || (prop.title && prop.title.includes('3rd Ballot') ? 'ballot3_res' : prop.title && prop.title.includes('1st Ballot') ? 'ballot1_res' : prop.title && prop.title.includes('2nd Ballot') ? 'ballot2_comm' : '');
                 document.getElementById('form-prop-downpayment-pct').value = prop.downPaymentPct || (prop.installments && prop.installments.advance ? '20' : '20');
@@ -3726,6 +3855,16 @@
                 document.getElementById('form-prop-doc').value = '';
                 document.getElementById('form-prop-meta').value = '';
 
+                // Reset Plot Demarcation & Coordinates
+                document.getElementById('form-prop-plot-no').value = '';
+                document.getElementById('form-prop-plot-street').value = '';
+                document.getElementById('form-prop-plot-sector').value = '';
+                document.getElementById('form-prop-plot-dim').value = '';
+                document.getElementById('form-prop-lat').value = '';
+                document.getElementById('form-prop-lng').value = '';
+                document.getElementById('form-prop-plot-society').value = 'margalla-enclave';
+                initAdminPlotPickerMap(33.700100, 73.181000);
+
                 // DHA Margalla Ballot Fields Reset
                 document.getElementById('form-prop-ballot-phase').value = '';
                 document.getElementById('form-prop-downpayment-pct').value = '20';
@@ -3823,6 +3962,15 @@
             const lumpSumPrice = parseFloat(document.getElementById('form-prop-lumpsum-price')?.value) || 0;
             const quarterlyAmount = parseFloat(document.getElementById('form-prop-quarterly-amount')?.value) || 0;
             const processingFee = parseFloat(document.getElementById('form-prop-processing-fee')?.value) || 0;
+
+            // Extract Plot Demarcation & Map Pinning Fields
+            const plotNumber = document.getElementById('form-prop-plot-no')?.value?.trim() || '';
+            const plotStreet = document.getElementById('form-prop-plot-street')?.value?.trim() || '';
+            const plotSector = document.getElementById('form-prop-plot-sector')?.value?.trim() || '';
+            const plotDimensions = document.getElementById('form-prop-plot-dim')?.value?.trim() || '';
+            const lat = parseFloat(document.getElementById('form-prop-lat')?.value) || null;
+            const lng = parseFloat(document.getElementById('form-prop-lng')?.value) || null;
+            const plotGisSociety = document.getElementById('form-prop-plot-society')?.value || 'margalla-enclave';
 
             // Extract New Marketplace Signals & Attributes
             const urgency = document.getElementById('form-prop-urgency').value;
@@ -3952,6 +4100,15 @@
                 lumpSumPrice: lumpSumPrice || (price ? Math.round(price * 0.857375) : 0),
                 quarterlyAmount: quarterlyAmount || (price ? Math.round((price * (1 - downPaymentPct / 100)) / 12) : 0),
                 processingFee,
+                plotNumber,
+                plotStreet,
+                plotSector,
+                plotDimensions,
+                lat,
+                lng,
+                coords: (lat && lng) ? [lat, lng] : null,
+                plotCoords: (lat && lng) ? { lat, lng } : null,
+                plotGisSociety,
                 societyId: isDhaBallotItem ? 'dha-margalla-enclave' : (area && area.toLowerCase().includes('bahria') ? 'bahria-enclave' : ''),
                 developer: isDhaBallotItem ? 'Defence Housing Authority (DHA)' : 'Kaghan Properties',
                 installments: {
@@ -5604,6 +5761,159 @@
         }
 
         window.addEventListener('load', checkSession);
+    
+        // ==========================================
+        // ADMIN INTERACTIVE PLOT PICKER & DEMARCATION MAP
+        // ==========================================
+        let adminPlotMap = null;
+        let adminPlotMarker = null;
+        let adminHybridLayer = null;
+        let adminStreetLayer = null;
+        const DEFAULT_PLOT_COORDS = [33.700100, 73.181000]; // Margalla Enclave Islamabad
+
+        function initAdminPlotPickerMap(initialLat = null, initialLng = null) {
+            const container = document.getElementById('admin-plot-picker-map');
+            if (!container || typeof L === 'undefined') return;
+
+            const lat = initialLat ? parseFloat(initialLat) : DEFAULT_PLOT_COORDS[0];
+            const lng = initialLng ? parseFloat(initialLng) : DEFAULT_PLOT_COORDS[1];
+
+            if (!adminPlotMap) {
+                adminPlotMap = L.map('admin-plot-picker-map', {
+                    center: [lat, lng],
+                    zoom: 16,
+                    scrollWheelZoom: true
+                });
+
+                // Google Hybrid Satellite
+                adminHybridLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                    maxZoom: 20,
+                    attribution: 'Google Satellite &bull; Kaghan Properties'
+                });
+
+                // Google Street
+                adminStreetLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                    maxZoom: 20,
+                    attribution: 'Google Maps'
+                });
+
+                adminHybridLayer.addTo(adminPlotMap);
+
+                // Custom Div Marker
+                const pinIcon = L.divIcon({
+                    className: 'admin-plot-pin-wrap',
+                    html: '<div style="position:relative; width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:#10B981; border:3px solid #ffffff; border-radius:50%; box-shadow:0 0 16px rgba(16,185,129,0.8); cursor:grab;"><i class="fa-solid fa-map-pin" style="color:#ffffff; font-size:16px;"></i></div>',
+                    iconSize: [34, 34],
+                    iconAnchor: [17, 17]
+                });
+
+                adminPlotMarker = L.marker([lat, lng], {
+                    draggable: true,
+                    icon: pinIcon
+                }).addTo(adminPlotMap);
+
+                // On Marker Drag End
+                adminPlotMarker.on('dragend', function (e) {
+                    const pos = e.target.getLatLng();
+                    updateAdminPlotInputs(pos.lat, pos.lng);
+                });
+
+                // On Map Click
+                adminPlotMap.on('click', function (e) {
+                    adminPlotMarker.setLatLng(e.latlng);
+                    updateAdminPlotInputs(e.latlng.lat, e.latlng.lng);
+                });
+            } else {
+                adminPlotMap.setView([lat, lng], 16);
+                if (adminPlotMarker) {
+                    adminPlotMarker.setLatLng([lat, lng]);
+                }
+            }
+
+            updateAdminPlotInputs(lat, lng);
+
+            setTimeout(() => {
+                if (adminPlotMap) adminPlotMap.invalidateSize();
+            }, 300);
+        }
+
+        function updateAdminPlotInputs(lat, lng) {
+            const latFormatted = Number(lat).toFixed(6);
+            const lngFormatted = Number(lng).toFixed(6);
+            const latInput = document.getElementById('form-prop-lat');
+            const lngInput = document.getElementById('form-prop-lng');
+            const badge = document.getElementById('admin-plot-coords-badge');
+
+            if (latInput && (!latInput.value || Math.abs(parseFloat(latInput.value) - lat) > 0.00001)) {
+                latInput.value = latFormatted;
+            }
+            if (lngInput && (!lngInput.value || Math.abs(parseFloat(lngInput.value) - lng) > 0.00001)) {
+                lngInput.value = lngFormatted;
+            }
+            if (badge) badge.innerText = 'Lat: ' + latFormatted + ' | Lng: ' + lngFormatted;
+        }
+
+        function setAdminPlotCoords(lat, lng, plotNo, street, sector, dim) {
+            if (plotNo && document.getElementById('form-prop-plot-no')) {
+                document.getElementById('form-prop-plot-no').value = plotNo;
+            }
+            if (street && document.getElementById('form-prop-plot-street')) {
+                document.getElementById('form-prop-plot-street').value = street;
+            }
+            if (sector && document.getElementById('form-prop-plot-sector')) {
+                document.getElementById('form-prop-plot-sector').value = sector;
+            }
+            if (dim && document.getElementById('form-prop-plot-dim')) {
+                document.getElementById('form-prop-plot-dim').value = dim;
+            }
+            const latInput = document.getElementById('form-prop-lat');
+            const lngInput = document.getElementById('form-prop-lng');
+            if (latInput) latInput.value = Number(lat).toFixed(6);
+            if (lngInput) lngInput.value = Number(lng).toFixed(6);
+
+            updateAdminPlotInputs(lat, lng);
+            if (adminPlotMap) {
+                adminPlotMap.flyTo([lat, lng], 17, { duration: 0.8 });
+                if (adminPlotMarker) adminPlotMarker.setLatLng([lat, lng]);
+            }
+        }
+
+        function setAdminMapLayer(type) {
+            if (!adminPlotMap || !adminHybridLayer || !adminStreetLayer) return;
+            const btnHybrid = document.getElementById('admin-map-layer-hybrid');
+            const btnStreet = document.getElementById('admin-map-layer-streets');
+
+            if (type === 'hybrid') {
+                adminPlotMap.removeLayer(adminStreetLayer);
+                adminPlotMap.addLayer(adminHybridLayer);
+                if (btnHybrid) btnHybrid.className = 'px-2 py-0.5 rounded bg-emerald-600 text-white font-bold text-[10px]';
+                if (btnStreet) btnStreet.className = 'px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-bold text-[10px]';
+            } else {
+                adminPlotMap.removeLayer(adminHybridLayer);
+                adminPlotMap.addLayer(adminStreetLayer);
+                if (btnStreet) btnStreet.className = 'px-2 py-0.5 rounded bg-emerald-600 text-white font-bold text-[10px]';
+                if (btnHybrid) btnHybrid.className = 'px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-bold text-[10px]';
+            }
+        }
+
+        function useAdminCurrentLocation() {
+            if (!navigator.geolocation) {
+                alert("Geolocation is not supported by your browser.");
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+                    setAdminPlotCoords(lat, lng, 'My Location', 'Current GPS Spot', '', '');
+                },
+                (err) => {
+                    alert("Could not retrieve GPS location: " + err.message);
+                },
+                { enableHighAccuracy: true, timeout: 8000 }
+            );
+        }
+
     </script>
 </body>
 </html>
