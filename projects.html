@@ -3,1346 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Properties for Sale & Rent in Islamabad & Pakistan | Kaghan Properties</title>
-    <meta name="description" content="Explore verified houses, plots, flats, and new projects for sale and rent in Islamabad, Rawalpindi, and Murree. Filter by price, area, society, and bedrooms.">
-    <meta name="keywords" content="Properties for Sale Islamabad, Bahria Enclave Houses, DHA Islamabad Plots, Park View City, Flats in Nathia Gali">
-    <meta name="author" content="Kaghan Properties">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+    <title>Listings | Kaghan Properties</title>
+    <meta name="description" content="Browse verified plots and properties in DHA Margalla Enclave and Islamabad with interactive pinned plot maps.">
     <meta name="theme-color" content="#077943">
     <link rel="canonical" href="https://kaghanproperties.com/projects.html">
 
-    <!-- Favicon & Brand Icons -->
     <link rel="icon" type="image/png" href="assets/images/logo.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="manifest" href="site.webmanifest">
-<!-- Google Fonts & Font Awesome -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Tailwind CSS (for layout utilities) -->
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#e8f5ed',
-                            600: '#077943',
-                            700: '#055e34',
-                            800: '#044827'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- Token Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
 
-    <!-- Firebase Compat SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-    <!-- App Data Store & Shared UI Engine -->
     <script src="assets/js/db.js"></script>
     <script src="assets/js/shared.js"></script>
+    <script src="assets/js/plot-map.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Header (Dynamic Shared UI) -->
     <div id="site-header"></div>
 
-    <!-- ==========================================================================
-         TOP FILTER BAR (Replaces Tier-2 subnav, horizontally scrollable on mobile - §5)
-         ========================================================================== -->
-    <section class="bg-white border-b border-slate-200 sticky top-[60px] z-30 shadow-xs">
-        <div class="market-container py-3">
-            <div class="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-thin">
-                
-                <!-- Purpose Pills -->
-                <div class="segmented-control shrink-0">
-                    <button type="button" id="filter-purpose-sale" onclick="setFilterPurpose('sale')" class="active">Buy</button>
-                    <button type="button" id="filter-purpose-rent" onclick="setFilterPurpose('rent')">Rent</button>
+    <!-- Single Compact Filter Bar -->
+    <section class="bg-white border-b border-slate-200 sticky top-[61px] z-30">
+        <div class="market-container py-3 flex flex-wrap items-center justify-between gap-2.5 text-xs">
+            <div class="flex flex-wrap items-center gap-2 flex-1">
+                <div class="relative min-w-[180px] flex-1 max-w-xs">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-[11px]"></i>
+                    <input type="text" id="filter-keyword" oninput="applyFilters()" placeholder="Search plot #, ballot, or area..." class="w-full bg-slate-100 border border-slate-200 rounded-xl pl-8 pr-3 py-2 font-medium text-slate-800 focus:outline-none focus:border-emerald-600">
                 </div>
 
-                <!-- City Selector -->
-                <div class="shrink-0">
-                    <select id="filter-city" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
-                        <option value="all">All Cities</option>
-                        <option value="Islamabad" selected>Islamabad</option>
-                        <option value="Rawalpindi">Rawalpindi</option>
-                        <option value="Murree">Murree</option>
-                        <option value="Nathia Gali">Nathia Gali</option>
-                    </select>
-                </div>
+                <select id="filter-type" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:border-emerald-600">
+                    <option value="all">All Types</option>
+                    <option value="residential_plot">Residential Plots</option>
+                    <option value="commercial_plot">Commercial Plots</option>
+                    <option value="all_homes">Homes</option>
+                </select>
 
-                <!-- Location Field -->
-                <div class="relative shrink-0 min-w-[170px]">
-                    <i class="fa-solid fa-location-dot absolute left-2.5 top-2 text-slate-400 text-[10px]"></i>
-                    <input type="text" id="filter-location" list="filter-location-datalist" oninput="debounceApplyFilters()" placeholder="Society / Location" class="w-full bg-slate-100 border border-slate-200 rounded-lg pl-7 pr-2 py-1.5 text-xs font-medium text-slate-800 focus:outline-none focus:border-emerald-600">
-                    <datalist id="filter-location-datalist"></datalist>
-                </div>
+                <select id="filter-price-range" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:border-emerald-600">
+                    <option value="all">Any Price</option>
+                    <option value="0-30000000">Under 3 Cr</option>
+                    <option value="30000000-100000000">3 – 10 Cr</option>
+                    <option value="100000000-999999999">10 Cr+</option>
+                </select>
 
-                <!-- Property Type -->
-                <div class="shrink-0">
-                    <select id="filter-type" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
-                        <option value="all">All Types</option>
-                        <optgroup label="Home">
-                            <option value="all_homes">All Homes</option>
-                            <option value="penthouse">Penthouse</option>
-                            <option value="house">House</option>
-                            <option value="flat">Flat</option>
-                            <option value="upper_portion">Upper portion</option>
-                            <option value="lower_portion">Lower portion</option>
-                            <option value="farmhouse">Farm House</option>
-                            <option value="room">Room</option>
-                        </optgroup>
-                        <optgroup label="Plots">
-                            <option value="all_plots">All Plots</option>
-                            <option value="commercial_plot">Commercial plots</option>
-                            <option value="residential_plot">Residential Plots</option>
-                            <option value="industrial_land">Industrial land</option>
-                            <option value="agricultural_land">Agricultural Land</option>
-                        </optgroup>
-                        <optgroup label="Commercial">
-                            <option value="all_commercial">All Commercial</option>
-                            <option value="shop">Shop</option>
-                            <option value="office">Office</option>
-                            <option value="factory">Factory</option>
-                            <option value="warehouse">Warehouse</option>
-                            <option value="building">Building</option>
-                            <option value="plaza">Plaza</option>
-                            <option value="other_commercial">Other</option>
-                        </optgroup>
-                    </select>
-                </div>
+                <select id="results-sort" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:border-emerald-600">
+                    <option value="default">Sort: Featured</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                </select>
 
-                <!-- Area Range Filter & Unit Selector -->
-                <div class="shrink-0 flex items-center gap-1">
-                    <select id="filter-area-range" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
-                        <option value="all">Area: Any Size</option>
-                        <option value="3">3 Marla</option>
-                        <option value="4">4 Marla</option>
-                        <option value="5">5 Marla</option>
-                        <option value="8">8 Marla</option>
-                        <option value="10">10 Marla</option>
-                        <option value="20">1 Kanal (20 Marla)</option>
-                        <option value="40">2 Kanal (40 Marla)</option>
-                        <option value="80">4 Kanal (80 Marla)</option>
-                        <option value="100">5 Kanal (100 Marla)</option>
-                    </select>
-                    <select id="filter-area-unit" onchange="changeFilterAreaUnit(this.value)" class="bg-slate-100 border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none focus:border-emerald-600" title="Area Unit">
-                        <option value="marla">Marla</option>
-                        <option value="sqft">Square Feet</option>
-                        <option value="sqyd">Square Yards</option>
-                        <option value="sqm">Square Meters</option>
-                        <option value="kanal">Kanal</option>
-                    </select>
-                </div>
-
-                <!-- Price Range Filter -->
-                <div class="shrink-0">
-                    <select id="filter-price-range" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
-                        <option value="all">Price: Any</option>
-                        <option value="0-15000000">Under 1.5 Crore</option>
-                        <option value="15000000-30000000">1.5 - 3.0 Crore</option>
-                        <option value="30000000-60000000">3.0 - 6.0 Crore</option>
-                        <option value="60000000-100000000">6.0 - 10 Crore</option>
-                        <option value="100000000-999999999">10 Crore+</option>
-                    </select>
-                </div>
-
-                <!-- Beds Filter -->
-                <div class="shrink-0">
-                    <select id="filter-beds" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
-                        <option value="0">Beds: Any</option>
-                        <option value="2">2+ Beds</option>
-                        <option value="3">3+ Beds</option>
-                        <option value="4">4+ Beds</option>
-                        <option value="5">5+ Beds</option>
-                    </select>
-                </div>
-
-                <!-- Keyword Search -->
-                <div class="relative shrink-0 min-w-[150px]">
-                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-slate-400 text-[10px]"></i>
-                    <input type="text" id="filter-keyword" oninput="debounceApplyFilters()" placeholder="Keyword..." class="w-full bg-slate-100 border border-slate-200 rounded-lg pl-7 pr-2 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-emerald-600">
-                </div>
-
-                <!-- "More Options" Expandable Drawer Toggle -->
-                <button type="button" onclick="toggleMoreOptionsDrawer()" class="btn-outline text-xs py-1.5 px-3 rounded-lg shrink-0 flex items-center gap-1.5">
-                    <i class="fa-solid fa-sliders text-xs"></i>
-                    <span>More Options</span>
-                    <span id="more-filters-badge" class="bg-emerald-700 text-white text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center">0</span>
-                </button>
-
-                <!-- Reset Filters Button -->
-                <button type="button" onclick="resetAllFilters()" title="Reset Filters" class="p-1.5 text-slate-400 hover:text-slate-800 text-xs shrink-0">
+                <button type="button" onclick="resetFilters()" title="Reset" class="p-2 text-slate-400 hover:text-slate-800">
                     <i class="fa-solid fa-rotate-left"></i>
                 </button>
             </div>
-        </div>
 
-        <!-- "More Options" Expandable Filter Drawer -->
-        <div id="more-options-drawer" class="hidden bg-slate-50 border-t border-slate-200 py-4 px-4 shadow-inner">
-            <div class="market-container grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 text-xs">
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Baths</label>
-                    <select id="more-baths" onchange="applyFilters()" class="w-full bg-white border border-slate-200 rounded-lg p-2">
-                        <option value="0">Any Baths</option>
-                        <option value="2">2+ Baths</option>
-                        <option value="3">3+ Baths</option>
-                        <option value="4">4+ Baths</option>
-                        <option value="5">5+ Baths</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Facing</label>
-                    <select id="more-facing" onchange="applyFilters()" class="w-full bg-white border border-slate-200 rounded-lg p-2">
-                        <option value="all">Any Facing</option>
-                        <option value="North">North Facing</option>
-                        <option value="East">East Facing</option>
-                        <option value="Corner">Corner Plot / Unit</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Urgency Status</label>
-                    <select id="more-urgency" onchange="applyFilters()" class="w-full bg-white border border-slate-200 rounded-lg p-2">
-                        <option value="all">All Listings</option>
-                        <option value="super-hot">Super Hot Only</option>
-                        <option value="hot">Hot Deals</option>
-                        <option value="verified">Verified Ads Only</option>
-                    </select>
-                </div>
-                <div class="flex items-end">
-                    <button type="button" onclick="toggleMoreOptionsDrawer()" class="w-full btn-primary py-2 rounded-lg font-bold">
-                        Apply & Close Drawer
-                    </button>
-                </div>
+            <!-- List / Map View Toggle -->
+            <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shrink-0">
+                <button type="button" id="view-btn-grid" onclick="setViewMode('grid')" class="px-3 py-1.5 rounded-lg font-bold bg-white text-emerald-700 shadow-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-grip"></i> Listings
+                </button>
+                <button type="button" id="view-btn-map" onclick="setViewMode('map')" class="px-3 py-1.5 rounded-lg font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1.5">
+                    <i class="fa-solid fa-map-pin text-emerald-600"></i> Plot Map
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- ==========================================================================
-         PAGE HEADING ROW & CATEGORY SUB-TABS (§5)
-         ========================================================================== -->
-    <div class="bg-white border-b border-slate-200 py-4">
-        <div class="market-container space-y-3">
-            <!-- Breadcrumbs -->
-            <nav class="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium">
-                <a href="index.html" class="hover:text-emerald-700">Home</a>
-                <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
-                <a href="projects.html" class="hover:text-emerald-700">Pakistan Property</a>
-                <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
-                <span id="breadcrumb-city" class="text-slate-700 font-semibold">Islamabad</span>
-            </nav>
+    <main class="market-container py-8 flex-1 space-y-6">
+        <div class="flex items-center justify-between">
+            <h1 class="text-xl sm:text-2xl font-extrabold outfit text-slate-900">
+                <span id="results-count" class="text-emerald-700">0</span> Verified Listings
+            </h1>
+            <a href="project-detail.html?slug=dha-margalla-enclave#payment-plan" class="text-xs font-bold text-emerald-700 hover:underline">
+                Payment Plans &rarr;
+            </a>
+        </div>
 
-            <!-- H1 Heading & Save Search -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                    <h1 id="page-h1-heading" class="text-xl sm:text-2xl lg:text-3xl font-extrabold outfit text-slate-900 tracking-tight">
-                        <span id="h1-count" class="text-emerald-700">14,322</span> Properties for Sale in <span id="h1-city">Islamabad</span>
-                    </h1>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button type="button" id="save-search-btn" onclick="toggleSaveSearch()" class="btn-outline text-xs py-1.5 px-3.5 rounded-full flex items-center gap-1.5">
-                        <i id="save-search-icon" class="fa-regular fa-bell"></i>
-                        <span id="save-search-text">Save Search</span>
-                    </button>
-                    <!-- Mobile Filter Drawer Toggle Button -->
-                    <button type="button" onclick="toggleMobileFilterRail()" class="lg:hidden btn-primary text-xs py-1.5 px-3 rounded-full flex items-center gap-1.5">
-                        <i class="fa-solid fa-filter"></i> Filters
-                    </button>
-                </div>
-            </div>
+        <!-- Map View Container (Hidden by default unless ?tool=plot-finder or toggled) -->
+        <div id="listings-map-view" class="hidden">
+            <div id="listings-plot-map-root"></div>
+        </div>
 
-            <!-- Category Sub-Tabs with Counts (§5) -->
-            <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin text-xs">
-                <button type="button" data-subcat="all" onclick="setSubCategory('all')" class="category-subtab px-3 py-1.5 rounded-full bg-emerald-700 text-white font-bold whitespace-nowrap">
-                    All Properties
-                </button>
-                <button type="button" data-subcat="all_homes" onclick="setSubCategory('all_homes')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Homes
-                </button>
-                <button type="button" data-subcat="house" onclick="setSubCategory('house')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Houses
-                </button>
-                <button type="button" data-subcat="flat" onclick="setSubCategory('flat')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Flats & Suites
-                </button>
-                <button type="button" data-subcat="penthouse" onclick="setSubCategory('penthouse')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Penthouses
-                </button>
-                <button type="button" data-subcat="upper_portion" onclick="setSubCategory('upper_portion')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Upper Portion
-                </button>
-                <button type="button" data-subcat="lower_portion" onclick="setSubCategory('lower_portion')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Lower Portion
-                </button>
-                <button type="button" data-subcat="farmhouse" onclick="setSubCategory('farmhouse')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Farm Houses
-                </button>
-                <button type="button" data-subcat="all_plots" onclick="setSubCategory('all_plots')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Plots
-                </button>
-                <button type="button" data-subcat="commercial_plot" onclick="setSubCategory('commercial_plot')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Commercial Plots
-                </button>
-                <button type="button" data-subcat="residential_plot" onclick="setSubCategory('residential_plot')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Residential Plots
-                </button>
-                <button type="button" data-subcat="all_commercial" onclick="setSubCategory('all_commercial')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Commercial
-                </button>
-                <button type="button" data-subcat="shop" onclick="setSubCategory('shop')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Shops
-                </button>
-                <button type="button" data-subcat="office" onclick="setSubCategory('office')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Offices
-                </button>
-                <button type="button" data-subcat="plaza" onclick="setSubCategory('plaza')" class="category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap">
-                    Plazas
-                </button>
-                <button type="button" data-subcat="newproject" onclick="setSubCategory('newproject')" class="category-subtab px-3 py-1.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold whitespace-nowrap">
-                    New Projects
-                </button>
+        <!-- Listings Grid -->
+        <div id="properties-card-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="col-span-full py-16 text-center text-slate-400 text-xs">
+                <i class="fa-solid fa-circle-notch fa-spin text-emerald-600 text-lg mr-2"></i> Loading listings...
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- ==========================================================================
-         2-PANEL MAIN CONTENT LAYOUT (§2, §5)
-         Left Filter Rail (~22%) + Wide Results Column (~78%)
-         ========================================================================== -->
-    <div class="market-container py-8 flex-1">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            <!-- ==========================================================================
-                 LEFT FILTER RAIL (Collapsible on mobile into drawer - §2, §5)
-                 ========================================================================== -->
-            <aside id="left-filter-rail" class="lg:col-span-3 space-y-6 hidden lg:block bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                
-                <!-- Left Rail Header -->
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <span class="font-bold outfit text-slate-900 text-sm flex items-center gap-2">
-                        <i class="fa-solid fa-sliders text-emerald-700"></i> Narrow Search
-                    </span>
-                    <button type="button" onclick="resetAllFilters()" class="text-xs text-slate-400 hover:text-emerald-700 font-semibold">
-                        Reset All
-                    </button>
-                </div>
-
-                <!-- Locations Panel (§5) -->
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <h4 class="font-bold text-xs uppercase tracking-wider text-slate-800">Locations</h4>
-                        <button type="button" onclick="toggleSortLocations()" class="text-[11px] text-emerald-700 hover:underline font-medium">
-                            <span id="loc-sort-label">Sort A-Z</span>
-                        </button>
-                    </div>
-
-                    <!-- Neighborhood Checkbox List with Counts -->
-                    <div id="locations-checkbox-list" class="space-y-1 max-h-56 overflow-y-auto pr-1 scrollbar-thin text-xs">
-                        <div class="text-slate-400 py-3 text-center text-[11px]"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Loading locations...</div>
-                    </div>
-
-                    <a href="societies.html" class="text-xs text-emerald-700 hover:underline font-bold block pt-1">
-                        View All Locations & Maps &raquo;
-                    </a>
-                </div>
-
-                <!-- Budget Presets Block (§5) -->
-                <div class="space-y-2.5 pt-4 border-t border-slate-100">
-                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-800">Payment Modes</h4>
-                    <div class="grid grid-cols-3 gap-1.5 text-center text-xs">
-                        <button type="button" onclick="setBudgetPreset('any')" id="preset-any" class="py-1.5 rounded-lg border border-slate-200 bg-emerald-50 text-emerald-800 font-bold">Any</button>
-                        <button type="button" onclick="setBudgetPreset('cash')" id="preset-cash" class="py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-semibold">Cash</button>
-                        <button type="button" onclick="setBudgetPreset('installments')" id="preset-inst" class="py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-semibold">Installments</button>
-                    </div>
-                </div>
-
-                <!-- Urgency & Agency Tier Quick Filter -->
-                <div class="space-y-2 pt-4 border-t border-slate-100 text-xs font-semibold">
-                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-800 mb-2">Listing Quality</h4>
-                    <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
-                        <input type="checkbox" id="check-verified-only" onchange="applyFilters()" class="accent-emerald-700">
-                        <span>Verified Listings Only</span>
-                    </label>
-                    <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
-                        <input type="checkbox" id="check-titanium-only" onchange="applyFilters()" class="accent-emerald-700">
-                        <span>Titanium Agencies Only</span>
-                    </label>
-                </div>
-
-                <!-- Support Banner inside Rail -->
-                <div class="bg-slate-900 text-white p-4 rounded-xl space-y-2 text-xs">
-                    <span class="text-amber-400 font-bold uppercase text-[10px] tracking-wider block">Direct Advisory</span>
-                    <p class="font-semibold text-slate-200">Need help finding off-market plots in Bahria or CDA?</p>
-                    <a href="https://wa.me/923340091127" target="_blank" class="w-full btn-whatsapp py-2 rounded-lg text-xs font-bold block text-center">
-                        <i class="fa-brands fa-whatsapp mr-1"></i> Chat with Broker
-                    </a>
-                </div>
-            </aside>
-
-            <!-- ==========================================================================
-                 WIDE RESULTS COLUMN (~78% - §5)
-                 ========================================================================== -->
-            <section class="lg:col-span-9 space-y-6">
-                
-                <!-- Results Toolbar (§5) -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 text-xs">
-                    <!-- Left: Result Range Text -->
-                    <div class="text-slate-600 font-semibold">
-                        Showing <span id="toolbar-range-text" class="text-slate-900 font-bold">1 to 8 of 8</span> Properties
-                    </div>
-
-                    <!-- Right: Sort Dropdown -->
-                    <div class="flex items-center gap-2">
-                        <label class="text-slate-500 font-medium">Sort by:</label>
-                        <select id="results-sort" onchange="applySortAndRender()" class="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-600 cursor-pointer">
-                            <option value="popular" selected>Popular</option>
-                            <option value="price-asc">Price: Low to High</option>
-                            <option value="price-desc">Price: High to Low</option>
-                            <option value="newest">Newest First</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- PROPERTY CARDS LIST CONTAINER (§5) -->
-                <div id="properties-card-list" class="space-y-4">
-                    <!-- Loaded dynamically via JavaScript -->
-                    <div class="text-center py-20 text-slate-400">
-                        <i class="fa-solid fa-spinner animate-spin text-3xl text-emerald-600 mb-3"></i>
-                        <p class="text-xs font-bold uppercase tracking-wider">Loading marketplace listings...</p>
-                    </div>
-                </div>
-
-                <!-- PAGINATION BAR (§5) -->
-                <div class="pt-6 border-t border-slate-200 flex items-center justify-between flex-wrap gap-4 text-xs font-semibold">
-                    <div class="text-slate-500">
-                        Page <span id="current-page-num" class="font-bold text-slate-900">1</span> of <span id="total-pages-num" class="font-bold text-slate-900">1</span>
-                    </div>
-
-                    <div id="pagination-links-container" class="flex items-center gap-1.5">
-                        <button class="w-8 h-8 rounded-lg bg-emerald-700 text-white font-bold flex items-center justify-center shadow-xs">1</button>
-                        <button class="w-8 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 flex items-center justify-center">2</button>
-                        <button class="w-8 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 flex items-center justify-center">3</button>
-                        <button class="px-3 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 flex items-center gap-1 font-bold">
-                            Next <i class="fa-solid fa-chevron-right text-[9px]"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ==========================================================================
-                     BELOW-FOLD SEO / CONTENT BLOCK (§5)
-                     ========================================================================== -->
-                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 space-y-4 text-xs leading-relaxed text-slate-600 mt-12">
-                    <h2 class="text-lg font-bold outfit text-slate-900">About DHA Margalla Enclave Islamabad Ballots & Real Estate</h2>
-                    <p>
-                        DHA Margalla Enclave Islamabad represents the premier defense housing opportunity in the capital city, located directly on the scenic Margalla Avenue Corridor at the foothills of Margalla. Offering computerized balloting for Ballot 1 (Residential Plots: 125, 250, 500 Sq Yds) and Ballot 2 (Commercial Plots: 100, 133.25, 200, 500 Sq Yds).
-                    </p>
-                    <p>
-                        Investors and home buyers can choose between 100% Lump Sum settlement (with discounted pricing) or flexible 1-Year (4 Quarters), 2-Year (8 Quarters), and 3-Year (12 Quarters) payment schedules with only 20% down payment required within 30 days of balloting.
-                    </p>
-
-                    <!-- Popular Searches Wrapping Tag Cloud (§5) -->
-                    <div class="pt-4 border-t border-slate-100">
-                        <h4 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] mb-3">Popular Searches in DHA Margalla Enclave</h4>
-                        <div class="flex flex-wrap gap-2">
-                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-125" class="tag-cloud-chip">125 Sq Yds (5 Marla) Residential Plot</a>
-                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-250" class="tag-cloud-chip">250 Sq Yds (10 Marla) Residential Plot</a>
-                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=res-500" class="tag-cloud-chip">500 Sq Yds (1 Kanal) Residential Plot</a>
-                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-100" class="tag-cloud-chip">100 Sq Yds (4 Marla) Commercial Plot</a>
-                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-133" class="tag-cloud-chip">133.25 Sq Yds Commercial Plot</a>
-                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-200" class="tag-cloud-chip">200 Sq Yds Boulevard Commercial</a>
-                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2&plot=comm-500" class="tag-cloud-chip">500 Sq Yds Commercial Mega Plot</a>
-                            <a href="projects.html?type=residential_plot" class="tag-cloud-chip">DHA Ballot 1 Residential Plots</a>
-                            <a href="projects.html?type=commercial_plot" class="tag-cloud-chip">DHA Ballot 2 Commercial Plots</a>
-                            <a href="project-detail.html?slug=dha-margalla-enclave-ballot-1-2#payment-plan" class="tag-cloud-chip">3-Year Installment Payment Schedule</a>
-                        </div>
-                    </div>
-                </div>
-
-            </section>
-        </div>
-    </div>
-
-    <!-- Mobile Filter Off-Canvas Drawer (<1024px) -->
-    <div id="mobile-filter-rail-drawer" onclick="if(event.target === this) toggleMobileFilterRail()" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[75] hidden flex flex-col justify-end transition-all">
-        <div class="bg-white rounded-t-3xl max-h-[88vh] overflow-y-auto p-5 sm:p-6 space-y-5 shadow-2xl">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <span class="font-bold outfit text-slate-900 text-base flex items-center gap-2">
-                    <i class="fa-solid fa-sliders text-emerald-700"></i> Filter Properties
-                </span>
-                <div class="flex items-center gap-3">
-                    <button type="button" onclick="resetAllFilters()" class="text-xs text-slate-400 hover:text-emerald-700 font-semibold">
-                        Reset All
-                    </button>
-                    <button onclick="toggleMobileFilterRail()" aria-label="Close filters" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors">
-                        <i class="fa-solid fa-xmark text-sm"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Location Checkboxes -->
-            <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-800">Locations & Societies</h4>
-                    <button type="button" onclick="toggleSortLocations()" class="text-[11px] text-emerald-700 hover:underline font-medium">
-                        <span id="loc-sort-label-mobile">Sort A-Z</span>
-                    </button>
-                </div>
-                <div id="locations-checkbox-list-mobile" class="space-y-1 max-h-48 overflow-y-auto pr-1 scrollbar-thin text-xs">
-                    <div class="text-slate-400 py-3 text-center text-[11px]"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Loading locations...</div>
-                </div>
-            </div>
-
-            <!-- Mobile Payment Modes -->
-            <div class="space-y-2.5 pt-3 border-t border-slate-100">
-                <h4 class="font-bold text-xs uppercase tracking-wider text-slate-800">Payment Modes</h4>
-                <div class="grid grid-cols-3 gap-1.5 text-center text-xs">
-                    <button type="button" onclick="setBudgetPreset('any')" class="preset-btn-any py-2 rounded-lg border border-slate-200 bg-emerald-50 text-emerald-800 font-bold">Any</button>
-                    <button type="button" onclick="setBudgetPreset('cash')" class="preset-btn-cash py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-semibold">Cash</button>
-                    <button type="button" onclick="setBudgetPreset('installments')" class="preset-btn-inst py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-semibold">Installments</button>
-                </div>
-            </div>
-
-            <!-- Mobile Quality Filters -->
-            <div class="space-y-2 pt-3 border-t border-slate-100 text-xs font-semibold">
-                <h4 class="font-bold text-xs uppercase tracking-wider text-slate-800 mb-2">Listing Quality</h4>
-                <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
-                    <input type="checkbox" id="check-verified-only-mobile" onchange="syncAndApplyVerified(this.checked)" class="accent-emerald-700">
-                    <span>Verified Listings Only</span>
-                </label>
-                <label class="flex items-center gap-2 text-slate-700 cursor-pointer">
-                    <input type="checkbox" id="check-titanium-only-mobile" onchange="syncAndApplyTitanium(this.checked)" class="accent-emerald-700">
-                    <span>Titanium Agencies Only</span>
-                </label>
-            </div>
-
-            <!-- Mobile Apply Action Button -->
-            <div class="pt-3 border-t border-slate-100">
-                <button type="button" onclick="toggleMobileFilterRail(); applyFilters();" class="w-full btn-primary py-3 rounded-xl text-xs font-bold shadow-md flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-check"></i> Apply Filters (<span id="mobile-filter-count-btn">View Results</span>)
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer (Dynamic Shared UI) -->
     <div id="site-footer"></div>
 
-    <!-- ==========================================================================
-         JAVASCRIPT LOGIC: FILTER ENGINE & PROPERTY CARD RENDERING (§5, §8, §12)
-         ========================================================================== -->
     <script>
         let allProperties = [];
         let filteredProperties = [];
-        let globalSocieties = [];
-        let activePurpose = 'sale';
-        let isSavedSearch = false;
-        let selectedLocations = [];
-        let locationSortAsc = true;
-        let currentPage = 1;
-        const itemsPerPage = 6;
+        let listingsMap = null;
+        let currentView = 'grid';
 
-        function goToPage(page) {
-            currentPage = page;
-            renderPropertyCards();
-            const topEl = document.getElementById('properties-card-list');
-            if (topEl) topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        function setViewMode(mode) {
+            currentView = mode;
+            const gridEl = document.getElementById('properties-card-list');
+            const mapWrap = document.getElementById('listings-map-view');
+            const btnGrid = document.getElementById('view-btn-grid');
+            const btnMap = document.getElementById('view-btn-map');
 
-        // Initialize Page
-        window.addEventListener('DOMContentLoaded', async () => {
-            // Hydrate Dynamic Filter Dropdowns from KaghanDB
-            if (window.KaghanDB) {
-                try {
-                    const [cities, categories, societies] = await Promise.all([
-                        window.KaghanDB.getCities(true),
-                        window.KaghanDB.getCategories(true),
-                        window.KaghanDB.getSocieties(null, true)
-                    ]);
-                    globalSocieties = societies || [];
-
-                    const cityEl = document.getElementById('filter-city');
-                    if (cityEl && cities && cities.length > 0) {
-                        cityEl.innerHTML = `<option value="all">All Cities</option>` + cities.map(c => `
-                            <option value="${c.name}">${c.name}</option>
-                        `).join('');
-                    }
-
-                    const typeEl = document.getElementById('filter-type');
-                    if (typeEl && categories && categories.length > 0) {
-                        const homeOpts = categories.filter(c => (c.group || '').toLowerCase() === 'home' || (c.group || '').toLowerCase() === 'homes');
-                        const plotOpts = categories.filter(c => (c.group || '').toLowerCase() === 'plots' || (c.group || '').toLowerCase() === 'plot');
-                        const commOpts = categories.filter(c => (c.group || '').toLowerCase() === 'commercial');
-
-                        typeEl.innerHTML = `<option value="all">All Types</option>` +
-                            `<optgroup label="Home">` + homeOpts.map(c => `<option value="${c.slug}">${c.name}</option>`).join('') + `</optgroup>` +
-                            `<optgroup label="Plots">` + plotOpts.map(c => `<option value="${c.slug}">${c.name}</option>`).join('') + `</optgroup>` +
-                            `<optgroup label="Commercial">` + commOpts.map(c => `<option value="${c.slug}">${c.name}</option>`).join('') + `</optgroup>`;
-                    }
-
-                    const locDatalist = document.getElementById('filter-location-datalist');
-                    if (locDatalist && societies && societies.length > 0) {
-                        locDatalist.innerHTML = societies.map(s => `
-                            <option value="${s.name}">
-                            <option value="${s.name}, ${s.city}">
-                        `).join('');
-                    }
-                } catch(e) {
-                    console.warn('Error populating dynamic filters in projects.html:', e);
-                }
-            }
-
-            // Read URL Params
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('purpose')) activePurpose = params.get('purpose');
-            if (params.get('city')) {
-                const cityEl = document.getElementById('filter-city');
-                if (cityEl) {
-                    // If city is not already an option in select, add it
-                    const exists = Array.from(cityEl.options).some(o => o.value.toLowerCase() === params.get('city').toLowerCase());
-                    if (!exists) {
-                        cityEl.innerHTML += `<option value="${params.get('city')}" selected>${params.get('city')}</option>`;
-                    } else {
-                        cityEl.value = params.get('city');
-                    }
-                }
-            }
-            if (params.get('area') || params.get('society') || params.get('location')) {
-                const locVal = params.get('area') || params.get('society') || params.get('location');
-                const areaEl = document.getElementById('filter-location');
-                if (areaEl) areaEl.value = locVal;
-            }
-            if (params.get('keyword') || params.get('q')) {
-                const kwVal = params.get('keyword') || params.get('q');
-                const kwEl = document.getElementById('filter-keyword');
-                if (kwEl) kwEl.value = kwVal;
-            }
-            if (params.get('type')) {
-                const typeEl = document.getElementById('filter-type');
-                if (typeEl) {
-                    const exists = Array.from(typeEl.options).some(o => o.value.toLowerCase() === params.get('type').toLowerCase());
-                    if (!exists) {
-                        typeEl.innerHTML += `<option value="${params.get('type')}" selected>${params.get('type')}</option>`;
-                    } else {
-                        typeEl.value = params.get('type');
-                    }
-                }
-            }
-            if (params.get('areaUnit')) {
-                changeFilterAreaUnit(params.get('areaUnit'));
-            } else if (window.KaghanSharedUI?.areaUnit) {
-                changeFilterAreaUnit(window.KaghanSharedUI.areaUnit);
-            }
-            if (params.get('minArea') || params.get('size')) {
-                const sizeVal = params.get('minArea') || params.get('size');
-                const rangeEl = document.getElementById('filter-area-range');
-                if (rangeEl) rangeEl.value = sizeVal;
-            }
-
-            if (params.get('isNewProject') === 'true') {
-                activeSubCategory = 'newproject';
-                document.querySelectorAll('.category-subtab').forEach(btn => {
-                    const isActive = btn.getAttribute('data-subcat') === 'newproject';
-                    btn.className = isActive 
-                        ? 'category-subtab px-3 py-1.5 rounded-full bg-emerald-700 text-white font-bold whitespace-nowrap'
-                        : 'category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap';
-                });
-            }
-
-            syncPurposeUI();
-
-            // Load Data strictly from KaghanDB / Firestore
-            if (window.KaghanDB && window.KaghanDB.getProperties) {
-                allProperties = await window.KaghanDB.getProperties();
-            } else {
-                allProperties = [];
-            }
-
-            // Dynamically render location checkboxes with live Firestore counts
-            renderLocationCheckboxes(globalSocieties, allProperties);
-
-            // Listen to currency or unit changes from header
-            window.addEventListener('marketStateChanged', (e) => {
-                if (e.detail && e.detail.areaUnit) {
-                    const unitEl = document.getElementById('filter-area-unit');
-                    if (unitEl && unitEl.value !== e.detail.areaUnit) {
-                        changeFilterAreaUnit(e.detail.areaUnit);
-                    }
-                }
-                renderPropertyCards();
-            });
-
-            applyFilters();
-        });
-
-        const PROJECT_AREA_UNIT_PRESETS = {
-            marla: [
-                { val: 'all', label: 'Area: Any Size' },
-                { val: '3', label: '3 Marla' },
-                { val: '4', label: '4 Marla' },
-                { val: '5', label: '5 Marla' },
-                { val: '8', label: '8 Marla' },
-                { val: '10', label: '10 Marla' },
-                { val: '20', label: '1 Kanal (20 Marla)' },
-                { val: '40', label: '2 Kanal (40 Marla)' },
-                { val: '80', label: '4 Kanal (80 Marla)' },
-                { val: '100', label: '5 Kanal (100 Marla)' }
-            ],
-            sqft: [
-                { val: 'all', label: 'Area: Any Size' },
-                { val: '3', label: '675 Sq. Ft. (3M)' },
-                { val: '4', label: '900 Sq. Ft. (4M)' },
-                { val: '5', label: '1,125 Sq. Ft. (5M)' },
-                { val: '8', label: '1,800 Sq. Ft. (8M)' },
-                { val: '10', label: '2,250 Sq. Ft. (10M)' },
-                { val: '20', label: '4,500 Sq. Ft. (1 Kanal)' },
-                { val: '40', label: '9,000 Sq. Ft. (2 Kanal)' },
-                { val: '80', label: '18,000 Sq. Ft. (4 Kanal)' },
-                { val: '100', label: '22,500+ Sq. Ft. (5 Kanal)' }
-            ],
-            sqyd: [
-                { val: 'all', label: 'Area: Any Size' },
-                { val: '3', label: '75 Sq. Yd. (3M)' },
-                { val: '4', label: '100 Sq. Yd. (4M)' },
-                { val: '5', label: '125 Sq. Yd. (5M)' },
-                { val: '8', label: '200 Sq. Yd. (8M)' },
-                { val: '10', label: '250 Sq. Yd. (10M)' },
-                { val: '20', label: '500 Sq. Yd. (1 Kanal)' },
-                { val: '40', label: '1,000 Sq. Yd. (2 Kanal)' },
-                { val: '80', label: '2,000 Sq. Yd. (4 Kanal)' },
-                { val: '100', label: '2,500+ Sq. Yd. (5 Kanal)' }
-            ],
-            sqm: [
-                { val: 'all', label: 'Area: Any Size' },
-                { val: '3', label: '63 Sq. M. (3M)' },
-                { val: '4', label: '84 Sq. M. (4M)' },
-                { val: '5', label: '105 Sq. M. (5M)' },
-                { val: '8', label: '167 Sq. M. (8M)' },
-                { val: '10', label: '209 Sq. M. (10M)' },
-                { val: '20', label: '418 Sq. M. (1 Kanal)' },
-                { val: '40', label: '836 Sq. M. (2 Kanal)' },
-                { val: '80', label: '1,672 Sq. M. (4 Kanal)' },
-                { val: '100', label: '2,090+ Sq. M. (5 Kanal)' }
-            ],
-            kanal: [
-                { val: 'all', label: 'Area: Any Size' },
-                { val: '3', label: '3 Marla (0.15 Kanal)' },
-                { val: '4', label: '4 Marla (0.2 Kanal)' },
-                { val: '5', label: '0.25 Kanal (5 Marla)' },
-                { val: '10', label: '0.5 Kanal (10 Marla)' },
-                { val: '20', label: '1 Kanal' },
-                { val: '40', label: '2 Kanal' },
-                { val: '80', label: '4 Kanal' },
-                { val: '100', label: '5 Kanal' }
-            ]
-        };
-
-        function changeFilterAreaUnit(unit) {
-            const u = (unit || 'marla').toLowerCase();
-            const rangeSelect = document.getElementById('filter-area-range');
-            const unitSelect = document.getElementById('filter-area-unit');
-            if (unitSelect) unitSelect.value = u;
-
-            if (rangeSelect) {
-                const currentVal = rangeSelect.value;
-                const opts = PROJECT_AREA_UNIT_PRESETS[u] || PROJECT_AREA_UNIT_PRESETS.marla;
-                rangeSelect.innerHTML = opts.map(o => `<option value="${o.val}" ${o.val === currentVal ? 'selected' : ''}>${o.label}</option>`).join('');
-            }
-
-            if (window.KaghanSharedUI && window.KaghanSharedUI.areaUnit !== u) {
-                window.KaghanSharedUI.setAreaUnit(u);
-            }
-
-            applyFilters();
-        }
-
-        function syncPurposeUI() {
-            const btnSale = document.getElementById('filter-purpose-sale');
-            const btnRent = document.getElementById('filter-purpose-rent');
-            if (activePurpose === 'rent') {
-                btnSale.classList.remove('active');
-                btnRent.classList.add('active');
-            } else {
-                btnSale.classList.add('active');
-                btnRent.classList.remove('active');
-            }
-        }
-
-        function setFilterPurpose(purpose) {
-            activePurpose = purpose;
-            syncPurposeUI();
-            applyFilters();
-        }
-
-        let activeSubCategory = 'all';
-        function setSubCategory(cat) {
-            activeSubCategory = cat;
-            document.querySelectorAll('.category-subtab').forEach(btn => {
-                const isActive = btn.getAttribute('data-subcat') === cat;
-                btn.className = isActive 
-                    ? 'category-subtab px-3 py-1.5 rounded-full bg-emerald-700 text-white font-bold whitespace-nowrap'
-                    : 'category-subtab px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold whitespace-nowrap';
-            });
-            const typeEl = document.getElementById('filter-type');
-            if (cat === 'all' || cat === 'newproject') {
-                typeEl.value = 'all';
-            } else {
-                typeEl.value = cat;
-            }
-            applyFilters();
-        }
-
-        function handleLocationCheck(cb) {
-            if (cb.checked) {
-                if (!selectedLocations.includes(cb.value)) selectedLocations.push(cb.value);
-            } else {
-                selectedLocations = selectedLocations.filter(x => x !== cb.value);
-            }
-            applyFilters();
-        }
-
-        function setBudgetPreset(preset) {
-            ['preset-any', 'preset-cash', 'preset-inst'].forEach(id => {
-                const b = document.getElementById(id);
-                b.className = 'py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-semibold';
-            });
-            if (preset === 'any') {
-                document.getElementById('preset-any').className = 'py-1.5 rounded-lg border border-slate-200 bg-emerald-50 text-emerald-800 font-bold';
-            } else if (preset === 'cash') {
-                document.getElementById('preset-cash').className = 'py-1.5 rounded-lg border border-slate-200 bg-emerald-50 text-emerald-800 font-bold';
-            } else if (preset === 'installments') {
-                document.getElementById('preset-inst').className = 'py-1.5 rounded-lg border border-slate-200 bg-emerald-50 text-emerald-800 font-bold';
-            }
-            applyFilters();
-        }
-
-        let debounceTimer;
-        function debounceApplyFilters() {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(applyFilters, 250);
-        }
-
-        function toggleMoreOptionsDrawer() {
-            const d = document.getElementById('more-options-drawer');
-            d.classList.toggle('hidden');
-        }
-
-        function toggleMobileFilterRail() {
-            const drawer = document.getElementById('mobile-filter-rail-drawer');
-            if (drawer) {
-                drawer.classList.toggle('hidden');
-                if (!drawer.classList.contains('hidden')) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = '';
-                }
-            }
-        }
-
-        function syncAndApplyVerified(val) {
-            const el1 = document.getElementById('check-verified-only');
-            const el2 = document.getElementById('check-verified-only-mobile');
-            if (el1) el1.checked = val;
-            if (el2) el2.checked = val;
-            applyFilters();
-        }
-
-        function syncAndApplyTitanium(val) {
-            const el1 = document.getElementById('check-titanium-only');
-            const el2 = document.getElementById('check-titanium-only-mobile');
-            if (el1) el1.checked = val;
-            if (el2) el2.checked = val;
-            applyFilters();
-        }
-
-        function toggleSaveSearch() {
-            isSavedSearch = !isSavedSearch;
-            const btn = document.getElementById('save-search-btn');
-            const icon = document.getElementById('save-search-icon');
-            const text = document.getElementById('save-search-text');
-            if (isSavedSearch) {
-                btn.className = 'btn-primary text-xs py-1.5 px-3.5 rounded-full flex items-center gap-1.5';
-                icon.className = 'fa-solid fa-check';
-                text.innerText = 'Search Saved';
-            } else {
-                btn.className = 'btn-outline text-xs py-1.5 px-3.5 rounded-full flex items-center gap-1.5';
-                icon.className = 'fa-regular fa-bell';
-                text.innerText = 'Save Search';
-            }
-        }
-
-        function renderLocationCheckboxes(societies, properties) {
-            const containerDesktop = document.getElementById('locations-checkbox-list');
-            const containerMobile = document.getElementById('locations-checkbox-list-mobile');
-            if (!containerDesktop && !containerMobile) return;
-
-            const locMap = new Map();
-
-            (societies || []).forEach(s => {
-                locMap.set(s.name, {
-                    name: s.name,
-                    displayName: s.name + (s.city ? ` (${s.city})` : ''),
-                    count: 0
-                });
-            });
-
-            (properties || []).forEach(p => {
-                const area = (p.area || '').trim();
-                if (area && !locMap.has(area)) {
-                    locMap.set(area, {
-                        name: area,
-                        displayName: area + (p.city ? ` (${p.city})` : ''),
-                        count: 0
+            if (mode === 'map') {
+                gridEl.classList.add('hidden');
+                mapWrap.classList.remove('hidden');
+                btnMap.className = 'px-3 py-1.5 rounded-lg font-bold bg-white text-emerald-700 shadow-xs flex items-center gap-1.5';
+                btnGrid.className = 'px-3 py-1.5 rounded-lg font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1.5';
+                if (!listingsMap && window.KaghanPlotMap) {
+                    listingsMap = window.KaghanPlotMap.create('listings-plot-map-root', {
+                        mode: 'multi',
+                        properties: filteredProperties,
+                        height: '580px'
                     });
+                } else if (listingsMap) {
+                    listingsMap.updateProperties(filteredProperties);
+                    setTimeout(() => listingsMap.invalidateSize(), 150);
                 }
-            });
-
-            locMap.forEach((val, key) => {
-                const kLower = key.toLowerCase();
-                const matched = (properties || []).filter(p => 
-                    (p.area && p.area.toLowerCase().includes(kLower)) ||
-                    (p.sector && p.sector.toLowerCase().includes(kLower))
-                );
-                val.count = matched.length;
-            });
-
-            const locList = Array.from(locMap.values());
-            if (locationSortAsc) {
-                locList.sort((a, b) => a.name.localeCompare(b.name));
             } else {
-                locList.sort((a, b) => b.count - a.count);
+                mapWrap.classList.add('hidden');
+                gridEl.classList.remove('hidden');
+                btnGrid.className = 'px-3 py-1.5 rounded-lg font-bold bg-white text-emerald-700 shadow-xs flex items-center gap-1.5';
+                btnMap.className = 'px-3 py-1.5 rounded-lg font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1.5';
             }
-
-            const html = locList.length === 0 
-                ? `<div class="text-slate-400 py-3 text-center text-[11px]">No verified locations found</div>`
-                : locList.map(loc => {
-                    const isChecked = selectedLocations.includes(loc.name);
-                    return `
-                        <label class="custom-checkbox-row flex items-center justify-between py-1 px-1.5 hover:bg-slate-50 rounded cursor-pointer transition-colors">
-                            <span class="flex items-center gap-2">
-                                <input type="checkbox" value="${loc.name}" ${isChecked ? 'checked' : ''} onchange="handleLocationCheck(this)" class="accent-emerald-700 rounded cursor-pointer">
-                                <span class="truncate max-w-[150px] font-medium text-slate-700" title="${loc.displayName}">${loc.name}</span>
-                            </span>
-                            <span class="text-slate-400 tabular-nums text-[10px] font-bold">(${loc.count})</span>
-                        </label>
-                    `;
-                }).join('');
-
-            if (containerDesktop) containerDesktop.innerHTML = html;
-            if (containerMobile) containerMobile.innerHTML = html;
         }
 
-        function toggleSortLocations() {
-            locationSortAsc = !locationSortAsc;
-            const lblDesktop = document.getElementById('loc-sort-label');
-            const lblMobile = document.getElementById('loc-sort-label-mobile');
-            const text = locationSortAsc ? 'Sort A-Z' : 'Sort by Count';
-            if (lblDesktop) lblDesktop.innerText = text;
-            if (lblMobile) lblMobile.innerText = text;
-            renderLocationCheckboxes(globalSocieties, allProperties);
-        }
-
-        function resetAllFilters() {
-            document.getElementById('filter-city').value = 'all';
-            document.getElementById('filter-location').value = '';
-            document.getElementById('filter-type').value = 'all';
-            document.getElementById('filter-area-range').value = 'all';
-            document.getElementById('filter-price-range').value = 'all';
-            document.getElementById('filter-beds').value = '0';
+        function resetFilters() {
             document.getElementById('filter-keyword').value = '';
-            document.querySelectorAll('#locations-checkbox-list input, #locations-checkbox-list-mobile input').forEach(c => c.checked = false);
-            selectedLocations = [];
-            const v1 = document.getElementById('check-verified-only'); if (v1) v1.checked = false;
-            const v2 = document.getElementById('check-verified-only-mobile'); if (v2) v2.checked = false;
-            const t1 = document.getElementById('check-titanium-only'); if (t1) t1.checked = false;
-            const t2 = document.getElementById('check-titanium-only-mobile'); if (t2) t2.checked = false;
-            activePurpose = 'sale';
-            syncPurposeUI();
+            document.getElementById('filter-type').value = 'all';
+            document.getElementById('filter-price-range').value = 'all';
+            document.getElementById('results-sort').value = 'default';
             applyFilters();
         }
 
-        // Apply all filters to allProperties
         function applyFilters() {
-            currentPage = 1;
-            const city = document.getElementById('filter-city').value;
-            const locQuery = document.getElementById('filter-location').value.trim().toLowerCase();
+            const kw = (document.getElementById('filter-keyword').value || '').trim().toLowerCase();
             const type = document.getElementById('filter-type').value;
-            const areaRange = document.getElementById('filter-area-range').value;
             const priceRange = document.getElementById('filter-price-range').value;
-            const minBeds = parseInt(document.getElementById('filter-beds').value, 10);
-            const keyword = document.getElementById('filter-keyword').value.trim().toLowerCase();
-            const verifiedOnly = document.getElementById('check-verified-only').checked;
-            const titaniumOnly = document.getElementById('check-titanium-only').checked;
+            const sort = document.getElementById('results-sort').value;
 
             filteredProperties = allProperties.filter(p => {
-                // Purpose
-                if (p.purpose && p.purpose !== activePurpose) return false;
-
-                // SubCategory: New Projects
-                if (activeSubCategory === 'newproject' && !p.isNewProject) return false;
-
-                // City
-                if (city !== 'all' && p.city.toLowerCase() !== city.toLowerCase()) return false;
-
-                // Location field
-                if (locQuery && !p.area.toLowerCase().includes(locQuery) && !p.address.toLowerCase().includes(locQuery)) return false;
-
-                // Checkbox locations
-                if (selectedLocations.length > 0) {
-                    const match = selectedLocations.some(l => p.area.toLowerCase().includes(l.toLowerCase()));
-                    if (!match) return false;
+                if (kw) {
+                    const hay = `${p.title || ''} ${p.area || ''} ${p.sector || ''} ${p.plotNumber || ''} ${p.plotSector || ''} ${p.ballotPhase || ''}`.toLowerCase();
+                    if (!hay.includes(kw)) return false;
                 }
-
-                // Type & Category matching
                 if (type !== 'all') {
-                    const pType = (p.type || '').toLowerCase();
-                    const pSubType = (p.subtype || '').toLowerCase();
-                    const pCat = (p.category || '').toLowerCase();
-                    const pText = `${p.title || ''} ${p.description || ''} ${p.type || ''} ${p.subtype || ''}`.toLowerCase();
-
-                    if (type === 'all_homes' || type === 'homes' || type === 'home') {
-                        const homeTypes = ['house', 'flat', 'apartment', 'penthouse', 'upper_portion', 'lower_portion', 'farmhouse', 'room', 'chalet', 'all_homes'];
-                        const matchHome = homeTypes.includes(pType) || homeTypes.includes(pSubType) || pCat === 'homes' || pCat === 'home' || /house|villa|flat|apartment|penthouse|portion|farmhouse|chalet|suite|room/.test(pText);
-                        if (!matchHome) return false;
-                    } else if (type === 'all_plots' || type === 'plots' || type === 'plot') {
-                        const plotTypes = ['plot', 'commercial_plot', 'residential_plot', 'industrial_land', 'agricultural_land', 'all_plots'];
-                        const matchPlot = plotTypes.includes(pType) || plotTypes.includes(pSubType) || pCat === 'plots' || pCat === 'plot' || /plot|land|file|marla plot|kanal plot/.test(pText);
-                        if (!matchPlot) return false;
-                    } else if (type === 'all_commercial' || type === 'commercial') {
-                        const commTypes = ['commercial', 'shop', 'office', 'factory', 'warehouse', 'building', 'plaza', 'other_commercial', 'all_commercial'];
-                        const matchComm = commTypes.includes(pType) || commTypes.includes(pSubType) || pCat === 'commercial' || /shop|office|plaza|warehouse|factory|building|commercial/.test(pText);
-                        if (!matchComm) return false;
-                    } else {
-                        // Granular type matching with smart aliases
-                        const isMatch = (pType === type) || (pSubType === type) ||
-                            (type === 'flat' && (pType === 'apartment' || pText.includes('flat') || pText.includes('apartment') || pText.includes('suite'))) ||
-                            (type === 'house' && (pType === 'house' || pType === 'villa' || pText.includes('house') || pText.includes('villa'))) ||
-                            (type === 'penthouse' && (pType === 'penthouse' || pText.includes('penthouse'))) ||
-                            (type === 'upper_portion' && (pType === 'upper_portion' || pText.includes('upper portion') || pText.includes('upper'))) ||
-                            (type === 'lower_portion' && (pType === 'lower_portion' || pText.includes('lower portion') || pText.includes('lower'))) ||
-                            (type === 'farmhouse' && (pType === 'farmhouse' || pText.includes('farmhouse') || pText.includes('farm house') || pText.includes('farm'))) ||
-                            (type === 'room' && (pType === 'room' || pText.includes('room') || pText.includes('studio'))) ||
-                            (type === 'commercial_plot' && (pType === 'commercial_plot' || (pType === 'commercial' && pText.includes('plot')) || (pType === 'plot' && pText.includes('commercial')) || pText.includes('commercial plot'))) ||
-                            (type === 'residential_plot' && (pType === 'residential_plot' || (pType === 'plot' && !pText.includes('commercial')) || pText.includes('residential plot'))) ||
-                            (type === 'industrial_land' && (pType === 'industrial_land' || pText.includes('industrial') || pText.includes('factory land'))) ||
-                            (type === 'agricultural_land' && (pType === 'agricultural_land' || pText.includes('agricultural') || pText.includes('agri') || pText.includes('cultivation'))) ||
-                            (type === 'shop' && (pType === 'shop' || pText.includes('shop') || pText.includes('retail'))) ||
-                            (type === 'office' && (pType === 'office' || pText.includes('office') || pText.includes('corporate'))) ||
-                            (type === 'factory' && (pType === 'factory' || pText.includes('factory') || pText.includes('manufacturing'))) ||
-                            (type === 'warehouse' && (pType === 'warehouse' || pText.includes('warehouse') || pText.includes('storage') || pText.includes('depot'))) ||
-                            (type === 'building' && (pType === 'building' || pText.includes('building') || pText.includes('tower'))) ||
-                            (type === 'plaza' && (pType === 'plaza' || pText.includes('plaza') || pText.includes('mall'))) ||
-                            (type === 'other_commercial' && (pType === 'other_commercial' || pType === 'other' || pCat === 'commercial'));
-
-                        if (!isMatch) return false;
-                    }
+                    const pt = (p.type || '').toLowerCase();
+                    const pc = (p.category || '').toLowerCase();
+                    if (type === 'residential_plot' && !(pt.includes('residential') || (pt.includes('plot') && !pt.includes('comm') && !pc.includes('comm')))) return false;
+                    if (type === 'commercial_plot' && !(pt.includes('comm') || pc.includes('comm'))) return false;
+                    if (type === 'all_homes' && !['house', 'flat', 'apartment', 'penthouse', 'villa'].includes(pt)) return false;
                 }
-
-                // Area
-                if (areaRange !== 'all') {
-                    const targetArea = parseFloat(areaRange);
-                    if (targetArea < 100 && Math.abs(p.size - targetArea) > 0.01) return false;
-                    if (targetArea >= 100 && p.size < targetArea) return false;
-                }
-
-                // Price range
                 if (priceRange !== 'all') {
                     const [minP, maxP] = priceRange.split('-').map(Number);
-                    if (p.price < minP || p.price > maxP) return false;
+                    if ((p.price || 0) < minP || (p.price || 0) > maxP) return false;
                 }
-
-                // Beds
-                if (minBeds > 0 && (p.bedrooms || 0) < minBeds) return false;
-
-                // Keyword
-                if (keyword) {
-                    const haystack = `${p.title} ${p.description} ${p.area} ${p.sector}`.toLowerCase();
-                    if (!haystack.includes(keyword)) return false;
-                }
-
-                // Trust toggles
-                if (verifiedOnly && !p.isVerified) return false;
-                if (titaniumOnly && p.agencyTier !== 'Titanium') return false;
-
                 return true;
             });
 
-            // Update UI headers
-            const count = filteredProperties.length;
-            document.getElementById('h1-count').innerText = count.toLocaleString();
-            document.getElementById('h1-city').innerText = city !== 'all' ? city : 'Pakistan';
-            document.getElementById('breadcrumb-city').innerText = city !== 'all' ? city : 'Pakistan';
+            if (sort === 'price-asc') filteredProperties.sort((a, b) => (a.price || 0) - (b.price || 0));
+            else if (sort === 'price-desc') filteredProperties.sort((a, b) => (b.price || 0) - (a.price || 0));
 
-            applySortAndRender();
+            document.getElementById('results-count').innerText = filteredProperties.length;
+            renderCards();
+            if (listingsMap) listingsMap.updateProperties(filteredProperties);
         }
 
-        function applySortAndRender() {
-            const sort = document.getElementById('results-sort').value;
-            if (sort === 'price-asc') {
-                filteredProperties.sort((a, b) => a.price - b.price);
-            } else if (sort === 'price-desc') {
-                filteredProperties.sort((a, b) => b.price - a.price);
-            } else if (sort === 'newest') {
-                filteredProperties.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            }
-            renderPropertyCards();
-        }
-
-        // Render Property Cards (Standard + New Project Variant - §5)
-        function renderPropertyCards() {
+        function renderCards() {
             const container = document.getElementById('properties-card-list');
+            if (!container) return;
+
             if (filteredProperties.length === 0) {
                 container.innerHTML = `
-                    <div class="bg-white p-12 text-center rounded-2xl border border-slate-200 space-y-3">
-                        <i class="fa-solid fa-house-chimney-crack text-4xl text-slate-300"></i>
-                        <h3 class="text-lg font-bold outfit text-slate-800">No Properties Found Matching Your Criteria</h3>
-                        <p class="text-xs text-slate-500 max-w-md mx-auto">Try broadening your area, price range, or clearing custom filters.</p>
-                        <button onclick="resetAllFilters()" class="btn-primary text-xs py-2 px-4 rounded-xl">Clear All Filters</button>
-                    </div>
-                `;
-                const pagContainer = document.getElementById('pagination-links-container');
-                if (pagContainer) pagContainer.innerHTML = '';
-                const rangeEl = document.getElementById('toolbar-range-text');
-                if (rangeEl) rangeEl.innerText = '0 results';
-                const curPageEl = document.getElementById('current-page-num');
-                if (curPageEl) curPageEl.innerText = '1';
-                const totPageEl = document.getElementById('total-pages-num');
-                if (totPageEl) totPageEl.innerText = '1';
+                    <div class="col-span-full bg-white p-12 text-center rounded-2xl border border-slate-200 space-y-3">
+                        <p class="font-bold text-slate-700">No matching listings found.</p>
+                        <button onclick="resetFilters()" class="bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl">Reset Filters</button>
+                    </div>`;
                 return;
             }
 
-            const totalCount = filteredProperties.length;
-            const totalPages = Math.max(1, Math.ceil(totalCount / itemsPerPage));
-            if (currentPage > totalPages) currentPage = totalPages;
-
-            const startIdx = (currentPage - 1) * itemsPerPage;
-            const endIdx = Math.min(startIdx + itemsPerPage, totalCount);
-            const pageItems = filteredProperties.slice(startIdx, endIdx);
-
-            // Update UI headers & pagination indicators
-            const rangeText = `${startIdx + 1} to ${endIdx} of ${totalCount}`;
-            const rangeEl = document.getElementById('toolbar-range-text');
-            if (rangeEl) rangeEl.innerText = rangeText;
-
-            const curPageEl = document.getElementById('current-page-num');
-            if (curPageEl) curPageEl.innerText = currentPage;
-
-            const totPageEl = document.getElementById('total-pages-num');
-            if (totPageEl) totPageEl.innerText = totalPages;
-
-            // Render pagination links
-            const pagContainer = document.getElementById('pagination-links-container');
-            if (pagContainer) {
-                if (totalPages <= 1) {
-                    pagContainer.innerHTML = `<button class="w-8 h-8 rounded-lg bg-emerald-700 text-white font-bold flex items-center justify-center shadow-xs">1</button>`;
-                } else {
-                    let pagHtml = '';
-                    if (currentPage > 1) {
-                        pagHtml += `<button onclick="goToPage(${currentPage - 1})" class="px-2.5 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 flex items-center gap-1 font-bold" title="Previous Page"><i class="fa-solid fa-chevron-left text-[9px]"></i> Prev</button>`;
-                    }
-                    for (let i = 1; i <= totalPages; i++) {
-                        pagHtml += `<button onclick="goToPage(${i})" class="w-8 h-8 rounded-lg ${i === currentPage ? 'bg-emerald-700 text-white font-bold shadow-xs' : 'bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold'} flex items-center justify-center">${i}</button>`;
-                    }
-                    if (currentPage < totalPages) {
-                        pagHtml += `<button onclick="goToPage(${currentPage + 1})" class="px-2.5 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 flex items-center gap-1 font-bold" title="Next Page">Next <i class="fa-solid fa-chevron-right text-[9px]"></i></button>`;
-                    }
-                    pagContainer.innerHTML = pagHtml;
-                }
-            }
-
-            container.innerHTML = pageItems.map(p => {
-                const formattedPrice = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${p.price.toLocaleString()}`;
-                const formattedArea = window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : `${p.size} Marla`;
-                const primaryImage = (p.images && p.images[0] && p.images[0].url) ? p.images[0].url : 'assets/images/bahria-villa.png';
-                const photoCount = p.photoCount || (p.images ? p.images.length : 12);
-                const addedRelative = p.addedRelative || 'Recently added';
-
-                // ==========================================================================
-                // VARIANT A: NEW PROJECT CARD (§5)
-                // ==========================================================================
-                if (p.isNewProject) {
-                    const unitRows = (p.projectUnits || [
-                        { type: "1 Bed Luxury Suite", priceRange: "PKR 85 Lakh - 1.1 Crore", sizeRange: "550 - 750 Sq Ft" },
-                        { type: "2 Bed Executive Suite", priceRange: "PKR 1.45 - 1.85 Crore", sizeRange: "950 - 1250 Sq Ft" },
-                        { type: "3 Bed Duplex Penthouse", priceRange: "PKR 2.6 - 3.4 Crore", sizeRange: "1800 - 2400 Sq Ft" }
-                    ]).map(u => `
-                        <div class="flex justify-between items-center py-1.5 border-b border-slate-100 last:border-b-0 text-[11px]">
-                            <span class="font-bold text-slate-800">${u.type}</span>
-                            <span class="text-slate-500">${u.sizeRange}</span>
-                            <span class="font-bold text-emerald-700">${u.priceRange}</span>
-                        </div>
-                    `).join('');
-
-                    return `
-                        <div class="property-card bg-gradient-to-r from-white to-indigo-50/40 border-2 border-indigo-100 p-5 rounded-2xl space-y-4">
-                            <!-- Banner Image with Overlays -->
-                            <div class="relative h-56 rounded-xl overflow-hidden group">
-                                <img src="${primaryImage}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
-                                
-                                <span class="absolute top-3 left-3 badge-premium-new text-[9px] px-2 py-0.5 rounded shadow">
-                                    <i class="fa-solid fa-sparkles mr-1"></i> New Project
-                                </span>
-                                <span class="absolute bottom-3 left-3 text-white text-xs font-bold flex items-center gap-1.5 drop-shadow">
-                                    <i class="fa-solid fa-location-dot text-indigo-400"></i> ${p.sector || p.area}, ${p.city}
-                                </span>
-                                <span class="absolute bottom-3 right-3 badge-photo-count">
-                                    <i class="fa-solid fa-camera"></i> ${photoCount}
-                                </span>
-                            </div>
-
-                            <!-- Content Block -->
-                            <div class="space-y-3">
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                                    <div>
-                                        <div class="flex items-center gap-2 mb-1">
-                                            <span class="badge-tier-titanium"><i class="fa-solid fa-star"></i> Titanium Developer</span>
-                                            <span class="badge-verified"><i class="fa-solid fa-circle-check"></i> Approved Project</span>
-                                        </div>
-                                        <h3 class="text-lg font-bold text-slate-900 outfit line-clamp-1 hover:text-indigo-700">
-                                            <a href="project-detail.html?slug=${p.slug}">${p.title}</a>
-                                        </h3>
-                                    </div>
-                                    <div class="text-right">
-                                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Starting from</span>
-                                        <span class="price-hero text-xl text-indigo-700">${formattedPrice}</span>
-                                    </div>
-                                </div>
-
-                                <!-- Compact Unit Types Table -->
-                                <div class="bg-white p-3 rounded-xl border border-slate-100">
-                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Available Units & Configurations</span>
-                                    ${unitRows}
-                                </div>
-
-                                <!-- CTAs -->
-                                <div class="flex items-center justify-end gap-2 pt-1">
-                                    <a href="https://wa.me/923340091127?text=Hi,%20I%20want%20to%20reserve%20a%20unit%20in%20${encodeURIComponent(p.title)}" target="_blank" class="btn-whatsapp text-xs py-2 px-4 rounded-xl font-bold">
-                                        <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp Desk
-                                    </a>
-                                    <a href="project-detail.html?slug=${p.slug}" class="btn-primary bg-indigo-600 hover:bg-indigo-500 text-xs py-2 px-5 rounded-xl font-bold shadow-md">
-                                        <i class="fa-solid fa-calendar-check text-[10px]"></i> Reserve Unit
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                // ==========================================================================
-                // VARIANT B: STANDARD PROPERTY CARD (§5)
-                // Desktop horizontal (~35% image, 65% content), mobile vertical
-                // ==========================================================================
-                const urgencyHtml = p.urgency === 'super-hot' 
-                    ? `<span class="badge-urgency-superhot">Super Hot</span>` 
-                    : (p.urgency === 'hot' ? `<span class="badge-urgency-hot">Hot Deal</span>` : '');
+            container.innerHTML = filteredProperties.map(p => {
+                const img = (p.images && p.images[0] && p.images[0].url) ? p.images[0].url : 'assets/images/dha-margalla-hero.jpg';
+                const price = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${Number(p.price || 0).toLocaleString()}`;
+                const sizeText = p.sqYards ? `${p.sqYards} Sq Yds` : (p.size ? `${p.size} ${p.sizeUnit || 'Marla'}` : '');
+                const url = p.isNewProject
+                    ? `project-detail.html?slug=${encodeURIComponent(p.slug || p.id)}`
+                    : `property.html?slug=${encodeURIComponent(p.slug || p.id)}`;
+                const mapUrl = `property.html?slug=${encodeURIComponent(p.slug || p.id)}#plot-map-section`;
+                const waUrl = `https://wa.me/923340091127?text=${encodeURIComponent('Hi, I am interested in ' + p.title + (p.plotNumber ? ' (' + p.plotNumber + ')' : ''))}`;
 
                 return `
-                    <article class="property-card flex flex-col md:flex-row group">
-                        
-                        <!-- Image Block (~35% width desktop) -->
-                        <div class="relative md:w-[36%] h-56 md:h-auto shrink-0 overflow-hidden bg-slate-100">
-                            <img src="${primaryImage}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            
-                            <!-- Urgency / Status Ribbon Top-Left -->
-                            <div class="absolute top-3 left-3 z-10 flex items-center gap-1.5">
-                                ${urgencyHtml}
-                                ${p.isVerified ? `<span class="badge-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>` : ''}
-                            </div>
-
-                            <!-- Photo Count Overlay Bottom-Right -->
-                            <span class="absolute bottom-3 right-3 badge-photo-count z-10">
-                                <i class="fa-solid fa-camera"></i> ${photoCount}
-                            </span>
-
-                            <!-- Floating Action Toolbar Revealed on Hover -->
-                            <div class="floating-image-actions">
-                                <button onclick="shareProperty('${p.title}', 'property.html?slug=${p.slug}')" title="Share" class="btn-icon-circle w-8 h-8 text-xs shadow-md">
-                                    <i class="fa-solid fa-share-nodes"></i>
-                                </button>
-                                <button onclick="toggleFavorite('${p.id}', this)" title="Favorite" class="btn-icon-circle w-8 h-8 text-xs shadow-md">
-                                    <i class="fa-regular fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Content Block (~65% width desktop) -->
-                        <div class="p-5 md:p-6 flex-1 flex flex-col justify-between space-y-3">
+                    <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-lg transition-all flex flex-col group">
+                        <a href="${url}" class="relative h-52 bg-slate-100 overflow-hidden block">
+                            <img src="${img}" alt="${p.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-map-pin text-[10px]"></i> ${p.plotNumber}</span>` : ''}
+                            ${sizeText ? `<span class="absolute bottom-3 right-3 bg-slate-900/85 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">${sizeText}</span>` : ''}
+                        </a>
+                        <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
                             <div>
-                                <!-- Agency Tier Badge -->
-                                <div class="flex items-center justify-between gap-2 mb-1.5">
-                                    <span class="badge-tier-titanium">
-                                        <i class="fa-solid fa-star"></i> ${p.agencyTier || 'Titanium'}
-                                    </span>
-                                    <span class="text-[11px] text-slate-400 font-medium">Added: ${addedRelative}</span>
+                                <div class="text-xl font-extrabold outfit text-emerald-800">${price}</div>
+                                <h2 class="font-bold text-sm text-slate-900 line-clamp-1 mt-0.5 group-hover:text-emerald-700 transition-colors">
+                                    <a href="${url}">${p.title}</a>
+                                </h2>
+                                <div class="text-xs text-slate-500 mt-1 flex items-center gap-1 line-clamp-1">
+                                    <i class="fa-solid fa-location-dot text-emerald-600 text-[10px]"></i>
+                                    <span>${p.plotSector || p.sector || p.area || 'DHA Margalla Enclave'}, ${p.city || 'Islamabad'}</span>
                                 </div>
-
-                                <!-- Price in Large Bold Type -->
-                                <div class="price-hero text-2xl md:text-3xl mb-1">
-                                    ${formattedPrice}
-                                </div>
-
-                                <!-- Location Line -->
-                                <div class="text-xs font-semibold text-slate-700 flex items-center gap-1.5 mb-2 line-clamp-1">
-                                    <i class="fa-solid fa-location-dot text-emerald-600 text-[11px]"></i>
-                                    <span>${p.address || p.sector || p.location || p.area || 'DHA Margalla Enclave'}, ${p.city || 'Islamabad'}</span>
-                                </div>
-
-                                <!-- Quick Facts Row -->
-                                <div class="flex items-center gap-3 text-xs font-semibold text-slate-700 py-2 border-y border-slate-100 flex-wrap">
-                                    <span class="flex items-center gap-1.5">
-                                        <i class="fa-solid fa-layer-group text-emerald-600"></i>
-                                        <span>${p.category || 'Plot Allotment'}</span>
-                                    </span>
-                                    <span class="text-slate-300">&bull;</span>
-                                    <span class="flex items-center gap-1.5">
-                                        <i class="fa-solid fa-ruler-combined text-slate-400"></i>
-                                        <span class="tabular-nums font-bold">${p.sqYards ? p.sqYards + ' Sq Yds (' + formattedArea + ')' : formattedArea}</span>
-                                    </span>
-                                    <span class="text-slate-300">&bull;</span>
-                                    <span class="flex items-center gap-1.5 text-amber-700">
-                                        <i class="fa-solid fa-file-invoice-dollar text-amber-600"></i>
-                                        <span>${p.installments?.available ? '20% Down Plan' : 'Lump Sum / 3-Yr Plan'}</span>
-                                    </span>
-                                </div>
-
-                                <!-- Clamped Title Heading -->
-                                <h3 class="text-sm md:text-base font-bold text-slate-900 outfit line-clamp-1 mt-2 hover:text-emerald-700 transition-colors">
-                                    <a href="property.html?slug=${p.slug}">${p.title}</a>
-                                </h3>
-
-                                <!-- Description Snippet with "...more" link -->
-                                <p class="text-xs text-slate-500 line-clamp-2 mt-1 leading-relaxed">
-                                    ${p.description.replace(/<[^>]*>/g, '').substring(0, 160)}...
-                                    <a href="property.html?slug=${p.slug}" class="text-emerald-700 font-bold hover:underline">more</a>
-                                </p>
                             </div>
-
-                            <!-- Footer Row: Dual CTA Buttons Side by Side (WhatsApp + Call) -->
-                            <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
-                                <div class="text-[11px] text-slate-400 font-medium">
-                                    Agent: <span class="font-bold text-slate-700">${p.agentName || 'Kaghan Advisor'}</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <a href="https://wa.me/${(p.agentPhone || '923340091127').replace(/[^0-9]/g, '')}?text=Hi,%20I%20am%20interested%20in%20listing:%20${encodeURIComponent(p.title)}" target="_blank" class="btn-whatsapp text-xs py-1.5 px-3.5 rounded-lg">
-                                        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
-                                    </a>
-                                    <a href="tel:${p.agentPhone || '+923340091127'}" class="btn-primary text-xs py-1.5 px-4 rounded-lg font-bold">
-                                        <i class="fa-solid fa-phone text-xs"></i> Call
-                                    </a>
-                                </div>
+                            <div class="pt-3 border-t border-slate-100 flex items-center gap-2">
+                                <a href="${url}" class="flex-1 text-center py-2 rounded-xl bg-slate-900 hover:bg-emerald-700 text-white text-xs font-bold transition-colors">Details</a>
+                                <a href="${mapUrl}" title="View Plot Pin on Map" class="py-2 px-3 rounded-xl bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 text-xs font-bold transition-colors flex items-center gap-1">
+                                    <i class="fa-solid fa-map-pin text-emerald-600"></i> Map
+                                </a>
+                                <a href="${waUrl}" target="_blank" rel="noopener" class="py-2 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white text-xs font-bold transition-colors">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                                </a>
                             </div>
                         </div>
                     </article>
@@ -1350,28 +238,32 @@
             }).join('');
         }
 
-        function shareProperty(title, url) {
-            if (navigator.share) {
-                navigator.share({ title: title, url: window.location.origin + '/' + url }).catch(() => {});
-            } else {
-                navigator.clipboard.writeText(window.location.origin + '/' + url);
-                alert('Property link copied to clipboard!');
-            }
-        }
+        window.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const kw = params.get('keyword') || params.get('area') || params.get('q') || '';
+            if (kw) document.getElementById('filter-keyword').value = kw;
 
-        function toggleFavorite(id, btn) {
-            let favs = JSON.parse(localStorage.getItem('kaghan_favs') || '[]');
-            const icon = btn.querySelector('i');
-            if (favs.includes(id)) {
-                favs = favs.filter(x => x !== id);
-                icon.className = 'fa-regular fa-heart';
-            } else {
-                favs.push(id);
-                icon.className = 'fa-solid fa-heart text-rose-600';
+            const typeParam = params.get('type');
+            if (typeParam && ['residential_plot', 'commercial_plot', 'all_homes'].includes(typeParam)) {
+                document.getElementById('filter-type').value = typeParam;
             }
-            localStorage.setItem('kaghan_favs', JSON.stringify(favs));
-            if (window.KaghanSharedUI) window.KaghanSharedUI.updateWishlistBadge();
-        }
+            const priceParam = params.get('priceRange');
+            if (priceParam && ['0-30000000', '30000000-100000000', '100000000-999999999'].includes(priceParam)) {
+                document.getElementById('filter-price-range').value = priceParam;
+            }
+
+            if (window.KaghanDB && window.KaghanDB.getProperties) {
+                allProperties = await window.KaghanDB.getProperties();
+            }
+
+            applyFilters();
+
+            if (params.get('tool') === 'plot-finder' || params.get('view') === 'map') {
+                setViewMode('map');
+            }
+
+            window.addEventListener('marketStateChanged', renderCards);
+        });
     </script>
 </body>
 </html>

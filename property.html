@@ -3,695 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Property Details | Kaghan Properties</title>
-    <meta id="page-meta-desc" name="description" content="View verified property photos, specifications, amenities, location map, bank financing calculator, and agent contacts.">
-    <meta name="keywords" content="Islamabad Real Estate, Property Details, Luxury Villa, Bahria Enclave, DHA Islamabad">
-    <meta name="author" content="Kaghan Properties">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+    <title id="page-title">Plot Details | Kaghan Properties</title>
+    <meta id="page-meta-desc" name="description" content="Verified plot specs, pinned location on interactive CAD & satellite map, and direct contact.">
     <meta name="theme-color" content="#077943">
     <link rel="canonical" href="https://kaghanproperties.com/property.html">
 
-    <!-- Favicon & Brand Icons -->
     <link rel="icon" type="image/png" href="assets/images/logo.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="manifest" href="site.webmanifest">
-<!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" id="og-title" content="Property Details | Kaghan Properties">
-    <meta property="og:description" id="og-desc" content="View verified property photos, specifications, amenities, and agent contacts.">
-    <meta property="og:image" id="og-image" content="assets/images/bahria-villa.png">
 
-    <!-- Google Fonts & Font Awesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#e8f5ed',
-                            600: '#077943',
-                            700: '#055e34',
-                            800: '#044827'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- Leaflet GIS & Satellite Plot Mapping -->
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <!-- Token Stylesheet -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
 
-    <!-- Firebase Compat SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-    <!-- App Data Store & Shared UI Engine -->
     <script src="assets/js/db.js"></script>
     <script src="assets/js/shared.js"></script>
-
-    <style>
-        #property-plot-map {
-            width: 100%;
-            height: 420px;
-            z-index: 10;
-        }
-        .property-plot-pin {
-            background: transparent;
-            border: none;
-        }
-    </style>
-
+    <script src="assets/js/plot-map.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Header (Dynamic Shared UI) -->
     <div id="site-header"></div>
 
-    <!-- ==========================================================================
-         STICKY CONDENSED SUB-BAR ON SCROLL (§2, §6)
-         Revealed once user scrolls past hero gallery
-         ========================================================================== -->
-    <div id="property-sticky-subbar" class="sticky-property-subbar py-2.5 px-4">
-        <div class="market-container flex items-center justify-between gap-4">
-            <!-- Left: Price & Mini Title -->
-            <div class="flex items-center gap-4">
-                <span id="subbar-price" class="price-hero text-xl md:text-2xl">PKR 2.85 Crore</span>
-                <span class="text-slate-300 hidden md:inline">|</span>
-                <span id="subbar-title" class="text-xs font-bold text-slate-700 hidden md:inline line-clamp-1 max-w-sm">5 Marla Designer Villa</span>
-            </div>
-
-            <!-- Middle: Quick Tab Links -->
-            <div class="hidden lg:flex items-center gap-5 text-xs font-semibold text-slate-600">
-                <button onclick="switchPropertyTab('overview')" class="hover:text-emerald-700">Overview</button>
-                <button onclick="switchPropertyTab('location')" class="hover:text-emerald-700">Location</button>
-                <button onclick="switchPropertyTab('finance')" class="hover:text-emerald-700">Finance</button>
-                <button onclick="switchPropertyTab('trends')" class="hover:text-emerald-700">Trends</button>
-            </div>
-
-            <!-- Right: Action CTAs -->
-            <div class="flex items-center gap-2">
-                <a id="subbar-whatsapp-btn" href="https://wa.me/923340091127" target="_blank" class="btn-whatsapp text-xs py-1.5 px-3 rounded-lg font-bold">
-                    <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
-                </a>
-                <a id="subbar-call-btn" href="tel:+923340091127" class="btn-primary text-xs py-1.5 px-3.5 rounded-lg font-bold">
-                    <i class="fa-solid fa-phone text-xs"></i> Call
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Listing Detail Content -->
     <main class="market-container py-6 flex-1 space-y-6">
-        
-        <!-- ==========================================================================
-             1. BREADCRUMB TRAIL (§6)
-             ========================================================================== -->
-        <nav id="detail-breadcrumbs" class="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
             <a href="index.html" class="hover:text-emerald-700">Home</a>
-            <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
-            <a href="projects.html" class="hover:text-emerald-700">Properties</a>
-            <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
-            <span id="crumb-city" class="text-slate-600">Islamabad</span>
-            <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
-            <span id="crumb-society" class="text-slate-900 font-semibold">Bahria Enclave</span>
+            <i class="fa-solid fa-chevron-right text-[8px]"></i>
+            <a href="projects.html" class="hover:text-emerald-700">Listings</a>
+            <i class="fa-solid fa-chevron-right text-[8px]"></i>
+            <span id="crumb-society" class="text-slate-700 font-semibold">DHA Margalla Enclave</span>
         </nav>
 
-        <!-- ==========================================================================
-             2. TITLE BLOCK & UTILITY ROW (§6)
-             ========================================================================== -->
-        <div class="space-y-3 bg-white p-6 rounded-2xl border border-slate-200">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                <div class="space-y-1.5 max-w-4xl">
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <span id="badge-urgency" class="hidden"></span>
-                        <span id="badge-verified" class="badge-verified"><i class="fa-solid fa-circle-check"></i> Verified Property</span>
-                        <span id="badge-tier" class="badge-tier-titanium"><i class="fa-solid fa-star"></i> Titanium Agency</span>
-                        <span class="text-[11px] text-slate-400 font-medium ml-1" id="detail-meta-added">Added: 2 hours ago</span>
-                    </div>
-                    <h1 id="detail-h1" class="text-2xl sm:text-3xl font-extrabold outfit text-slate-900 leading-tight">
-                        5 Marla Ultra Modern Villa in Sector C Bahria Enclave
-                    </h1>
-                    <p id="detail-address" class="text-xs font-semibold text-slate-500 flex items-center gap-1.5">
-                        <i class="fa-solid fa-location-dot text-emerald-600"></i> Street 8, Sector C, Bahria Enclave Islamabad
-                    </p>
+        <!-- Title Row -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span id="detail-plot-pill" class="hidden bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1"></span>
+                    <span id="detail-cat-pill" class="bg-slate-100 text-slate-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full">Verified</span>
                 </div>
-
-                <!-- Utility Row: Home Loan quick link & Circular Share Buttons -->
-                <div class="flex items-center gap-2.5 self-start lg:self-center shrink-0">
-                    <button onclick="switchPropertyTab('finance')" class="btn-outline text-xs py-1.5 px-3 rounded-xl flex items-center gap-1.5 font-bold">
-                        <i class="fa-solid fa-calculator text-emerald-700"></i> Home Loan
-                    </button>
-                    <!-- Share Icons -->
-                    <button onclick="shareLink('facebook')" title="Share on Facebook" class="btn-icon-circle w-8 h-8 text-xs text-blue-600"><i class="fa-brands fa-facebook-f"></i></button>
-                    <button onclick="shareLink('twitter')" title="Share on X" class="btn-icon-circle w-8 h-8 text-xs text-slate-800"><i class="fa-brands fa-x-twitter"></i></button>
-                    <button onclick="shareLink('whatsapp')" title="Share on WhatsApp" class="btn-icon-circle w-8 h-8 text-xs text-emerald-600"><i class="fa-brands fa-whatsapp"></i></button>
-                    <button onclick="shareLink('email')" title="Share via Email" class="btn-icon-circle w-8 h-8 text-xs text-slate-600"><i class="fa-solid fa-envelope"></i></button>
-                </div>
+                <h1 id="detail-h1" class="text-2xl sm:text-3xl font-extrabold outfit text-slate-900">Loading listing...</h1>
+                <p id="detail-address" class="text-xs text-slate-500 font-medium flex items-center gap-1.5"></p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+                <a href="#plot-map-section" class="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-map-pin"></i> Plot Map
+                </a>
+                <button onclick="shareListing()" title="Share" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold">
+                    <i class="fa-solid fa-share-nodes"></i>
+                </button>
             </div>
         </div>
 
-        <!-- ==========================================================================
-             3. GALLERY HERO & LIGHTBOX (§6) + QUICK FACTS STRIP
-             ========================================================================== -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            <!-- Left 8 Cols: Gallery, Quick Facts & Tabs -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- Left 8 Cols -->
             <div class="lg:col-span-8 space-y-6">
-                
-                <!-- Gallery Hero Box -->
-                <div id="detail-gallery-hero" class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
-                    <!-- Main Primary Large Photo -->
-                    <div class="relative h-[340px] sm:h-[440px] rounded-xl overflow-hidden cursor-pointer group" onclick="openLightbox(currentPhotoIndex)">
-                        <img id="gallery-main-photo" src="assets/images/bahria-villa.png" alt="Property Hero" class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
-                        
-                        <!-- Photo Count Pill Overlay -->
-                        <span id="gallery-photo-pill" class="absolute bottom-4 left-4 badge-photo-count px-3 py-1 text-xs">
-                            <i class="fa-solid fa-camera mr-1"></i> <span id="gallery-photo-count">27 Photos</span>
-                        </span>
-
-                        <!-- Map Toggle Button Overlay -->
-                        <button onclick="event.stopPropagation(); switchPropertyTab('location')" class="absolute bottom-4 right-4 bg-white/95 text-slate-900 hover:bg-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-lg flex items-center gap-1.5 transition-all">
-                            <i class="fa-solid fa-map-location-dot text-emerald-700"></i> Map View
-                        </button>
-
-                        <span class="absolute top-4 right-4 bg-slate-900/70 text-white text-xs px-2.5 py-1 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                            <i class="fa-solid fa-expand mr-1"></i> Fullscreen Lightbox
-                        </span>
+                <!-- Gallery -->
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="relative h-[300px] sm:h-[420px] rounded-xl overflow-hidden cursor-pointer bg-slate-100" onclick="openLightbox(currentPhotoIndex)">
+                        <img id="gallery-main-photo" src="assets/images/dha-margalla-hero.jpg" alt="Property Photo" class="w-full h-full object-cover">
+                        <span id="gallery-photo-count" class="absolute bottom-3 left-3 bg-slate-900/80 text-white text-xs font-bold px-3 py-1 rounded-lg">1 Photo</span>
                     </div>
+                    <div id="gallery-filmstrip" class="filmstrip-container"></div>
+                </div>
 
-                    <!-- Horizontal Filmstrip (§6) -->
-                    <div id="gallery-filmstrip" class="filmstrip-container">
-                        <!-- Populated by JS -->
+                <!-- Key Specs Strip -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+                    <div class="bg-white p-3.5 rounded-2xl border border-slate-200">
+                        <span class="text-slate-400 text-[10px] font-bold uppercase block">Plot / Unit</span>
+                        <span id="spec-plot" class="font-extrabold outfit text-sm text-emerald-700">—</span>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-2xl border border-slate-200">
+                        <span class="text-slate-400 text-[10px] font-bold uppercase block">Size</span>
+                        <span id="spec-size" class="font-extrabold outfit text-sm text-slate-900">—</span>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-2xl border border-slate-200">
+                        <span class="text-slate-400 text-[10px] font-bold uppercase block">Down Payment</span>
+                        <span id="spec-dp" class="font-extrabold outfit text-sm text-slate-900">—</span>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-2xl border border-slate-200">
+                        <span class="text-slate-400 text-[10px] font-bold uppercase block">Quarterly</span>
+                        <span id="spec-qtr" class="font-extrabold outfit text-sm text-slate-900">—</span>
                     </div>
                 </div>
 
-                <!-- Quick Facts Strip (§6) directly under gallery -->
-                <div class="bg-white p-4 rounded-2xl border border-slate-200 grid grid-cols-3 sm:grid-cols-4 gap-3 text-center text-xs">
-                    <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                        <span class="text-slate-400 block text-[11px] font-bold uppercase mb-0.5">Bedrooms</span>
-                        <div class="font-extrabold outfit text-base text-slate-800 flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-bed text-emerald-600"></i> <span id="quick-beds">4 Beds</span>
-                        </div>
+                <!-- PINNED PLOT MAP & LIVE EMAP (VISIBLE DIRECTLY ON PAGE) -->
+                <section id="plot-map-section" class="space-y-2.5 scroll-mt-24">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-extrabold outfit text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-map-pin text-emerald-600"></i> Pinned Plot Location &amp; Emap
+                        </h2>
+                        <span id="plot-coords-label" class="text-[11px] font-mono text-slate-400"></span>
                     </div>
-                    <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                        <span class="text-slate-400 block text-[11px] font-bold uppercase mb-0.5">Bathrooms</span>
-                        <div class="font-extrabold outfit text-base text-slate-800 flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-bath text-emerald-600"></i> <span id="quick-baths">5 Baths</span>
-                        </div>
-                    </div>
-                    <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                        <span class="text-slate-400 block text-[11px] font-bold uppercase mb-0.5">Property Size</span>
-                        <div class="font-extrabold outfit text-base text-slate-800 flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-ruler-combined text-emerald-600"></i> <span id="quick-area">5 Marla</span>
-                        </div>
-                    </div>
-                    <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 hidden sm:block">
-                        <span class="text-slate-400 block text-[11px] font-bold uppercase mb-0.5">Parking</span>
-                        <div class="font-extrabold outfit text-base text-slate-800 flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-car text-emerald-600"></i> <span id="quick-parking">2 Cars</span>
-                        </div>
-                    </div>
-                </div>
+                    <div id="property-plot-map-root"></div>
+                </section>
 
-                <!-- ==========================================================================
-                     4. IN-PAGE TAB NAVIGATION (§6)
-                     Overview | Location & Nearby | Home Finance | Price Index | Trends
-                     ========================================================================== -->
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-                    <div class="flex items-center justify-between border-b border-slate-200 px-4 pt-2 overflow-x-auto scrollbar-thin text-xs font-bold">
-                        <div class="flex items-center gap-2 sm:gap-6">
-                            <button id="tab-btn-overview" onclick="switchPropertyTab('overview')" class="py-3.5 border-b-2 border-emerald-700 text-emerald-800 whitespace-nowrap">
-                                Overview
-                            </button>
-                            <button id="tab-btn-location" onclick="switchPropertyTab('location')" class="py-3.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap">
-                                Location & Nearby
-                            </button>
-                            <button id="tab-btn-finance" onclick="switchPropertyTab('finance')" class="py-3.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap">
-                                Home Finance
-                            </button>
-                            <button id="tab-btn-trends" onclick="switchPropertyTab('trends')" class="py-3.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap">
-                                Price Index & Trends
-                            </button>
-                        </div>
-                        <a id="tab-call-btn" href="tel:+923340091127" class="btn-primary text-xs py-1.5 px-3 rounded-lg font-bold shrink-0 my-1 hidden sm:inline-flex">
-                            <i class="fa-solid fa-phone text-xs"></i> Call Agent
-                        </a>
-                    </div>
-
-                    <!-- TAB PANE 1: OVERVIEW TAB (§6) -->
-                    <div id="pane-overview" class="p-6 space-y-8">
-                        
-                        <!-- "Details" Compact 2-Column Definition List -->
-                        <div class="space-y-3">
-                            <h3 class="font-bold outfit text-base text-slate-900 border-b border-slate-100 pb-2">Property Details</h3>
-                            <div id="property-details-definition-list" class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2.5 text-xs">
-                                <!-- Populated dynamically -->
-                            </div>
-                        </div>
-
-                        <!-- "Description" Long-form Free Text with "...more" clamp -->
-                        <div class="space-y-3">
-                            <h3 class="font-bold outfit text-base text-slate-900 border-b border-slate-100 pb-2">Description</h3>
-                            <div id="property-long-description" class="text-xs leading-relaxed text-slate-600 space-y-3">
-                                <!-- Populated dynamically -->
-                            </div>
-                        </div>
-
-                        <!-- "Amenities" Grouped Checklist Grid (§6) -->
-                        <div class="space-y-4">
-                            <h3 class="font-bold outfit text-base text-slate-900 border-b border-slate-100 pb-2">Amenities & Features</h3>
-                            <div id="property-amenities-accordion" class="space-y-4">
-                                <!-- Populated dynamically by categorized taxonomy -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- TAB PANE 2: LOCATION & NEARBY TAB (§6) -->
-                    <div id="pane-location" class="p-6 space-y-6 hidden">
-                        <div>
-                            <h3 class="font-bold outfit text-base text-slate-900 mb-1">Society & Neighborhood Map</h3>
-                            <p class="text-xs text-slate-500">Explore precise location and surrounding road access.</p>
-                        </div>
-
-                        <!-- Interactive Map Embed -->
-                        <div class="h-80 rounded-2xl overflow-hidden border border-slate-200 relative bg-slate-100">
-                            <iframe id="property-map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13282.9!2d73.1932!3d33.6669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDQwJzAwLjgiTiA3M8KwMTEnMzUuNSJF!5e0!3m2!1sen!2spk!4v1700000000000!5m2!1sen!2spk" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                        </div>
-
-                        <!-- Categorized Points of Interest (§6) -->
-                        <div class="space-y-3">
-                            <h4 class="font-bold text-xs uppercase tracking-wider text-slate-800">Nearby Points of Interest & Distances</h4>
-                            <div id="nearby-pois-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-                                <!-- Populated by JS -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- TAB PANE 3: HOME FINANCE TAB (§6 Interactive Loan Calculator) -->
-                    <div id="pane-finance" class="p-6 space-y-6 hidden">
-                        <div>
-                            <span class="badge-premium-new text-[8px] px-2 py-0.5 rounded-full mb-1 inline-block">Finance Tools</span>
-                            <h3 class="font-bold outfit text-xl text-slate-900">Home Loan & Mortgage Calculator</h3>
-                            <p class="text-xs text-slate-500">Calculate monthly installments with partner Islamic and conventional banks.</p>
-                        </div>
-
-                        <!-- Bank Selector -->
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Select Lending Partner</label>
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-bold">
-                                <button type="button" onclick="selectBank('meezan', 16.5)" class="bank-pill p-2.5 rounded-xl border border-emerald-600 bg-emerald-50 text-emerald-800 flex items-center justify-center gap-1.5 shadow-xs">
-                                    <i class="fa-solid fa-landmark"></i> Meezan Easy Home
-                                </button>
-                                <button type="button" onclick="selectBank('hbl', 17.0)" class="bank-pill p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center gap-1.5">
-                                    <i class="fa-solid fa-building-columns"></i> HBL Islamic
-                                </button>
-                                <button type="button" onclick="selectBank('alfalah', 17.5)" class="bank-pill p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center gap-1.5">
-                                    <i class="fa-solid fa-vault"></i> Alfalah Ghar
-                                </button>
-                                <button type="button" onclick="selectBank('faysal', 16.8)" class="bank-pill p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center gap-1.5">
-                                    <i class="fa-solid fa-scale-balanced"></i> Faysal Tayaar
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Financing Toggle: Conventional vs Islamic Ghar Sahulat -->
-                        <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200">
-                            <div>
-                                <span class="font-bold text-xs text-slate-800 block">Financing Mode</span>
-                                <span class="text-[11px] text-slate-500">Shariah-Compliant Diminishing Musharakah vs Conventional Markup</span>
-                            </div>
-                            <div class="segmented-control">
-                                <button type="button" id="loan-mode-islamic" onclick="setLoanMode('islamic')" class="active">Islamic</button>
-                                <button type="button" id="loan-mode-conv" onclick="setLoanMode('conventional')">Conventional</button>
-                            </div>
-                        </div>
-
-                        <!-- Loan Input Form -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                            <div>
-                                <label class="font-bold text-slate-700 block mb-1">Property Price (PKR)</label>
-                                <input type="number" id="calc-price" oninput="calculateLoan()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-bold text-slate-900 focus:outline-none focus:border-emerald-600">
-                            </div>
-                            <div>
-                                <label class="font-bold text-slate-700 block mb-1">Loan Period (Years)</label>
-                                <select id="calc-tenure" onchange="calculateLoan()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-semibold text-slate-800 focus:outline-none">
-                                    <option value="5">5 Years</option>
-                                    <option value="10">10 Years</option>
-                                    <option value="15">15 Years</option>
-                                    <option value="20" selected>20 Years</option>
-                                    <option value="25">25 Years</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="font-bold text-slate-700 block mb-1">Down Payment (% & PKR)</label>
-                                <div class="flex gap-2">
-                                    <select id="calc-down-pct" onchange="calculateLoan()" class="w-24 bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-bold text-slate-800">
-                                        <option value="20">20%</option>
-                                        <option value="25" selected>25%</option>
-                                        <option value="30">30%</option>
-                                        <option value="40">40%</option>
-                                        <option value="50">50%</option>
-                                    </select>
-                                    <input type="text" id="calc-down-val" readonly class="flex-1 bg-slate-100 border border-slate-200 rounded-lg p-2.5 text-slate-600 font-semibold">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="font-bold text-slate-700 block mb-1">Profit / Interest Rate (% p.a)</label>
-                                <input type="number" id="calc-rate" step="0.1" value="16.5" oninput="calculateLoan()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-bold text-slate-900 focus:outline-none focus:border-emerald-600">
-                            </div>
-                        </div>
-
-                        <!-- Loan Output Summary & SVG Donut Chart Breakdown -->
-                        <div class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
-                            <!-- Left Figures -->
-                            <div class="space-y-4">
-                                <div>
-                                    <span class="text-xs text-slate-400 font-bold uppercase tracking-wider block">Estimated Monthly Payment</span>
-                                    <span id="loan-res-monthly" class="price-hero text-3xl sm:text-4xl text-emerald-400">PKR 312,450</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4 text-xs">
-                                    <div>
-                                        <span class="text-slate-400 block">Bank Finance Amount</span>
-                                        <span id="loan-res-financed" class="font-bold text-white text-sm tabular-nums">PKR 21,375,000</span>
-                                    </div>
-                                    <div>
-                                        <span class="text-slate-400 block">Total Interest / Profit</span>
-                                        <span id="loan-res-total-interest" class="font-bold text-amber-400 text-sm tabular-nums">PKR 53,613,000</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Right SVG Donut Chart -->
-                            <div class="flex items-center gap-4">
-                                <div class="donut-chart-box">
-                                    <svg viewBox="0 0 36 36" class="w-full h-full transform -rotate-90">
-                                        <!-- Background Circle (Interest) -->
-                                        <path class="text-amber-500 stroke-current" stroke-width="4.5" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                        <!-- Foreground Circle (Principal) -->
-                                        <path id="donut-principal-slice" class="text-emerald-500 stroke-current" stroke-dasharray="28, 100" stroke-width="4.5" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                    </svg>
-                                </div>
-                                <div class="text-[11px] space-y-1.5 font-semibold">
-                                    <div class="flex items-center gap-2">
-                                        <span class="w-3 h-3 rounded bg-emerald-500 inline-block"></span>
-                                        <span>Principal (<span id="donut-pct-p">28%</span>)</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <span class="w-3 h-3 rounded bg-amber-500 inline-block"></span>
-                                        <span>Markup (<span id="donut-pct-i">72%</span>)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Microcopy & Apply CTA -->
-                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-                            <p class="text-[10px] text-slate-400 max-w-md">
-                                *Note: Estimates based on current indicative KIBOR rates and subject to bank credit approval, property valuation, and underwriting terms.
-                            </p>
-                            <a href="https://wa.me/923340091127?text=Hi,%20I%20want%20to%20apply%20for%20a%20home%20loan%20for%20this%20property" target="_blank" class="btn-primary text-xs py-2.5 px-6 rounded-xl font-bold uppercase tracking-wider shrink-0 shadow-md">
-                                Apply for Home Loan
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- TAB PANE 4: PRICE INDEX & TRENDS TAB (§6) -->
-                    <div id="pane-trends" class="p-6 space-y-6 hidden">
-                        <div>
-                            <span class="badge-premium-new text-[8px] px-2 py-0.5 rounded-full mb-1 inline-block">Market Intel</span>
-                            <h3 class="font-bold outfit text-xl text-slate-900">Historical Price Trends & Appreciation</h3>
-                            <p class="text-xs text-slate-500">Average price per marla over the past 4 quarters in this sector.</p>
-                        </div>
-
-                        <!-- Quarterly Trend Bar Chart Module -->
-                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
-                            <div class="flex justify-between items-center text-xs font-bold text-slate-700">
-                                <span>Quarterly Average Price / Marla</span>
-                                <span class="text-emerald-700 font-extrabold">+18.4% YoY Growth</span>
-                            </div>
-
-                            <!-- Trend Bars Grid -->
-                            <div class="grid grid-cols-4 gap-4 items-end h-40 pt-4 px-2 border-b border-slate-200">
-                                <div class="space-y-1 text-center">
-                                    <span class="text-[10px] text-slate-400 font-bold tabular-nums">4.2M</span>
-                                    <div class="w-full bg-slate-200 rounded-t-lg h-24"></div>
-                                    <span class="text-[10px] text-slate-600 font-bold block">Q3 2025</span>
-                                </div>
-                                <div class="space-y-1 text-center">
-                                    <span class="text-[10px] text-slate-400 font-bold tabular-nums">4.6M</span>
-                                    <div class="w-full bg-slate-300 rounded-t-lg h-28"></div>
-                                    <span class="text-[10px] text-slate-600 font-bold block">Q4 2025</span>
-                                </div>
-                                <div class="space-y-1 text-center">
-                                    <span class="text-[10px] text-slate-400 font-bold tabular-nums">5.1M</span>
-                                    <div class="w-full bg-emerald-500/70 rounded-t-lg h-32"></div>
-                                    <span class="text-[10px] text-slate-600 font-bold block">Q1 2026</span>
-                                </div>
-                                <div class="space-y-1 text-center">
-                                    <span class="text-[10px] text-emerald-700 font-extrabold tabular-nums">5.7M</span>
-                                    <div class="w-full bg-emerald-700 rounded-t-lg h-36 shadow-sm"></div>
-                                    <span class="text-[10px] text-emerald-800 font-extrabold block">Q2 2026</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Most Searched Locations Table -->
-                        <div class="space-y-2 text-xs">
-                            <h4 class="font-bold uppercase tracking-wider text-slate-800">Most Searched Locations in Islamabad</h4>
-                            <div class="space-y-1.5 font-medium">
-                                <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
-                                    <span class="text-slate-800 font-bold">1. Bahria Enclave</span>
-                                    <span class="text-emerald-700 font-bold tabular-nums">+24% Search Volume</span>
-                                </div>
-                                <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
-                                    <span class="text-slate-800 font-bold">2. Park View City</span>
-                                    <span class="text-emerald-700 font-bold tabular-nums">+19% Search Volume</span>
-                                </div>
-                                <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
-                                    <span class="text-slate-800 font-bold">3. CDA Park Enclave</span>
-                                    <span class="text-emerald-700 font-bold tabular-nums">+15% Search Volume</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ==========================================================================
-                     5. SAFETY TIPS BLOCK (§6)
-                     ========================================================================== -->
-                <div class="safety-alert-card space-y-2 text-xs">
-                    <div class="flex items-center gap-2 font-bold text-amber-900 text-sm">
-                        <i class="fa-solid fa-triangle-exclamation text-amber-600 text-base"></i>
-                        <span>Kaghan Safe Transaction Checklist</span>
-                    </div>
-                    <ul class="space-y-1.5 text-amber-800 pl-6 list-disc font-medium">
-                        <li>Always verify the physical plot demarcation and original society transfer slip before making token payments.</li>
-                        <li>Pay via crossed bank pay order / demand draft payable directly to the property owner/society.</li>
-                        <li>Verify CDA/RDA building approval drawings and completion certificate for constructed houses.</li>
-                    </ul>
-                </div>
-
-                <!-- ==========================================================================
-                     6. AGENCY / AGENT BLOCK REPEATED NEAR FOOTER (§6)
-                     ========================================================================== -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-4 text-xs">
-                    <div class="flex items-center justify-between flex-wrap gap-4 border-b border-slate-100 pb-4">
-                        <div class="flex items-center gap-3">
-                            <img src="assets/images/logo.png" class="h-10 w-auto">
-                            <div>
-                                <div class="flex items-center gap-2">
-                                    <h4 class="font-bold text-sm text-slate-900 outfit">Kaghan Properties</h4>
-                                    <span class="badge-tier-titanium text-[8px] px-1.5 py-0.5">Titanium</span>
-                                </div>
-                                <p class="text-slate-500">Corporate Brokerage & Construction Advisory Desk</p>
-                            </div>
-                        </div>
-                        <a href="agents.html" class="btn-outline text-xs py-1.5 px-3 rounded-lg font-bold">
-                            View Agency Profile
-                        </a>
-                    </div>
-
-                    <div class="flex items-center justify-between text-slate-500 text-[11px]">
-                        <div>
-                            <span class="font-bold text-slate-700">Useful Links:</span>
-                            <a href="projects.html?area=Bahria+Enclave" class="hover:underline ml-1">Bahria Enclave Houses</a> &bull;
-                            <a href="calculator.html" class="hover:underline ml-1">ROI Calculator</a> &bull;
-                            <a href="societies.html" class="hover:underline ml-1">Islamabad Maps</a>
-                        </div>
-                        <button onclick="reportListing()" class="text-slate-400 hover:text-rose-600 hover:underline">
-                            <i class="fa-regular fa-flag"></i> Report this listing
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Popular Searches Wrapping Tag Cloud (§6) -->
-                <div class="space-y-2">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Related Popular Searches</h4>
-                    <div class="flex flex-wrap gap-1.5">
-                        <a href="projects.html?type=house" class="tag-cloud-chip">Houses in Islamabad</a>
-                        <a href="projects.html?type=plot" class="tag-cloud-chip">Plots in Bahria Enclave</a>
-                        <a href="projects.html?city=Nathia+Gali" class="tag-cloud-chip">Nathia Gali Suites</a>
-                        <a href="projects.html?isNewProject=true" class="tag-cloud-chip">Off-Plan Projects</a>
-                        <a href="projects.html?area=Park+View+City" class="tag-cloud-chip">Park View City Villas</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ==========================================================================
-                 RIGHT RAIL: STICKY / FLOATING CONTACT CARD (§6)
-                 + LEAD CAPTURE FORM
-                 ========================================================================== -->
-            <div class="lg:col-span-4 space-y-6 sticky top-[90px]">
-                
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-md space-y-5">
-                    
-                    <!-- Agency & Tier Header -->
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold outfit text-sm">
-                                KP
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-xs text-slate-900" id="rail-agent-name">Tanzil Minhas</h4>
-                                <span class="badge-tier-titanium text-[8px] px-1.5 py-0.2"><i class="fa-solid fa-star"></i> Titanium Partner</span>
-                            </div>
-                        </div>
-                        <span class="badge-verified text-[9px]"><i class="fa-solid fa-check"></i> Verified</span>
-                    </div>
-
-                    <!-- Price Display -->
+                <!-- Clean Details & Description -->
+                <section class="bg-white p-5 rounded-2xl border border-slate-200 space-y-5">
                     <div>
-                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Demand Price</span>
-                        <div id="rail-price" class="price-hero text-3xl">
-                            PKR 2.85 Crore
-                        </div>
+                        <h2 class="text-base font-extrabold outfit text-slate-900 border-b border-slate-100 pb-2 mb-3">Specifications</h2>
+                        <div id="property-details-list" class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-xs"></div>
                     </div>
 
-                    <!-- Instant Primary Call CTA -->
-                    <a id="rail-call-btn" href="tel:+923340091127" class="w-full btn-primary py-3 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-phone"></i> Call Agent Now
-                    </a>
-
-                    <!-- Persistent Lead-Capture Form Component (§6, §8) -->
-                    <div class="pt-4 border-t border-slate-100 space-y-3">
-                        <span class="font-bold text-xs text-slate-800 block">Send Direct Inquiry</span>
-                        <form onsubmit="handleLeadSubmit(event)" class="space-y-3 text-xs">
-                            <div>
-                                <input type="text" id="lead-name" required placeholder="Your Name" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-emerald-600">
-                            </div>
-                            <div>
-                                <input type="email" id="lead-email" required placeholder="Your Email Address" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-emerald-600">
-                            </div>
-                            <div>
-                                <input type="tel" id="lead-phone" required placeholder="Phone / WhatsApp Number" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-emerald-600">
-                            </div>
-                            <div>
-                                <textarea id="lead-message" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-emerald-600"></textarea>
-                            </div>
-
-                            <!-- Radio Group: "I am a: Buyer/Tenant, Agent, Other" (§6) -->
-                            <div class="space-y-1">
-                                <span class="text-[10px] font-bold text-slate-500 uppercase block">I am a:</span>
-                                <div class="flex items-center gap-3 text-xs text-slate-700">
-                                    <label class="flex items-center gap-1.5 cursor-pointer">
-                                        <input type="radio" name="lead-role" value="buyer" checked class="accent-emerald-700">
-                                        <span>Buyer / Tenant</span>
-                                    </label>
-                                    <label class="flex items-center gap-1.5 cursor-pointer">
-                                        <input type="radio" name="lead-role" value="agent" class="accent-emerald-700">
-                                        <span>Agent</span>
-                                    </label>
-                                    <label class="flex items-center gap-1.5 cursor-pointer">
-                                        <input type="radio" name="lead-role" value="other" class="accent-emerald-700">
-                                        <span>Other</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Checkbox: "Keep me informed" (§6) -->
-                            <label class="flex items-center gap-2 text-[11px] text-slate-600 cursor-pointer pt-1">
-                                <input type="checkbox" id="lead-keep-informed" checked class="accent-emerald-700">
-                                <span>Keep me informed about similar properties</span>
-                            </label>
-
-                            <!-- Submit Button -->
-                            <button type="submit" class="w-full btn-outline py-2.5 rounded-xl font-bold uppercase tracking-wider text-xs">
-                                <i class="fa-regular fa-paper-plane mr-1"></i> Send Email Inquiry
-                            </button>
-                        </form>
-                        <div id="lead-feedback" class="hidden text-center text-xs font-bold text-emerald-700 bg-emerald-50 p-2.5 rounded-lg">
-                            <i class="fa-solid fa-check mr-1"></i> Inquiry sent to agent!
-                        </div>
+                    <div>
+                        <h2 class="text-base font-extrabold outfit text-slate-900 border-b border-slate-100 pb-2 mb-2">Overview</h2>
+                        <div id="property-description" class="text-xs sm:text-sm leading-relaxed text-slate-600 space-y-2"></div>
                     </div>
-                </div>
+
+                    <div id="features-wrap" class="hidden">
+                        <h2 class="text-base font-extrabold outfit text-slate-900 border-b border-slate-100 pb-2 mb-3">Highlights</h2>
+                        <div id="property-features" class="flex flex-wrap gap-2 text-xs"></div>
+                    </div>
+                </section>
             </div>
+
+            <!-- Right 4 Cols: Compact Sticky Contact Card -->
+            <aside class="lg:col-span-4 lg:sticky lg:top-[84px]">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="border-b border-slate-100 pb-4">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Price</span>
+                        <div id="rail-price" class="text-3xl font-extrabold outfit text-emerald-800">PKR —</div>
+                        <div id="rail-lumpsum" class="text-xs text-slate-500 font-medium mt-0.5"></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a id="rail-call-btn" href="tel:+923340091127" class="py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-phone"></i> Call
+                        </a>
+                        <a id="rail-wa-btn" href="https://wa.me/923340091127" target="_blank" rel="noopener" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                        </a>
+                    </div>
+
+                    <form onsubmit="handleLeadSubmit(event)" class="pt-3 border-t border-slate-100 space-y-2.5 text-xs">
+                        <div class="font-bold text-slate-800">Request Details</div>
+                        <input type="text" id="lead-name" required placeholder="Your Name" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <input type="tel" id="lead-phone" required placeholder="Phone / WhatsApp" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <textarea id="lead-message" rows="2" placeholder="Message" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600"></textarea>
+                        <button type="submit" class="w-full py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold transition-colors">
+                            Send Inquiry
+                        </button>
+                        <div id="lead-feedback" class="hidden text-center text-xs font-bold p-2 rounded-lg"></div>
+                    </form>
+                </div>
+            </aside>
         </div>
     </main>
 
-    <!-- ==========================================================================
-         LIGHTBOX MODAL (Gallery Modal Carousel - §6, §8)
-         ========================================================================== -->
-    <div id="gallery-lightbox-modal" class="lightbox-modal">
+    <!-- Lightbox Modal -->
+    <div id="gallery-lightbox-modal" class="lightbox-modal" onclick="if(event.target === this) closeLightbox()">
         <div class="relative max-w-5xl w-full p-4 flex flex-col items-center">
-            <button onclick="closeLightbox()" class="absolute -top-10 right-2 text-white hover:text-rose-400 text-2xl">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <button onclick="closeLightbox()" class="absolute -top-10 right-2 text-white hover:text-rose-400 text-2xl"><i class="fa-solid fa-xmark"></i></button>
             <div class="relative w-full h-[65vh] flex items-center justify-center">
-                <img id="lightbox-img" src="" class="max-h-full max-w-full object-contain rounded-xl shadow-2xl">
-                <!-- Prev / Next Controls -->
-                <button onclick="changeLightboxPhoto(-1)" class="absolute left-2 btn-icon-circle w-10 h-10 bg-slate-900/80 text-white border-0 hover:bg-emerald-600">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <button onclick="changeLightboxPhoto(1)" class="absolute right-2 btn-icon-circle w-10 h-10 bg-slate-900/80 text-white border-0 hover:bg-emerald-600">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
+                <img id="lightbox-img" src="" alt="" class="max-h-full max-w-full object-contain rounded-xl shadow-2xl">
+                <button onclick="changeLightboxPhoto(-1)" class="absolute left-2 w-10 h-10 rounded-full bg-slate-900/80 text-white hover:bg-emerald-600"><i class="fa-solid fa-chevron-left"></i></button>
+                <button onclick="changeLightboxPhoto(1)" class="absolute right-2 w-10 h-10 rounded-full bg-slate-900/80 text-white hover:bg-emerald-600"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
-            <div id="lightbox-caption" class="text-white text-xs font-semibold pt-4"></div>
         </div>
     </div>
 
-    <!-- Mobile Sticky Bottom CTA Bar (<768px) -->
-    <div id="mobile-bottom-bar" class="mobile-sticky-cta md:hidden">
+    <!-- Mobile Sticky Bottom CTA -->
+    <div class="mobile-sticky-cta md:hidden">
         <div>
-            <span class="text-[10px] text-slate-400 font-bold uppercase block">Asking Price</span>
-            <span id="mobile-cta-price" class="text-emerald-800 font-black text-sm sm:text-base outfit tabular-nums">PKR 0</span>
+            <span class="text-[10px] text-slate-400 font-bold uppercase block">Price</span>
+            <span id="mobile-cta-price" class="text-emerald-800 font-extrabold text-sm outfit">—</span>
         </div>
         <div class="flex items-center gap-2">
-            <a id="mobile-cta-call" href="tel:+923340091127" class="btn-primary text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1 shadow-xs">
-                <i class="fa-solid fa-phone text-xs"></i> Call
-            </a>
-            <a id="mobile-cta-wa" href="https://wa.me/923340091127" target="_blank" class="btn-whatsapp text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1">
-                <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
-            </a>
+            <a id="mobile-cta-call" href="tel:+923340091127" class="btn-primary text-xs py-2 px-3.5 rounded-xl font-bold">Call</a>
+            <a id="mobile-cta-wa" href="https://wa.me/923340091127" target="_blank" class="btn-whatsapp text-xs py-2 px-3.5 rounded-xl font-bold">WhatsApp</a>
         </div>
     </div>
 
-    <!-- Footer (Dynamic Shared UI) -->
     <div id="site-footer"></div>
 
-    <!-- ==========================================================================
-         PAGE JAVASCRIPT: PROPERTY DETAIL ENGINE
-         ========================================================================== -->
     <script>
         let currentProperty = null;
         let currentPhotos = [];
         let currentPhotoIndex = 0;
+
+        function fmtPrice(val) {
+            return window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(val) : ('PKR ' + Number(val || 0).toLocaleString());
+        }
+
+        function populateUI(p) {
+            document.title = `${p.title} | Kaghan Properties`;
+            document.getElementById('detail-h1').innerText = p.title;
+            document.getElementById('crumb-society').innerText = p.area || 'DHA Margalla Enclave';
+            document.getElementById('detail-address').innerHTML = `<i class="fa-solid fa-location-dot text-emerald-600"></i> ${[p.plotStreet, p.plotSector || p.sector, p.area, p.city].filter(Boolean).join(', ')}`;
+
+            const plotPill = document.getElementById('detail-plot-pill');
+            if (p.plotNumber) {
+                plotPill.innerHTML = `<i class="fa-solid fa-map-pin text-[10px]"></i> ${p.plotNumber}`;
+                plotPill.classList.remove('hidden');
+            }
+            document.getElementById('detail-cat-pill').innerText = p.category || p.type || 'Plot';
+
+            // Prices & Specs
+            const priceStr = fmtPrice(p.price);
+            document.getElementById('rail-price').innerText = priceStr;
+            document.getElementById('mobile-cta-price').innerText = priceStr;
+            if (p.lumpSumPrice) {
+                document.getElementById('rail-lumpsum').innerText = `Lump Sum: ${fmtPrice(p.lumpSumPrice)}`;
+            }
+
+            document.getElementById('spec-plot').innerText = p.plotNumber || 'Allotted';
+            document.getElementById('spec-size').innerText = p.plotDimensions || (p.sqYards ? `${p.sqYards} Sq Yds` : `${p.size || ''} ${p.sizeUnit || 'Marla'}`);
+            document.getElementById('spec-dp').innerText = p.downPaymentAmount ? fmtPrice(p.downPaymentAmount) : (p.installments?.advance ? fmtPrice(p.installments.advance) : '20% Down');
+            document.getElementById('spec-qtr').innerText = p.quarterlyAmount ? fmtPrice(p.quarterlyAmount) : (p.installments?.monthly ? fmtPrice(p.installments.monthly) : 'Quarterly');
+
+            // Contacts
+            const phone = p.agentPhone || '+923340091127';
+            const cleanPhone = phone.replace(/[^0-9]/g, '');
+            const waMsg = encodeURIComponent(`Hi, I am interested in ${p.title}${p.plotNumber ? ' (' + p.plotNumber + ')' : ''} — ${priceStr}.`);
+            const waHref = `https://wa.me/${cleanPhone}?text=${waMsg}`;
+            ['rail-call-btn', 'mobile-cta-call'].forEach(id => { const el = document.getElementById(id); if (el) el.href = `tel:${phone}`; });
+            ['rail-wa-btn', 'mobile-cta-wa'].forEach(id => { const el = document.getElementById(id); if (el) el.href = waHref; });
+            document.getElementById('lead-message').value = `I'm interested in ${p.title}${p.plotNumber ? ' (' + p.plotNumber + ')' : ''}.`;
+
+            // Gallery
+            currentPhotos = (p.images && p.images.length > 0) ? p.images : [{ url: 'assets/images/dha-margalla-hero.jpg' }];
+            document.getElementById('gallery-photo-count').innerText = `${currentPhotos.length} Photo${currentPhotos.length > 1 ? 's' : ''}`;
+            document.getElementById('gallery-filmstrip').innerHTML = currentPhotos.map((ph, idx) =>
+                `<div onclick="selectPhoto(${idx})" id="thumb-${idx}" class="filmstrip-thumb ${idx === 0 ? 'active' : ''}"><img src="${ph.url || ph}" alt="" class="w-full h-full object-cover"></div>`
+            ).join('');
+            selectPhoto(0);
+
+            // Specs Definition List
+            const rows = [
+                ['Plot Number', p.plotNumber || 'Upon Allotment'],
+                ['Dimensions / Size', p.plotDimensions || (p.sqYards ? `${p.sqYards} Sq Yds` : `${p.size} ${p.sizeUnit || 'Marla'}`)],
+                ['Street / Road', p.plotStreet || p.address || '—'],
+                ['Sector / Block', p.plotSector || p.sector || p.area || '—'],
+                ['Total Price', priceStr],
+                ['Lump Sum', p.lumpSumPrice ? fmtPrice(p.lumpSumPrice) : '—'],
+                ['Down Payment', p.downPaymentAmount ? fmtPrice(p.downPaymentAmount) : '20%'],
+                ['Processing Fee', p.processingFee ? `PKR ${Number(p.processingFee).toLocaleString()}` : '—']
+            ];
+            document.getElementById('property-details-list').innerHTML = rows.map(([k, v]) => `
+                <div class="flex justify-between py-2 border-b border-slate-100">
+                    <span class="text-slate-500 font-medium">${k}</span>
+                    <span class="font-bold text-slate-900 text-right">${v}</span>
+                </div>
+            `).join('');
+
+            // Description
+            document.getElementById('property-description').innerHTML = p.description || '';
+
+            // Features
+            const feats = (p.features && p.features.length) ? p.features : [];
+            if (feats.length) {
+                document.getElementById('features-wrap').classList.remove('hidden');
+                document.getElementById('property-features').innerHTML = feats.map(f =>
+                    `<span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 font-semibold">${f}</span>`
+                ).join('');
+            }
+
+            // Coordinates + Render Pinned Plot Map immediately
+            const coords = window.KaghanPlotMap ? window.KaghanPlotMap.getPlotCoords(p) : null;
+            if (coords) {
+                document.getElementById('plot-coords-label').innerText = `${coords[0].toFixed(5)}, ${coords[1].toFixed(5)}`;
+            }
+            if (window.KaghanPlotMap) {
+                window.KaghanPlotMap.create('property-plot-map-root', {
+                    mode: 'single',
+                    property: p,
+                    height: '440px'
+                });
+            }
+        }
+
+        function selectPhoto(idx) {
+            currentPhotoIndex = idx;
+            document.querySelectorAll('.filmstrip-thumb').forEach(el => el.classList.remove('active'));
+            const t = document.getElementById(`thumb-${idx}`);
+            if (t) t.classList.add('active');
+            const img = document.getElementById('gallery-main-photo');
+            if (img && currentPhotos[idx]) img.src = currentPhotos[idx].url || currentPhotos[idx];
+        }
+
+        function openLightbox(idx) {
+            currentPhotoIndex = idx;
+            document.getElementById('gallery-lightbox-modal').classList.add('active');
+            document.getElementById('lightbox-img').src = currentPhotos[idx].url || currentPhotos[idx];
+        }
+        function closeLightbox() { document.getElementById('gallery-lightbox-modal').classList.remove('active'); }
+        function changeLightboxPhoto(dir) {
+            currentPhotoIndex = (currentPhotoIndex + dir + currentPhotos.length) % currentPhotos.length;
+            document.getElementById('lightbox-img').src = currentPhotos[currentPhotoIndex].url || currentPhotos[currentPhotoIndex];
+        }
+        function shareListing() {
+            if (navigator.share) navigator.share({ title: document.title, url: window.location.href }).catch(() => {});
+            else if (navigator.clipboard) navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied!'));
+        }
+
+        async function handleLeadSubmit(e) {
+            e.preventDefault();
+            const fb = document.getElementById('lead-feedback');
+            try {
+                if (window.KaghanDB && window.KaghanDB.createLead) {
+                    await window.KaghanDB.createLead({
+                        name: document.getElementById('lead-name').value.trim(),
+                        phone: document.getElementById('lead-phone').value.trim(),
+                        propertyId: currentProperty ? currentProperty.id : '',
+                        propertyTitle: currentProperty ? currentProperty.title : 'Listing',
+                        message: document.getElementById('lead-message').value.trim(),
+                        sourcePage: window.location.href,
+                        status: 'new'
+                    });
+                }
+                fb.className = 'text-center text-xs font-bold p-2 rounded-lg bg-emerald-50 text-emerald-700 block';
+                fb.innerText = 'Inquiry sent! We will contact you shortly.';
+                e.target.reset();
+            } catch (err) {
+                fb.className = 'text-center text-xs font-bold p-2 rounded-lg bg-rose-50 text-rose-700 block';
+                fb.innerText = 'Error sending. Please call +92 334 0091127.';
+            }
+        }
 
         window.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
@@ -700,17 +336,13 @@
             if (slug && window.KaghanDB && window.KaghanDB.getPropertyBySlugOrId) {
                 currentProperty = await window.KaghanDB.getPropertyBySlugOrId(slug);
             }
-
-            if (!currentProperty) {
-                let all = [];
-                if (window.KaghanDB && window.KaghanDB.getProperties) {
-                    all = await window.KaghanDB.getProperties();
+            if (!currentProperty && window.KaghanDB && window.KaghanDB.getProperties) {
+                const all = await window.KaghanDB.getProperties();
+                if (slug) {
+                    const norm = slug.toLowerCase().trim();
+                    currentProperty = all.find(p => (p.slug || '').toLowerCase() === norm || String(p.id || '').toLowerCase() === norm);
                 }
-
-                if (slug && all.length > 0) {
-                    const normSlug = slug.toLowerCase().trim();
-                    currentProperty = all.find(p => (p.slug && p.slug.toLowerCase() === normSlug) || (p.id && String(p.id).toLowerCase() === normSlug));
-                }
+                if (!currentProperty && all.length > 0) currentProperty = all[0];
             }
 
             if (currentProperty) {
@@ -718,615 +350,19 @@
                     window.location.replace(`project-detail.html?slug=${encodeURIComponent(currentProperty.slug || currentProperty.id)}`);
                     return;
                 }
-                populatePropertyUI(currentProperty);
+                populateUI(currentProperty);
             } else {
-                const main = document.querySelector('main');
-                if (main) {
-                    main.innerHTML = `
-                        <div class="bg-white p-12 text-center rounded-3xl border border-slate-200 max-w-xl mx-auto my-12 space-y-4 shadow-sm">
-                            <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto text-2xl">
-                                <i class="fa-solid fa-house-chimney-crack"></i>
-                            </div>
-                            <h2 class="text-xl font-bold outfit text-slate-800">Property Listing Not Found</h2>
-                            <p class="text-xs text-slate-500 leading-relaxed">The requested property is currently unavailable or has been unlisted. Browse our active verified developments in Islamabad and Galyat.</p>
-                            <div class="pt-2">
-                                <a href="projects.html" class="btn-primary text-xs py-2.5 px-6 rounded-xl font-bold inline-flex items-center gap-2">
-                                    <i class="fa-solid fa-magnifying-glass"></i> Explore Active Listings
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                }
+                document.querySelector('main').innerHTML = `
+                    <div class="bg-white p-12 text-center rounded-2xl border border-slate-200 max-w-md mx-auto my-12 space-y-3">
+                        <h2 class="text-lg font-bold outfit">Listing Not Found</h2>
+                        <a href="projects.html" class="inline-block bg-emerald-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl">View All Listings</a>
+                    </div>`;
             }
 
-            // Listen to currency changes
             window.addEventListener('marketStateChanged', () => {
-                if (currentProperty) populatePrices(currentProperty);
+                if (currentProperty) populateUI(currentProperty);
             });
         });
-
-        function populatePropertyUI(p) {
-            // Document Head
-            document.title = `${p.title} | Kaghan Properties`;
-            const h1 = document.getElementById('detail-h1');
-            if (h1) h1.innerText = p.title;
-
-            const addr = document.getElementById('detail-address');
-            if (addr) addr.innerHTML = `<i class="fa-solid fa-location-dot text-emerald-600"></i> ${p.address || p.sector}, ${p.area}, ${p.city}`;
-
-            const crumbCity = document.getElementById('crumb-city');
-            const crumbSoc = document.getElementById('crumb-society');
-            if (crumbCity) crumbCity.innerText = p.city;
-            if (crumbSoc) crumbSoc.innerText = p.area;
-
-            // Property Label / Urgency Pin: Super Hot, Hot Deal, or No Label
-            const badgeUrgency = document.getElementById('badge-urgency');
-            if (badgeUrgency) {
-                if (p.urgency === 'super-hot') {
-                    badgeUrgency.className = 'badge-urgency-superhot';
-                    badgeUrgency.innerText = 'Super Hot';
-                    badgeUrgency.style.display = 'inline-block';
-                } else if (p.urgency === 'hot') {
-                    badgeUrgency.className = 'badge-urgency-hot';
-                    badgeUrgency.innerText = 'Hot Deal';
-                    badgeUrgency.style.display = 'inline-block';
-                } else {
-                    badgeUrgency.className = 'hidden';
-                    badgeUrgency.style.display = 'none';
-                    badgeUrgency.innerText = '';
-                }
-            }
-
-            // Subbar
-            const subTitle = document.getElementById('subbar-title');
-            if (subTitle) subTitle.innerText = p.title;
-
-            // Agent contacts
-            const agentPhone = p.agentPhone || '+923340091127';
-            const callBtn = document.getElementById('rail-call-btn');
-            const subCallBtn = document.getElementById('subbar-call-btn');
-            const tabCallBtn = document.getElementById('tab-call-btn');
-            if (callBtn) callBtn.href = `tel:${agentPhone}`;
-            if (subCallBtn) subCallBtn.href = `tel:${agentPhone}`;
-            if (tabCallBtn) tabCallBtn.href = `tel:${agentPhone}`;
-
-            const subWa = document.getElementById('subbar-whatsapp-btn');
-            if (subWa) subWa.href = `https://wa.me/${agentPhone.replace(/[^0-9]/g, '')}?text=Hi,%20I%20am%20interested%20in%20listing:%20${encodeURIComponent(p.title)}`;
-
-            // Mobile CTA Bottom Bar buttons
-            const mobCall = document.getElementById('mobile-cta-call');
-            const mobWa = document.getElementById('mobile-cta-wa');
-            if (mobCall) mobCall.href = `tel:${agentPhone}`;
-            if (mobWa) mobWa.href = `https://wa.me/${agentPhone.replace(/[^0-9]/g, '')}?text=Hi,%20I%20am%20interested%20in%20listing:%20${encodeURIComponent(p.title)}`;
-
-            // Populate Prices
-            populatePrices(p);
-
-            // Quick facts
-            const isPlot = (p.type || '').includes('plot') || p.bedrooms === 0;
-            if (isPlot) {
-                const bedEl = document.getElementById('quick-beds');
-                if (bedEl && bedEl.parentElement && bedEl.parentElement.previousElementSibling) {
-                    bedEl.parentElement.previousElementSibling.innerText = "Category";
-                    bedEl.innerHTML = `${p.category || 'Plot'}`;
-                }
-                const bathEl = document.getElementById('quick-baths');
-                if (bathEl && bathEl.parentElement && bathEl.parentElement.previousElementSibling) {
-                    bathEl.parentElement.previousElementSibling.innerText = "Ballot Stage";
-                    bathEl.innerHTML = `${p.title.includes('Ballot 1') ? 'Ballot 1' : 'Ballot 2'}`;
-                }
-                const areaEl = document.getElementById('quick-area');
-                if (areaEl) {
-                    areaEl.innerHTML = `${p.sqYards ? p.sqYards + ' Sq Yds' : (window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : p.size + ' Marla')}`;
-                }
-            } else {
-                document.getElementById('quick-beds').innerText = `${p.bedrooms || 0} Beds`;
-                document.getElementById('quick-baths').innerText = `${p.bathrooms || 0} Baths`;
-                document.getElementById('quick-area').innerText = window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : `${p.size} Marla`;
-            }
-
-            // Pre-fill boilerplate inquiry message (§6, §12)
-            const msgBox = document.getElementById('lead-message');
-            if (msgBox) {
-                msgBox.value = `Hi, I am interested in this DHA Margalla Enclave plot "${p.title}" (Lump Sum / 3-Year Installment Plan). Please contact me with application submission & ballot verification details.`;
-            }
-
-            // Populate Gallery & Filmstrip
-            currentPhotos = (p.images && p.images.length > 0) ? p.images : [
-                { url: 'assets/images/dha-margalla-hero.jpg', caption: 'DHA Margalla Master Overview' },
-                { url: 'assets/images/dha-residential-plots.jpg', caption: 'Residential Sector' },
-                { url: 'assets/images/dha-masterplan.jpg', caption: 'Site Masterplan Map' }
-            ];
-            document.getElementById('gallery-photo-count').innerText = `${p.photoCount || currentPhotos.length} Photos`;
-
-            renderFilmstrip();
-
-            // Populate 2-Column Definition List (§6)
-            const defList = document.getElementById('property-details-definition-list');
-            defList.innerHTML = `
-                <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Category</span>
-                    <span class="font-bold text-slate-800">${p.category || 'Plot Allotment'}</span>
-                </div>
-                <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Lump Sum Price (100%)</span>
-                    <span class="font-bold text-emerald-700">${window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : 'PKR ' + p.price.toLocaleString()}</span>
-                </div>
-                <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Plot Size</span>
-                    <span class="font-bold text-slate-800">${p.sqYards ? p.sqYards + ' Sq. Yds. (' + (window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : p.size + ' Marla') + ')' : (window.KaghanSharedUI ? window.KaghanSharedUI.formatArea(p.size) : p.size + ' Marla')}</span>
-                </div>
-                <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Payment Option</span>
-                    <span class="font-bold text-amber-700">Lump Sum / 1, 2 & 3-Yr Installments</span>
-                </div>
-                <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Down Payment</span>
-                    <span class="font-bold text-slate-800">${p.installments?.advance ? (window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.installments.advance) : 'PKR ' + p.installments.advance.toLocaleString()) + ' (20%)' : '20% within 30 days'}</span>
-                </div>
-                <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Quarterly Installment</span>
-                    <span class="font-bold text-slate-800">${p.installments?.monthly ? (window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.installments.monthly) : 'PKR ' + p.installments.monthly.toLocaleString()) + ' / Quarter' : '12 Quarters'}</span>
-                </div>
-                <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Sector & Location</span>
-                    <span class="font-bold text-slate-800">${p.sector || p.area}, ${p.city}</span>
-                </div>
-                <div class="flex justify-between py-1.5 border-b border-slate-100">
-                    <span class="text-slate-500 font-semibold">Authority</span>
-                    <span class="font-bold text-emerald-800">Defence Housing Authority (DHA)</span>
-                </div>
-            `;
-
-            // Long description
-            const descEl = document.getElementById('property-long-description');
-            descEl.innerHTML = p.description || '<p>Detailed property description available upon private consultation.</p>';
-
-            // Categorized Amenities Checklist Grid (§6)
-            renderAmenitiesGrid(p);
-
-            // Nearby POIs
-            renderNearbyPOIs(p);
-
-            // Setup Loan Calculator
-            document.getElementById('calc-price').value = p.price;
-            calculateLoan();
-        }
-
-        function populatePrices(p) {
-            const formatted = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${p.price.toLocaleString()}`;
-            const rPrice = document.getElementById('rail-price'); if (rPrice) rPrice.innerText = formatted;
-            const sPrice = document.getElementById('subbar-price'); if (sPrice) sPrice.innerText = formatted;
-            const mPrice = document.getElementById('mobile-cta-price'); if (mPrice) mPrice.innerText = formatted;
-        }
-
-        // Filmstrip Rendering (§6)
-        function renderFilmstrip() {
-            const fs = document.getElementById('gallery-filmstrip');
-            fs.innerHTML = currentPhotos.map((photo, idx) => `
-                <div onclick="selectPhoto(${idx})" class="filmstrip-thumb ${idx === 0 ? 'active' : ''}" id="thumb-${idx}">
-                    <img src="${photo.url}" alt="${photo.caption || 'Thumbnail'}" class="w-full h-full object-cover">
-                </div>
-            `).join('');
-
-            selectPhoto(0);
-        }
-
-        function selectPhoto(idx) {
-            currentPhotoIndex = idx;
-            document.querySelectorAll('.filmstrip-thumb').forEach(t => t.classList.remove('active'));
-            const activeThumb = document.getElementById(`thumb-${idx}`);
-            if (activeThumb) activeThumb.classList.add('active');
-
-            const mainImg = document.getElementById('gallery-main-photo');
-            if (mainImg && currentPhotos[idx]) {
-                mainImg.src = currentPhotos[idx].url;
-            }
-        }
-
-        // Lightbox Carousel (§6)
-        function openLightbox(idx) {
-            currentPhotoIndex = idx;
-            const m = document.getElementById('gallery-lightbox-modal');
-            m.classList.add('active');
-            updateLightboxView();
-        }
-
-        function closeLightbox() {
-            const m = document.getElementById('gallery-lightbox-modal');
-            m.classList.remove('active');
-        }
-
-        function changeLightboxPhoto(dir) {
-            currentPhotoIndex = (currentPhotoIndex + dir + currentPhotos.length) % currentPhotos.length;
-            updateLightboxView();
-        }
-
-        function updateLightboxView() {
-            const img = document.getElementById('lightbox-img');
-            const cap = document.getElementById('lightbox-caption');
-            if (currentPhotos[currentPhotoIndex]) {
-                img.src = currentPhotos[currentPhotoIndex].url;
-                cap.innerText = `${currentPhotoIndex + 1} of ${currentPhotos.length}: ${currentPhotos[currentPhotoIndex].caption || 'Property Photograph'}`;
-            }
-        }
-
-        // Amenities Checklist Multi-Column Grid (§6)
-        function renderAmenitiesGrid(p) {
-            const acc = document.getElementById('property-amenities-accordion');
-            let cat = p.categorizedAmenities;
-            if (!cat || Object.keys(cat).length === 0) {
-                if (p.features && Array.isArray(p.features) && p.features.length > 0) {
-                    cat = {
-                        mainFeatures: p.features
-                    };
-                } else {
-                    cat = {
-                        mainFeatures: ["Electricity Supply", "Water Supply", "Security Surveillance", "Dedicated Parking"]
-                    };
-                }
-            }
-
-            const labels = {
-                mainFeatures: { title: "Main Features", icon: "fa-sliders" },
-                rooms: { title: "Rooms & Living", icon: "fa-door-open" },
-                business: { title: "Business & Communication", icon: "fa-wifi" },
-                community: { title: "Community Features", icon: "fa-users" },
-                healthcare: { title: "Healthcare & Recreational", icon: "fa-heart-pulse" },
-                nearby: { title: "Nearby Locations", icon: "fa-map-pin" },
-                facilities: { title: "Other Facilities", icon: "fa-building-shield" }
-            };
-
-            acc.innerHTML = Object.keys(cat).map(key => {
-                const info = labels[key] || { title: key, icon: "fa-check" };
-                const items = cat[key] || [];
-                if (items.length === 0) return '';
-
-                const itemRows = items.map(item => `
-                    <div class="flex items-center gap-2 text-slate-700">
-                        <i class="fa-solid fa-circle-check text-emerald-600 text-xs"></i>
-                        <span>${item}</span>
-                    </div>
-                `).join('');
-
-                return `
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2.5">
-                        <div class="font-bold text-xs uppercase tracking-wider text-slate-800 flex items-center gap-2">
-                            <i class="fa-solid ${info.icon} text-emerald-700"></i>
-                            <span>${info.title}</span>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
-                            ${itemRows}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Nearby POIs Rendering
-        function renderNearbyPOIs(p) {
-            const grid = document.getElementById('nearby-pois-grid');
-            const pois = (p.nearbyPOIs && p.nearbyPOIs.length > 0) ? p.nearbyPOIs : [
-                { category: "Schools", name: `${p.area || 'Society'} Education Campus`, distance: "4 mins" },
-                { category: "Healthcare", name: `${p.area || 'Sector'} Medical Center`, distance: "7 mins" },
-                { category: "Shopping", name: `${p.area || 'Central'} Commercial Civic Hub`, distance: "3 mins" },
-                { category: "Recreation", name: `${p.area || 'Community'} Park & Sports Grounds`, distance: "5 mins" },
-                { category: "Transit", name: `${p.city || 'Expressway'} Main Access Boulevard`, distance: "2 mins" }
-            ];
-
-            grid.innerHTML = pois.map(poi => `
-                <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
-                    <div>
-                        <span class="text-[10px] font-bold text-emerald-700 block uppercase">${poi.category}</span>
-                        <span class="font-semibold text-slate-800 text-xs">${poi.name}</span>
-                    </div>
-                    <span class="text-[11px] font-extrabold text-slate-600 tabular-nums bg-white px-2 py-1 rounded-md border border-slate-100">${poi.distance}</span>
-                </div>
-            `).join('');
-        }
-
-        // In-page Tab Switching
-        function switchPropertyTab(tab) {
-            const tabs = ['overview', 'location', 'finance', 'trends'];
-            tabs.forEach(t => {
-                const btn = document.getElementById(`tab-btn-${t}`);
-                const pane = document.getElementById(`pane-${t}`);
-                if (btn) {
-                    if (t === tab) {
-                        btn.className = 'py-3.5 border-b-2 border-emerald-700 text-emerald-800 whitespace-nowrap';
-                    } else {
-                        btn.className = 'py-3.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap';
-                    }
-                }
-                if (pane) {
-                    if (t === tab) {
-                    pane.classList.remove('hidden');
-                    if (t === 'location') {
-                        setTimeout(() => {
-                            initPropertyPlotMap(currentProperty);
-                        }, 150);
-                    }
-                }
-                    else pane.classList.add('hidden');
-                }
-            });
-        }
-
-        // Loan Calculator Engine (§6)
-        let activeBankRate = 16.5;
-        let loanMode = 'islamic';
-
-        function selectBank(bank, rate) {
-            activeBankRate = rate;
-            document.querySelectorAll('.bank-pill').forEach(b => {
-                b.className = 'bank-pill p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center gap-1.5';
-            });
-            event.currentTarget.className = 'bank-pill p-2.5 rounded-xl border border-emerald-600 bg-emerald-50 text-emerald-800 flex items-center justify-center gap-1.5 shadow-xs';
-            document.getElementById('calc-rate').value = rate;
-            calculateLoan();
-        }
-
-        function setLoanMode(mode) {
-            loanMode = mode;
-            const btnI = document.getElementById('loan-mode-islamic');
-            const btnC = document.getElementById('loan-mode-conv');
-            if (mode === 'islamic') {
-                btnI.classList.add('active');
-                btnC.classList.remove('active');
-            } else {
-                btnC.classList.add('active');
-                btnI.classList.remove('active');
-            }
-            calculateLoan();
-        }
-
-        function calculateLoan() {
-            const price = parseFloat(document.getElementById('calc-price')?.value || 0);
-            const tenureYears = parseInt(document.getElementById('calc-tenure')?.value || 20, 10);
-            const downPct = parseFloat(document.getElementById('calc-down-pct')?.value || 25);
-            const rateAnnual = parseFloat(document.getElementById('calc-rate')?.value || 16.5);
-
-            const downAmount = price * (downPct / 100);
-            document.getElementById('calc-down-val').value = `PKR ${Math.round(downAmount).toLocaleString()}`;
-
-            const principal = price - downAmount;
-            const months = tenureYears * 12;
-            const r = (rateAnnual / 100) / 12;
-
-            let monthlyPayment = 0;
-            if (r > 0) {
-                monthlyPayment = principal * (r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
-            } else {
-                monthlyPayment = principal / months;
-            }
-
-            const totalPayment = monthlyPayment * months;
-            const totalInterest = Math.max(0, totalPayment - principal);
-
-            document.getElementById('loan-res-monthly').innerText = `PKR ${Math.round(monthlyPayment).toLocaleString()}`;
-            document.getElementById('loan-res-financed').innerText = `PKR ${Math.round(principal).toLocaleString()}`;
-            document.getElementById('loan-res-total-interest').innerText = `PKR ${Math.round(totalInterest).toLocaleString()}`;
-
-            // Donut chart stroke dash array
-            const principalPct = Math.round((principal / totalPayment) * 100);
-            const interestPct = 100 - principalPct;
-
-            const slice = document.getElementById('donut-principal-slice');
-            if (slice) {
-                slice.setAttribute('stroke-dasharray', `${principalPct}, 100`);
-            }
-            document.getElementById('donut-pct-p').innerText = `${principalPct}%`;
-            document.getElementById('donut-pct-i').innerText = `${interestPct}%`;
-        }
-
-        async function handleLeadSubmit(e) {
-            e.preventDefault();
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn ? submitBtn.innerHTML : 'Send Email Inquiry';
-            const fb = document.getElementById('lead-feedback');
-
-            const name = document.getElementById('lead-name')?.value.trim();
-            const email = document.getElementById('lead-email')?.value.trim();
-            const phone = document.getElementById('lead-phone')?.value.trim();
-            const message = document.getElementById('lead-message')?.value.trim();
-            const roleEl = document.querySelector('input[name="lead-role"]:checked');
-            const role = roleEl ? roleEl.value : 'buyer';
-            const keepInformed = document.getElementById('lead-keep-informed')?.checked;
-
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Sending...';
-            }
-
-            try {
-                if (window.KaghanDB && window.KaghanDB.createLead) {
-                    await window.KaghanDB.createLead({
-                        name,
-                        email,
-                        phone,
-                        propertyId: currentProperty ? currentProperty.id : '',
-                        propertyTitle: currentProperty ? currentProperty.title : 'Property Listing',
-                        agentId: currentProperty ? (currentProperty.agentId || 'user_001') : 'user_001',
-                        message: `Client Role: ${role.toUpperCase()}.\nMessage: ${message}\nKeep Informed: ${keepInformed ? 'Yes' : 'No'}`,
-                        sourcePage: window.location.href,
-                        status: 'new'
-                    });
-                }
-                fb.classList.remove('hidden');
-                fb.className = 'text-center text-xs font-bold text-emerald-700 bg-emerald-50 p-2.5 rounded-lg border border-emerald-200 block';
-                fb.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> Inquiry successfully submitted! Our property specialist will reach out shortly.';
-                e.target.reset();
-                setTimeout(() => fb.classList.add('hidden'), 5000);
-            } catch (err) {
-                console.error('Error submitting lead from property.html:', err);
-                fb.classList.remove('hidden');
-                fb.className = 'text-center text-xs font-bold text-rose-700 bg-rose-50 p-2.5 rounded-lg border border-rose-200 block';
-                fb.innerHTML = '<i class="fa-solid fa-circle-exclamation mr-1"></i> Submission error. Please call directly at +92 334 0091127.';
-            } finally {
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalText;
-                }
-            }
-        }
-
-        function shareLink(platform) {
-            const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(document.title);
-            if (platform === 'facebook') window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-            else if (platform === 'twitter') window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
-            else if (platform === 'whatsapp') window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
-            else if (platform === 'email') window.location.href = `mailto:?subject=${text}&body=${url}`;
-        }
-
-        function reportListing() {
-            alert('Listing flagged for verification review by Kaghan Compliance Team. Reference ticket logged.');
-        }
     </script>
-
-    <!-- Property Plot Map Engine -->
-    <script>
-        let propertyPlotMap = null;
-        let propHybridLayer = null;
-        let propStreetLayer = null;
-        let propPlotMarker = null;
-
-        function initPropertyPlotMap(p) {
-            const container = document.getElementById('property-plot-map');
-            if (!container || typeof L === 'undefined') return;
-
-            const defaultLat = 33.700100;
-            const defaultLng = 73.181000;
-            const lat = p && (p.lat || (p.coords && p.coords[0])) ? parseFloat(p.lat || p.coords[0]) : defaultLat;
-            const lng = p && (p.lng || (p.coords && p.coords[1])) ? parseFloat(p.lng || p.coords[1]) : defaultLng;
-
-            // Update GPS Nav CTA
-            const gpsBtn = document.getElementById('prop-gps-nav-btn');
-            if (gpsBtn) {
-                gpsBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-            }
-
-            // Update Plot Demarcation Banner
-            const headline = document.getElementById('prop-plot-headline');
-            const subline = document.getElementById('prop-plot-subline');
-            const tag = document.getElementById('prop-plot-badge-tag');
-            const cadBtn = document.getElementById('btn-toggle-cad-view');
-
-            if (p && (p.plotNumber || p.lat)) {
-                if (headline) headline.innerText = `${p.plotNumber || 'Demarcated Plot'} ${p.plotDimensions ? '(' + p.plotDimensions + ')' : ''}`;
-                if (subline) subline.innerText = `${p.plotStreet ? p.plotStreet + ' • ' : ''}${p.plotSector || p.sector || ''} • ${p.area || p.city}`;
-                if (tag) tag.innerText = 'Pinned Plot Demarcation';
-            } else if (p) {
-                if (headline) headline.innerText = `${p.title} Location`;
-                if (subline) subline.innerText = `${p.address || p.sector || ''}, ${p.area}, ${p.city}`;
-            }
-
-            // Enable Society CAD map button if Margalla Enclave
-            const isMargalla = p && ((p.societyId && p.societyId.includes('margalla')) || (p.area && p.area.toLowerCase().includes('margalla')) || (p.title && p.title.toLowerCase().includes('margalla')));
-            if (cadBtn) {
-                cadBtn.classList.toggle('hidden', !isMargalla);
-            }
-
-            if (!propertyPlotMap) {
-                propertyPlotMap = L.map('property-plot-map', {
-                    center: [lat, lng],
-                    zoom: 16.5,
-                    minZoom: 13,
-                    maxZoom: 20,
-                    zoomControl: true,
-                    scrollWheelZoom: false
-                });
-
-                // Google Hybrid (Satellite + Road Labels)
-                propHybridLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
-                    maxZoom: 20,
-                    attribution: 'Google Satellite &bull; Kaghan Properties'
-                });
-
-                // Google Streets
-                propStreetLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-                    maxZoom: 20,
-                    attribution: 'Google Maps'
-                });
-
-                propHybridLayer.addTo(propertyPlotMap);
-
-                // Custom Glowing Plot Marker
-                const plotLabel = (p && p.plotNumber) ? p.plotNumber : 'Plot Location';
-                const plotIcon = L.divIcon({
-                    className: 'property-plot-pin',
-                    html: `<div style="display:flex; flex-direction:column; align-items:center;">
-                        <span style="background:#10B981; color:#ffffff; font-size:11px; font-weight:800; padding:3px 8px; border-radius:8px; box-shadow:0 6px 14px rgba(16,185,129,0.5); border:2px solid #ffffff; white-space:nowrap;">${plotLabel}</span>
-                        <div style="width:12px; height:12px; background:#10B981; transform:rotate(45deg); margin-top:-6px; border-right:2px solid #ffffff; border-bottom:2px solid #ffffff;"></div>
-                    </div>`,
-                    iconSize: [80, 36],
-                    iconAnchor: [40, 32]
-                });
-
-                propPlotMarker = L.marker([lat, lng], { icon: plotIcon }).addTo(propertyPlotMap);
-
-                propPlotMarker.bindPopup(`
-                    <div style="min-width:180px; padding:4px;">
-                        <strong style="color:#0f172a; font-size:13px; display:block;">${p ? p.title : 'Plot Demarcation'}</strong>
-                        <span style="color:#059669; font-size:11px; font-weight:700;">${p && p.plotDimensions ? p.plotDimensions : ''}</span>
-                        <div style="color:#64748b; font-size:10px; margin-top:3px;">Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}</div>
-                    </div>
-                `);
-            } else {
-                propertyPlotMap.setView([lat, lng], 16.5);
-                if (propPlotMarker) {
-                    propPlotMarker.setLatLng([lat, lng]);
-                }
-            }
-
-            setTimeout(() => {
-                if (propertyPlotMap) propertyPlotMap.invalidateSize();
-            }, 250);
-        }
-
-        function setPropertyMapTileLayer(type) {
-            if (!propertyPlotMap || !propHybridLayer || !propStreetLayer) return;
-            const btnHybrid = document.getElementById('prop-map-hybrid-btn');
-            const btnStreet = document.getElementById('prop-map-street-btn');
-
-            if (type === 'hybrid') {
-                propertyPlotMap.removeLayer(propStreetLayer);
-                propertyPlotMap.addLayer(propHybridLayer);
-                if (btnHybrid) btnHybrid.className = 'px-2.5 py-1 rounded-lg bg-slate-900 text-white font-bold text-[11px] shadow-xs';
-                if (btnStreet) btnStreet.className = 'px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-bold text-[11px] hover:bg-slate-200';
-            } else {
-                propertyPlotMap.removeLayer(propHybridLayer);
-                propertyPlotMap.addLayer(propStreetLayer);
-                if (btnStreet) btnStreet.className = 'px-2.5 py-1 rounded-lg bg-slate-900 text-white font-bold text-[11px] shadow-xs';
-                if (btnHybrid) btnHybrid.className = 'px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-bold text-[11px] hover:bg-slate-200';
-            }
-        }
-
-        let isCadFrameActive = false;
-        function togglePropertyCadFrame() {
-            const mapDiv = document.getElementById('property-plot-map');
-            const cadFrame = document.getElementById('property-cad-frame');
-            const btn = document.getElementById('btn-toggle-cad-view');
-            if (!mapDiv || !cadFrame) return;
-
-            isCadFrameActive = !isCadFrameActive;
-            if (isCadFrameActive) {
-                if (cadFrame.src === 'about:blank' || !cadFrame.src.includes('emap.pk')) {
-                    cadFrame.src = 'https://emap.pk/margalla-enclave-islamabad-map';
-                }
-                mapDiv.classList.add('hidden');
-                cadFrame.classList.remove('hidden');
-                if (btn) btn.innerHTML = '<i class="fa-solid fa-satellite text-emerald-400"></i> Satellite Map';
-            } else {
-                cadFrame.classList.add('hidden');
-                mapDiv.classList.remove('hidden');
-                if (btn) btn.innerHTML = '<i class="fa-solid fa-layer-group text-amber-400"></i> Society CAD Map';
-                if (propertyPlotMap) {
-                    setTimeout(() => propertyPlotMap.invalidateSize(), 150);
-                }
-            }
-        }
-    </script>
-
 </body>
 </html>

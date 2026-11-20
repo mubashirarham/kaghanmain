@@ -110,263 +110,73 @@ window.KaghanSharedUI = {
         const isListing = active === 'projects';
 
         const navHtml = `
-            <!-- Primary Sticky Header Container -->
+            <!-- Minimal Single-Row Sticky Header -->
             <header id="main-site-header" class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 transition-all duration-300 shadow-xs">
-                <!-- Tier 1: Utility Bar (Logo, Nav, Tools & Switchers) -->
-                <div class="border-b border-slate-100 py-2 sm:py-2.5">
-                    <div class="market-container flex justify-between items-center text-xs">
-                        
-                        <!-- Left: Logo & Primary Navigation Links -->
-                        <div class="flex items-center gap-3 sm:gap-6 lg:gap-8">
-                            <!-- Logo -->
-                            <a href="index.html" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
-                                <img src="assets/images/logo.png" alt="Kaghan Properties Logo" class="h-7 sm:h-8 w-auto object-contain" onerror="this.src='stay/assets/images/logo.png'">
-                                <div class="flex flex-col">
-                                    <span class="text-sm sm:text-base font-extrabold tracking-tight uppercase outfit text-slate-900 leading-none group-hover:text-emerald-700 transition-colors">Kaghan</span>
-                                    <span class="text-[7px] sm:text-[8px] text-amber-600 tracking-[0.24em] uppercase font-bold">Properties</span>
-                                </div>
+                <div class="py-3">
+                    <div class="market-container flex justify-between items-center text-xs gap-4">
+                        <!-- Logo -->
+                        <a href="index.html" class="flex items-center gap-2.5 group shrink-0">
+                            <img src="assets/images/logo.png" alt="Kaghan Properties" class="h-8 w-auto object-contain">
+                            <div class="flex flex-col">
+                                <span class="text-base font-extrabold tracking-tight uppercase outfit text-slate-900 leading-none group-hover:text-emerald-700 transition-colors">Kaghan</span>
+                                <span class="text-[8px] text-amber-600 tracking-[0.24em] uppercase font-bold">Properties</span>
+                            </div>
+                        </a>
+
+                        <!-- Clean Single-Row Primary Nav -->
+                        <nav class="hidden md:flex items-center gap-7 font-bold text-slate-700 text-[13px]">
+                            <a href="index.html" class="${active === 'home' ? 'text-emerald-700' : 'hover:text-emerald-700'} transition-colors">Home</a>
+                            <a href="projects.html" class="${active === 'projects' ? 'text-emerald-700' : 'hover:text-emerald-700'} transition-colors">Listings</a>
+                            <a href="project-detail.html?slug=dha-margalla-enclave" class="${active === 'dha-margalla' ? 'text-emerald-700' : 'hover:text-emerald-700'} transition-colors">Margalla Enclave</a>
+                            <a href="index.html#plot-map" class="hover:text-emerald-700 transition-colors flex items-center gap-1.5">
+                                <i class="fa-solid fa-map-pin text-emerald-600 text-xs"></i> Plot Map
                             </a>
+                            <a href="contact.html" class="${active === 'contact' ? 'text-emerald-700' : 'hover:text-emerald-700'} transition-colors">Contact</a>
+                        </nav>
 
-                            <!-- Primary Links (Desktop 1024px+) -->
-                            <nav class="hidden lg:flex items-center gap-6 font-bold text-slate-700">
-                                <a href="projects.html" class="${active === 'projects' ? 'text-emerald-700 font-extrabold' : 'hover:text-emerald-700 hover:-translate-y-0.5'} transition-all font-bold">Properties</a>
-                                <a href="projects.html?type=blocks" class="hover:text-emerald-700 hover:-translate-y-0.5 transition-all inline-flex items-center gap-1 font-bold">
-                                    Property Blocks
-                                    <span class="badge-premium-new text-[8px] px-1.5 py-0.2 rounded-full font-extrabold">New</span>
-                                </a>
-                                <a href="area.html" class="${active === 'area' ? 'text-emerald-700 font-extrabold' : 'hover:text-emerald-700 hover:-translate-y-0.5'} transition-all font-bold">Area Guides</a>
-                                <a href="blog.html" class="${active === 'blog' ? 'text-emerald-700 font-extrabold' : 'hover:text-emerald-700 hover:-translate-y-0.5'} transition-all font-bold">Blog</a>
-                                <a href="societies.html" class="${active === 'societies' ? 'text-emerald-700 font-extrabold' : 'hover:text-emerald-700 hover:-translate-y-0.5'} transition-all font-bold">Maps</a>
-
-                                <!-- Tools Dropdown -->
-                                <div class="relative group py-1">
-                                    <button class="flex items-center gap-1 hover:text-emerald-700 transition-all focus:outline-none font-bold cursor-pointer">
-                                        Tools <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 group-hover:rotate-180 transition-transform"></i>
-                                    </button>
-                                    <div class="absolute left-0 top-full hidden group-hover:block w-56 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50 animate-fade-in">
-                                        <a href="projects.html?tool=plot-finder" class="flex items-center gap-2.5 px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 transition-colors">
-                                            <i class="fa-solid fa-map-location-dot text-emerald-600 w-4"></i> Plot Finder
-                                        </a>
-                                        <a href="calculator.html" class="flex items-center gap-2.5 px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 transition-colors">
-                                            <i class="fa-solid fa-calculator text-emerald-600 w-4"></i> Home Loan Calculator
-                                        </a>
-                                        <button onclick="window.KaghanSharedUI.openAreaUnitModal()" class="w-full text-left flex items-center gap-2.5 px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 transition-colors">
-                                            <i class="fa-solid fa-ruler-combined text-emerald-600 w-4"></i> Area Unit Converter
-                                        </button>
-                                        <a href="societies.html#land-records" class="flex items-center gap-2.5 px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 transition-colors">
-                                            <i class="fa-solid fa-file-shield text-emerald-600 w-4"></i> Land Records
-                                        </a>
-                                        <a href="calculator.html#construction" class="flex items-center gap-2.5 px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 transition-colors">
-                                            <i class="fa-solid fa-trowel-bricks text-emerald-600 w-4"></i> Construction Cost Calculator
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <!-- More Dropdown -->
-                                <div class="relative group py-1">
-                                    <button class="flex items-center gap-1 hover:text-emerald-700 transition-all focus:outline-none font-bold cursor-pointer">
-                                        More <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 group-hover:rotate-180 transition-transform"></i>
-                                    </button>
-                                    <div class="absolute left-0 top-full hidden group-hover:block w-44 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50 animate-fade-in">
-                                        <a href="index.html#forums" class="flex items-center gap-2 px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 transition-colors">
-                                            <i class="fa-solid fa-comments text-slate-400"></i> Forum
-                                        </a>
-                                        <a href="projects.html?tab=index" class="flex items-center gap-2 px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 transition-colors">
-                                            <i class="fa-solid fa-arrow-trend-up text-slate-400"></i> Price Index
-                                        </a>
-                                        <a href="projects.html?tab=trends" class="flex items-center gap-2 px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 transition-colors">
-                                            <i class="fa-solid fa-chart-line text-slate-400"></i> Trends
-                                        </a>
-                                    </div>
-                                </div>
-                            </nav>
-                        </div>
-
-                        <!-- Right: Action CTA & Switchers -->
-                        <div class="flex items-center gap-1.5 sm:gap-2.5 lg:gap-3.5">
-                            <!-- Currency Toggle -->
-                            <div class="flex items-center gap-1 bg-slate-100 px-1.5 sm:px-2 py-1 rounded-lg border border-slate-200">
-                                <i class="fa-solid fa-coins text-slate-400 text-[9px] sm:text-[10px]"></i>
-                                <select id="header-currency-select" onchange="window.KaghanSharedUI.setCurrency(this.value)" class="bg-transparent text-slate-800 font-bold text-[10px] sm:text-[11px] focus:outline-none cursor-pointer">
+                        <!-- Right: Currency + Primary CTA -->
+                        <div class="flex items-center gap-2.5">
+                            <div class="flex items-center gap-1 bg-slate-100 px-2 py-1.5 rounded-lg border border-slate-200">
+                                <select id="header-currency-select" onchange="window.KaghanSharedUI.setCurrency(this.value)" aria-label="Currency" class="bg-transparent text-slate-800 font-bold text-[11px] focus:outline-none cursor-pointer">
                                     <option value="PKR" ${this.currency === 'PKR' ? 'selected' : ''}>PKR</option>
-                                    <option value="USD" ${this.currency === 'USD' ? 'selected' : ''}>USD ($)</option>
+                                    <option value="USD" ${this.currency === 'USD' ? 'selected' : ''}>USD</option>
                                     <option value="AED" ${this.currency === 'AED' ? 'selected' : ''}>AED</option>
                                 </select>
                             </div>
 
-                            <!-- Area-Unit Toggle (Hidden on small mobile, visible in drawer & sm+) -->
-                            <div class="hidden sm:flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-lg border border-slate-200">
-                                <i class="fa-solid fa-vector-square text-slate-400 text-[10px]"></i>
-                                <select id="header-unit-select" onchange="window.KaghanSharedUI.setAreaUnit(this.value)" class="bg-transparent text-slate-800 font-medium text-[11px] focus:outline-none cursor-pointer">
-                                    <option value="marla" ${this.areaUnit === 'marla' ? 'selected' : ''}>Marla</option>
-                                    <option value="sqft" ${this.areaUnit === 'sqft' ? 'selected' : ''}>Square Feet</option>
-                                    <option value="sqyd" ${this.areaUnit === 'sqyd' ? 'selected' : ''}>Square Yards</option>
-                                    <option value="sqm" ${this.areaUnit === 'sqm' ? 'selected' : ''}>Square Meters</option>
-                                    <option value="kanal" ${this.areaUnit === 'kanal' ? 'selected' : ''}>Kanal</option>
-                                </select>
-                            </div>
+                            <a href="https://wa.me/923340091127" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-1.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-2 px-4 rounded-xl shadow-xs transition-colors">
+                                <i class="fa-brands fa-whatsapp text-sm"></i>
+                                <span>WhatsApp</span>
+                            </a>
 
-                            <!-- Language Toggle (Hidden on extra small mobile) -->
-                            <button onclick="window.KaghanSharedUI.toggleLanguage()" title="Switch Language" class="hidden xs:flex p-1.5 text-slate-600 hover:text-emerald-700 hover:bg-slate-100 rounded-lg transition-colors items-center gap-1">
-                                <i class="fa-solid fa-globe text-xs"></i>
-                                <span id="lang-indicator" class="font-bold text-[10px]">${this.language}</span>
+                            <button onclick="window.KaghanSharedUI.toggleMobileMenu()" aria-label="Menu" class="md:hidden p-2 text-slate-700 hover:text-emerald-700 hover:bg-slate-100 rounded-lg">
+                                <i class="fa-solid fa-bars text-base"></i>
                             </button>
-
-                            <!-- Primary CTA Button ("Contact Desk" -> icon on small phone, full button on sm+) -->
-                            <a href="contact.html" class="btn-primary text-xs py-1.5 px-2.5 sm:px-3.5 rounded-full font-bold shadow-xs whitespace-nowrap flex items-center gap-1 sm:gap-1.5">
-                                <i class="fa-solid fa-headset text-[10px]"></i>
-                                <span class="hidden sm:inline">Contact Desk</span>
-                            </a>
-
-                            <!-- Mobile Menu Trigger Button -->
-                            <button onclick="window.KaghanSharedUI.toggleMobileMenu()" aria-label="Open Navigation Menu" class="lg:hidden p-1.5 text-slate-700 hover:text-emerald-700 hover:bg-slate-100 rounded-lg focus:outline-none transition-colors">
-                                <i class="fa-solid fa-bars text-base sm:text-lg"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tier 2: Transaction Sub-Nav (Buy/Rent, Homes, Plots, Commercial, Agents, Projects) -->
-                <div class="py-2 sm:py-2.5 bg-slate-50/90 border-b border-slate-100 hidden sm:block">
-                    <div class="market-container flex justify-between items-center text-xs">
-                        
-                        <!-- Left: Purpose Toggle & Category Links -->
-                        <div class="flex items-center gap-4 lg:gap-6 overflow-x-auto pb-0.5 scrollbar-none">
-                            <!-- Purpose Toggle Segmented Control -->
-                            <div class="segmented-control shrink-0">
-                                <a href="projects.html?purpose=sale" id="tier2-buy" class="${window.location.search.includes('purpose=rent') ? '' : 'active'}">Buy</a>
-                                <a href="projects.html?purpose=rent" id="tier2-rent" class="${window.location.search.includes('purpose=rent') ? 'active' : ''}">Rent</a>
-                            </div>
-
-                            <!-- Category Links -->
-                            <div class="flex items-center gap-4 lg:gap-5 font-bold text-slate-700 shrink-0">
-                                <a href="projects.html?type=house" class="hover:text-emerald-700 hover:-translate-y-0.5 transition-all flex items-center gap-1.5 font-bold cursor-pointer">
-                                    <i class="fa-solid fa-house-chimney text-slate-400"></i> Homes
-                                </a>
-                                <a href="projects.html?type=plot" class="hover:text-emerald-700 hover:-translate-y-0.5 transition-all flex items-center gap-1.5 font-bold cursor-pointer">
-                                    <i class="fa-solid fa-border-all text-slate-400"></i> Plots
-                                </a>
-                                <a href="projects.html?type=commercial" class="hover:text-emerald-700 hover:-translate-y-0.5 transition-all flex items-center gap-1.5 font-bold cursor-pointer">
-                                    <i class="fa-solid fa-building text-slate-400"></i> Commercial
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Right: Agents & New Projects -->
-                        <div class="hidden md:flex items-center gap-5 font-bold text-slate-700 shrink-0">
-                            <a href="agents.html" class="${active === 'agents' ? 'text-emerald-700 font-extrabold' : 'hover:text-emerald-700 hover:-translate-y-0.5'} transition-all flex items-center gap-1.5 font-bold cursor-pointer">
-                                <i class="fa-solid fa-user-tie text-slate-400"></i> Real Estate Agents
-                            </a>
-                            <a href="projects.html?isNewProject=true" class="hover:text-emerald-700 hover:-translate-y-0.5 transition-all flex items-center gap-1.5 font-extrabold text-emerald-800 cursor-pointer">
-                                <i class="fa-solid fa-city text-emerald-600"></i> New Projects
-                            </a>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <!-- Mobile Navigation Off-Canvas Drawer -->
-            <div id="mobile-menu-drawer" onclick="if(event.target === this) window.KaghanSharedUI.toggleMobileMenu()" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[70] hidden flex flex-col justify-end transition-all">
-                <div class="bg-white rounded-t-3xl max-h-[88vh] overflow-y-auto p-5 sm:p-6 space-y-5 shadow-2xl">
-                    <!-- Drawer Header -->
+            <!-- Minimal Mobile Drawer -->
+            <div id="mobile-menu-drawer" onclick="if(event.target === this) window.KaghanSharedUI.toggleMobileMenu()" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-[70] hidden flex flex-col justify-end">
+                <div class="bg-white rounded-t-3xl p-5 space-y-4 shadow-2xl">
                     <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                        <div class="flex items-center gap-2">
-                            <img src="assets/images/logo.png" class="h-8 w-auto">
-                            <span class="font-bold outfit text-base text-slate-900">Kaghan Properties</span>
-                        </div>
-                        <button onclick="window.KaghanSharedUI.toggleMobileMenu()" aria-label="Close menu" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors">
-                            <i class="fa-solid fa-xmark text-sm"></i>
+                        <span class="font-bold outfit text-base text-slate-900">Kaghan Properties</span>
+                        <button onclick="window.KaghanSharedUI.toggleMobileMenu()" aria-label="Close menu" class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center">
+                            <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
-
-                    <!-- Purpose Selector Mobile -->
-                    <div class="flex bg-slate-100 p-1 rounded-xl text-center text-xs font-bold">
-                        <a href="projects.html?purpose=sale" class="flex-1 py-2 rounded-lg bg-white shadow-xs text-emerald-800 font-extrabold">Buy Property</a>
-                        <a href="projects.html?purpose=rent" class="flex-1 py-2 rounded-lg text-slate-600 hover:text-emerald-700">Rent Property</a>
+                    <div class="space-y-1 text-sm font-bold text-slate-800 divide-y divide-slate-100">
+                        <a href="index.html" class="block py-2.5 hover:text-emerald-700">Home</a>
+                        <a href="projects.html" class="block py-2.5 hover:text-emerald-700">Listings</a>
+                        <a href="project-detail.html?slug=dha-margalla-enclave" class="block py-2.5 hover:text-emerald-700">Margalla Enclave Plans</a>
+                        <a href="index.html#plot-map" onclick="window.KaghanSharedUI.toggleMobileMenu()" class="block py-2.5 text-emerald-700">Interactive Plot Map</a>
+                        <a href="about.html" class="block py-2.5 hover:text-emerald-700">About</a>
+                        <a href="contact.html" class="block py-2.5 hover:text-emerald-700">Contact</a>
                     </div>
-
-                    <!-- Mobile Unit & Currency Controls -->
-                    <div class="grid grid-cols-2 gap-2 text-xs">
-                        <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl space-y-1">
-                            <label class="text-[10px] font-bold uppercase text-slate-400 block">Currency</label>
-                            <select onchange="window.KaghanSharedUI.setCurrency(this.value); document.getElementById('header-currency-select').value=this.value;" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 font-bold text-slate-800 text-xs focus:outline-none">
-                                <option value="PKR" ${this.currency === 'PKR' ? 'selected' : ''}>PKR (Pakistani Rupee)</option>
-                                <option value="USD" ${this.currency === 'USD' ? 'selected' : ''}>USD ($ US Dollar)</option>
-                                <option value="AED" ${this.currency === 'AED' ? 'selected' : ''}>AED (UAE Dirham)</option>
-                            </select>
-                        </div>
-                        <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl space-y-1">
-                            <label class="text-[10px] font-bold uppercase text-slate-400 block">Area Unit</label>
-                            <select onchange="window.KaghanSharedUI.setAreaUnit(this.value); const el=document.getElementById('header-unit-select'); if(el) el.value=this.value;" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 font-bold text-slate-800 text-xs focus:outline-none">
-                                <option value="marla" ${this.areaUnit === 'marla' ? 'selected' : ''}>Marla</option>
-                                <option value="sqft" ${this.areaUnit === 'sqft' ? 'selected' : ''}>Square Feet</option>
-                                <option value="sqyd" ${this.areaUnit === 'sqyd' ? 'selected' : ''}>Square Yards</option>
-                                <option value="sqm" ${this.areaUnit === 'sqm' ? 'selected' : ''}>Square Meters</option>
-                                <option value="kanal" ${this.areaUnit === 'kanal' ? 'selected' : ''}>Kanal</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Navigation Links Mobile -->
-                    <div class="space-y-1 text-sm font-semibold text-slate-700 divide-y divide-slate-100">
-                        <a href="index.html" class="flex items-center justify-between py-2.5 hover:text-emerald-700">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-house text-slate-400 w-4 text-center"></i> Home</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-300"></i>
-                        </a>
-                        <a href="projects.html" class="flex items-center justify-between py-2.5 hover:text-emerald-700">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-building text-slate-400 w-4 text-center"></i> Properties Catalog</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-300"></i>
-                        </a>
-                        <a href="projects.html?isNewProject=true" class="flex items-center justify-between py-2.5 text-emerald-700 font-bold">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-city text-emerald-600 w-4 text-center"></i> New Projects & Blocks</span>
-                            <span class="badge-premium-new text-[8px] px-2 py-0.5">Hot</span>
-                        </a>
-                        <a href="area.html" class="flex items-center justify-between py-2.5 hover:text-emerald-700">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-map-location-dot text-slate-400 w-4 text-center"></i> Area Guides & Societies</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-300"></i>
-                        </a>
-                        <a href="societies.html" class="flex items-center justify-between py-2.5 hover:text-emerald-700">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-map text-slate-400 w-4 text-center"></i> Society Maps</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-300"></i>
-                        </a>
-                        <a href="calculator.html" class="flex items-center justify-between py-2.5 hover:text-emerald-700">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-calculator text-slate-400 w-4 text-center"></i> ROI & Mortgage Calculators</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-300"></i>
-                        </a>
-                        <a href="compare.html" class="flex items-center justify-between py-2.5 hover:text-emerald-700">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-code-compare text-slate-400 w-4 text-center"></i> Compare Properties</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-300"></i>
-                        </a>
-                        <a href="agents.html" class="flex items-center justify-between py-2.5 hover:text-emerald-700">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-user-tie text-slate-400 w-4 text-center"></i> Certified Real Estate Agents</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-300"></i>
-                        </a>
-                        <a href="blog.html" class="flex items-center justify-between py-2.5 hover:text-emerald-700">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-newspaper text-slate-400 w-4 text-center"></i> Market Insights & Blog</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-300"></i>
-                        </a>
-                        <a href="about.html" class="flex items-center justify-between py-2.5 hover:text-emerald-700">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-circle-info text-slate-400 w-4 text-center"></i> About Kaghan Properties</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-300"></i>
-                        </a>
-                        <a href="services.html" class="flex items-center justify-between py-2.5 hover:text-emerald-700">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-handshake-angle text-slate-400 w-4 text-center"></i> Corporate Services</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-300"></i>
-                        </a>
-                        <a href="faqs.html" class="flex items-center justify-between py-2.5 hover:text-emerald-700">
-                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-circle-question text-slate-400 w-4 text-center"></i> Help & FAQs</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-300"></i>
-                        </a>
-                    </div>
-
-                    <!-- Mobile CTA Buttons -->
-                    <div class="pt-3 border-t border-slate-100 space-y-2.5 pb-2">
-                        <a href="contact.html" class="w-full btn-primary py-3 rounded-xl text-xs font-bold shadow-md flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-headset"></i> Contact Real Estate Desk
-                        </a>
-                        <a href="https://wa.me/923340091127" target="_blank" class="w-full btn-whatsapp py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
-                            <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp Support
-                        </a>
+                    <div class="grid grid-cols-2 gap-2 pt-2">
+                        <a href="tel:+923340091127" class="btn-primary py-2.5 rounded-xl text-xs font-bold text-center"><i class="fa-solid fa-phone mr-1"></i> Call</a>
+                        <a href="https://wa.me/923340091127" target="_blank" class="btn-whatsapp py-2.5 rounded-xl text-xs font-bold text-center"><i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp</a>
                     </div>
                 </div>
             </div>
@@ -397,108 +207,30 @@ window.KaghanSharedUI = {
         if (!footerContainer) return;
 
         const footerHtml = `
-            <footer class="bg-slate-900 text-slate-400 text-xs border-t border-slate-800 relative z-10 pt-16 pb-8">
-                <div class="market-container space-y-12">
-                    
-                    <!-- 5-Column Grid Layout -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
-                        
-                        <!-- Col 1: Company -->
-                        <div class="space-y-3">
-                            <h4 class="text-white font-bold outfit uppercase text-sm tracking-wider border-b border-slate-800 pb-2">Company</h4>
-                            <ul class="space-y-2 font-medium">
-                                <li><a href="about.html" class="hover:text-emerald-400 transition-colors">About Us</a></li>
-                                <li><a href="contact.html" class="hover:text-emerald-400 transition-colors">Contact Us</a></li>
-                                <li><a href="about.html#careers" class="hover:text-emerald-400 transition-colors">Careers & Jobs</a></li>
-                                <li><a href="faqs.html" class="hover:text-emerald-400 transition-colors">Help & Support</a></li>
-                                <li><a href="contact.html?type=advertise" class="hover:text-emerald-400 transition-colors">Advertise with Us</a></li>
-                                <li><a href="privacy-policy.html" class="hover:text-emerald-400 transition-colors">Privacy Policy</a></li>
-                                <li><a href="faqs.html#terms" class="hover:text-emerald-400 transition-colors">Terms of Use</a></li>
-                            </ul>
-                        </div>
-
-                        <!-- Col 2: Connect -->
-                        <div class="space-y-3">
-                            <h4 class="text-white font-bold outfit uppercase text-sm tracking-wider border-b border-slate-800 pb-2">Connect</h4>
-                            <ul class="space-y-2 font-medium">
-                                <li><a href="blog.html" class="hover:text-emerald-400 transition-colors">Market Blog</a></li>
-                                <li><a href="blog.html?cat=news" class="hover:text-emerald-400 transition-colors">Real Estate News</a></li>
-                                <li><a href="index.html#forums" class="hover:text-emerald-400 transition-colors">Property Forum</a></li>
-                                <li><a href="projects.html?tag=expo" class="hover:text-emerald-400 transition-colors">Property Expo 2026</a></li>
-                                <li><a href="agents.html" class="hover:text-emerald-400 transition-colors">Real Estate Agents</a></li>
-                                <li><a href="contact.html" class="hover:text-emerald-400 text-left transition-colors">Partner with Us</a></li>
-                            </ul>
-                        </div>
-
-                        <!-- Col 3: Head Office -->
-                        <div class="space-y-3">
-                            <h4 class="text-white font-bold outfit uppercase text-sm tracking-wider border-b border-slate-800 pb-2">Head Office</h4>
-                            <div class="space-y-2 leading-relaxed text-slate-300">
-                                <p class="flex items-start gap-2">
-                                    <i class="fa-solid fa-location-dot text-emerald-400 mt-1"></i>
-                                    <span class="shared-address-text">Office 203, 2nd Floor, Asian Arcade, opposite Zoo, C Avenue, Sector C, Bahria Enclave, Islamabad, Pakistan</span>
-                                </p>
-                                <p class="flex items-center gap-2">
-                                    <i class="fa-solid fa-phone text-emerald-400"></i>
-                                    <a href="tel:+923340091127" class="shared-phone-link hover:text-white font-semibold tabular-nums">+92 334 0091127</a>
-                                </p>
-                                <p class="flex items-center gap-2 text-[11px] text-slate-400">
-                                    <i class="fa-regular fa-clock text-slate-500"></i>
-                                    <span>Mon - Sat: 9:00 AM – 8:00 PM</span>
-                                </p>
-                                <p class="pt-1">
-                                    <a href="mailto:info@kaghanproperties.com" class="shared-email-link text-emerald-400 hover:underline flex items-center gap-1.5 font-semibold">
-                                        <i class="fa-regular fa-envelope"></i> Email Us
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Col 4: Roshan Digital Account Promo -->
-                        <div class="space-y-3">
-                            <h4 class="text-white font-bold outfit uppercase text-sm tracking-wider border-b border-slate-800 pb-2">Overseas Services</h4>
-                            <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl space-y-2.5">
-                                <div class="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wide">
-                                    <i class="fa-solid fa-earth-americas text-emerald-400"></i> Roshan Digital
-                                </div>
-                                <a href="calculator.html?ref=rda" class="font-bold text-white block hover:text-emerald-400 transition-colors">
-                                    Roshan Digital Account Property Investments
-                                </a>
-                                <p class="text-[11px] text-slate-400">Dedicated facilitation desk for non-resident Pakistanis buying plots, turnkey villas, and apartments.</p>
-                            </div>
-                        </div>
-
-                        <!-- Col 5: Get Connected & Newsletter -->
-                        <div class="space-y-3">
-                            <h4 class="text-white font-bold outfit uppercase text-sm tracking-wider border-b border-slate-800 pb-2">Get Connected</h4>
-                            <div class="flex gap-2 text-slate-300">
-                                <a href="https://facebook.com" target="_blank" class="shared-social-fb w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="https://instagram.com" target="_blank" class="shared-social-ig w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="https://youtube.com" target="_blank" class="shared-social-yt w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-youtube"></i></a>
-                                <a href="https://twitter.com" target="_blank" class="shared-social-tw w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
-                                <a href="https://linkedin.com" target="_blank" class="shared-social-li w-8 h-8 rounded-full bg-slate-800 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
-                            </div>
-
-                            <div class="pt-2">
-                                <p class="text-[11px] text-slate-400 mb-2">Subscribe to weekly market rate alerts:</p>
-                                <form onsubmit="window.KaghanSharedUI.handleNewsletter(event)" class="space-y-1.5">
-                                    <input type="email" id="footer-newsletter-input" placeholder="Your email address" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500">
-                                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-1.5 rounded-lg text-xs transition-colors">
-                                        Subscribe
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+            <footer class="bg-slate-900 text-slate-400 text-xs border-t border-slate-800 relative z-10 py-8">
+                <div class="market-container flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+                        <a href="index.html" class="font-extrabold outfit text-white text-sm uppercase tracking-wider">Kaghan Properties</a>
+                        <span class="hidden sm:inline text-slate-700">&bull;</span>
+                        <span class="shared-address-text text-slate-400">Bahria Enclave, Islamabad</span>
+                        <span class="hidden sm:inline text-slate-700">&bull;</span>
+                        <a href="tel:+923340091127" class="shared-phone-link text-emerald-400 hover:text-white font-semibold tabular-nums">+92 334 0091127</a>
                     </div>
 
-                    <!-- Bottom Bar with Copyright -->
-                    <div class="pt-8 border-t border-slate-800/80 text-center text-slate-500 text-[11px]">
-                        <p>&copy; 2026 Kaghan Properties (Pvt) Ltd. All rights reserved. Transforming real estate discovery across Pakistan. &bull; <a href="privacy-policy.html" class="hover:text-emerald-400 underline transition-colors">Privacy Policy</a></p>
+                    <div class="flex flex-wrap items-center justify-center gap-5 font-semibold text-slate-300">
+                        <a href="projects.html" class="hover:text-emerald-400 transition-colors">Listings</a>
+                        <a href="project-detail.html?slug=dha-margalla-enclave" class="hover:text-emerald-400 transition-colors">Margalla Enclave</a>
+                        <a href="about.html" class="hover:text-emerald-400 transition-colors">About</a>
+                        <a href="contact.html" class="hover:text-emerald-400 transition-colors">Contact</a>
+                        <a href="privacy-policy.html" class="hover:text-emerald-400 transition-colors">Privacy</a>
+                    </div>
+
+                    <div class="text-slate-500 text-[11px]">
+                        &copy; 2026 Kaghan Properties
                     </div>
                 </div>
             </footer>
 
-            <!-- Back to Top Button -->
             <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="back-to-top-btn" title="Back to Top">
                 <i class="fa-solid fa-arrow-up text-sm"></i>
             </button>
