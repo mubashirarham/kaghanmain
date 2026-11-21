@@ -3,286 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us | Islamabad & Nathia Gali Hubs - Kaghan Properties</title>
-    <meta name="description" content="Get in touch with Kaghan Properties for Bahria Enclave inquiries, property management, joint-ventures, and luxury vacation stays. Islamabad & Nathia Gali hubs.">
-    <meta name="keywords" content="Contact Kaghan Properties, Real Estate Office Bahria Enclave, Tanzil Minhas Phone Number, Property Consultant Islamabad WhatsApp, Islamabad Real Estate Contact">
-    <meta name="author" content="Kaghan Properties">
-    <meta name="robots" content="index, follow, max-image-preview:large">
-    <meta name="theme-color" content="#0B0F19">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Contact Us | Kaghan Properties</title>
+    <meta name="description" content="Get in touch with our real estate advisory team for plot inquiries, site visits, and consultations.">
+    <meta name="theme-color" content="#077943">
     <link rel="canonical" href="https://kaghanproperties.com/contact.html">
 
-    <!-- Favicon & Brand Icons -->
     <link rel="icon" type="image/png" href="assets/images/logo.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="manifest" href="site.webmanifest">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Kaghan Properties">
-    <meta property="og:locale" content="en_PK">
-    <meta property="og:url" content="https://kaghanproperties.com/contact.html">
-    <meta property="og:title" content="Contact Us | Islamabad & Nathia Gali Hubs - Kaghan Properties">
-    <meta property="og:description" content="Get in touch with Kaghan Properties for Bahria Enclave inquiries, property management, joint-ventures, and luxury vacation stays. Islamabad & Nathia Gali hubs.">
-    <meta property="og:image" content="https://kaghanproperties.com/assets/images/consultation.png">
-
-    <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@kaghanprop">
-    <meta name="twitter:url" content="https://kaghanproperties.com/contact.html">
-    <meta name="twitter:title" content="Contact Us | Islamabad & Nathia Gali Hubs - Kaghan Properties">
-    <meta name="twitter:description" content="Get in touch with Kaghan Properties for Bahria Enclave inquiries, property management, joint-ventures, and luxury vacation stays. Islamabad & Nathia Gali hubs.">
-    <meta name="twitter:image" content="https://kaghanproperties.com/assets/images/consultation.png">
-
-    <!-- Structured Data (JSON-LD ContactPage Schema) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "ContactPage",
-          "@id": "https://kaghanproperties.com/contact.html#contact",
-          "url": "https://kaghanproperties.com/contact.html",
-          "name": "Contact Kaghan Properties Islamabad",
-          "description": "Direct contact details, office locations, and consultation scheduling for Kaghan Properties.",
-          "mainEntity": {
-            "@type": "RealEstateAgent",
-            "name": "Kaghan Properties",
-            "image": "https://kaghanproperties.com/assets/images/logo.png",
-            "telephone": "+923340091127",
-            "url": "https://kaghanproperties.com/index.html",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "Office 203, 2nd Floor, Asian Arcade, opposite Zoo, C Avenue, Sector C, Bahria Enclave",
-              "addressLocality": "Islamabad",
-              "addressRegion": "ICT",
-              "postalCode": "44000",
-              "addressCountry": "PK"
-            },
-            "geo": {
-              "@type": "GeoCoordinates",
-              "latitude": 33.6669,
-              "longitude": 73.1932
-            },
-            "contactPoint": [
-              {
-                "@type": "ContactPoint",
-                "telephone": "+923340091127",
-                "contactType": "customer service",
-                "availableLanguage": ["English", "Urdu"],
-                "areaServed": "PK"
-              }
-            ]
-          }
-        },
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "https://kaghanproperties.com/index.html"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Contact Us",
-              "item": "https://kaghanproperties.com/contact.html"
-            }
-          ]
-        }
-      ]
-    }
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/shared.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Global Dynamic Site Header -->
     <div id="site-header"></div>
 
-    <!-- Header -->
-    <header class="pt-12 sm:pt-20 md:pt-24 pb-12 sm:pb-16 bg-slate-900 text-white relative overflow-hidden">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center reveal">
-            <span class="text-gold font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-xs sm:text-sm mb-3 sm:mb-4 block">Connect With Us</span>
-            <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 outfit">Global <span class="text-gold">Assistance</span></h1>
-            <p class="text-slate-400 text-sm sm:text-lg leading-relaxed font-light">Whether you are across the street or across the globe, we are just a message away.</p>
-        </div>
-    </header>
-
-    <main class="flex-grow py-10 sm:py-16 md:py-20 px-4 sm:px-6 md:px-12">
-        <div class="max-w-7xl mx-auto">
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 mb-16 sm:mb-24">
-                <!-- Contact Form -->
-                <div class="bg-white p-6 sm:p-10 md:p-12 rounded-2xl sm:rounded-[3rem] luxury-shadow reveal border border-slate-100 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-bl-[100%]"></div>
-                    <h2 class="text-2xl sm:text-3xl font-bold outfit mb-2 sm:mb-3 text-slate-900">Send a <span class="text-gold">Message</span></h2>
-                    <p class="text-slate-500 text-xs sm:text-sm mb-6 sm:mb-8">Our consultants typically respond within 2-4 business hours.</p>
-                    
-                    <form id="contact-form" class="space-y-4 sm:space-y-5">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Full Name</label>
-                                <input type="text" id="contact-name" placeholder="John Doe" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 sm:py-3.5 text-xs sm:text-sm focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Phone Number</label>
-                                <input type="tel" id="contact-phone" placeholder="+92 ..." required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 sm:py-3.5 text-xs sm:text-sm focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Email Address</label>
-                            <input type="email" id="contact-email" placeholder="john@example.com" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 sm:py-3.5 text-xs sm:text-sm focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Inquiry Type</label>
-                            <select id="contact-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 sm:py-3.5 text-xs sm:text-sm focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all appearance-none cursor-pointer">
-                                <option value="Investment in Bahria Enclave">Investment in Bahria Enclave</option>
-                                <option value="Property Management (8-12% Fee Model)">Property Management (8-12% Fee Model)</option>
-                                <option value="KP Hospitality & Airbnb Setup">KP Hospitality & Airbnb Setup</option>
-                                <option value="Construction Consultation (5-Marla & Flipping)">Construction Consultation (5-Marla & Flipping)</option>
-                                <option value="Joint-Venture (JV) Development Inquiries">Joint-Venture (JV) Development Inquiries</option>
-                                <option value="Hotel Reservation & Resort Booking">Hotel Reservation & Resort Booking</option>
-                                <option value="Career Opportunity">Career Opportunity</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Detailed Inquiry</label>
-                            <textarea id="contact-message" rows="4" placeholder="Tell us about your requirements..." required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 sm:py-3.5 text-xs sm:text-sm focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all resize-none"></textarea>
-                        </div>
-                        <button type="submit" id="contact-submit-btn" class="w-full bg-gold text-white font-bold py-3.5 sm:py-4 rounded-xl hover:bg-slate-900 transition-all luxury-shadow outfit text-sm sm:text-base flex items-center justify-center gap-2">Submit Request</button>
-                        <!-- Status Banner -->
-                        <div id="contact-status-banner" class="hidden p-4 rounded-xl text-center text-xs sm:text-sm font-semibold"></div>
-                    </form>
+    <main class="market-container py-12 flex-1 space-y-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Contact Form -->
+            <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-3xl border-2 border-slate-300 shadow-sm space-y-5">
+                <div class="border-b-2 border-slate-200 pb-3">
+                    <span class="text-[11px] font-extrabold uppercase tracking-widest text-emerald-700">Direct Inquiry</span>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold outfit text-slate-900 mt-0.5">Send Us a Message</h1>
                 </div>
 
-                <!-- Office Locations -->
-                <div class="reveal">
-                    <h2 class="text-2xl sm:text-3xl font-bold outfit mb-6 sm:mb-8 text-slate-900">Regional <span class="text-gold">Hubs</span></h2>
-                    
-                    <div class="space-y-6 sm:space-y-8">
-                        <!-- Islamabad -->
-                        <div class="p-6 sm:p-8 bg-white rounded-2xl sm:rounded-[2.5rem] luxury-shadow border border-slate-100">
-                            <span class="bg-gold text-white text-[10px] font-bold px-3 py-1 rounded-full mb-4 inline-block tracking-widest">HEADQUARTERS</span>
-                            <h3 class="text-xl sm:text-2xl font-bold outfit mb-2 sm:mb-3">Islamabad, Pakistan</h3>
-                            <p class="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">Office 203, 2nd Floor, Asian Arcade, opposite Zoo, C Avenue, Sector C, Bahria Enclave, Islamabad, Pakistan.</p>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm font-medium">
-                                <a href="tel:03340091127" class="flex items-center gap-2.5 text-slate-800 hover:text-gold transition-all"><span class="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center shrink-0">☏</span> 0334-0091127</a>
-                                <a href="tel:03345405587" class="flex items-center gap-2.5 text-slate-800 hover:text-gold transition-all"><span class="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center shrink-0">☏</span> 0334-5405587</a>
-                            </div>
+                <form id="contact-form" class="space-y-4 text-xs">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Full Name *</label>
+                            <input type="text" id="contact-name" required placeholder="Your Name" class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                         </div>
-
-                        <!-- Nathia Gali -->
-                        <div class="p-6 sm:p-8 bg-slate-900 text-white rounded-2xl sm:rounded-[2.5rem] luxury-shadow border border-slate-800">
-                            <span class="bg-gold text-slate-950 text-[10px] font-bold px-3 py-1 rounded-full mb-4 inline-block tracking-widest">REGIONAL HUB</span>
-                            <h3 class="text-xl sm:text-2xl font-bold outfit mb-2 sm:mb-3">Nathia Gali, Pakistan</h3>
-                            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">Managing mountain alpine chalets, tourist reservation suites, and local resort property operations.</p>
-                            <div class="grid grid-cols-1 gap-3 text-xs sm:text-sm font-medium">
-                                <a href="tel:03340091127" class="flex items-center gap-2.5 text-white hover:text-gold transition-all"><span class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center shrink-0">☏</span> 0334-0091127</a>
-                                <a href="mailto:info@kaghanproperties.com" class="flex items-center gap-2.5 text-white hover:text-gold transition-all break-all"><span class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center shrink-0 text-xs">@</span> info@kaghanproperties.com</a>
-                            </div>
-                        </div>
-
-                        <!-- Exclusive Focus -->
-                        <div class="p-6 border border-dashed border-slate-200 rounded-2xl sm:rounded-3xl text-center">
-                            <h4 class="text-[10px] sm:text-xs font-bold outfit uppercase tracking-widest text-slate-400 mb-1.5">Service Policy</h4>
-                            <p class="text-xs text-slate-500">We operate exclusively in Islamabad & Nathia Gali to maintain maximum quality control and client satisfaction.</p>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Phone / WhatsApp *</label>
+                            <input type="tel" id="contact-phone" required placeholder="Phone Number" class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                         </div>
                     </div>
-                </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Email Address</label>
+                        <input type="email" id="contact-email" placeholder="you@example.com" class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Project / Inquiry Topic</label>
+                        <select id="contact-type" class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-3.5 py-2.5 font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
+                            <option value="General Inquiry">General Inquiry</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Message *</label>
+                        <textarea id="contact-message" rows="4" required placeholder="Tell us about your requirements..." class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600"></textarea>
+                    </div>
+                    <button type="submit" id="contact-submit-btn" class="w-full py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 border-2 border-emerald-800 text-white font-extrabold text-xs transition-colors">
+                        Submit Inquiry
+                    </button>
+                    <div id="contact-status-banner" class="hidden p-3 rounded-xl text-center text-xs font-bold"></div>
+                </form>
             </div>
 
-            <!-- Maps Section -->
-            <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-20 reveal">
-                <div class="h-[280px] sm:h-[380px] lg:h-[450px] w-full bg-slate-200 rounded-2xl sm:rounded-[3rem] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 relative luxury-shadow">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3321.1357065306663!2d73.1932341!3d33.6669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfbf1f753c152d%3A0xc0c6096a60e40!2sBahria%20Enclave%20Islamabad!5e0!3m2!1sen!2spk!4v1712850000000!5m2!1sen!2spk" 
-                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <!-- Office Info (100% Hydrated from Firestore siteSettings) -->
+            <div class="lg:col-span-5 space-y-5">
+                <div class="bg-white p-6 rounded-3xl border-2 border-slate-300 shadow-sm space-y-4">
+                    <span class="inline-block bg-emerald-50 border border-emerald-300 text-emerald-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Head Office</span>
+                    <h2 class="shared-site-name text-xl font-extrabold outfit text-slate-900">Contact Desk</h2>
+                    <div class="space-y-3 text-xs text-slate-700">
+                        <div class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-location-dot text-emerald-700 mt-0.5"></i>
+                            <span class="shared-address-text leading-relaxed"></span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-phone text-emerald-700"></i>
+                            <a href="contact.html" class="shared-phone-link font-bold text-slate-900 hover:text-emerald-700"><span class="shared-phone-text"></span></a>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-envelope text-emerald-700"></i>
+                            <a href="contact.html" class="shared-email-link font-semibold text-slate-700 hover:text-emerald-700"><span class="shared-email-text"></span></a>
+                        </div>
+                    </div>
+                    <a href="contact.html" target="_blank" rel="noopener" class="shared-wa-link w-full py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> Chat on WhatsApp
+                    </a>
                 </div>
-                <div class="h-[280px] sm:h-[380px] lg:h-[450px] w-full bg-slate-200 rounded-2xl sm:rounded-[3rem] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 relative luxury-shadow">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26392.20361280825!2d73.3758!3d34.0664!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38de6aa5b253b27b%3A0xf64f50decf83ef87!2sNathia%20Gali%20Bazaar!5e0!3m2!1sen!2spk!4v1712850000000!5m2!1sen!2spk" 
-                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-            </section>
 
+                <!-- Dynamic Google Map Embed (Hydrated from Firestore siteSettings.contact.googleMapsEmbedUrl) -->
+                <div id="contact-map-wrap" class="hidden h-72 rounded-3xl border-2 border-slate-300 overflow-hidden bg-slate-200 shadow-sm">
+                    <iframe id="contact-map-iframe" src="about:blank" width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy" title="Office Location"></iframe>
+                </div>
+            </div>
         </div>
     </main>
 
-    <!-- Global Dynamic Site Footer -->
     <div id="site-footer"></div>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <!-- Corporate DB -->
-    <script src="assets/js/db.js"></script>
-    <script src="assets/js/script.js"></script>
-
-    <!-- Contact Form Submission Logic -->
     <script>
-        document.getElementById('contact-form').addEventListener('submit', async function(e) {
+        window.addEventListener('DOMContentLoaded', async () => {
+            const [settings, projects] = await Promise.all([
+                window.KaghanDB.getSiteSettings(),
+                window.KaghanDB.getProjects(true)
+            ]);
+
+            if (settings && settings.siteName) {
+                document.title = `Contact Us | ${settings.siteName}`;
+            }
+
+            if (settings && settings.contact && settings.contact.googleMapsEmbedUrl) {
+                const mapWrap = document.getElementById('contact-map-wrap');
+                const iframe = document.getElementById('contact-map-iframe');
+                iframe.src = settings.contact.googleMapsEmbedUrl;
+                mapWrap.classList.remove('hidden');
+            }
+
+            const sel = document.getElementById('contact-type');
+            if (sel && projects.length) {
+                sel.innerHTML = projects.map(pr => `<option value="${pr.name}">${pr.name}</option>`).join('') +
+                    `<option value="General Property Consultation">General Property Consultation</option>`;
+            }
+        });
+
+        document.getElementById('contact-form').addEventListener('submit', async function (e) {
             e.preventDefault();
-            const submitBtn = document.getElementById('contact-submit-btn');
-            const statusBanner = document.getElementById('contact-status-banner');
-            
-            // Get values
-            const name = document.getElementById('contact-name').value;
-            const phone = document.getElementById('contact-phone').value;
-            const email = document.getElementById('contact-email').value.toLowerCase().trim();
-            const inquiryType = document.getElementById('contact-type').value;
-            const message = document.getElementById('contact-message').value;
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Processing Request...';
-            
-            statusBanner.className = 'hidden p-4 rounded-xl text-center text-sm font-semibold';
-            
+            const btn = document.getElementById('contact-submit-btn');
+            const banner = document.getElementById('contact-status-banner');
+            btn.disabled = true;
+            btn.innerText = 'Sending...';
             try {
-                const leadPayload = {
-                    name,
-                    phone,
-                    email,
-                    propertyTitle: inquiryType ? `Inquiry: ${inquiryType}` : 'General Contact Inquiry',
-                    message: inquiryType ? `[${inquiryType}] ${message}` : message,
-                    sourcePage: 'contact.html'
-                };
-                let res;
-                if (window.KaghanDB && window.KaghanDB.createLead) {
-                    res = await window.KaghanDB.createLead(leadPayload);
-                } else if (window.CorporateDB && window.CorporateDB.addInquiry) {
-                    res = await window.CorporateDB.addInquiry(leadPayload);
-                }
-                if (res && (res.success || res.id)) {
-                    statusBanner.innerText = 'Thank you! Your inquiry has been received. Our senior consultant will contact you shortly.';
-                    statusBanner.className = 'p-4 rounded-xl text-center text-sm font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200 mt-4 block';
-                    document.getElementById('contact-form').reset();
-
-                    // Automatically trigger an email notification via SMTP gateway
-                    fetch('/.netlify/functions/booking-email', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, name, inquiryType, message })
-                    }).catch(err => console.error("Auto SMTP dispatch failed:", err));
-                } else {
-                    throw new Error("Lead could not be saved");
-                }
-            } catch (error) {
-                console.error("Form submit error:", error);
-                statusBanner.innerText = 'Failed to submit. Please check your network and try again.';
-                statusBanner.className = 'p-4 rounded-xl text-center text-sm font-semibold bg-rose-100 text-rose-800 border border-rose-200 mt-4 block';
+                await window.KaghanDB.createLead({
+                    name: document.getElementById('contact-name').value.trim(),
+                    phone: document.getElementById('contact-phone').value.trim(),
+                    email: document.getElementById('contact-email').value.trim(),
+                    propertyTitle: document.getElementById('contact-type').value,
+                    message: document.getElementById('contact-message').value.trim(),
+                    sourcePage: 'contact.html',
+                    status: 'new'
+                });
+                banner.innerText = 'Thank you! Your inquiry has been saved. Our team will contact you shortly.';
+                banner.className = 'p-3 rounded-xl text-center text-xs font-bold bg-emerald-50 border border-emerald-300 text-emerald-800 block';
+                e.target.reset();
+            } catch (err) {
+                banner.innerText = 'Could not submit inquiry. Please try again.';
+                banner.className = 'p-3 rounded-xl text-center text-xs font-bold bg-rose-50 border border-rose-300 text-rose-700 block';
             } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Submit Request';
+                btn.disabled = false;
+                btn.innerText = 'Submit Inquiry';
             }
         });
     </script>
-    <script src="assets/js/shared.js"></script>
 </body>
 </html>

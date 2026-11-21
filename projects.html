@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listings | Kaghan Properties</title>
-    <meta name="description" content="Browse verified plots and properties in DHA Margalla Enclave and Islamabad with interactive pinned plot maps.">
+    <meta name="description" content="Browse verified real estate listings and inspect pinned plot locations on interactive maps.">
     <meta name="theme-color" content="#077943">
     <link rel="canonical" href="https://kaghanproperties.com/projects.html">
 
@@ -34,13 +34,13 @@
 
     <div id="site-header"></div>
 
-    <!-- Single Compact Filter Bar with Prominent Borderlines -->
+    <!-- Single Compact Filter Bar -->
     <section class="bg-white border-b-2 border-slate-300 sticky top-[62px] sm:top-[95px] z-30 shadow-xs">
         <div class="market-container py-3.5 flex flex-wrap items-center justify-between gap-2.5 text-xs">
             <div class="flex flex-wrap items-center gap-2 flex-1">
                 <div class="relative min-w-[180px] flex-1 max-w-xs">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-emerald-700 text-[11px]"></i>
-                    <input type="text" id="filter-keyword" oninput="applyFilters()" placeholder="Search plot #, ballot, or area..." class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl pl-8 pr-3 py-2 font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
+                    <input type="text" id="filter-keyword" oninput="applyFilters()" placeholder="Search plot #, sector, or area..." class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl pl-8 pr-3 py-2 font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
                 </div>
 
                 <select id="filter-project" onchange="applyFilters()" class="bg-slate-50 border-2 border-slate-300 rounded-xl px-3 py-2 font-bold text-slate-800 focus:outline-none focus:border-emerald-600">
@@ -72,7 +72,6 @@
                 </button>
             </div>
 
-            <!-- List / Map View Toggle -->
             <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border-2 border-slate-300 shrink-0">
                 <button type="button" id="view-btn-grid" onclick="setViewMode('grid')" class="px-3 py-1.5 rounded-lg font-bold bg-white border border-slate-300 text-emerald-700 shadow-xs flex items-center gap-1.5">
                     <i class="fa-solid fa-grip"></i> Listings
@@ -87,25 +86,20 @@
     <main class="market-container py-8 flex-1 space-y-6">
         <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b-2 border-slate-300">
             <div>
-                <span class="text-[11px] font-extrabold uppercase tracking-widest text-emerald-700">Islamabad Verified Inventory</span>
+                <span class="text-[11px] font-extrabold uppercase tracking-widest text-emerald-700">Live Firestore Inventory</span>
                 <h1 class="text-xl sm:text-2xl font-extrabold outfit text-slate-900">
                     <span id="results-count" class="text-emerald-700">0</span> Verified Listings
                 </h1>
             </div>
-            <a href="project-detail.html?slug=dha-margalla-enclave#payment-plan" class="px-4 py-2 rounded-xl bg-white border-2 border-slate-300 hover:border-emerald-600 text-xs font-extrabold text-emerald-800 transition-colors">
-                Official Payment Plans &rarr;
-            </a>
         </div>
 
-        <!-- Map View Container (Hidden by default unless ?tool=plot-finder or toggled) -->
         <div id="listings-map-view" class="hidden">
             <div id="listings-plot-map-root"></div>
         </div>
 
-        <!-- Listings Grid -->
         <div id="properties-card-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="col-span-full py-16 text-center text-slate-400 text-xs">
-                <i class="fa-solid fa-circle-notch fa-spin text-emerald-600 text-lg mr-2"></i> Loading listings...
+                <i class="fa-solid fa-circle-notch fa-spin text-emerald-600 text-lg mr-2"></i> Loading listings from Firestore...
             </div>
         </div>
     </main>
@@ -115,11 +109,14 @@
     <script>
         let allProperties = [];
         let filteredProperties = [];
+        let siteSettings = {};
         let listingsMap = null;
-        let currentView = 'grid';
+
+        function escHtml(s) {
+            return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+        }
 
         function setViewMode(mode) {
-            currentView = mode;
             const gridEl = document.getElementById('properties-card-list');
             const mapWrap = document.getElementById('listings-map-view');
             const btnGrid = document.getElementById('view-btn-grid');
@@ -128,7 +125,7 @@
             if (mode === 'map') {
                 gridEl.classList.add('hidden');
                 mapWrap.classList.remove('hidden');
-                btnMap.className = 'px-3 py-1.5 rounded-lg font-bold bg-white text-emerald-700 shadow-xs flex items-center gap-1.5';
+                btnMap.className = 'px-3 py-1.5 rounded-lg font-bold bg-white border border-slate-300 text-emerald-700 shadow-xs flex items-center gap-1.5';
                 btnGrid.className = 'px-3 py-1.5 rounded-lg font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1.5';
                 if (!listingsMap && window.KaghanPlotMap) {
                     listingsMap = window.KaghanPlotMap.create('listings-plot-map-root', {
@@ -143,7 +140,7 @@
             } else {
                 mapWrap.classList.add('hidden');
                 gridEl.classList.remove('hidden');
-                btnGrid.className = 'px-3 py-1.5 rounded-lg font-bold bg-white text-emerald-700 shadow-xs flex items-center gap-1.5';
+                btnGrid.className = 'px-3 py-1.5 rounded-lg font-bold bg-white border border-slate-300 text-emerald-700 shadow-xs flex items-center gap-1.5';
                 btnMap.className = 'px-3 py-1.5 rounded-lg font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1.5';
             }
         }
@@ -161,13 +158,13 @@
         function getPrimaryPhoto(p) {
             if (Array.isArray(p.images) && p.images.length) {
                 const first = p.images.find(i => !i.type || i.type === 'image') || p.images[0];
-                if (first) return typeof first === 'string' ? first : (first.url || 'assets/images/dha-margalla-hero.jpg');
+                if (first) return typeof first === 'string' ? first : (first.url || '');
             }
             if (Array.isArray(p.gallery)) {
                 const img = p.gallery.find(g => g.type === 'image' && g.url);
                 if (img) return img.url;
             }
-            return 'assets/images/dha-margalla-hero.jpg';
+            return '';
         }
 
         function hasListingVideo(p) {
@@ -216,49 +213,49 @@
 
             if (filteredProperties.length === 0) {
                 container.innerHTML = `
-                    <div class="col-span-full bg-white p-12 text-center rounded-2xl border border-slate-200 space-y-3">
-                        <p class="font-bold text-slate-700">No matching listings found.</p>
+                    <div class="col-span-full bg-white p-12 text-center rounded-2xl border-2 border-slate-300 space-y-3">
+                        <p class="font-bold text-slate-700">No matching listings found in Firestore.</p>
                         <button onclick="resetFilters()" class="bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl">Reset Filters</button>
                     </div>`;
                 return;
             }
 
+            const waDigits = ((siteSettings.contact && siteSettings.contact.phone) || '').replace(/[^0-9]/g, '');
+
             container.innerHTML = filteredProperties.map(p => {
                 const img = getPrimaryPhoto(p);
                 const hasVid = hasListingVideo(p);
                 const price = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${Number(p.price || 0).toLocaleString()}`;
-                const sizeText = p.sqYards ? `${p.sqYards} Sq Yds` : (p.size ? `${p.size} ${p.sizeUnit || 'Marla'}` : '');
-                const url = p.isNewProject
-                    ? `project-detail.html?slug=${encodeURIComponent(p.slug || p.id)}`
-                    : `property.html?slug=${encodeURIComponent(p.slug || p.id)}`;
+                const sizeText = p.sqYards ? `${p.sqYards} Sq Yds` : (p.size ? `${p.size} ${p.sizeUnit || ''}` : '');
+                const url = `property.html?slug=${encodeURIComponent(p.slug || p.id)}`;
                 const mapUrl = `property.html?slug=${encodeURIComponent(p.slug || p.id)}#plot-map-section`;
-                const waUrl = `https://wa.me/923340091127?text=${encodeURIComponent('Hi, I am interested in ' + p.title + (p.plotNumber ? ' (' + p.plotNumber + ')' : ''))}`;
+                const waUrl = waDigits ? `https://wa.me/${waDigits}?text=${encodeURIComponent('Hi, I am interested in ' + p.title + (p.plotNumber ? ' (' + p.plotNumber + ')' : ''))}` : 'contact.html';
+                const loc = [p.plotSector || p.sector || p.area, p.city].filter(Boolean).join(', ');
 
                 return `
                     <article class="kp-card rounded-2xl overflow-hidden flex flex-col group">
-                        <a href="${url}" class="relative h-52 bg-slate-100 overflow-hidden block border-b-2 border-slate-200">
-                            <img src="${img}" alt="${p.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-map-pin text-[10px]"></i> ${p.plotNumber}</span>` : ''}
+                        <a href="${url}" class="relative h-52 bg-slate-100 overflow-hidden flex items-center justify-center border-b-2 border-slate-200">
+                            ${img
+                                ? `<img src="${escHtml(img)}" alt="${escHtml(p.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">`
+                                : `<i class="fa-solid fa-image text-3xl text-slate-300"></i>`}
+                            ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-map-pin text-[10px]"></i> ${escHtml(p.plotNumber)}</span>` : ''}
                             ${hasVid ? `<span class="absolute top-3 right-3 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-brands fa-youtube"></i> Video</span>` : ''}
-                            ${sizeText ? `<span class="absolute bottom-3 right-3 bg-slate-900/85 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">${sizeText}</span>` : ''}
+                            ${sizeText ? `<span class="absolute bottom-3 right-3 bg-slate-900/85 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">${escHtml(sizeText)}</span>` : ''}
                         </a>
                         <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
                             <div>
-                                <div class="text-xl font-extrabold outfit text-emerald-800">${price}</div>
+                                <div class="text-xl font-extrabold outfit text-emerald-800">${escHtml(price)}</div>
                                 <h2 class="font-bold text-sm text-slate-900 line-clamp-1 mt-0.5 group-hover:text-emerald-700 transition-colors">
-                                    <a href="${url}">${p.title}</a>
+                                    <a href="${url}">${escHtml(p.title)}</a>
                                 </h2>
-                                <div class="text-xs text-slate-500 mt-1 flex items-center gap-1 line-clamp-1">
-                                    <i class="fa-solid fa-location-dot text-emerald-600 text-[10px]"></i>
-                                    <span>${p.plotSector || p.sector || p.area || 'DHA Margalla Enclave'}, ${p.city || 'Islamabad'}</span>
-                                </div>
+                                ${loc ? `<div class="text-xs text-slate-500 mt-1 flex items-center gap-1 line-clamp-1"><i class="fa-solid fa-location-dot text-emerald-600 text-[10px]"></i><span>${escHtml(loc)}</span></div>` : ''}
                             </div>
-                            <div class="pt-3 border-t border-slate-100 flex items-center gap-2">
+                            <div class="pt-3 border-t-2 border-slate-100 flex items-center gap-2">
                                 <a href="${url}" class="flex-1 text-center py-2 rounded-xl bg-slate-900 hover:bg-emerald-700 text-white text-xs font-bold transition-colors">Details</a>
-                                <a href="${mapUrl}" title="View Plot Pin on Map" class="py-2 px-3 rounded-xl bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 text-xs font-bold transition-colors flex items-center gap-1">
+                                <a href="${mapUrl}" title="View Plot Pin on Map" class="py-2 px-3 rounded-xl bg-slate-100 border border-slate-300 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 text-xs font-bold transition-colors flex items-center gap-1">
                                     <i class="fa-solid fa-map-pin text-emerald-600"></i> Map
                                 </a>
-                                <a href="${waUrl}" target="_blank" rel="noopener" class="py-2 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white text-xs font-bold transition-colors">
+                                <a href="${waUrl}" ${waDigits ? 'target="_blank" rel="noopener"' : ''} class="py-2 px-3 rounded-xl bg-emerald-50 border border-emerald-300 hover:bg-emerald-600 text-emerald-700 hover:text-white text-xs font-bold transition-colors">
                                     <i class="fa-brands fa-whatsapp text-sm"></i>
                                 </a>
                             </div>
@@ -282,18 +279,20 @@
                 document.getElementById('filter-price-range').value = priceParam;
             }
 
-            const [projects, props] = await Promise.all([
-                (window.KaghanDB && window.KaghanDB.getProjects) ? window.KaghanDB.getProjects(true) : Promise.resolve([]),
-                (window.KaghanDB && window.KaghanDB.getProperties) ? window.KaghanDB.getProperties() : Promise.resolve([])
+            const [settings, projects, props] = await Promise.all([
+                window.KaghanDB.getSiteSettings(),
+                window.KaghanDB.getProjects(true),
+                window.KaghanDB.getProperties({ status: 'published' })
             ]);
+            siteSettings = settings || {};
 
             const projSel = document.getElementById('filter-project');
             if (projSel && projects.length) {
-                projSel.innerHTML = `<option value="all">All Projects</option>` + projects.map(pr => `<option value="${pr.id}">${pr.name}</option>`).join('');
+                projSel.innerHTML = `<option value="all">All Projects</option>` + projects.map(pr => `<option value="${escHtml(pr.id)}">${escHtml(pr.name)}</option>`).join('');
                 const projectParam = params.get('project');
-                if (projectParam && projects.some(pr => pr.id === projectParam || pr.slug === projectParam)) {
+                if (projectParam) {
                     const matched = projects.find(pr => pr.id === projectParam || pr.slug === projectParam);
-                    projSel.value = matched.id;
+                    if (matched) projSel.value = matched.id;
                 }
             }
 

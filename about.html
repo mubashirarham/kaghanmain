@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | Kaghan Properties Islamabad</title>
-    <meta name="description" content="Kaghan Properties — verified DHA Margalla Enclave and Islamabad real estate advisory led by Tanzil Minhas.">
+    <title id="about-page-title">About | Kaghan Properties</title>
+    <meta name="description" content="Learn about our real estate advisory, verification process, and client support.">
     <meta name="theme-color" content="#077943">
     <link rel="canonical" href="https://kaghanproperties.com/about.html">
 
@@ -19,6 +19,10 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="assets/js/db.js"></script>
     <script src="assets/js/shared.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
@@ -28,40 +32,69 @@
     <main class="market-container py-12 sm:py-16 flex-1 space-y-12">
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center bg-white rounded-3xl border-2 border-slate-300 p-6 sm:p-10 shadow-sm">
             <div class="space-y-4">
-                <span class="inline-block text-emerald-800 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-full font-extrabold uppercase tracking-wider text-[11px]">About Kaghan Properties</span>
-                <h1 class="text-3xl sm:text-4xl font-extrabold outfit text-slate-900 leading-tight">
-                    Verified Real Estate Advisory in Islamabad
-                </h1>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    Led by founder <strong>Tanzil Minhas</strong>, Kaghan Properties specializes in verified plots and properties across DHA Margalla Enclave, Bahria Enclave, and Nathia Gali — serving local and overseas Pakistani investors with clear documentation and direct site guidance.
-                </p>
+                <span id="about-badge" class="inline-block text-emerald-800 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-full font-extrabold uppercase tracking-wider text-[11px]">About Us</span>
+                <h1 id="about-title" class="text-3xl sm:text-4xl font-extrabold outfit text-slate-900 leading-tight">Loading...</h1>
+                <div id="about-bio" class="text-slate-600 text-sm leading-relaxed space-y-3"></div>
                 <div class="flex flex-wrap gap-3 pt-2">
                     <a href="projects.html" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 border-2 border-emerald-800 text-white text-xs font-bold">Browse Listings</a>
                     <a href="contact.html" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 text-xs font-bold">Contact Us</a>
                 </div>
             </div>
-            <img src="assets/images/interior.png" alt="Kaghan Properties Islamabad" class="rounded-2xl border-2 border-slate-300 w-full h-72 object-cover">
+            <div class="rounded-2xl border-2 border-slate-300 w-full h-72 bg-slate-100 overflow-hidden flex items-center justify-center">
+                <img id="about-img" src="" alt="About Us" class="hidden w-full h-full object-cover">
+                <i id="about-img-icon" class="fa-solid fa-building text-5xl text-slate-300"></i>
+            </div>
         </section>
 
-        <section class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            <div class="kp-card rounded-2xl p-6 space-y-2.5">
-                <div class="w-11 h-11 rounded-xl bg-emerald-50 border-2 border-emerald-200 text-emerald-700 flex items-center justify-center"><i class="fa-solid fa-shield-halved text-lg"></i></div>
-                <h2 class="font-extrabold outfit text-base text-slate-900">Verified Plots &amp; Ballots</h2>
-                <p class="text-xs text-slate-600 leading-relaxed">Direct DHA Margalla Enclave Ballot 1, 2 &amp; 3 transfers and verified CDA/Bahria documentation.</p>
-            </div>
-            <div class="kp-card rounded-2xl p-6 space-y-2.5">
-                <div class="w-11 h-11 rounded-xl bg-emerald-50 border-2 border-emerald-200 text-emerald-700 flex items-center justify-center"><i class="fa-solid fa-map-pin text-lg"></i></div>
-                <h2 class="font-extrabold outfit text-base text-slate-900">Transparent Plot Mapping</h2>
-                <p class="text-xs text-slate-600 leading-relaxed">Inspect exact plot pins on satellite and CAD overlays before you book or visit.</p>
-            </div>
-            <div class="kp-card rounded-2xl p-6 space-y-2.5">
-                <div class="w-11 h-11 rounded-xl bg-sky-50 border-2 border-sky-200 text-sky-700 flex items-center justify-center"><i class="fa-solid fa-earth-americas text-lg"></i></div>
-                <h2 class="font-extrabold outfit text-base text-slate-900">Overseas Support</h2>
-                <p class="text-xs text-slate-600 leading-relaxed">End-to-end WhatsApp walkthroughs, verification, and asset management for expat buyers.</p>
-            </div>
-        </section>
+        <section id="about-pillars" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></section>
     </main>
 
     <div id="site-footer"></div>
+
+    <script>
+        function escHtml(s) {
+            return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const [settings, content] = await Promise.all([
+                window.KaghanDB.getSiteSettings(),
+                window.KaghanDB.getSiteContent()
+            ]);
+            const about = (content && content.about) || {};
+            const siteName = (settings && settings.siteName) || 'About Us';
+
+            document.title = `About | ${siteName}`;
+            document.getElementById('about-badge').innerText = about.badge || `About ${siteName}`;
+            document.getElementById('about-title').innerText = about.title || siteName;
+
+            const bioEl = document.getElementById('about-bio');
+            if (about.bio) {
+                bioEl.innerHTML = String(about.bio).split(/\n+/).filter(Boolean).map(p => `<p>${escHtml(p)}</p>`).join('');
+            } else if (settings && settings.footerBio) {
+                bioEl.innerHTML = `<p>${escHtml(settings.footerBio)}</p>`;
+            }
+
+            if (about.imageUrl) {
+                const img = document.getElementById('about-img');
+                img.src = about.imageUrl;
+                img.classList.remove('hidden');
+                document.getElementById('about-img-icon').classList.add('hidden');
+            }
+
+            const pillars = (content && Array.isArray(content.pillars)) ? content.pillars : [];
+            if (pillars.length) {
+                const pEl = document.getElementById('about-pillars');
+                pEl.classList.remove('hidden');
+                pEl.innerHTML = pillars.map(pl => `
+                    <div class="kp-card rounded-2xl p-6 space-y-2.5">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-50 border-2 border-emerald-200 text-emerald-700 flex items-center justify-center"><i class="${escHtml(pl.icon || 'fa-solid fa-shield-halved')} text-lg"></i></div>
+                        <h2 class="font-extrabold outfit text-base text-slate-900">${escHtml(pl.title)}</h2>
+                        <p class="text-xs text-slate-600 leading-relaxed">${escHtml(pl.description)}</p>
+                    </div>
+                `).join('');
+            }
+        });
+    </script>
 </body>
 </html>

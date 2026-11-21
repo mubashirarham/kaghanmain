@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DHA Margalla Enclave — Plots, Map &amp; Payment Plans | Kaghan Properties</title>
-    <meta name="description" content="DHA Margalla Enclave Islamabad official Ballot 1, 2 & 3 payment schedules, available plots, and interactive pinned plot map.">
+    <title id="page-title">Project Details | Kaghan Properties</title>
+    <meta name="description" content="Explore project details, available plots, payment schedules, and interactive pinned plot map.">
     <meta name="theme-color" content="#077943">
     <link rel="canonical" href="https://kaghanproperties.com/project-detail.html">
 
@@ -34,142 +34,65 @@
 
     <div id="site-header"></div>
 
-    <main class="market-container py-8 flex-1 space-y-12">
-        <!-- 1. COMPACT PROJECT HEADER & COVER IMAGE -->
+    <main id="project-main" class="market-container py-8 flex-1 space-y-12">
+        <!-- 1. DYNAMIC PROJECT HEADER & COVER IMAGE (100% from Firestore) -->
         <section class="bg-white rounded-3xl border-2 border-slate-300 p-5 sm:p-7 space-y-5 shadow-sm">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="space-y-1">
-                    <span id="proj-hero-badge" class="inline-block text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">
-                        CDA &amp; DHA Joint Venture • Zone 4
-                    </span>
-                    <h1 id="proj-hero-title" class="text-2xl sm:text-4xl font-extrabold outfit text-slate-900">DHA Margalla Enclave Islamabad</h1>
-                    <p id="proj-hero-subtitle" class="text-xs sm:text-sm text-slate-500">Official Ballot 1, 2 &amp; 3 Residential &amp; Commercial Plots — Starting from PKR 2.14 Crore</p>
+                    <span id="proj-hero-badge" class="inline-block text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">Loading...</span>
+                    <h1 id="proj-hero-title" class="text-2xl sm:text-4xl font-extrabold outfit text-slate-900">Loading project...</h1>
+                    <p id="proj-hero-subtitle" class="text-xs sm:text-sm text-slate-500"></p>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
                     <a href="#location" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-1.5">
                         <i class="fa-solid fa-map-pin text-emerald-400"></i> Plot Map
                     </a>
-                    <a id="proj-wa-btn" href="https://wa.me/923340091127?text=Hi%2C%20I%20want%20details%20for%20DHA%20Margalla%20Enclave%20plots." target="_blank" rel="noopener" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5">
+                    <a id="proj-wa-btn" href="contact.html" target="_blank" rel="noopener" class="shared-wa-link px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5">
                         <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
                     </a>
                 </div>
             </div>
 
-            <div id="proj-cover-wrap" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <img id="proj-cover-img" src="assets/images/dha-margalla-hero.jpg" alt="Project Cover" class="md:col-span-2 h-64 sm:h-80 w-full object-cover rounded-2xl">
-                <div id="proj-cover-side" class="grid grid-cols-2 md:grid-cols-1 gap-3">
-                    <img src="assets/images/dha-residential-plots.jpg" alt="Residential Sectors" class="h-32 sm:h-[154px] w-full object-cover rounded-2xl">
-                    <img src="assets/images/dha-commercial-plots.jpg" alt="Commercial Boulevard" class="h-32 sm:h-[154px] w-full object-cover rounded-2xl">
-                </div>
+            <div id="proj-cover-wrap" class="rounded-2xl overflow-hidden border-2 border-slate-200 bg-slate-100 h-64 sm:h-[400px] flex items-center justify-center">
+                <img id="proj-cover-img" src="" alt="Project Cover" class="hidden w-full h-full object-cover">
+                <i id="proj-cover-placeholder" class="fa-solid fa-city text-5xl text-slate-300"></i>
             </div>
 
             <p id="proj-hero-desc" class="hidden text-xs sm:text-sm text-slate-600 leading-relaxed pt-1"></p>
         </section>
 
-        <!-- 2. INTERACTIVE PINNED PLOT MAP & LIVE EMAP -->
-        <section id="location" class="scroll-mt-24 space-y-4">
-            <div class="flex items-end justify-between gap-4">
-                <div>
-                    <h2 class="text-2xl font-extrabold outfit text-slate-900">Pinned Plot Map &amp; Live Emap</h2>
-                    <p class="text-xs sm:text-sm text-slate-500">Inspect pinned plots on Satellite/CAD overlay or switch to Live Emap CAD for every plot number.</p>
-                </div>
+        <!-- 2. INTERACTIVE PINNED PLOT MAP (Strictly Project Listings from Firestore) -->
+        <section id="location" class="scroll-mt-28 space-y-4">
+            <div class="pb-3 border-b-2 border-slate-200">
+                <h2 class="text-2xl font-extrabold outfit text-slate-900">Pinned Plot Map</h2>
+                <p class="text-xs sm:text-sm text-slate-500">Scroll or pinch to zoom and click any pinned listing to view details.</p>
             </div>
             <div id="project-plot-map-root"></div>
         </section>
 
-        <!-- 3. OFFICIAL PAYMENT PLANS (CLEAN TABS) -->
-        <section id="payment-plan" class="scroll-mt-24 space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <!-- 3. DYNAMIC PAYMENT PLANS (Rendered ONLY from Firestore proj.paymentPlans) -->
+        <section id="payment-plan" class="hidden scroll-mt-28 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b-2 border-slate-200">
                 <h2 class="text-2xl font-extrabold outfit text-slate-900">Official Payment Plans</h2>
-                <div class="flex flex-wrap gap-1.5 text-xs">
-                    <button type="button" onclick="showBallotTab('b1')" id="btn-b1" class="px-3.5 py-2 rounded-xl font-bold bg-emerald-700 text-white">Ballot 1 (Residential)</button>
-                    <button type="button" onclick="showBallotTab('b2')" id="btn-b2" class="px-3.5 py-2 rounded-xl font-bold bg-white border border-slate-200 text-slate-700">Ballot 2 (Commercial)</button>
-                    <button type="button" onclick="showBallotTab('b3')" id="btn-b3" class="px-3.5 py-2 rounded-xl font-bold bg-white border border-slate-200 text-slate-700">Ballot 3 (LG+G+5)</button>
-                </div>
+                <div id="plan-tabs-bar" class="flex flex-wrap gap-1.5 text-xs"></div>
             </div>
-
-            <!-- Ballot 1 Table -->
-            <div id="tab-b1" class="bg-white rounded-2xl border-2 border-slate-300 overflow-x-auto shadow-xs">
-                <table class="w-full text-left text-xs min-w-[680px]">
-                    <thead class="bg-slate-900 text-white uppercase text-[11px]">
-                        <tr>
-                            <th class="p-3.5">Plot Size</th>
-                            <th class="p-3.5 text-right">Fee</th>
-                            <th class="p-3.5 text-right text-emerald-300">Lump Sum</th>
-                            <th class="p-3.5 text-right">1-Yr Plan</th>
-                            <th class="p-3.5 text-right">2-Yr Plan</th>
-                            <th class="p-3.5 text-right">3-Yr Plan</th>
-                            <th class="p-3.5 text-right text-amber-300">20% Down (3-Yr)</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100 font-medium">
-                        <tr class="hover:bg-slate-50"><td class="p-3.5 font-bold">125 Sq Yds (5 Marla)</td><td class="p-3.5 text-right">10,000</td><td class="p-3.5 text-right font-extrabold text-emerald-700">21,434,375</td><td class="p-3.5 text-right">22,562,500</td><td class="p-3.5 text-right">23,750,000</td><td class="p-3.5 text-right font-bold">25,000,000</td><td class="p-3.5 text-right font-bold text-emerald-700">5,000,000</td></tr>
-                        <tr class="hover:bg-slate-50"><td class="p-3.5 font-bold">250 Sq Yds (10 Marla)</td><td class="p-3.5 text-right">15,000</td><td class="p-3.5 text-right font-extrabold text-emerald-700">42,011,375</td><td class="p-3.5 text-right">44,222,500</td><td class="p-3.5 text-right">46,550,000</td><td class="p-3.5 text-right font-bold">49,000,000</td><td class="p-3.5 text-right font-bold text-emerald-700">9,800,000</td></tr>
-                        <tr class="hover:bg-slate-50"><td class="p-3.5 font-bold">500 Sq Yds (1 Kanal)</td><td class="p-3.5 text-right">20,000</td><td class="p-3.5 text-right font-extrabold text-emerald-700">72,876,875</td><td class="p-3.5 text-right">76,712,500</td><td class="p-3.5 text-right">80,750,000</td><td class="p-3.5 text-right font-bold">85,000,000</td><td class="p-3.5 text-right font-bold text-emerald-700">17,000,000</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Ballot 2 Table -->
-            <div id="tab-b2" class="hidden bg-white rounded-2xl border-2 border-slate-300 overflow-x-auto shadow-xs">
-                <table class="w-full text-left text-xs min-w-[680px]">
-                    <thead class="bg-slate-900 text-white uppercase text-[11px]">
-                        <tr>
-                            <th class="p-3.5">Commercial Size</th>
-                            <th class="p-3.5 text-right">Fee</th>
-                            <th class="p-3.5 text-right text-emerald-300">Lump Sum</th>
-                            <th class="p-3.5 text-right">1-Yr Plan</th>
-                            <th class="p-3.5 text-right">2-Yr Plan</th>
-                            <th class="p-3.5 text-right">3-Yr Plan</th>
-                            <th class="p-3.5 text-right text-amber-300">20% Down (3-Yr)</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100 font-medium">
-                        <tr class="hover:bg-slate-50"><td class="p-3.5 font-bold">100 Sq Yds (4 Marla)</td><td class="p-3.5 text-right">30,000</td><td class="p-3.5 text-right font-extrabold text-emerald-700">81,450,625</td><td class="p-3.5 text-right">85,737,500</td><td class="p-3.5 text-right">90,250,000</td><td class="p-3.5 text-right font-bold">95,000,000</td><td class="p-3.5 text-right font-bold text-emerald-700">19,000,000</td></tr>
-                        <tr class="hover:bg-slate-50"><td class="p-3.5 font-bold">133.25 Sq Yds</td><td class="p-3.5 text-right">40,000</td><td class="p-3.5 text-right font-extrabold text-emerald-700">120,032,500</td><td class="p-3.5 text-right">126,350,000</td><td class="p-3.5 text-right">133,000,000</td><td class="p-3.5 text-right font-bold">140,000,000</td><td class="p-3.5 text-right font-bold text-emerald-700">28,000,000</td></tr>
-                        <tr class="hover:bg-slate-50"><td class="p-3.5 font-bold">200 Sq Yds (8 Marla)</td><td class="p-3.5 text-right">50,000</td><td class="p-3.5 text-right font-extrabold text-emerald-700">145,753,750</td><td class="p-3.5 text-right">153,425,000</td><td class="p-3.5 text-right">161,500,000</td><td class="p-3.5 text-right font-bold">170,000,000</td><td class="p-3.5 text-right font-bold text-emerald-700">34,000,000</td></tr>
-                        <tr class="hover:bg-slate-50"><td class="p-3.5 font-bold">500 Sq Yds (1 Kanal)</td><td class="p-3.5 text-right">60,000</td><td class="p-3.5 text-right font-extrabold text-emerald-700">342,950,000</td><td class="p-3.5 text-right">361,000,000</td><td class="p-3.5 text-right">380,000,000</td><td class="p-3.5 text-right font-bold">400,000,000</td><td class="p-3.5 text-right font-bold text-emerald-700">80,000,000</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Ballot 3 Table -->
-            <div id="tab-b3" class="hidden bg-white rounded-2xl border-2 border-slate-300 overflow-x-auto shadow-xs">
-                <table class="w-full text-left text-xs min-w-[680px]">
-                    <thead class="bg-slate-900 text-white uppercase text-[11px]">
-                        <tr>
-                            <th class="p-3.5">LG+G+5 Commercial</th>
-                            <th class="p-3.5 text-right">Fee</th>
-                            <th class="p-3.5 text-right text-emerald-300">Lump Sum</th>
-                            <th class="p-3.5 text-right">1-Yr Plan</th>
-                            <th class="p-3.5 text-right">2-Yr Plan</th>
-                            <th class="p-3.5 text-right">3-Yr Plan</th>
-                            <th class="p-3.5 text-right text-amber-300">20% Down (3-Yr)</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100 font-medium">
-                        <tr class="hover:bg-slate-50"><td class="p-3.5 font-bold">133.33 Sq Yds</td><td class="p-3.5 text-right">40,000</td><td class="p-3.5 text-right font-extrabold text-emerald-700">135,830,000</td><td class="p-3.5 text-right">143,820,000</td><td class="p-3.5 text-right">151,810,000</td><td class="p-3.5 text-right font-bold">159,800,000</td><td class="p-3.5 text-right font-bold text-emerald-700">31,960,000</td></tr>
-                        <tr class="hover:bg-slate-50"><td class="p-3.5 font-bold">200 Sq Yds</td><td class="p-3.5 text-right">50,000</td><td class="p-3.5 text-right font-extrabold text-emerald-700">196,520,000</td><td class="p-3.5 text-right">208,080,000</td><td class="p-3.5 text-right">219,640,000</td><td class="p-3.5 text-right font-bold">231,200,000</td><td class="p-3.5 text-right font-bold text-emerald-700">46,240,000</td></tr>
-                        <tr class="hover:bg-slate-50"><td class="p-3.5 font-bold">266.66 Sq Yds</td><td class="p-3.5 text-right">60,000</td><td class="p-3.5 text-right font-extrabold text-emerald-700">201,535,000</td><td class="p-3.5 text-right">213,390,000</td><td class="p-3.5 text-right">225,245,000</td><td class="p-3.5 text-right font-bold">237,100,000</td><td class="p-3.5 text-right font-bold text-emerald-700">47,420,000</td></tr>
-                    </tbody>
-                </table>
-            </div>
+            <div id="plan-tables-root"></div>
         </section>
 
-        <!-- 4. AVAILABLE PLOTS GRID -->
+        <!-- 4. ASSIGNED LISTINGS GRID (Strictly from Firestore) -->
         <section class="space-y-4">
-            <div class="flex items-center justify-between">
-                <h2 class="text-2xl font-extrabold outfit text-slate-900">Available Plots</h2>
-                <a href="projects.html" class="text-xs font-bold text-emerald-700 hover:underline">All Listings &rarr;</a>
+            <div class="flex items-center justify-between pb-3 border-b-2 border-slate-200">
+                <h2 class="text-2xl font-extrabold outfit text-slate-900">Available Listings</h2>
+                <a href="projects.html" class="text-xs font-extrabold text-emerald-700 hover:underline">All Listings &rarr;</a>
             </div>
             <div id="project-plots-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </section>
 
-        <!-- 5. COMPACT INQUIRY BOX -->
+        <!-- 5. DIRECT INQUIRY BOX (Contact hydrated from Firestore) -->
         <section id="request-call-box" class="bg-white rounded-3xl border-2 border-slate-300 p-6 sm:p-8 max-w-2xl mx-auto space-y-4 shadow-sm">
             <div class="text-center space-y-1">
                 <h2 class="text-xl font-extrabold outfit text-slate-900">Book a Plot or Site Visit</h2>
-                <p class="text-xs text-slate-500">Call <a href="tel:+923340091127" class="font-bold text-emerald-700">+92 334 0091127</a> or request a quick callback.</p>
+                <p class="text-xs text-slate-500">Call <a href="contact.html" class="shared-phone-link font-bold text-emerald-700"><span class="shared-phone-text">our office</span></a> or request a quick callback.</p>
             </div>
             <form onsubmit="handleProjectLead(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
                 <input type="text" id="lead-name" required placeholder="Full Name" class="bg-slate-50 border-2 border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
@@ -184,26 +107,22 @@
 
     <script>
         let currentProject = null;
+        let siteSettings = {};
 
-        function showBallotTab(id) {
-            ['b1', 'b2', 'b3'].forEach(k => {
-                document.getElementById('tab-' + k).classList.toggle('hidden', k !== id);
-                document.getElementById('btn-' + k).className = k === id
-                    ? 'px-3.5 py-2 rounded-xl font-bold bg-emerald-700 text-white'
-                    : 'px-3.5 py-2 rounded-xl font-bold bg-white border border-slate-200 text-slate-700';
-            });
+        function escHtml(s) {
+            return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
         }
 
         function getCardImage(p) {
             if (Array.isArray(p.images) && p.images.length) {
                 const first = p.images.find(i => !i.type || i.type === 'image') || p.images[0];
-                if (first) return typeof first === 'string' ? first : (first.url || 'assets/images/dha-margalla-hero.jpg');
+                if (first) return typeof first === 'string' ? first : (first.url || '');
             }
             if (Array.isArray(p.gallery)) {
                 const img = p.gallery.find(g => g.type === 'image' && g.url);
                 if (img) return img.url;
             }
-            return 'assets/images/dha-margalla-hero.jpg';
+            return '';
         }
 
         function hasListingVideo(p) {
@@ -211,24 +130,69 @@
                    (Array.isArray(p.gallery) && p.gallery.some(g => g.type === 'video'));
         }
 
+        function renderDynamicPaymentPlans(plans) {
+            const sec = document.getElementById('payment-plan');
+            const bar = document.getElementById('plan-tabs-bar');
+            const root = document.getElementById('plan-tables-root');
+            if (!Array.isArray(plans) || !plans.length) {
+                sec.classList.add('hidden');
+                return;
+            }
+            sec.classList.remove('hidden');
+
+            bar.innerHTML = plans.map((pl, i) => `
+                <button type="button" onclick="selectPlanTab(${i})" id="plan-btn-${i}" class="px-3.5 py-2 rounded-xl font-bold ${i === 0 ? 'bg-emerald-700 text-white' : 'bg-white border-2 border-slate-300 text-slate-700'}">
+                    ${escHtml(pl.title || ('Plan ' + (i + 1)))}
+                </button>
+            `).join('');
+
+            root.innerHTML = plans.map((pl, i) => {
+                const cols = Array.isArray(pl.columns) ? pl.columns : [];
+                const rows = Array.isArray(pl.rows) ? pl.rows : [];
+                return `
+                    <div id="plan-tab-${i}" class="${i === 0 ? '' : 'hidden'} bg-white rounded-2xl border-2 border-slate-300 overflow-x-auto shadow-xs">
+                        <table class="w-full text-left text-xs min-w-[600px]">
+                            <thead class="bg-slate-900 text-white uppercase text-[11px]">
+                                <tr>${cols.map((c, ci) => `<th class="p-3.5 ${ci > 0 ? 'text-right' : ''}">${escHtml(c)}</th>`).join('')}</tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 font-medium">
+                                ${rows.map(r => `<tr class="hover:bg-slate-50">${(Array.isArray(r) ? r : []).map((cell, ci) => `<td class="p-3.5 ${ci === 0 ? 'font-bold text-slate-900' : 'text-right'}">${escHtml(cell)}</td>`).join('')}</tr>`).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectPlanTab(idx) {
+            const tabs = document.querySelectorAll('[id^="plan-tab-"]');
+            tabs.forEach((el, i) => {
+                el.classList.toggle('hidden', i !== idx);
+                const btn = document.getElementById('plan-btn-' + i);
+                if (btn) {
+                    btn.className = i === idx
+                        ? 'px-3.5 py-2 rounded-xl font-bold bg-emerald-700 text-white'
+                        : 'px-3.5 py-2 rounded-xl font-bold bg-white border-2 border-slate-300 text-slate-700';
+                }
+            });
+        }
+
         async function handleProjectLead(e) {
             e.preventDefault();
             const fb = document.getElementById('lead-feedback');
             try {
-                if (window.KaghanDB && window.KaghanDB.createLead) {
-                    await window.KaghanDB.createLead({
-                        name: document.getElementById('lead-name').value.trim(),
-                        phone: document.getElementById('lead-phone').value.trim(),
-                        propertyTitle: currentProject ? currentProject.name : 'Project Inquiry',
-                        sourcePage: window.location.href,
-                        status: 'new'
-                    });
-                }
+                await window.KaghanDB.createLead({
+                    name: document.getElementById('lead-name').value.trim(),
+                    phone: document.getElementById('lead-phone').value.trim(),
+                    propertyTitle: currentProject ? currentProject.name : 'Project Inquiry',
+                    sourcePage: window.location.href,
+                    status: 'new'
+                });
                 fb.innerText = 'Request received! Our advisor will call shortly.';
                 fb.classList.remove('hidden');
                 e.target.reset();
             } catch (err) {
-                fb.innerText = 'Error sending. Call +92 334 0091127.';
+                fb.innerText = 'Could not send request. Please try again.';
                 fb.classList.remove('hidden');
             }
         }
@@ -237,62 +201,65 @@
             const params = new URLSearchParams(window.location.search);
             const slug = params.get('slug') || params.get('id');
 
-            if (window.KaghanDB && window.KaghanDB.getProjectBySlugOrId) {
-                if (slug) currentProject = await window.KaghanDB.getProjectBySlugOrId(slug);
-                if (!currentProject && window.KaghanDB.getProjects) {
-                    const allProjs = await window.KaghanDB.getProjects(false);
-                    currentProject = allProjs.find(pr => pr.id === 'dha-margalla-enclave') || allProjs[0] || null;
-                }
+            const [settings, allProjs, allProps] = await Promise.all([
+                window.KaghanDB.getSiteSettings(),
+                window.KaghanDB.getProjects(false),
+                window.KaghanDB.getProperties({ status: 'published' })
+            ]);
+            siteSettings = settings || {};
+
+            if (slug) {
+                const norm = slug.toLowerCase().trim();
+                currentProject = allProjs.find(pr => (pr.slug || '').toLowerCase() === norm || String(pr.id || '').toLowerCase() === norm) || null;
+            }
+            if (!currentProject && allProjs.length > 0) {
+                currentProject = allProjs[0];
             }
 
-            if (currentProject) {
-                document.title = `${currentProject.name} | Kaghan Properties`;
-                document.getElementById('proj-hero-title').innerText = currentProject.name;
-                document.getElementById('proj-hero-badge').innerText = [currentProject.location, currentProject.city].filter(Boolean).join(' • ') || 'Verified Project';
-                document.getElementById('proj-hero-subtitle').innerText = currentProject.startingPrice
-                    ? `Starting from ${currentProject.startingPrice}`
-                    : (currentProject.description || '');
-                document.getElementById('proj-wa-btn').href = `https://wa.me/923340091127?text=${encodeURIComponent('Hi, I want details for ' + currentProject.name + '.')}`;
+            if (!currentProject) {
+                document.getElementById('project-main').innerHTML = `
+                    <div class="bg-white p-12 text-center rounded-2xl border-2 border-slate-300 max-w-md mx-auto my-12 space-y-3">
+                        <h2 class="text-lg font-extrabold outfit text-slate-900">Project Not Found</h2>
+                        <p class="text-xs text-slate-500">Create projects inside the Admin Panel to display them here.</p>
+                        <a href="projects.html" class="inline-block bg-emerald-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl">Browse Listings</a>
+                    </div>`;
+                return;
+            }
 
+            document.title = `${currentProject.name} | ${(siteSettings && siteSettings.siteName) || 'Project'}`;
+            document.getElementById('proj-hero-title').innerText = currentProject.name;
+            document.getElementById('proj-hero-badge').innerText = [currentProject.location, currentProject.city].filter(Boolean).join(' • ') || 'Project';
+            document.getElementById('proj-hero-subtitle').innerText = currentProject.startingPrice ? `Starting from ${currentProject.startingPrice}` : '';
+
+            const phoneDigits = ((siteSettings.contact && siteSettings.contact.phone) || '').replace(/[^0-9]/g, '');
+            const waBtn = document.getElementById('proj-wa-btn');
+            if (waBtn && phoneDigits) {
+                waBtn.href = `https://wa.me/${phoneDigits}?text=${encodeURIComponent('Hi, I want details for ' + currentProject.name + '.')}`;
+            }
+
+            if (currentProject.coverImage) {
                 const coverImg = document.getElementById('proj-cover-img');
-                if (coverImg && currentProject.coverImage) {
-                    coverImg.src = currentProject.coverImage;
-                    coverImg.alt = currentProject.name;
-                }
+                coverImg.src = currentProject.coverImage;
+                coverImg.alt = currentProject.name;
+                coverImg.classList.remove('hidden');
+                document.getElementById('proj-cover-placeholder').classList.add('hidden');
+            }
 
-                const isDhaMargalla = currentProject.id === 'dha-margalla-enclave';
-                const sideEl = document.getElementById('proj-cover-side');
-                if (!isDhaMargalla && sideEl && coverImg) {
-                    sideEl.classList.add('hidden');
-                    coverImg.classList.remove('md:col-span-2', 'sm:h-80');
-                    coverImg.classList.add('md:col-span-3', 'sm:h-[400px]');
-                }
-
+            if (currentProject.description) {
                 const descEl = document.getElementById('proj-hero-desc');
-                if (descEl && currentProject.description) {
-                    descEl.innerText = currentProject.description;
-                    descEl.classList.remove('hidden');
-                }
-
-                const planSec = document.getElementById('payment-plan');
-                if (planSec) {
-                    planSec.classList.toggle('hidden', !isDhaMargalla);
-                }
+                descEl.innerText = currentProject.description;
+                descEl.classList.remove('hidden');
             }
 
-            let allProps = [];
-            if (window.KaghanDB && window.KaghanDB.getProperties) {
-                allProps = await window.KaghanDB.getProperties();
-            }
+            renderDynamicPaymentPlans(currentProject.paymentPlans);
 
-            const props = currentProject
-                ? allProps.filter(p => p.projectId === currentProject.id || (!p.projectId && p.societyId === currentProject.id))
-                : allProps;
+            const props = allProps.filter(p => p.projectId === currentProject.id || (!p.projectId && p.societyId === currentProject.id));
 
             if (window.KaghanPlotMap) {
                 window.KaghanPlotMap.create('project-plot-map-root', {
                     mode: 'multi',
                     properties: props,
+                    emapUrl: currentProject.emapUrl || '',
                     height: '520px'
                 });
             }
@@ -300,7 +267,7 @@
             const grid = document.getElementById('project-plots-grid');
             if (grid) {
                 if (!props.length) {
-                    grid.innerHTML = `<div class="col-span-full bg-white p-10 rounded-2xl border border-slate-200 text-center text-slate-400 text-xs">No listings assigned to this project yet.</div>`;
+                    grid.innerHTML = `<div class="col-span-full bg-white p-10 rounded-2xl border-2 border-slate-300 text-center text-slate-500 text-xs">No listings assigned to this project in Firestore yet.</div>`;
                 } else {
                     grid.innerHTML = props.map(p => {
                         const img = getCardImage(p);
@@ -309,16 +276,18 @@
                         const url = `property.html?slug=${encodeURIComponent(p.slug || p.id)}`;
                         return `
                             <article class="kp-card rounded-2xl overflow-hidden flex flex-col">
-                                <a href="${url}" class="relative h-44 bg-slate-100 block overflow-hidden border-b-2 border-slate-200">
-                                    <img src="${img}" alt="${p.title}" loading="lazy" class="w-full h-full object-cover">
-                                    ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-map-pin text-[10px] mr-1"></i>${p.plotNumber}</span>` : ''}
+                                <a href="${url}" class="relative h-44 bg-slate-100 flex items-center justify-center overflow-hidden border-b-2 border-slate-200">
+                                    ${img
+                                        ? `<img src="${escHtml(img)}" alt="${escHtml(p.title)}" loading="lazy" class="w-full h-full object-cover">`
+                                        : `<i class="fa-solid fa-image text-3xl text-slate-300"></i>`}
+                                    ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-map-pin text-[10px] mr-1"></i>${escHtml(p.plotNumber)}</span>` : ''}
                                     ${hasVid ? `<span class="absolute top-3 right-3 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-brands fa-youtube"></i> Video</span>` : ''}
                                 </a>
                                 <div class="p-4 flex-1 flex flex-col justify-between space-y-2">
                                     <div>
-                                        <div class="text-lg font-extrabold outfit text-emerald-800">${price}</div>
-                                        <h3 class="font-bold text-sm text-slate-900 line-clamp-1"><a href="${url}">${p.title}</a></h3>
-                                        <div class="text-xs text-slate-500">${p.plotDimensions || (p.sqYards ? p.sqYards + ' Sq Yds' : (p.size ? p.size + ' ' + (p.sizeUnit || 'Marla') : ''))}</div>
+                                        <div class="text-lg font-extrabold outfit text-emerald-800">${escHtml(price)}</div>
+                                        <h3 class="font-bold text-sm text-slate-900 line-clamp-1"><a href="${url}">${escHtml(p.title)}</a></h3>
+                                        <div class="text-xs text-slate-500">${escHtml(p.plotDimensions || (p.sqYards ? p.sqYards + ' Sq Yds' : (p.size ? p.size + ' ' + (p.sizeUnit || '') : '')))}</div>
                                     </div>
                                     <a href="${url}" class="mt-2 block text-center py-2 rounded-xl bg-slate-900 hover:bg-emerald-700 text-white text-xs font-bold transition-colors">View Plot &amp; Map</a>
                                 </div>

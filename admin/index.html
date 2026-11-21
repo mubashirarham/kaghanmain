@@ -14,11 +14,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Leaflet GIS & Plot Pinning -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-    <!-- Firebase Compat SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
@@ -30,7 +28,6 @@
         .outfit { font-family: 'Outfit', sans-serif; }
         .nav-active { background: #ecfdf5; color: #047857; font-weight: 700; border: 1.5px solid #6ee7b7; }
         #admin-plot-picker-map { z-index: 10; }
-        /* Prominent architectural borderlines across the white admin panel */
         .border-slate-200 { border-color: #cbd5e1 !important; }
         .border-slate-100 { border-color: #e2e8f0 !important; }
         .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #e2e8f0 !important; }
@@ -40,23 +37,23 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen">
 
-    <!-- ======================== LOGIN SCREEN (WHITE THEME) ======================== -->
+    <!-- ======================== LOGIN SCREEN ======================== -->
     <div id="lock-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-100 p-4">
-        <div class="bg-white border border-slate-200 max-w-sm w-full p-8 rounded-3xl shadow-xl space-y-6">
+        <div class="bg-white border-2 border-slate-300 max-w-sm w-full p-8 rounded-3xl shadow-xl space-y-6">
             <div class="text-center space-y-2">
-                <img src="../assets/images/logo.png" alt="Kaghan Properties" class="h-12 w-auto mx-auto object-contain">
-                <h1 class="text-xl font-extrabold outfit text-slate-900">Kaghan Admin</h1>
-                <p class="text-xs text-slate-500">Sign in to manage projects, listings &amp; leads</p>
+                <img src="../assets/images/logo.png" alt="Logo" class="h-12 w-auto mx-auto object-contain">
+                <h1 class="text-xl font-extrabold outfit text-slate-900">Admin Sign In</h1>
+                <p class="text-xs text-slate-500">100% Firestore-backed dashboard</p>
             </div>
 
             <form id="login-form" onsubmit="handleAdminLogin(event)" class="space-y-4 text-xs">
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">Email</label>
-                    <input type="email" id="login-email" required placeholder="admin@kaghanproperties.com" class="w-full bg-slate-50 border border-slate-200 focus:border-emerald-600 focus:bg-white rounded-xl px-3.5 py-3 text-slate-900 focus:outline-none">
+                    <input type="email" id="login-email" required placeholder="Enter admin email" class="w-full bg-slate-50 border border-slate-300 focus:border-emerald-600 focus:bg-white rounded-xl px-3.5 py-3 text-slate-900 focus:outline-none">
                 </div>
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">Password</label>
-                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-200 focus:border-emerald-600 focus:bg-white rounded-xl px-3.5 py-3 text-slate-900 focus:outline-none">
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-300 focus:border-emerald-600 focus:bg-white rounded-xl px-3.5 py-3 text-slate-900 focus:outline-none">
                 </div>
                 <button type="submit" id="login-btn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl shadow-sm transition-colors">
                     Sign In
@@ -70,29 +67,28 @@
     <div id="admin-shell" class="hidden min-h-screen flex flex-col lg:flex-row">
 
         <!-- Mobile Top Bar -->
-        <header class="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+        <header class="lg:hidden bg-white border-b-2 border-slate-300 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
             <div class="flex items-center gap-2.5">
-                <button onclick="toggleSidebar()" class="p-2 rounded-lg bg-slate-100 text-slate-700" aria-label="Menu">
+                <button onclick="toggleSidebar()" class="p-2 rounded-lg bg-slate-100 border border-slate-300 text-slate-700" aria-label="Menu">
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <img src="../assets/images/logo.png" alt="Logo" class="h-6 w-auto">
-                <span class="font-extrabold outfit text-sm text-slate-900">Kaghan Admin</span>
+                <span class="font-extrabold outfit text-sm text-slate-900">Admin Panel</span>
             </div>
-            <span id="mobile-tab-title" class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">Overview</span>
+            <span id="mobile-tab-title" class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">Overview</span>
         </header>
 
-        <!-- Mobile Sidebar Backdrop -->
         <div id="sidebar-backdrop" onclick="toggleSidebar(false)" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
 
-        <!-- Clean White Sidebar -->
-        <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-200">
+        <!-- White Sidebar -->
+        <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-300 flex flex-col justify-between shrink-0 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-200">
             <div>
-                <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+                <div class="p-5 border-b border-slate-200 flex items-center justify-between">
                     <div class="flex items-center gap-2.5">
                         <img src="../assets/images/logo.png" alt="Logo" class="h-8 w-auto">
                         <div>
-                            <div class="font-extrabold outfit text-sm text-slate-900 leading-none">Kaghan</div>
-                            <div class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider mt-0.5">Admin Panel</div>
+                            <div class="font-extrabold outfit text-sm text-slate-900 leading-none">Admin</div>
+                            <div class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider mt-0.5">Firestore CMS</div>
                         </div>
                     </div>
                     <button onclick="toggleSidebar(false)" class="lg:hidden text-slate-400 hover:text-slate-700">
@@ -100,7 +96,7 @@
                     </button>
                 </div>
 
-                <!-- 5 Clean Navigation Items -->
+                <!-- 6 Clean Navigation Items -->
                 <nav class="p-3 space-y-1 text-sm">
                     <button onclick="switchTab('overview')" id="nav-overview" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors text-left font-medium">
                         <i class="fa-solid fa-house w-4 text-center"></i> Overview
@@ -115,22 +111,24 @@
                         <i class="fa-solid fa-inbox w-4 text-center"></i> Leads
                         <span id="nav-leads-badge" class="hidden ml-auto bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
                     </button>
+                    <button onclick="switchTab('content')" id="nav-content" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors text-left font-medium">
+                        <i class="fa-solid fa-file-pen w-4 text-center"></i> Site Content &amp; SEO
+                    </button>
                     <button onclick="switchTab('settings')" id="nav-settings" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors text-left font-medium">
                         <i class="fa-solid fa-gear w-4 text-center"></i> Settings
                     </button>
                 </nav>
             </div>
 
-            <!-- Sidebar Footer -->
-            <div class="p-4 border-t border-slate-100 space-y-2 text-xs">
+            <div class="p-4 border-t border-slate-200 space-y-2 text-xs">
                 <div class="flex items-center gap-2.5 px-2 py-1">
                     <div id="admin-avatar" class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center uppercase">A</div>
                     <div class="min-w-0">
                         <div id="admin-user-name" class="font-bold text-slate-800 truncate">Admin</div>
-                        <div class="text-[10px] text-slate-400">Signed in</div>
+                        <div class="text-[10px] text-emerald-700 font-semibold">Firestore Live</div>
                     </div>
                 </div>
-                <a href="../index.html" target="_blank" class="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors">
+                <a href="../index.html" target="_blank" class="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-700 font-bold transition-colors">
                     <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> View Website
                 </a>
                 <button onclick="window.KaghanDB.logout()" class="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-rose-600 hover:bg-rose-50 font-bold transition-colors">
@@ -147,10 +145,10 @@
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <div>
                         <h1 class="text-2xl font-extrabold outfit text-slate-900">Dashboard</h1>
-                        <p class="text-xs text-slate-500">Quick summary of your projects, listings, and inquiries.</p>
+                        <p class="text-xs text-slate-500">Live Firestore summary of projects, listings, and client leads.</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="openProjectModal()" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 hover:border-emerald-600 text-slate-800 font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors">
+                        <button onclick="openProjectModal()" class="px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 hover:border-emerald-600 text-slate-800 font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors">
                             <i class="fa-solid fa-plus text-emerald-600"></i> New Project
                         </button>
                         <button onclick="openListingModal()" class="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors">
@@ -159,33 +157,31 @@
                     </div>
                 </div>
 
-                <!-- 4 Clean Stat Cards -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div onclick="switchTab('projects')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs cursor-pointer hover:border-emerald-400 transition-colors">
+                    <div onclick="switchTab('projects')" class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-xs cursor-pointer hover:border-emerald-600 transition-colors">
                         <div class="text-xs font-semibold text-slate-500">Projects</div>
                         <div id="stat-projects" class="text-3xl font-extrabold outfit text-slate-900 mt-1">0</div>
                     </div>
-                    <div onclick="switchTab('listings')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs cursor-pointer hover:border-emerald-400 transition-colors">
+                    <div onclick="switchTab('listings')" class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-xs cursor-pointer hover:border-emerald-600 transition-colors">
                         <div class="text-xs font-semibold text-slate-500">Total Listings</div>
                         <div id="stat-listings" class="text-3xl font-extrabold outfit text-slate-900 mt-1">0</div>
                     </div>
-                    <div onclick="switchTab('listings')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs cursor-pointer hover:border-emerald-400 transition-colors">
+                    <div onclick="switchTab('listings')" class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-xs cursor-pointer hover:border-emerald-600 transition-colors">
                         <div class="text-xs font-semibold text-slate-500">Pinned Plots</div>
                         <div id="stat-pinned" class="text-3xl font-extrabold outfit text-emerald-700 mt-1">0</div>
                     </div>
-                    <div onclick="switchTab('leads')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs cursor-pointer hover:border-emerald-400 transition-colors">
+                    <div onclick="switchTab('leads')" class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-xs cursor-pointer hover:border-emerald-600 transition-colors">
                         <div class="text-xs font-semibold text-slate-500">Inquiries</div>
                         <div id="stat-leads" class="text-3xl font-extrabold outfit text-slate-900 mt-1">0</div>
                     </div>
                 </div>
 
-                <!-- Recent Listings Preview -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 space-y-4">
-                    <div class="flex items-center justify-between">
+                <div class="bg-white rounded-2xl border-2 border-slate-300 shadow-xs p-5 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-3">
                         <h2 class="font-bold outfit text-base text-slate-900">Recent Listings</h2>
                         <button onclick="switchTab('listings')" class="text-xs font-bold text-emerald-700 hover:underline">Manage All &rarr;</button>
                     </div>
-                    <div id="overview-recent-listings" class="divide-y divide-slate-100 text-xs"></div>
+                    <div id="overview-recent-listings" class="divide-y divide-slate-200 text-xs"></div>
                 </div>
             </section>
 
@@ -194,16 +190,14 @@
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <div>
                         <h1 class="text-2xl font-extrabold outfit text-slate-900">Projects</h1>
-                        <p class="text-xs text-slate-500">Create projects, upload cover images, and assign listings to each project.</p>
+                        <p class="text-xs text-slate-500">Create projects, upload cover images, add optional payment plans, and assign listings.</p>
                     </div>
                     <button onclick="openProjectModal()" class="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs">
                         <i class="fa-solid fa-plus"></i> Add Project
                     </button>
                 </div>
 
-                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    <!-- Dynamic Project Cards -->
-                </div>
+                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
             </section>
 
             <!-- ==================== TAB 3: LISTINGS ==================== -->
@@ -211,28 +205,26 @@
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <div>
                         <h1 class="text-2xl font-extrabold outfit text-slate-900">Listings</h1>
-                        <p class="text-xs text-slate-500">Add plots or properties, pin locations on map, and attach photos or YouTube videos.</p>
+                        <p class="text-xs text-slate-500">Manage plots &amp; properties, attach photos &amp; YouTube videos, and pin locations on map.</p>
                     </div>
                     <button onclick="openListingModal()" class="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs">
                         <i class="fa-solid fa-plus"></i> Add Listing
                     </button>
                 </div>
 
-                <!-- Simple Filter Row -->
-                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 flex flex-wrap items-center gap-2.5 text-xs">
+                <div class="bg-white p-3.5 rounded-2xl border-2 border-slate-300 flex flex-wrap items-center gap-2.5 text-xs">
                     <div class="relative flex-1 min-w-[200px]">
                         <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400"></i>
-                        <input type="text" id="listings-search" oninput="renderListingsTable()" placeholder="Search title, plot #, or area..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-3 py-2 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="listings-search" oninput="renderListingsTable()" placeholder="Search title, plot #, or area..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-8 pr-3 py-2 focus:outline-none focus:border-emerald-600">
                     </div>
-                    <select id="listings-project-filter" onchange="renderListingsTable()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-semibold text-slate-700 focus:outline-none focus:border-emerald-600">
+                    <select id="listings-project-filter" onchange="renderListingsTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-700 focus:outline-none focus:border-emerald-600">
                         <option value="all">All Projects</option>
                     </select>
                 </div>
 
-                <!-- Clean Listings Table -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
+                <div class="bg-white rounded-2xl border-2 border-slate-300 shadow-xs overflow-x-auto">
                     <table class="w-full text-left text-xs min-w-[700px]">
-                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase text-[11px] font-bold">
+                        <thead class="bg-slate-50 border-b-2 border-slate-200 text-slate-600 uppercase text-[11px] font-bold">
                             <tr>
                                 <th class="p-3.5">Listing</th>
                                 <th class="p-3.5">Project</th>
@@ -242,7 +234,7 @@
                                 <th class="p-3.5 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="listings-table-body" class="divide-y divide-slate-100"></tbody>
+                        <tbody id="listings-table-body" class="divide-y divide-slate-200"></tbody>
                     </table>
                 </div>
             </section>
@@ -252,9 +244,9 @@
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <div>
                         <h1 class="text-2xl font-extrabold outfit text-slate-900">Leads &amp; Inquiries</h1>
-                        <p class="text-xs text-slate-500">Client callback requests and property inquiries.</p>
+                        <p class="text-xs text-slate-500">Live Firestore callback requests and property inquiries.</p>
                     </div>
-                    <select id="leads-filter-status" onchange="renderLeadsTable()" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-700">
+                    <select id="leads-filter-status" onchange="renderLeadsTable()" class="bg-white border-2 border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-700">
                         <option value="all">All Statuses</option>
                         <option value="new">New</option>
                         <option value="contacted">Contacted</option>
@@ -262,77 +254,184 @@
                     </select>
                 </div>
 
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
+                <div class="bg-white rounded-2xl border-2 border-slate-300 shadow-xs overflow-x-auto">
                     <table class="w-full text-left text-xs min-w-[650px]">
-                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase text-[11px] font-bold">
+                        <thead class="bg-slate-50 border-b-2 border-slate-200 text-slate-600 uppercase text-[11px] font-bold">
                             <tr>
                                 <th class="p-3.5">Client</th>
                                 <th class="p-3.5">Interested In</th>
                                 <th class="p-3.5">Message</th>
                                 <th class="p-3.5">Status</th>
-                                <th class="p-3.5 text-right">Contact</th>
+                                <th class="p-3.5 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="leads-table-body" class="divide-y divide-slate-100"></tbody>
+                        <tbody id="leads-table-body" class="divide-y divide-slate-200"></tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- ==================== TAB 5: SETTINGS ==================== -->
+            <!-- ==================== TAB 5: SITE CONTENT & SEO (100% Firestore) ==================== -->
+            <section id="tab-content" class="tab-panel hidden space-y-6 max-w-4xl">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <h1 class="text-2xl font-extrabold outfit text-slate-900">Site Content &amp; SEO</h1>
+                        <p class="text-xs text-slate-500">Edit Hero headline, SEO guide, FAQs, Pillars, and About page — stored in Firestore.</p>
+                    </div>
+                </div>
+
+                <form onsubmit="saveSiteContentForm(event)" class="space-y-6 text-xs">
+                    <!-- Hero Section -->
+                    <div class="bg-white rounded-2xl border-2 border-slate-300 p-5 space-y-3.5">
+                        <h2 class="font-extrabold outfit text-base text-slate-900 border-b border-slate-200 pb-2">Homepage Hero</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Eyebrow Badge</label>
+                                <input type="text" id="cnt-hero-badge" placeholder="e.g. Verified Advisory • Islamabad" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">SEO Meta Title</label>
+                                <input type="text" id="cnt-meta-title" placeholder="Browser tab & Google title" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Hero Headline</label>
+                            <input type="text" id="cnt-hero-title" placeholder="Main H1 headline" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Hero Subtitle</label>
+                            <textarea id="cnt-hero-subtitle" rows="2" placeholder="Short subtitle below headline" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- SEO Market Guide -->
+                    <div class="bg-white rounded-2xl border-2 border-slate-300 p-5 space-y-3.5">
+                        <h2 class="font-extrabold outfit text-base text-slate-900 border-b border-slate-200 pb-2">Landing Page SEO Guide</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Section Eyebrow</label>
+                                <input type="text" id="cnt-seo-eyebrow" placeholder="e.g. Investor Guide" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Guide Heading</label>
+                                <input type="text" id="cnt-seo-heading" placeholder="SEO guide heading" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Guide Content (separate paragraphs with new lines)</label>
+                            <textarea id="cnt-seo-body" rows="5" placeholder="Write SEO paragraphs here..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic FAQs -->
+                    <div class="bg-white rounded-2xl border-2 border-slate-300 p-5 space-y-3.5">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <h2 class="font-extrabold outfit text-base text-slate-900">Frequently Asked Questions</h2>
+                            <button type="button" onclick="addFaqRow()" class="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-800 font-bold">+ Add FAQ</button>
+                        </div>
+                        <div id="cnt-faqs-list" class="space-y-3"></div>
+                    </div>
+
+                    <!-- About Page Content -->
+                    <div class="bg-white rounded-2xl border-2 border-slate-300 p-5 space-y-3.5">
+                        <h2 class="font-extrabold outfit text-base text-slate-900 border-b border-slate-200 pb-2">About Page</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">About Headline</label>
+                                <input type="text" id="cnt-about-title" placeholder="About page title" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">About Image URL</label>
+                                <div class="flex gap-1.5">
+                                    <input type="text" id="cnt-about-img" placeholder="Image URL..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                                    <label class="cursor-pointer px-3 py-2 rounded-xl bg-slate-900 text-white font-bold shrink-0">
+                                        Upload <input type="file" accept="image/*" class="hidden" onchange="uploadSingleToInput(event, 'cnt-about-img')">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">About Bio / Story</label>
+                            <textarea id="cnt-about-bio" rows="3" placeholder="Company overview..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <button type="submit" class="px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold shadow-xs">Save Content to Firestore</button>
+                        <span id="content-saved-msg" class="hidden text-emerald-700 font-bold"><i class="fa-solid fa-check mr-1"></i>Saved to Firestore!</span>
+                    </div>
+                </form>
+            </section>
+
+            <!-- ==================== TAB 6: SETTINGS ==================== -->
             <section id="tab-settings" class="tab-panel hidden space-y-5 max-w-2xl">
                 <div>
                     <h1 class="text-2xl font-extrabold outfit text-slate-900">Site Settings</h1>
-                    <p class="text-xs text-slate-500">Contact details displayed on the website.</p>
+                    <p class="text-xs text-slate-500">Global branding, contact info, Emap URL, and High-Res CAD map settings (stored in Firestore).</p>
                 </div>
 
-                <form onsubmit="saveSimpleSettings(event)" class="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 space-y-4 text-xs">
+                <form onsubmit="saveSimpleSettings(event)" class="bg-white rounded-2xl border-2 border-slate-300 shadow-xs p-6 space-y-4 text-xs">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Site Name</label>
+                            <input type="text" id="set-sitename" placeholder="Site Name" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Header Badge Text</label>
+                            <input type="text" id="set-header-badge" placeholder="Top bar trust badge" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        </div>
+                    </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Phone / WhatsApp</label>
-                            <input type="text" id="set-phone" placeholder="+92 334 0091127" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                            <input type="text" id="set-phone" placeholder="+92 ..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                         </div>
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Contact Email</label>
-                            <input type="email" id="set-email" placeholder="info@kaghanproperties.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                            <input type="email" id="set-email" placeholder="email@domain.com" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                         </div>
                     </div>
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Office Address</label>
-                        <input type="text" id="set-address" placeholder="Bahria Enclave, Islamabad" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="set-address" placeholder="Full office address" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Footer Bio</label>
+                        <textarea id="set-footer-bio" rows="2" placeholder="Short description shown in footer" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600"></textarea>
                     </div>
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Default Currency</label>
-                        <select id="set-currency" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <select id="set-currency" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                             <option value="PKR">PKR</option>
                             <option value="USD">USD ($)</option>
                             <option value="AED">AED</option>
                         </select>
                     </div>
 
-                    <!-- High-Res CAD Map Overlay Settings -->
-                    <div class="pt-4 border-t border-slate-100 space-y-3">
+                    <!-- Map, Emap & High-Res CAD Settings -->
+                    <div class="pt-4 border-t-2 border-slate-200 space-y-3">
+                        <div class="font-bold text-slate-900 flex items-center gap-1.5">
+                            <i class="fa-solid fa-layer-group text-emerald-600"></i> Map &amp; High-Res CAD Overlay Settings
+                        </div>
                         <div>
-                            <div class="font-bold text-slate-900 flex items-center gap-1.5">
-                                <i class="fa-solid fa-layer-group text-emerald-600"></i> High-Res CAD Map Overlay (Optional)
-                            </div>
-                            <p class="text-[11px] text-slate-500 mt-0.5">Upload a sharp 4K/8K DHA Margalla Enclave Master Plan PNG/JPG or paste a custom XYZ Tile URL (e.g. MapTiler / QGIS tiles) for crystal-clear plot numbers on the Satellite map.</p>
+                            <label class="block font-bold text-slate-700 mb-1">Live Emap CAD URL (Optional)</label>
+                            <input type="url" id="set-emap-url" placeholder="https://emap.pk/..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 focus:outline-none focus:border-emerald-600">
                         </div>
                         <div class="flex flex-wrap items-center gap-2">
-                            <input type="text" id="set-cad-image" placeholder="High-Res CAD Master Plan image URL..." class="flex-1 min-w-[200px] bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                            <input type="text" id="set-cad-image" placeholder="High-Res 4K CAD Master Plan image URL..." class="flex-1 min-w-[200px] bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
                             <label class="cursor-pointer bg-slate-900 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl flex items-center gap-1.5 transition-colors">
-                                <i class="fa-solid fa-cloud-arrow-up"></i> Upload CAD Image
-                                <input type="file" accept="image/*" class="hidden" onchange="handleCadImageUpload(event)">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Upload CAD
+                                <input type="file" accept="image/*" class="hidden" onchange="uploadSingleToInput(event, 'set-cad-image', 'cad-upload-status')">
                             </label>
                         </div>
                         <div>
-                            <label class="block font-bold text-slate-700 mb-1">OR Custom XYZ Tile URL (Infinite Sharp Zoom)</label>
-                            <input type="text" id="set-cad-tiles" placeholder="https://api.maptiler.com/tiles/.../{z}/{x}/{y}.png?key=..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 font-mono text-[11px] focus:outline-none focus:border-emerald-600">
+                            <label class="block font-bold text-slate-700 mb-1">OR Custom XYZ Tile URL (MapTiler / QGIS)</label>
+                            <input type="text" id="set-cad-tiles" placeholder="https://.../{z}/{x}/{y}.png" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 font-mono text-[11px] focus:outline-none focus:border-emerald-600">
                         </div>
                         <div id="cad-upload-status" class="hidden text-[11px] font-semibold text-emerald-700"></div>
                     </div>
 
                     <div class="pt-2 flex items-center gap-3">
-                        <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold">Save Settings</button>
+                        <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold">Save Settings to Firestore</button>
                         <span id="settings-saved-msg" class="hidden text-emerald-700 font-bold"><i class="fa-solid fa-check mr-1"></i>Saved!</span>
                     </div>
                 </form>
@@ -342,8 +441,8 @@
 
     <!-- ======================== MODAL 1: ADD / EDIT PROJECT ======================== -->
     <div id="modal-project" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+        <div class="bg-white border-2 border-slate-300 rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-3">
                 <h3 id="modal-project-title" class="text-lg font-extrabold outfit text-slate-900">Add New Project</h3>
                 <button onclick="closeProjectModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
@@ -354,27 +453,32 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Project Name *</label>
-                        <input type="text" id="proj-name" required placeholder="e.g. DHA Margalla Enclave" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="proj-name" required placeholder="Project name" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                     </div>
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">City</label>
-                        <input type="text" id="proj-city" value="Islamabad" placeholder="Islamabad" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="proj-city" placeholder="City" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Location / Sector</label>
-                        <input type="text" id="proj-location" placeholder="e.g. CDA Zone 4, Margalla Corridor" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="proj-location" placeholder="Sector / Corridor" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                     </div>
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Starting Price</label>
-                        <input type="text" id="proj-price" placeholder="e.g. PKR 2.14 Crore" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="proj-price" placeholder="e.g. PKR 2.14 Crore" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                     </div>
                 </div>
 
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Project Emap CAD URL (Optional)</label>
+                    <input type="url" id="proj-emap-url" placeholder="https://emap.pk/..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 focus:outline-none focus:border-emerald-600">
+                </div>
+
                 <!-- Project Cover Image Upload + Preview -->
-                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
+                <div class="bg-slate-50 border border-slate-300 rounded-2xl p-4 space-y-3">
                     <div class="flex items-center justify-between gap-2">
                         <label class="font-bold text-slate-800 flex items-center gap-1.5">
                             <i class="fa-solid fa-image text-emerald-600"></i> Project Cover Image
@@ -384,27 +488,28 @@
                             <input type="file" accept="image/*" class="hidden" onchange="handleProjectCoverUpload(event)">
                         </label>
                     </div>
-                    <input type="text" id="proj-cover" oninput="updateProjectCoverPreview(this.value)" placeholder="Paste cover image URL or upload above..." class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                    <input type="text" id="proj-cover" oninput="updateProjectCoverPreview(this.value)" placeholder="Paste cover image URL or upload above..." class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
                     <div id="proj-cover-status" class="hidden text-[11px] font-semibold text-emerald-700"></div>
-                    <div class="h-40 rounded-xl overflow-hidden bg-slate-200 border border-slate-200 flex items-center justify-center">
-                        <img id="proj-cover-preview" src="../assets/images/dha-margalla-hero.jpg" alt="Cover Preview" class="w-full h-full object-cover" onerror="this.src='../assets/images/dha-margalla-hero.jpg'">
+                    <div class="h-40 rounded-xl overflow-hidden bg-slate-200 border border-slate-300 flex items-center justify-center">
+                        <img id="proj-cover-preview" src="" alt="Cover Preview" class="hidden w-full h-full object-cover">
+                        <i id="proj-cover-empty" class="fa-solid fa-image text-3xl text-slate-400"></i>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Short Description</label>
-                    <textarea id="proj-desc" rows="3" placeholder="Brief summary about this project..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600"></textarea>
+                    <label class="block font-bold text-slate-700 mb-1">Description</label>
+                    <textarea id="proj-desc" rows="3" placeholder="Brief summary about this project..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600"></textarea>
                 </div>
 
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">Status</label>
-                    <select id="proj-status" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                    <select id="proj-status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                         <option value="published">Published (Visible on Site)</option>
                         <option value="draft">Draft (Hidden)</option>
                     </select>
                 </div>
 
-                <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
+                <div class="pt-3 border-t border-slate-200 flex justify-end gap-2">
                     <button type="button" onclick="closeProjectModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">Cancel</button>
                     <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold">Save Project</button>
                 </div>
@@ -414,8 +519,8 @@
 
     <!-- ======================== MODAL 2: ASSIGN LISTINGS TO PROJECT ======================== -->
     <div id="modal-project-listings" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs hidden flex items-center justify-center p-4">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4 max-h-[88vh] flex flex-col">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+        <div class="bg-white border-2 border-slate-300 rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4 max-h-[88vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-3">
                 <div>
                     <h3 id="modal-pl-title" class="text-lg font-extrabold outfit text-slate-900">Manage Project Listings</h3>
                     <p class="text-xs text-slate-500">Select listings that belong to this project, or add a new listing directly.</p>
@@ -424,15 +529,15 @@
             </div>
 
             <div class="flex items-center justify-between gap-2">
-                <input type="text" id="pl-search" oninput="renderProjectListingsChecklist()" placeholder="Filter listings..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-600">
-                <button type="button" onclick="addNewListingToActiveProject()" class="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center gap-1.5 shrink-0">
+                <input type="text" id="pl-search" oninput="renderProjectListingsChecklist()" placeholder="Filter listings..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-600">
+                <button type="button" onclick="addNewListingToActiveProject()" class="px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-300 hover:bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center gap-1.5 shrink-0">
                     <i class="fa-solid fa-plus"></i> New Listing Here
                 </button>
             </div>
 
-            <div id="pl-checklist" class="flex-1 overflow-y-auto divide-y divide-slate-100 border border-slate-200 rounded-xl p-1 text-xs min-h-[200px]"></div>
+            <div id="pl-checklist" class="flex-1 overflow-y-auto divide-y divide-slate-200 border border-slate-300 rounded-xl p-1 text-xs min-h-[200px]"></div>
 
-            <div class="pt-3 border-t border-slate-100 flex justify-end gap-2 text-xs">
+            <div class="pt-3 border-t border-slate-200 flex justify-end gap-2 text-xs">
                 <button type="button" onclick="closeProjectListingsModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">Cancel</button>
                 <button type="button" onclick="saveProjectListingsAssignment()" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold">Save Assignments</button>
             </div>
@@ -441,8 +546,8 @@
 
     <!-- ======================== MODAL 3: ADD / EDIT LISTING ======================== -->
     <div id="modal-listing" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-3xl w-full p-6 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3 sticky top-0 bg-white z-20">
+        <div class="bg-white border-2 border-slate-300 rounded-2xl max-w-3xl w-full p-6 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-3 sticky top-0 bg-white z-20">
                 <h3 id="modal-listing-title" class="text-lg font-extrabold outfit text-slate-900">Add New Listing</h3>
                 <button onclick="closeListingModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
@@ -450,23 +555,22 @@
             <form onsubmit="saveListingForm(event)" class="space-y-5 text-xs">
                 <input type="hidden" id="list-id">
 
-                <!-- 1. Basic Details -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     <div class="sm:col-span-2">
                         <label class="block font-bold text-slate-700 mb-1">Listing Title *</label>
-                        <input type="text" id="list-title" required placeholder="e.g. 5 Marla Residential Plot - 1st Ballot" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="list-title" required placeholder="Listing title" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                     </div>
 
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Assign to Project</label>
-                        <select id="list-project" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
+                        <select id="list-project" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
                             <option value="">None (Standalone Listing)</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Property Type</label>
-                        <select id="list-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <select id="list-type" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                             <option value="residential_plot">Residential Plot</option>
                             <option value="commercial_plot">Commercial Plot</option>
                             <option value="house">House / Villa</option>
@@ -477,17 +581,17 @@
 
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Price (PKR) *</label>
-                        <input type="number" id="list-price" required placeholder="25000000" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <input type="number" id="list-price" required placeholder="Price in PKR" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Size</label>
-                            <input type="number" step="any" id="list-size" value="5" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-emerald-600">
+                            <input type="number" step="any" id="list-size" placeholder="5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-emerald-600">
                         </div>
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Unit</label>
-                            <select id="list-sizeunit" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-emerald-600">
+                            <select id="list-sizeunit" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-emerald-600">
                                 <option value="Marla">Marla</option>
                                 <option value="Sq Yds">Sq Yds</option>
                                 <option value="Kanal">Kanal</option>
@@ -498,17 +602,17 @@
 
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Area / Society</label>
-                        <input type="text" id="list-area" value="DHA Margalla Enclave" placeholder="DHA Margalla Enclave" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="list-area" placeholder="Society or Area" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">City</label>
-                            <input type="text" id="list-city" value="Islamabad" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-emerald-600">
+                            <input type="text" id="list-city" placeholder="City" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-emerald-600">
                         </div>
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Status</label>
-                            <select id="list-status" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-emerald-600">
+                            <select id="list-status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-emerald-600">
                                 <option value="published">Published</option>
                                 <option value="draft">Draft</option>
                                 <option value="sold">Sold</option>
@@ -517,14 +621,14 @@
                     </div>
                 </div>
 
-                <!-- 2. PHOTOS & YOUTUBE VIDEO GALLERY -->
-                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
+                <!-- Photos & YouTube Video Gallery -->
+                <div class="bg-slate-50 border border-slate-300 rounded-2xl p-4 space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <div>
                             <div class="font-bold text-slate-900 flex items-center gap-1.5">
                                 <i class="fa-solid fa-photo-film text-emerald-600"></i> Photos &amp; YouTube Video Gallery
                             </div>
-                            <p class="text-[11px] text-slate-500">Upload photos, paste image URLs, or add a YouTube tour video right into the gallery.</p>
+                            <p class="text-[11px] text-slate-500">Upload photos, paste image URLs, or add a YouTube video link right into the gallery.</p>
                         </div>
                         <label class="cursor-pointer bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-xs transition-colors">
                             <i class="fa-solid fa-cloud-arrow-up"></i> Upload Photos
@@ -532,14 +636,13 @@
                         </label>
                     </div>
 
-                    <!-- Add Photo URL or YouTube Video URL -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div class="flex gap-1.5">
-                            <input type="text" id="gallery-photo-url" placeholder="Paste image URL..." class="flex-1 bg-white border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600" onkeydown="if(event.key==='Enter'){event.preventDefault();addGalleryPhotoUrl();}">
+                            <input type="text" id="gallery-photo-url" placeholder="Paste image URL..." class="flex-1 bg-white border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600" onkeydown="if(event.key==='Enter'){event.preventDefault();addGalleryPhotoUrl();}">
                             <button type="button" onclick="addGalleryPhotoUrl()" class="px-3 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold shrink-0">+ Photo</button>
                         </div>
                         <div class="flex gap-1.5">
-                            <input type="text" id="gallery-youtube-url" placeholder="Paste YouTube video link..." class="flex-1 bg-white border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-rose-500" onkeydown="if(event.key==='Enter'){event.preventDefault();addGalleryYouTubeVideo();}">
+                            <input type="text" id="gallery-youtube-url" placeholder="Paste YouTube video link..." class="flex-1 bg-white border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-rose-500" onkeydown="if(event.key==='Enter'){event.preventDefault();addGalleryYouTubeVideo();}">
                             <button type="button" onclick="addGalleryYouTubeVideo()" class="px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold shrink-0 flex items-center gap-1">
                                 <i class="fa-brands fa-youtube"></i> + Video
                             </button>
@@ -547,74 +650,55 @@
                     </div>
 
                     <div id="gallery-upload-status" class="hidden text-[11px] font-semibold text-emerald-700"></div>
-
-                    <!-- Gallery Preview Grid (Photos + YouTube Videos) -->
-                    <div id="listing-gallery-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 min-h-[76px] p-2 bg-white rounded-xl border border-slate-200"></div>
+                    <div id="listing-gallery-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 min-h-[76px] p-2 bg-white rounded-xl border border-slate-300"></div>
                 </div>
 
-                <!-- 3. PLOT PINNING (CAD MASTERPLAN + SATELLITE + EMAP REF) -->
-                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
+                <!-- Plot Pinning on Map -->
+                <div class="bg-slate-50 border border-slate-300 rounded-2xl p-4 space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <div class="font-bold text-slate-900 flex items-center gap-1.5">
                             <i class="fa-solid fa-map-pin text-emerald-600"></i> Pin Specific Plot on Map
                         </div>
-                        <div class="flex flex-wrap items-center gap-1.5">
-                            <button type="button" onclick="setAdminPlotCoords(33.7085, 73.1840, 'Plot #14', 'Street 10 (40ft W)', 'Sector A', '50x90')" class="px-2 py-1 rounded-lg bg-white border border-slate-200 hover:border-emerald-600 text-[10px] font-bold">Sector A</button>
-                            <button type="button" onclick="setAdminPlotCoords(33.7020, 73.1780, 'Plot #28', 'Road-2 (60ft W)', 'Sector B', '35x65')" class="px-2 py-1 rounded-lg bg-white border border-slate-200 hover:border-emerald-600 text-[10px] font-bold">Sector B</button>
-                            <button type="button" onclick="setAdminPlotCoords(33.7050, 73.1825, 'Plot #M-12', 'Ring Road (80ft W)', 'Grand Mosque', '50x90')" class="px-2 py-1 rounded-lg bg-white border border-slate-200 hover:border-emerald-600 text-[10px] font-bold">Grand Mosque</button>
-                            <button type="button" onclick="setAdminPlotCoords(33.6960, 73.1740, 'Commercial #04', 'Commercial Blvd', 'Commercial Hub', '100 Sq Yds')" class="px-2 py-1 rounded-lg bg-white border border-slate-200 hover:border-emerald-600 text-[10px] font-bold">Commercial</button>
+                        <div class="flex items-center gap-1.5">
+                            <button type="button" onclick="setAdminMapLayer('hybrid')" id="admin-layer-sat" class="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-bold text-[10px]">Satellite</button>
+                            <button type="button" onclick="setAdminMapLayer('streets')" id="admin-layer-str" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold text-[10px]">Street</button>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                        <input type="text" id="list-plot-no" placeholder="Plot # (e.g. Plot #14)" class="bg-white border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
-                        <input type="text" id="list-plot-dim" placeholder="Dimensions (50' x 90')" class="bg-white border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
-                        <input type="text" id="list-plot-street" placeholder="Street / Road" class="bg-white border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
-                        <input type="text" id="list-plot-sector" placeholder="Sector / Block" class="bg-white border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="list-plot-no" placeholder="Plot #" class="bg-white border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="list-plot-dim" placeholder="Dimensions" class="bg-white border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="list-plot-street" placeholder="Street / Road" class="bg-white border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="list-plot-sector" placeholder="Sector / Block" class="bg-white border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
                     </div>
 
-                    <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-600">
-                        <span>Click anywhere or drag the green pin to mark the plot:</span>
-                        <div class="flex flex-wrap items-center gap-2">
-                            <label class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-lg border border-slate-200 text-[10px] font-bold">
-                                <span>CAD</span>
-                                <input type="range" id="admin-cad-opacity" min="0" max="100" value="75" oninput="setAdminCadOpacity(this.value)" class="w-16 accent-emerald-600 cursor-pointer">
-                                <span id="admin-cad-opacity-val" class="font-mono text-emerald-700 w-7">75%</span>
-                            </label>
-                            <button type="button" onclick="setAdminMapLayer('hybrid')" id="admin-layer-sat" class="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-bold text-[10px]">Satellite</button>
-                            <button type="button" onclick="setAdminMapLayer('streets')" id="admin-layer-str" class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-bold text-[10px]">Street</button>
-                            <button type="button" onclick="toggleAdminEmapRef()" id="admin-emap-btn" class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 font-bold text-[10px]">Live Emap Ref</button>
-                        </div>
-                    </div>
-
+                    <p class="text-[11px] text-slate-500">Click anywhere or drag the green pin to save exact coordinates in Firestore:</p>
                     <div class="relative h-64 rounded-xl overflow-hidden border border-slate-300 bg-slate-200">
                         <div id="admin-plot-picker-map" class="w-full h-full"></div>
-                        <iframe id="admin-emap-ref-frame" src="about:blank" class="hidden w-full h-full border-0" loading="lazy" title="Live Emap Reference"></iframe>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2.5">
-                        <input type="number" step="any" id="list-lat" placeholder="Latitude (33.7001)" class="bg-white border border-slate-200 rounded-xl px-3 py-1.5 font-mono text-[11px]">
-                        <input type="number" step="any" id="list-lng" placeholder="Longitude (73.1810)" class="bg-white border border-slate-200 rounded-xl px-3 py-1.5 font-mono text-[11px]">
+                        <input type="number" step="any" id="list-lat" placeholder="Latitude" class="bg-white border border-slate-300 rounded-xl px-3 py-1.5 font-mono text-[11px]">
+                        <input type="number" step="any" id="list-lng" placeholder="Longitude" class="bg-white border border-slate-300 rounded-xl px-3 py-1.5 font-mono text-[11px]">
                     </div>
                 </div>
 
-                <!-- 4. Description + Optional Payment Details -->
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">Description</label>
-                    <textarea id="list-desc" rows="3" placeholder="Short overview of this plot or property..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600"></textarea>
+                    <textarea id="list-desc" rows="3" placeholder="Overview of this listing..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600"></textarea>
                 </div>
 
-                <details class="bg-slate-50 border border-slate-200 rounded-xl p-3">
-                    <summary class="cursor-pointer font-bold text-slate-700">Installment &amp; Ballot Pricing (Optional)</summary>
+                <details class="bg-slate-50 border border-slate-300 rounded-xl p-3">
+                    <summary class="cursor-pointer font-bold text-slate-700">Installment Pricing (Optional)</summary>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3">
-                        <input type="number" id="list-lumpsum" placeholder="Lump Sum (PKR)" class="bg-white border border-slate-200 rounded-lg px-3 py-2">
-                        <input type="number" id="list-dp" placeholder="Down Payment (PKR)" class="bg-white border border-slate-200 rounded-lg px-3 py-2">
-                        <input type="number" id="list-qtr" placeholder="Quarterly (PKR)" class="bg-white border border-slate-200 rounded-lg px-3 py-2">
-                        <input type="number" id="list-fee" placeholder="Processing Fee" class="bg-white border border-slate-200 rounded-lg px-3 py-2">
+                        <input type="number" id="list-lumpsum" placeholder="Lump Sum (PKR)" class="bg-white border border-slate-300 rounded-lg px-3 py-2">
+                        <input type="number" id="list-dp" placeholder="Down Payment (PKR)" class="bg-white border border-slate-300 rounded-lg px-3 py-2">
+                        <input type="number" id="list-qtr" placeholder="Quarterly (PKR)" class="bg-white border border-slate-300 rounded-lg px-3 py-2">
+                        <input type="number" id="list-fee" placeholder="Processing Fee" class="bg-white border border-slate-300 rounded-lg px-3 py-2">
                     </div>
                 </details>
 
-                <div class="pt-3 border-t border-slate-100 flex justify-end gap-2 sticky bottom-0 bg-white">
+                <div class="pt-3 border-t border-slate-200 flex justify-end gap-2 sticky bottom-0 bg-white">
                     <button type="button" onclick="closeListingModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">Cancel</button>
                     <button type="submit" class="px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold shadow-xs">Save Listing</button>
                 </div>
@@ -626,10 +710,11 @@
         let cachedProjects = [];
         let cachedListings = [];
         let cachedLeads = [];
-        let currentGallery = []; // Unified items: { type: 'image', url, isPrimary } | { type: 'video', videoId, url, thumbnail }
+        let cachedSettings = {};
+        let cachedContent = {};
+        let currentGallery = [];
         let activeManageProjectId = null;
 
-        // ==================== AUTH ====================
         async function handleAdminLogin(e) {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
@@ -667,36 +752,30 @@
         }
 
         async function refreshAllData() {
-            const [projects, listings, leads, settings] = await Promise.all([
+            const [projects, listings, leads, settings, content] = await Promise.all([
                 window.KaghanDB.getProjects(false),
                 window.KaghanDB.getProperties(),
                 window.KaghanDB.getLeads(),
-                window.KaghanDB.getSiteSettings()
+                window.KaghanDB.getSiteSettings(true),
+                window.KaghanDB.getSiteContent(true)
             ]);
             cachedProjects = projects || [];
             cachedListings = listings || [];
             cachedLeads = leads || [];
+            cachedSettings = settings || {};
+            cachedContent = content || {};
 
             populateProjectSelects();
             renderOverview();
             renderProjectsGrid();
             renderListingsTable();
             renderLeadsTable();
-            if (settings) {
-                document.getElementById('set-phone').value = (settings.contact && settings.contact.phone) || '+92 334 0091127';
-                document.getElementById('set-email').value = (settings.contact && settings.contact.email) || 'info@kaghanproperties.com';
-                document.getElementById('set-address').value = (settings.contact && settings.contact.address) || 'Bahria Enclave, Islamabad';
-                document.getElementById('set-currency').value = settings.defaultCurrency || 'PKR';
-                const cadImgEl = document.getElementById('set-cad-image');
-                const cadTilesEl = document.getElementById('set-cad-tiles');
-                if (cadImgEl) cadImgEl.value = (settings.cadOverlay && settings.cadOverlay.imageUrl) || '';
-                if (cadTilesEl) cadTilesEl.value = (settings.cadOverlay && settings.cadOverlay.tileUrl) || '';
-            }
+            populateSettingsForm(cachedSettings);
+            populateContentForm(cachedContent);
         }
 
-        // ==================== NAVIGATION ====================
         function switchTab(tab) {
-            const tabs = ['overview', 'projects', 'listings', 'leads', 'settings'];
+            const tabs = ['overview', 'projects', 'listings', 'leads', 'content', 'settings'];
             tabs.forEach(t => {
                 document.getElementById('tab-' + t).classList.toggle('hidden', t !== tab);
                 const btn = document.getElementById('nav-' + t);
@@ -719,7 +798,6 @@
             bd.classList.toggle('hidden', !open);
         }
 
-        // ==================== HELPERS ====================
         function fmtPrice(val) {
             if (!val) return 'Call';
             if (val >= 10000000) return 'PKR ' + (val / 10000000).toFixed(2).replace(/\.00$/, '') + ' Cr';
@@ -728,17 +806,13 @@
         }
 
         function resolveAdminImg(url) {
-            if (!url) return '../assets/images/dha-margalla-hero.jpg';
+            if (!url) return '';
             if (url.startsWith('http') || url.startsWith('data:') || url.startsWith('../')) return url;
             return '../' + url.replace(/^\//, '');
         }
 
         function extractYouTubeId(input) {
-            if (!input) return null;
-            const trimmed = input.trim();
-            if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed;
-            const m = trimmed.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-            return m ? m[1] : null;
+            return window.KaghanDB ? window.KaghanDB.extractYouTubeId(input) : '';
         }
 
         function getListingsForProject(projectId) {
@@ -761,11 +835,10 @@
             }
         }
 
-        // ==================== OVERVIEW ====================
         function renderOverview() {
             document.getElementById('stat-projects').innerText = cachedProjects.length;
             document.getElementById('stat-listings').innerText = cachedListings.length;
-            document.getElementById('stat-pinned').innerText = cachedListings.filter(p => p.plotNumber || (p.lat && p.lng)).length;
+            document.getElementById('stat-pinned').innerText = cachedListings.filter(p => p.lat && p.lng).length;
             const newLeads = cachedLeads.filter(l => l.status === 'new').length;
             document.getElementById('stat-leads').innerText = cachedLeads.length;
             const badge = document.getElementById('nav-leads-badge');
@@ -776,15 +849,18 @@
 
             const recentEl = document.getElementById('overview-recent-listings');
             if (!cachedListings.length) {
-                recentEl.innerHTML = '<div class="py-6 text-center text-slate-400">No listings yet.</div>';
+                recentEl.innerHTML = '<div class="py-6 text-center text-slate-400">No listings in Firestore yet.</div>';
                 return;
             }
             recentEl.innerHTML = cachedListings.slice(0, 6).map(p => {
-                const img = (p.images && p.images[0] && (p.images[0].url || p.images[0])) || 'assets/images/dha-margalla-hero.jpg';
+                const imgObj = (p.images || []).find(i => !i.type || i.type === 'image');
+                const thumb = imgObj ? resolveAdminImg(imgObj.url || imgObj) : '';
                 return `
                     <div class="py-2.5 flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3 min-w-0">
-                            <img src="${resolveAdminImg(img)}" class="w-11 h-9 rounded-lg object-cover bg-slate-100 shrink-0">
+                            <div class="w-11 h-9 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden flex items-center justify-center shrink-0">
+                                ${thumb ? `<img src="${thumb}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-image text-slate-300"></i>`}
+                            </div>
                             <div class="min-w-0">
                                 <div class="font-bold text-slate-800 truncate">${p.title}</div>
                                 <div class="text-[11px] text-slate-400">${p.plotNumber ? p.plotNumber + ' • ' : ''}${p.area || p.city || ''}</div>
@@ -792,28 +868,29 @@
                         </div>
                         <div class="flex items-center gap-3 shrink-0">
                             <span class="font-extrabold text-emerald-700">${fmtPrice(p.price)}</span>
-                            <button onclick="editListing('${p.id}')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-slate-700">Edit</button>
+                            <button onclick="editListing('${p.id}')" class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-300 hover:bg-slate-200 font-bold text-slate-700">Edit</button>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        // ==================== PROJECTS TAB ====================
+        // ==================== PROJECTS ====================
         function renderProjectsGrid() {
             const grid = document.getElementById('projects-grid');
             if (!cachedProjects.length) {
-                grid.innerHTML = '<div class="col-span-full bg-white rounded-2xl border border-slate-200 p-10 text-center text-slate-400 text-xs">No projects yet. Click "Add Project" to create one.</div>';
+                grid.innerHTML = '<div class="col-span-full bg-white rounded-2xl border-2 border-slate-300 p-10 text-center text-slate-400 text-xs">No projects in Firestore yet. Click "Add Project" to create one.</div>';
                 return;
             }
             grid.innerHTML = cachedProjects.map(pr => {
                 const linkedCount = getListingsForProject(pr.id).length;
+                const cover = resolveAdminImg(pr.coverImage);
                 return `
-                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs flex flex-col">
-                        <div class="relative h-44 bg-slate-100">
-                            <img src="${resolveAdminImg(pr.coverImage)}" alt="${pr.name}" class="w-full h-full object-cover" onerror="this.src='../assets/images/dha-margalla-hero.jpg'">
+                    <div class="bg-white rounded-2xl border-2 border-slate-300 overflow-hidden shadow-xs flex flex-col">
+                        <div class="relative h-44 bg-slate-100 border-b border-slate-200 flex items-center justify-center">
+                            ${cover ? `<img src="${cover}" alt="${pr.name}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-city text-4xl text-slate-300"></i>`}
                             <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${pr.status === 'draft' ? 'bg-slate-800 text-white' : 'bg-emerald-600 text-white'}">${pr.status === 'draft' ? 'Draft' : 'Published'}</span>
-                            <span class="absolute bottom-3 right-3 bg-white/95 text-slate-900 text-[11px] font-bold px-2.5 py-1 rounded-lg shadow-xs">${linkedCount} Listing${linkedCount === 1 ? '' : 's'}</span>
+                            <span class="absolute bottom-3 right-3 bg-white/95 border border-slate-300 text-slate-900 text-[11px] font-bold px-2.5 py-1 rounded-lg shadow-xs">${linkedCount} Listing${linkedCount === 1 ? '' : 's'}</span>
                         </div>
                         <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
                             <div>
@@ -821,13 +898,13 @@
                                 <p class="text-xs text-slate-500 mt-0.5">${pr.location || ''}${pr.city ? ' • ' + pr.city : ''}</p>
                                 ${pr.startingPrice ? `<div class="text-xs font-bold text-emerald-700 mt-1.5">From ${pr.startingPrice}</div>` : ''}
                             </div>
-                            <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center gap-1.5 text-xs">
-                                <button onclick="openProjectListingsModal('${pr.id}')" class="flex-1 py-2 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-center">
+                            <div class="pt-3 border-t border-slate-200 flex flex-wrap items-center gap-1.5 text-xs">
+                                <button onclick="openProjectListingsModal('${pr.id}')" class="flex-1 py-2 px-3 rounded-xl bg-emerald-50 border border-emerald-300 hover:bg-emerald-100 text-emerald-800 font-bold text-center">
                                     <i class="fa-solid fa-list-check mr-1"></i> Listings (${linkedCount})
                                 </button>
-                                <button onclick="editProject('${pr.id}')" title="Edit Project" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-pen"></i></button>
-                                <a href="../project-detail.html?slug=${encodeURIComponent(pr.slug || pr.id)}" target="_blank" title="View Public Page" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                                <button onclick="deleteProject('${pr.id}')" title="Delete Project" class="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600"><i class="fa-solid fa-trash"></i></button>
+                                <button onclick="editProject('${pr.id}')" title="Edit" class="p-2 rounded-xl bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-pen"></i></button>
+                                <a href="../project-detail.html?slug=${encodeURIComponent(pr.slug || pr.id)}" target="_blank" title="View Public Page" class="p-2 rounded-xl bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-700"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                <button onclick="deleteProject('${pr.id}')" title="Delete" class="p-2 rounded-xl bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-600"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </div>
                     </div>
@@ -838,42 +915,35 @@
         function openProjectModal(proj = null) {
             document.getElementById('modal-project').classList.remove('hidden');
             document.getElementById('proj-cover-status').classList.add('hidden');
-            if (proj) {
-                document.getElementById('modal-project-title').innerText = 'Edit Project';
-                document.getElementById('proj-id').value = proj.id || '';
-                document.getElementById('proj-name').value = proj.name || '';
-                document.getElementById('proj-city').value = proj.city || 'Islamabad';
-                document.getElementById('proj-location').value = proj.location || '';
-                document.getElementById('proj-price').value = proj.startingPrice || '';
-                document.getElementById('proj-cover').value = proj.coverImage || '';
-                document.getElementById('proj-desc').value = proj.description || '';
-                document.getElementById('proj-status').value = proj.status || 'published';
-                updateProjectCoverPreview(proj.coverImage || '');
-            } else {
-                document.getElementById('modal-project-title').innerText = 'Add New Project';
-                document.getElementById('proj-id').value = '';
-                document.getElementById('proj-name').value = '';
-                document.getElementById('proj-city').value = 'Islamabad';
-                document.getElementById('proj-location').value = '';
-                document.getElementById('proj-price').value = '';
-                document.getElementById('proj-cover').value = '';
-                document.getElementById('proj-desc').value = '';
-                document.getElementById('proj-status').value = 'published';
-                updateProjectCoverPreview('');
-            }
+            document.getElementById('modal-project-title').innerText = proj ? 'Edit Project' : 'Add New Project';
+            document.getElementById('proj-id').value = proj ? (proj.id || '') : '';
+            document.getElementById('proj-name').value = proj ? (proj.name || '') : '';
+            document.getElementById('proj-city').value = proj ? (proj.city || '') : '';
+            document.getElementById('proj-location').value = proj ? (proj.location || '') : '';
+            document.getElementById('proj-price').value = proj ? (proj.startingPrice || '') : '';
+            document.getElementById('proj-emap-url').value = proj ? (proj.emapUrl || '') : '';
+            document.getElementById('proj-cover').value = proj ? (proj.coverImage || '') : '';
+            document.getElementById('proj-desc').value = proj ? (proj.description || '') : '';
+            document.getElementById('proj-status').value = proj ? (proj.status || 'published') : 'published';
+            updateProjectCoverPreview(proj ? (proj.coverImage || '') : '');
         }
 
-        function closeProjectModal() {
-            document.getElementById('modal-project').classList.add('hidden');
-        }
-
-        function editProject(id) {
-            const pr = cachedProjects.find(x => x.id === id);
-            if (pr) openProjectModal(pr);
-        }
+        function closeProjectModal() { document.getElementById('modal-project').classList.add('hidden'); }
+        function editProject(id) { const pr = cachedProjects.find(x => x.id === id); if (pr) openProjectModal(pr); }
 
         function updateProjectCoverPreview(url) {
-            document.getElementById('proj-cover-preview').src = resolveAdminImg(url);
+            const img = document.getElementById('proj-cover-preview');
+            const empty = document.getElementById('proj-cover-empty');
+            const resolved = resolveAdminImg(url);
+            if (resolved) {
+                img.src = resolved;
+                img.classList.remove('hidden');
+                empty.classList.add('hidden');
+            } else {
+                img.src = '';
+                img.classList.add('hidden');
+                empty.classList.remove('hidden');
+            }
         }
 
         async function handleProjectCoverUpload(e) {
@@ -887,7 +957,7 @@
                 if (res && res.url) {
                     document.getElementById('proj-cover').value = res.url;
                     updateProjectCoverPreview(res.url);
-                    status.innerText = 'Cover image uploaded!';
+                    status.innerText = 'Cover uploaded!';
                 }
             } catch (err) {
                 status.innerText = 'Upload failed: ' + err.message;
@@ -906,10 +976,11 @@
                 id: existingId || slug,
                 slug,
                 name,
-                city: document.getElementById('proj-city').value.trim() || 'Islamabad',
+                city: document.getElementById('proj-city').value.trim(),
                 location: document.getElementById('proj-location').value.trim(),
                 startingPrice: document.getElementById('proj-price').value.trim(),
-                coverImage: document.getElementById('proj-cover').value.trim() || 'assets/images/dha-margalla-hero.jpg',
+                emapUrl: document.getElementById('proj-emap-url').value.trim(),
+                coverImage: document.getElementById('proj-cover').value.trim(),
                 description: document.getElementById('proj-desc').value.trim(),
                 status: document.getElementById('proj-status').value
             });
@@ -918,12 +989,12 @@
         }
 
         async function deleteProject(id) {
-            if (!confirm('Delete this project? Listings inside it will stay as standalone listings.')) return;
+            if (!confirm('Delete this project from Firestore?')) return;
             await window.KaghanDB.deleteProject(id);
             await refreshAllData();
         }
 
-        // ==================== ASSIGN LISTINGS TO PROJECT MODAL ====================
+        // ==================== ASSIGN LISTINGS TO PROJECT ====================
         function openProjectListingsModal(projectId) {
             activeManageProjectId = projectId;
             const pr = cachedProjects.find(x => x.id === projectId);
@@ -932,17 +1003,14 @@
             renderProjectListingsChecklist();
             document.getElementById('modal-project-listings').classList.remove('hidden');
         }
-
-        function closeProjectListingsModal() {
-            document.getElementById('modal-project-listings').classList.add('hidden');
-        }
+        function closeProjectListingsModal() { document.getElementById('modal-project-listings').classList.add('hidden'); }
 
         function renderProjectListingsChecklist() {
             const q = (document.getElementById('pl-search').value || '').toLowerCase().trim();
             const box = document.getElementById('pl-checklist');
             const list = cachedListings.filter(p => !q || (p.title || '').toLowerCase().includes(q) || (p.plotNumber || '').toLowerCase().includes(q));
             if (!list.length) {
-                box.innerHTML = '<div class="p-6 text-center text-slate-400">No listings found.</div>';
+                box.innerHTML = '<div class="p-6 text-center text-slate-400">No listings found in Firestore.</div>';
                 return;
             }
             box.innerHTML = list.map(p => {
@@ -975,7 +1043,7 @@
             openListingModal(null, projId);
         }
 
-        // ==================== LISTINGS TAB ====================
+        // ==================== LISTINGS ====================
         function renderListingsTable() {
             const q = (document.getElementById('listings-search').value || '').toLowerCase().trim();
             const projFilter = document.getElementById('listings-project-filter').value;
@@ -991,21 +1059,21 @@
             });
 
             if (!filtered.length) {
-                tbody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-slate-400">No matching listings found.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-slate-400">No matching listings found in Firestore.</td></tr>';
                 return;
             }
 
             tbody.innerHTML = filtered.map(p => {
                 const imgObj = (p.images || []).find(i => !i.type || i.type === 'image');
-                const thumb = imgObj ? (imgObj.url || imgObj) : 'assets/images/dha-margalla-hero.jpg';
+                const thumb = imgObj ? resolveAdminImg(imgObj.url || imgObj) : '';
                 const hasVideo = (p.videos && p.videos.length > 0) || (p.gallery && p.gallery.some(g => g.type === 'video'));
                 const projObj = cachedProjects.find(pr => pr.id === p.projectId || (!p.projectId && pr.id === p.societyId));
                 return `
                     <tr class="hover:bg-slate-50">
                         <td class="p-3.5">
                             <div class="flex items-center gap-3">
-                                <div class="relative w-12 h-10 rounded-lg overflow-hidden bg-slate-100 shrink-0">
-                                    <img src="${resolveAdminImg(thumb)}" class="w-full h-full object-cover" onerror="this.src='../assets/images/dha-margalla-hero.jpg'">
+                                <div class="relative w-12 h-10 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0">
+                                    ${thumb ? `<img src="${thumb}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-image text-slate-300"></i>`}
                                     ${hasVideo ? '<span title="Has YouTube Video" class="absolute bottom-0.5 right-0.5 bg-rose-600 text-white text-[8px] px-1 rounded"><i class="fa-solid fa-play"></i></span>' : ''}
                                 </div>
                                 <div class="min-w-0 max-w-xs">
@@ -1014,20 +1082,14 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="p-3.5">
-                            ${projObj ? `<span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-bold text-[11px]">${projObj.name}</span>` : '<span class="text-slate-400">—</span>'}
-                        </td>
-                        <td class="p-3.5">
-                            ${p.plotNumber ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 font-bold text-[11px]"><i class="fa-solid fa-map-pin text-emerald-600 text-[10px]"></i> ${p.plotNumber}</span>` : '<span class="text-slate-400">Not pinned</span>'}
-                        </td>
+                        <td class="p-3.5">${projObj ? `<span class="px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-[11px]">${projObj.name}</span>` : '<span class="text-slate-400">—</span>'}</td>
+                        <td class="p-3.5">${p.plotNumber ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-100 border border-slate-300 text-slate-800 font-bold text-[11px]"><i class="fa-solid fa-map-pin text-emerald-600 text-[10px]"></i> ${p.plotNumber}</span>` : '<span class="text-slate-400">Not pinned</span>'}</td>
                         <td class="p-3.5 font-extrabold text-slate-900">${fmtPrice(p.price)}</td>
-                        <td class="p-3.5">
-                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${p.status === 'sold' ? 'bg-rose-50 text-rose-700' : p.status === 'draft' ? 'bg-slate-100 text-slate-600' : 'bg-emerald-50 text-emerald-700'}">${p.status || 'published'}</span>
-                        </td>
+                        <td class="p-3.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${p.status === 'sold' ? 'bg-rose-50 text-rose-700' : p.status === 'draft' ? 'bg-slate-100 text-slate-600' : 'bg-emerald-50 text-emerald-700'}">${p.status || 'published'}</span></td>
                         <td class="p-3.5 text-right whitespace-nowrap space-x-1">
-                            <a href="../property.html?slug=${encodeURIComponent(p.slug || p.id)}" target="_blank" title="View" class="inline-block p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <button onclick="editListing('${p.id}')" title="Edit" class="p-2 rounded-lg bg-slate-100 hover:bg-emerald-100 text-slate-700 hover:text-emerald-800"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="deleteListing('${p.id}')" title="Delete" class="p-2 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600"><i class="fa-solid fa-trash"></i></button>
+                            <a href="../property.html?slug=${encodeURIComponent(p.slug || p.id)}" target="_blank" title="View" class="inline-block p-2 rounded-lg bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-600"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            <button onclick="editListing('${p.id}')" title="Edit" class="p-2 rounded-lg bg-slate-100 border border-slate-300 hover:bg-emerald-100 text-slate-700"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteListing('${p.id}')" title="Delete" class="p-2 rounded-lg bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-600"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -1039,36 +1101,37 @@
             document.getElementById('modal-listing').classList.remove('hidden');
             document.getElementById('gallery-upload-status').classList.add('hidden');
 
+            const presetProj = cachedProjects.find(pr => pr.id === presetProjectId);
+            document.getElementById('modal-listing-title').innerText = prop ? 'Edit Listing' : 'Add New Listing';
+            document.getElementById('list-id').value = prop ? (prop.id || '') : '';
+            document.getElementById('list-title').value = prop ? (prop.title || '') : '';
+            document.getElementById('list-project').value = prop ? (prop.projectId || prop.societyId || '') : (presetProjectId || '');
+            document.getElementById('list-type').value = prop ? (prop.type || 'residential_plot') : 'residential_plot';
+            document.getElementById('list-price').value = prop ? (prop.price || '') : '';
+            document.getElementById('list-size').value = prop ? (prop.size || '') : '';
+            document.getElementById('list-sizeunit').value = prop ? (prop.sizeUnit || 'Marla') : 'Marla';
+            document.getElementById('list-area').value = prop ? (prop.area || '') : (presetProj ? presetProj.name : '');
+            document.getElementById('list-city').value = prop ? (prop.city || '') : (presetProj ? (presetProj.city || '') : '');
+            document.getElementById('list-status').value = prop ? (prop.status || 'published') : 'published';
+            document.getElementById('list-desc').value = prop ? (prop.description || '').replace(/<[^>]+>/g, '') : '';
+
+            document.getElementById('list-plot-no').value = prop ? (prop.plotNumber || '') : '';
+            document.getElementById('list-plot-dim').value = prop ? (prop.plotDimensions || '') : '';
+            document.getElementById('list-plot-street').value = prop ? (prop.plotStreet || '') : '';
+            document.getElementById('list-plot-sector').value = prop ? (prop.plotSector || prop.sector || '') : '';
+
+            const lat = prop ? (prop.lat || (prop.coords && prop.coords[0]) || '') : '';
+            const lng = prop ? (prop.lng || (prop.coords && prop.coords[1]) || '') : '';
+            document.getElementById('list-lat').value = lat ? Number(lat).toFixed(6) : '';
+            document.getElementById('list-lng').value = lng ? Number(lng).toFixed(6) : '';
+
+            document.getElementById('list-lumpsum').value = prop ? (prop.lumpSumPrice || '') : '';
+            document.getElementById('list-dp').value = prop ? (prop.downPaymentAmount || '') : '';
+            document.getElementById('list-qtr').value = prop ? (prop.quarterlyAmount || '') : '';
+            document.getElementById('list-fee').value = prop ? (prop.processingFee || '') : '';
+
+            currentGallery = [];
             if (prop) {
-                document.getElementById('modal-listing-title').innerText = 'Edit Listing';
-                document.getElementById('list-id').value = prop.id || '';
-                document.getElementById('list-title').value = prop.title || '';
-                document.getElementById('list-project').value = prop.projectId || prop.societyId || '';
-                document.getElementById('list-type').value = prop.type || 'residential_plot';
-                document.getElementById('list-price').value = prop.price || '';
-                document.getElementById('list-size').value = prop.size || '';
-                document.getElementById('list-sizeunit').value = prop.sizeUnit || 'Marla';
-                document.getElementById('list-area').value = prop.area || '';
-                document.getElementById('list-city').value = prop.city || 'Islamabad';
-                document.getElementById('list-status').value = prop.status || 'published';
-                document.getElementById('list-desc').value = (prop.description || '').replace(/<[^>]+>/g, '');
-
-                document.getElementById('list-plot-no').value = prop.plotNumber || '';
-                document.getElementById('list-plot-dim').value = prop.plotDimensions || '';
-                document.getElementById('list-plot-street').value = prop.plotStreet || '';
-                document.getElementById('list-plot-sector').value = prop.plotSector || prop.sector || '';
-                const lat = prop.lat || (prop.coords && prop.coords[0]) || '';
-                const lng = prop.lng || (prop.coords && prop.coords[1]) || '';
-                document.getElementById('list-lat').value = lat ? Number(lat).toFixed(6) : '';
-                document.getElementById('list-lng').value = lng ? Number(lng).toFixed(6) : '';
-
-                document.getElementById('list-lumpsum').value = prop.lumpSumPrice || '';
-                document.getElementById('list-dp').value = prop.downPaymentAmount || '';
-                document.getElementById('list-qtr').value = prop.quarterlyAmount || '';
-                document.getElementById('list-fee').value = prop.processingFee || '';
-
-                // Build unified gallery (photos + YouTube videos)
-                currentGallery = [];
                 if (Array.isArray(prop.gallery) && prop.gallery.length > 0) {
                     currentGallery = prop.gallery.map(item => ({ ...item }));
                 } else {
@@ -1078,85 +1141,37 @@
                     });
                     (prop.videos || []).forEach(v => {
                         const vid = v.videoId || extractYouTubeId(v.url);
-                        if (vid) {
-                            currentGallery.push({
-                                type: 'video',
-                                videoId: vid,
-                                url: v.url || `https://www.youtube.com/watch?v=${vid}`,
-                                thumbnail: `https://img.youtube.com/vi/${vid}/hqdefault.jpg`
-                            });
-                        }
+                        if (vid) currentGallery.push({ type: 'video', videoId: vid, url: v.url || `https://www.youtube.com/watch?v=${vid}`, thumbnail: `https://img.youtube.com/vi/${vid}/hqdefault.jpg` });
                     });
                 }
-                renderListingGallery();
-                initAdminPlotPickerMap(lat || 33.7001, lng || 73.1810);
-            } else {
-                document.getElementById('modal-listing-title').innerText = 'Add New Listing';
-                document.getElementById('list-id').value = '';
-                document.getElementById('list-title').value = '';
-                document.getElementById('list-project').value = presetProjectId || '';
-                const presetProj = cachedProjects.find(pr => pr.id === presetProjectId);
-                document.getElementById('list-type').value = 'residential_plot';
-                document.getElementById('list-price').value = '';
-                document.getElementById('list-size').value = '5';
-                document.getElementById('list-sizeunit').value = 'Marla';
-                document.getElementById('list-area').value = presetProj ? presetProj.name : 'DHA Margalla Enclave';
-                document.getElementById('list-city').value = presetProj ? (presetProj.city || 'Islamabad') : 'Islamabad';
-                document.getElementById('list-status').value = 'published';
-                document.getElementById('list-desc').value = '';
-
-                document.getElementById('list-plot-no').value = '';
-                document.getElementById('list-plot-dim').value = '';
-                document.getElementById('list-plot-street').value = '';
-                document.getElementById('list-plot-sector').value = '';
-                document.getElementById('list-lat').value = '33.700100';
-                document.getElementById('list-lng').value = '73.181000';
-
-                document.getElementById('list-lumpsum').value = '';
-                document.getElementById('list-dp').value = '';
-                document.getElementById('list-qtr').value = '';
-                document.getElementById('list-fee').value = '';
-
-                currentGallery = [];
-                renderListingGallery();
-                initAdminPlotPickerMap(33.7001, 73.1810);
             }
+            renderListingGallery();
+            initAdminPlotPickerMap(lat || 33.7001, lng || 73.1810);
         }
 
-        function closeListingModal() {
-            document.getElementById('modal-listing').classList.add('hidden');
-        }
-
-        function editListing(id) {
-            const p = cachedListings.find(x => x.id === id);
-            if (p) openListingModal(p);
-        }
+        function closeListingModal() { document.getElementById('modal-listing').classList.add('hidden'); }
+        function editListing(id) { const p = cachedListings.find(x => x.id === id); if (p) openListingModal(p); }
 
         async function deleteListing(id) {
-            if (!confirm('Delete this listing?')) return;
+            if (!confirm('Delete this listing from Firestore?')) return;
             await window.KaghanDB.deleteProperty(id);
             await refreshAllData();
         }
 
-        // ==================== GALLERY: PHOTOS + YOUTUBE VIDEOS ====================
+        // ==================== GALLERY ====================
         async function handleGalleryPhotoUpload(e) {
             const files = e.target.files;
             if (!files || !files.length) return;
             const status = document.getElementById('gallery-upload-status');
             status.classList.remove('hidden');
-
             for (let i = 0; i < files.length; i++) {
                 status.innerText = `Uploading photo ${i + 1} of ${files.length}...`;
                 try {
                     const res = await window.CloudinaryService.uploadImage(files[i]);
-                    if (res && res.url) {
-                        currentGallery.push({ type: 'image', url: res.url, isPrimary: !currentGallery.some(g => g.type === 'image') });
-                    }
-                } catch (err) {
-                    alert('Upload failed: ' + err.message);
-                }
+                    if (res && res.url) currentGallery.push({ type: 'image', url: res.url, isPrimary: !currentGallery.some(g => g.type === 'image') });
+                } catch (err) { alert('Upload failed: ' + err.message); }
             }
-            status.innerText = 'Photos uploaded!';
+            status.innerText = 'Uploaded!';
             setTimeout(() => status.classList.add('hidden'), 2000);
             e.target.value = '';
             renderListingGallery();
@@ -1173,12 +1188,8 @@
 
         function addGalleryYouTubeVideo() {
             const input = document.getElementById('gallery-youtube-url');
-            const raw = input.value.trim();
-            const videoId = extractYouTubeId(raw);
-            if (!videoId) {
-                alert('Please paste a valid YouTube video URL (e.g. https://www.youtube.com/watch?v=... or https://youtu.be/...).');
-                return;
-            }
+            const videoId = extractYouTubeId(input.value.trim());
+            if (!videoId) { alert('Please paste a valid YouTube video URL.'); return; }
             currentGallery.push({
                 type: 'video',
                 videoId,
@@ -1189,17 +1200,11 @@
             renderListingGallery();
         }
 
-        function removeGalleryItem(idx) {
-            currentGallery.splice(idx, 1);
-            renderListingGallery();
-        }
-
+        function removeGalleryItem(idx) { currentGallery.splice(idx, 1); renderListingGallery(); }
         function moveGalleryItem(idx, dir) {
-            const target = idx + dir;
-            if (target < 0 || target >= currentGallery.length) return;
-            const tmp = currentGallery[idx];
-            currentGallery[idx] = currentGallery[target];
-            currentGallery[target] = tmp;
+            const t = idx + dir;
+            if (t < 0 || t >= currentGallery.length) return;
+            [currentGallery[idx], currentGallery[t]] = [currentGallery[t], currentGallery[idx]];
             renderListingGallery();
         }
 
@@ -1213,7 +1218,7 @@
                 const isVideo = item.type === 'video';
                 const thumb = isVideo ? item.thumbnail : resolveAdminImg(item.url);
                 return `
-                    <div class="relative group rounded-xl overflow-hidden border border-slate-200 bg-slate-100 aspect-[4/3]">
+                    <div class="relative group rounded-xl overflow-hidden border border-slate-300 bg-slate-100 aspect-[4/3]">
                         <img src="${thumb}" class="w-full h-full object-cover">
                         ${isVideo ? '<span class="absolute top-1.5 left-1.5 bg-rose-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1"><i class="fa-brands fa-youtube"></i> Video</span>' : (idx === 0 ? '<span class="absolute top-1.5 left-1.5 bg-emerald-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">Main</span>' : '')}
                         <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
@@ -1229,25 +1234,20 @@
         async function saveListingForm(e) {
             e.preventDefault();
             const existingId = document.getElementById('list-id').value.trim();
+            const existingProp = cachedListings.find(x => x.id === existingId) || {};
             const title = document.getElementById('list-title').value.trim();
-            const slug = existingId || (title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString().slice(-4));
+            const slug = existingProp.slug || existingId || (title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString().slice(-4));
             const projectId = document.getElementById('list-project').value;
             const lat = parseFloat(document.getElementById('list-lat').value) || null;
             const lng = parseFloat(document.getElementById('list-lng').value) || null;
 
-            const images = currentGallery
-                .filter(g => g.type === 'image')
-                .map((g, i) => ({ url: g.url, isPrimary: i === 0 }));
-            const videos = currentGallery
-                .filter(g => g.type === 'video')
-                .map(g => ({ platform: 'youtube', videoId: g.videoId, url: g.url, thumbnail: g.thumbnail }));
+            const images = currentGallery.filter(g => g.type === 'image').map((g, i) => ({ url: g.url, isPrimary: i === 0 }));
+            const videos = currentGallery.filter(g => g.type === 'video').map(g => ({ platform: 'youtube', videoId: g.videoId, url: g.url, thumbnail: g.thumbnail }));
 
-            const existingProp = cachedListings.find(x => x.id === existingId) || {};
-
-            const propObj = {
+            await window.KaghanDB.saveProperty({
                 ...existingProp,
                 id: existingId || slug,
-                slug: existingProp.slug || slug,
+                slug,
                 title,
                 projectId,
                 societyId: projectId || '',
@@ -1257,7 +1257,7 @@
                 size: parseFloat(document.getElementById('list-size').value) || 0,
                 sizeUnit: document.getElementById('list-sizeunit').value,
                 area: document.getElementById('list-area').value.trim(),
-                city: document.getElementById('list-city').value.trim() || 'Islamabad',
+                city: document.getElementById('list-city').value.trim(),
                 sector: document.getElementById('list-plot-sector').value.trim(),
                 status: document.getElementById('list-status').value,
                 description: document.getElementById('list-desc').value.trim(),
@@ -1273,24 +1273,16 @@
                 quarterlyAmount: parseFloat(document.getElementById('list-qtr').value) || 0,
                 processingFee: parseFloat(document.getElementById('list-fee').value) || 0,
                 gallery: currentGallery,
-                images: images.length ? images : [{ url: 'assets/images/dha-margalla-hero.jpg', isPrimary: true }],
+                images,
                 videos,
                 isVerified: true
-            };
-
-            await window.KaghanDB.saveProperty(propObj);
+            });
             closeListingModal();
             await refreshAllData();
         }
 
         // ==================== ADMIN PLOT PICKER MAP ====================
-        let adminPlotMap = null;
-        let adminPlotMarker = null;
-        let adminSatLayer = null;
-        let adminStrLayer = null;
-        let adminCadOverlay = null;
-        let adminEmapOpen = false;
-        const ADMIN_MARGALLA_BOUNDS = [[33.68592, 73.16362], [33.71606, 73.19890]];
+        let adminPlotMap = null, adminPlotMarker = null, adminSatLayer = null, adminStrLayer = null, adminCadOverlay = null;
 
         function initAdminPlotPickerMap(lat, lng) {
             const el = document.getElementById('admin-plot-picker-map');
@@ -1303,35 +1295,18 @@
                 adminSatLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', { maxNativeZoom: 20, maxZoom: 21 }).addTo(adminPlotMap);
                 adminStrLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', { maxNativeZoom: 20, maxZoom: 21 });
 
-                // Crisp SVG vector society boundary (zero blurry screenshot)
-                L.polygon([
-                    [33.6882, 73.1652], [33.6960, 73.1655], [33.7038, 73.1672],
-                    [33.7052, 73.1715], [33.7155, 73.1938], [33.7120, 73.1960],
-                    [33.7042, 73.1912], [33.6960, 73.1978], [33.6905, 73.1945],
-                    [33.6870, 73.1845], [33.6865, 73.1725]
-                ], { color: '#10b981', weight: 2, dashArray: '6 5', fillColor: '#10b981', fillOpacity: 0.06, interactive: false }).addTo(adminPlotMap);
-
-                if (window.KaghanDB && window.KaghanDB.getSiteSettings) {
-                    window.KaghanDB.getSiteSettings().then(st => {
-                        const cfg = st && st.cadOverlay;
-                        if (!cfg || !adminPlotMap) return;
-                        if (cfg.tileUrl && cfg.tileUrl.trim()) {
-                            if (adminCadOverlay) adminPlotMap.removeLayer(adminCadOverlay);
-                            adminCadOverlay = L.tileLayer(cfg.tileUrl.trim(), { opacity: 0.75, maxNativeZoom: 20, maxZoom: 21 }).addTo(adminPlotMap);
-                        } else if (cfg.imageUrl && cfg.imageUrl.trim()) {
-                            if (adminCadOverlay) adminPlotMap.removeLayer(adminCadOverlay);
-                            adminCadOverlay = L.imageOverlay(cfg.imageUrl.trim(), ADMIN_MARGALLA_BOUNDS, { opacity: 0.75, interactive: false }).addTo(adminPlotMap);
-                        }
-                    }).catch(() => {});
+                const cfg = cachedSettings && cachedSettings.cadOverlay;
+                if (cfg && cfg.tileUrl) {
+                    adminCadOverlay = L.tileLayer(cfg.tileUrl, { opacity: 0.75, maxNativeZoom: 20, maxZoom: 21 }).addTo(adminPlotMap);
+                } else if (cfg && cfg.imageUrl) {
+                    adminCadOverlay = L.imageOverlay(cfg.imageUrl, [[33.68592, 73.16362], [33.71606, 73.19890]], { opacity: 0.75, interactive: false }).addTo(adminPlotMap);
                 }
 
                 const pinIcon = L.divIcon({
                     className: 'admin-pin',
                     html: '<div style="width:30px;height:30px;border-radius:50%;background:#059669;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;color:#fff;"><i class="fa-solid fa-map-pin" style="font-size:13px;"></i></div>',
-                    iconSize: [30, 30],
-                    iconAnchor: [15, 15]
+                    iconSize: [30, 30], iconAnchor: [15, 15]
                 });
-
                 adminPlotMarker = L.marker([cLat, cLng], { draggable: true, icon: pinIcon }).addTo(adminPlotMap);
                 adminPlotMarker.on('dragend', e => {
                     const p = e.target.getLatLng();
@@ -1347,28 +1322,7 @@
                 adminPlotMap.setView([cLat, cLng], 16);
                 adminPlotMarker.setLatLng([cLat, cLng]);
             }
-
-            if (adminEmapOpen) toggleAdminEmapRef();
             setTimeout(() => adminPlotMap && adminPlotMap.invalidateSize(), 250);
-        }
-
-        function setAdminPlotCoords(lat, lng, plotNo, street, sector, dim) {
-            if (plotNo) document.getElementById('list-plot-no').value = plotNo;
-            if (street) document.getElementById('list-plot-street').value = street;
-            if (sector) document.getElementById('list-plot-sector').value = sector;
-            if (dim) document.getElementById('list-plot-dim').value = dim;
-            document.getElementById('list-lat').value = Number(lat).toFixed(6);
-            document.getElementById('list-lng').value = Number(lng).toFixed(6);
-            if (adminPlotMap && adminPlotMarker) {
-                adminPlotMarker.setLatLng([lat, lng]);
-                adminPlotMap.flyTo([lat, lng], 17, { duration: 0.6 });
-            }
-        }
-
-        function setAdminCadOpacity(v) {
-            const val = parseInt(v, 10);
-            if (adminCadOverlay) adminCadOverlay.setOpacity(val / 100);
-            document.getElementById('admin-cad-opacity-val').innerText = val + '%';
         }
 
         function setAdminMapLayer(type) {
@@ -1379,42 +1333,24 @@
                 if (adminPlotMap.hasLayer(adminStrLayer)) adminPlotMap.removeLayer(adminStrLayer);
                 if (!adminPlotMap.hasLayer(adminSatLayer)) adminSatLayer.addTo(adminPlotMap);
                 bSat.className = 'px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-bold text-[10px]';
-                bStr.className = 'px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-bold text-[10px]';
+                bStr.className = 'px-2.5 py-1 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold text-[10px]';
             } else {
                 if (adminPlotMap.hasLayer(adminSatLayer)) adminPlotMap.removeLayer(adminSatLayer);
                 if (!adminPlotMap.hasLayer(adminStrLayer)) adminStrLayer.addTo(adminPlotMap);
                 bStr.className = 'px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-bold text-[10px]';
-                bSat.className = 'px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-bold text-[10px]';
+                bSat.className = 'px-2.5 py-1 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold text-[10px]';
             }
-            if (adminCadOverlay) adminCadOverlay.bringToFront();
+            if (adminCadOverlay && adminCadOverlay.bringToFront) adminCadOverlay.bringToFront();
         }
 
-        function toggleAdminEmapRef() {
-            const mapEl = document.getElementById('admin-plot-picker-map');
-            const frame = document.getElementById('admin-emap-ref-frame');
-            const btn = document.getElementById('admin-emap-btn');
-            adminEmapOpen = !adminEmapOpen;
-            if (adminEmapOpen) {
-                if (!frame.src || !frame.src.includes('emap.pk')) frame.src = 'https://emap.pk/margalla-enclave-islamabad-map';
-                mapEl.classList.add('hidden');
-                frame.classList.remove('hidden');
-                btn.innerText = 'Back to Pin Map';
-            } else {
-                frame.classList.add('hidden');
-                mapEl.classList.remove('hidden');
-                btn.innerText = 'Live Emap Ref';
-                if (adminPlotMap) setTimeout(() => adminPlotMap.invalidateSize(), 150);
-            }
-        }
-
-        // ==================== LEADS TAB ====================
+        // ==================== LEADS ====================
         function renderLeadsTable() {
             const filter = document.getElementById('leads-filter-status').value;
             const tbody = document.getElementById('leads-table-body');
             const list = filter === 'all' ? cachedLeads : cachedLeads.filter(l => l.status === filter);
 
             if (!list.length) {
-                tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-400">No inquiries yet.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-400">No inquiries in Firestore yet.</td></tr>';
                 return;
             }
             tbody.innerHTML = list.map(l => {
@@ -1428,14 +1364,15 @@
                         <td class="p-3.5 font-semibold text-slate-700">${l.propertyTitle || 'General'}</td>
                         <td class="p-3.5 text-slate-500 max-w-xs truncate">${l.message || '—'}</td>
                         <td class="p-3.5">
-                            <select onchange="changeLeadStatus('${l.id}', this.value)" class="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700">
+                            <select onchange="changeLeadStatus('${l.id}', this.value)" class="bg-slate-50 border border-slate-300 rounded-lg px-2 py-1 font-bold text-slate-700">
                                 <option value="new" ${l.status === 'new' ? 'selected' : ''}>New</option>
                                 <option value="contacted" ${l.status === 'contacted' ? 'selected' : ''}>Contacted</option>
                                 <option value="closed" ${l.status === 'closed' ? 'selected' : ''}>Closed</option>
                             </select>
                         </td>
-                        <td class="p-3.5 text-right">
-                            ${waNum ? `<a href="https://wa.me/${waNum}" target="_blank" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-bold transition-colors"><i class="fa-brands fa-whatsapp"></i> Reply</a>` : '—'}
+                        <td class="p-3.5 text-right whitespace-nowrap space-x-1">
+                            ${waNum ? `<a href="https://wa.me/${waNum}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 hover:bg-emerald-600 text-emerald-700 hover:text-white font-bold transition-colors"><i class="fa-brands fa-whatsapp"></i> Reply</a>` : ''}
+                            <button onclick="deleteLead('${l.id}')" title="Delete Lead" class="p-1.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-600 hover:bg-rose-100"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -1446,41 +1383,131 @@
             await window.KaghanDB.updateLeadStatus(id, status);
             await refreshAllData();
         }
+        async function deleteLead(id) {
+            if (!confirm('Delete this lead from Firestore?')) return;
+            await window.KaghanDB.deleteLead(id);
+            await refreshAllData();
+        }
+
+        // ==================== SITE CONTENT & SEO TAB ====================
+        function populateContentForm(c) {
+            const hero = c.hero || {};
+            const seo = c.seoGuide || {};
+            const about = c.about || {};
+            document.getElementById('cnt-hero-badge').value = hero.badge || '';
+            document.getElementById('cnt-meta-title').value = hero.metaTitle || '';
+            document.getElementById('cnt-hero-title').value = hero.title || '';
+            document.getElementById('cnt-hero-subtitle').value = hero.subtitle || '';
+            document.getElementById('cnt-seo-eyebrow').value = seo.eyebrow || '';
+            document.getElementById('cnt-seo-heading').value = seo.heading || '';
+            document.getElementById('cnt-seo-body').value = seo.body || '';
+            document.getElementById('cnt-about-title').value = about.title || '';
+            document.getElementById('cnt-about-img').value = about.imageUrl || '';
+            document.getElementById('cnt-about-bio').value = about.bio || '';
+
+            const faqBox = document.getElementById('cnt-faqs-list');
+            faqBox.innerHTML = '';
+            const faqs = Array.isArray(c.faqs) ? c.faqs : [];
+            faqs.forEach(f => addFaqRow(f.question, f.answer));
+        }
+
+        function addFaqRow(q = '', a = '') {
+            const box = document.getElementById('cnt-faqs-list');
+            const row = document.createElement('div');
+            row.className = 'faq-editor-row bg-slate-50 border border-slate-300 rounded-xl p-3 space-y-2';
+            row.innerHTML = `
+                <div class="flex gap-2">
+                    <input type="text" class="faq-q flex-1 bg-white border border-slate-300 rounded-lg px-3 py-2 font-bold" placeholder="Question" value="${String(q).replace(/"/g, '&quot;')}">
+                    <button type="button" onclick="this.closest('.faq-editor-row').remove()" class="px-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-600"><i class="fa-solid fa-trash"></i></button>
+                </div>
+                <textarea class="faq-a w-full bg-white border border-slate-300 rounded-lg px-3 py-2" rows="2" placeholder="Answer">${String(a).replace(/</g, '&lt;')}</textarea>
+            `;
+            box.appendChild(row);
+        }
+
+        async function saveSiteContentForm(e) {
+            e.preventDefault();
+            const faqs = Array.from(document.querySelectorAll('.faq-editor-row')).map(row => ({
+                question: row.querySelector('.faq-q').value.trim(),
+                answer: row.querySelector('.faq-a').value.trim()
+            })).filter(f => f.question && f.answer);
+
+            await window.KaghanDB.saveSiteContent({
+                hero: {
+                    badge: document.getElementById('cnt-hero-badge').value.trim(),
+                    metaTitle: document.getElementById('cnt-meta-title').value.trim(),
+                    title: document.getElementById('cnt-hero-title').value.trim(),
+                    subtitle: document.getElementById('cnt-hero-subtitle').value.trim()
+                },
+                seoGuide: {
+                    eyebrow: document.getElementById('cnt-seo-eyebrow').value.trim(),
+                    heading: document.getElementById('cnt-seo-heading').value.trim(),
+                    body: document.getElementById('cnt-seo-body').value.trim()
+                },
+                faqs,
+                about: {
+                    title: document.getElementById('cnt-about-title').value.trim(),
+                    imageUrl: document.getElementById('cnt-about-img').value.trim(),
+                    bio: document.getElementById('cnt-about-bio').value.trim()
+                }
+            });
+            const msg = document.getElementById('content-saved-msg');
+            msg.classList.remove('hidden');
+            setTimeout(() => msg.classList.add('hidden'), 2500);
+        }
 
         // ==================== SETTINGS TAB ====================
-        async function handleCadImageUpload(e) {
+        function populateSettingsForm(s) {
+            document.getElementById('set-sitename').value = s.siteName || '';
+            document.getElementById('set-header-badge').value = s.headerBadge || '';
+            document.getElementById('set-phone').value = (s.contact && s.contact.phone) || '';
+            document.getElementById('set-email').value = (s.contact && s.contact.email) || '';
+            document.getElementById('set-address').value = (s.contact && s.contact.address) || '';
+            document.getElementById('set-footer-bio').value = s.footerBio || '';
+            document.getElementById('set-currency').value = s.defaultCurrency || 'PKR';
+            document.getElementById('set-emap-url').value = (s.mapConfig && s.mapConfig.emapUrl) || '';
+            document.getElementById('set-cad-image').value = (s.cadOverlay && s.cadOverlay.imageUrl) || '';
+            document.getElementById('set-cad-tiles').value = (s.cadOverlay && s.cadOverlay.tileUrl) || '';
+        }
+
+        async function uploadSingleToInput(e, inputId, statusId) {
             const file = e.target.files && e.target.files[0];
             if (!file) return;
-            const st = document.getElementById('cad-upload-status');
-            st.classList.remove('hidden');
-            st.innerText = 'Uploading high-res CAD overlay...';
+            const st = statusId ? document.getElementById(statusId) : null;
+            if (st) { st.classList.remove('hidden'); st.innerText = 'Uploading...'; }
             try {
                 const res = await window.CloudinaryService.uploadImage(file);
                 if (res && res.url) {
-                    document.getElementById('set-cad-image').value = res.url;
-                    st.innerText = 'Uploaded! Click "Save Settings" to apply.';
+                    document.getElementById(inputId).value = res.url;
+                    if (st) st.innerText = 'Uploaded! Save Settings to apply.';
                 }
             } catch (err) {
-                st.innerText = 'Upload failed: ' + err.message;
+                if (st) st.innerText = 'Upload failed: ' + err.message;
+                else alert('Upload failed: ' + err.message);
             }
             e.target.value = '';
         }
 
         async function saveSimpleSettings(e) {
             e.preventDefault();
-            const phone = document.getElementById('set-phone').value.trim();
-            const email = document.getElementById('set-email').value.trim();
-            const address = document.getElementById('set-address').value.trim();
             const defaultCurrency = document.getElementById('set-currency').value;
-            const cadImageUrl = (document.getElementById('set-cad-image')?.value || '').trim();
-            const cadTileUrl = (document.getElementById('set-cad-tiles')?.value || '').trim();
             localStorage.setItem('kaghan_currency', defaultCurrency);
             await window.KaghanDB.saveSiteSettings({
-                contact: { phone, email, address },
+                siteName: document.getElementById('set-sitename').value.trim(),
+                headerBadge: document.getElementById('set-header-badge').value.trim(),
+                footerBio: document.getElementById('set-footer-bio').value.trim(),
+                contact: {
+                    phone: document.getElementById('set-phone').value.trim(),
+                    email: document.getElementById('set-email').value.trim(),
+                    address: document.getElementById('set-address').value.trim()
+                },
                 defaultCurrency,
+                mapConfig: {
+                    emapUrl: document.getElementById('set-emap-url').value.trim()
+                },
                 cadOverlay: {
-                    imageUrl: cadImageUrl,
-                    tileUrl: cadTileUrl
+                    imageUrl: document.getElementById('set-cad-image').value.trim(),
+                    tileUrl: document.getElementById('set-cad-tiles').value.trim()
                 }
             });
             const msg = document.getElementById('settings-saved-msg');

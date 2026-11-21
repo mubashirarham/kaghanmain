@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Plot Details | Kaghan Properties</title>
-    <meta id="page-meta-desc" name="description" content="Verified plot specs, pinned location on interactive CAD & satellite map, and direct contact.">
+    <title id="page-title">Property Details | Kaghan Properties</title>
+    <meta id="page-meta-desc" name="description" content="Verified property specifications, photo & video gallery, and pinned plot map.">
     <meta name="theme-color" content="#077943">
     <link rel="canonical" href="https://kaghanproperties.com/property.html">
 
@@ -35,13 +35,12 @@
     <div id="site-header"></div>
 
     <main class="market-container py-6 flex-1 space-y-6">
-        <!-- Breadcrumb -->
-        <nav class="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+        <nav class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
             <a href="index.html" class="hover:text-emerald-700">Home</a>
             <i class="fa-solid fa-chevron-right text-[8px]"></i>
             <a href="projects.html" class="hover:text-emerald-700">Listings</a>
-            <i class="fa-solid fa-chevron-right text-[8px]"></i>
-            <a id="crumb-society" href="project-detail.html?slug=dha-margalla-enclave" class="text-slate-700 hover:text-emerald-700 font-semibold">DHA Margalla Enclave</a>
+            <i id="crumb-sep" class="hidden fa-solid fa-chevron-right text-[8px]"></i>
+            <a id="crumb-society" href="projects.html" class="hidden text-slate-800 hover:text-emerald-700 font-semibold"></a>
         </nav>
 
         <!-- Title Row -->
@@ -49,7 +48,7 @@
             <div class="space-y-1">
                 <div class="flex items-center gap-2 flex-wrap">
                     <span id="detail-plot-pill" class="hidden bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1"></span>
-                    <span id="detail-cat-pill" class="bg-slate-100 border border-slate-300 text-slate-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full">Verified</span>
+                    <span id="detail-cat-pill" class="bg-slate-100 border border-slate-300 text-slate-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full">Listing</span>
                 </div>
                 <h1 id="detail-h1" class="text-2xl sm:text-3xl font-extrabold outfit text-slate-900">Loading listing...</h1>
                 <p id="detail-address" class="text-xs text-slate-500 font-medium flex items-center gap-1.5"></p>
@@ -65,14 +64,14 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <!-- Left 8 Cols -->
             <div class="lg:col-span-8 space-y-6">
-                <!-- Gallery (Photos + Embedded YouTube Videos) -->
+                <!-- Unified Photos + YouTube Video Gallery -->
                 <div class="bg-white p-3.5 rounded-2xl border-2 border-slate-300 shadow-xs space-y-3">
-                    <div id="gallery-main-stage" class="relative h-[300px] sm:h-[420px] rounded-xl overflow-hidden cursor-pointer bg-slate-900 border border-slate-300" onclick="handleMainStageClick()">
-                        <img id="gallery-main-photo" src="assets/images/dha-margalla-hero.jpg" alt="Property Photo" class="w-full h-full object-cover">
+                    <div id="gallery-main-stage" class="relative h-[300px] sm:h-[420px] rounded-xl overflow-hidden cursor-pointer bg-slate-900 border border-slate-300 flex items-center justify-center" onclick="handleMainStageClick()">
+                        <img id="gallery-main-photo" src="" alt="Property Photo" class="hidden w-full h-full object-cover">
+                        <i id="gallery-empty-icon" class="fa-solid fa-image text-5xl text-slate-700"></i>
                         <iframe id="gallery-main-video" src="" title="Property Video Tour" class="hidden w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                        <span id="gallery-photo-count" class="absolute bottom-3 left-3 bg-slate-900/80 text-white text-xs font-bold px-3 py-1 rounded-lg pointer-events-none">1 Photo</span>
+                        <span id="gallery-photo-count" class="hidden absolute bottom-3 left-3 bg-slate-900/80 text-white text-xs font-bold px-3 py-1 rounded-lg pointer-events-none"></span>
                     </div>
                     <div id="gallery-filmstrip" class="filmstrip-container"></div>
                 </div>
@@ -97,25 +96,25 @@
                     </div>
                 </div>
 
-                <!-- PINNED PLOT MAP & LIVE EMAP (VISIBLE DIRECTLY ON PAGE) -->
+                <!-- Pinned Plot Map -->
                 <section id="plot-map-section" class="space-y-2.5 scroll-mt-28">
                     <div class="flex items-center justify-between pb-2 border-b-2 border-slate-200">
                         <h2 class="text-lg font-extrabold outfit text-slate-900 flex items-center gap-2">
-                            <i class="fa-solid fa-map-pin text-emerald-600"></i> Pinned Plot Location &amp; Emap
+                            <i class="fa-solid fa-map-pin text-emerald-600"></i> Pinned Plot Location
                         </h2>
                         <span id="plot-coords-label" class="text-[11px] font-mono text-slate-500"></span>
                     </div>
                     <div id="property-plot-map-root"></div>
                 </section>
 
-                <!-- Clean Details & Description -->
+                <!-- Specifications & Description -->
                 <section class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-xs space-y-5">
                     <div>
                         <h2 class="text-base font-extrabold outfit text-slate-900 border-b-2 border-slate-200 pb-2 mb-3">Specifications</h2>
                         <div id="property-details-list" class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-xs"></div>
                     </div>
 
-                    <div>
+                    <div id="desc-wrap">
                         <h2 class="text-base font-extrabold outfit text-slate-900 border-b-2 border-slate-200 pb-2 mb-2">Overview</h2>
                         <div id="property-description" class="text-xs sm:text-sm leading-relaxed text-slate-600 space-y-2"></div>
                     </div>
@@ -127,20 +126,20 @@
                 </section>
             </div>
 
-            <!-- Right 4 Cols: Compact Sticky Contact Card -->
+            <!-- Right 4 Cols Sticky Contact Card -->
             <aside class="lg:col-span-4 lg:sticky lg:top-[112px]">
                 <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm space-y-4">
                     <div class="border-b-2 border-slate-200 pb-4">
                         <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Price</span>
-                        <div id="rail-price" class="text-3xl font-extrabold outfit text-emerald-800">PKR —</div>
+                        <div id="rail-price" class="text-3xl font-extrabold outfit text-emerald-800">—</div>
                         <div id="rail-lumpsum" class="text-xs text-slate-500 font-medium mt-0.5"></div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
-                        <a id="rail-call-btn" href="tel:+923340091127" class="py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5">
+                        <a id="rail-call-btn" href="contact.html" class="py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-phone"></i> Call
                         </a>
-                        <a id="rail-wa-btn" href="https://wa.me/923340091127" target="_blank" rel="noopener" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5">
+                        <a id="rail-wa-btn" href="contact.html" target="_blank" rel="noopener" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5">
                             <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
                         </a>
                     </div>
@@ -179,8 +178,8 @@
             <span id="mobile-cta-price" class="text-emerald-800 font-extrabold text-sm outfit">—</span>
         </div>
         <div class="flex items-center gap-2">
-            <a id="mobile-cta-call" href="tel:+923340091127" class="btn-primary text-xs py-2 px-3.5 rounded-xl font-bold">Call</a>
-            <a id="mobile-cta-wa" href="https://wa.me/923340091127" target="_blank" class="btn-whatsapp text-xs py-2 px-3.5 rounded-xl font-bold">WhatsApp</a>
+            <a id="mobile-cta-call" href="contact.html" class="btn-primary text-xs py-2 px-3.5 rounded-xl font-bold">Call</a>
+            <a id="mobile-cta-wa" href="contact.html" target="_blank" class="btn-whatsapp text-xs py-2 px-3.5 rounded-xl font-bold">WhatsApp</a>
         </div>
     </div>
 
@@ -188,6 +187,7 @@
 
     <script>
         let currentProperty = null;
+        let siteSettings = {};
         let currentMedia = [];
         let photoOnlyList = [];
         let currentMediaIndex = 0;
@@ -198,14 +198,7 @@
         }
 
         function extractYouTubeId(input) {
-            if (!input) return null;
-            if (window.KaghanDB && window.KaghanDB.extractYouTubeId) {
-                return window.KaghanDB.extractYouTubeId(input);
-            }
-            const trimmed = String(input).trim();
-            if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed;
-            const m = trimmed.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-            return m ? m[1] : null;
+            return window.KaghanDB ? window.KaghanDB.extractYouTubeId(input) : '';
         }
 
         function buildPropertyMedia(p) {
@@ -245,56 +238,58 @@
                     }
                 });
             }
-            if (media.length === 0) {
-                media.push({ type: 'image', url: 'assets/images/dha-margalla-hero.jpg' });
-            }
             return media;
         }
 
         async function populateUI(p) {
-            document.title = `${p.title} | Kaghan Properties`;
+            const siteName = (siteSettings && siteSettings.siteName) || 'Listings';
+            document.title = `${p.title} | ${siteName}`;
             document.getElementById('detail-h1').innerText = p.title;
-            const crumbEl = document.getElementById('crumb-society');
-            crumbEl.innerText = p.area || 'DHA Margalla Enclave';
-            if ((p.projectId || p.societyId) && window.KaghanDB && window.KaghanDB.getProjectBySlugOrId) {
-                const proj = await window.KaghanDB.getProjectBySlugOrId(p.projectId || p.societyId);
-                if (proj) {
-                    crumbEl.innerText = proj.name;
-                    crumbEl.href = `project-detail.html?slug=${encodeURIComponent(proj.slug || proj.id)}`;
+
+            let linkedProject = null;
+            if ((p.projectId || p.societyId) && window.KaghanDB.getProjectBySlugOrId) {
+                linkedProject = await window.KaghanDB.getProjectBySlugOrId(p.projectId || p.societyId);
+                if (linkedProject) {
+                    const crumbEl = document.getElementById('crumb-society');
+                    document.getElementById('crumb-sep').classList.remove('hidden');
+                    crumbEl.classList.remove('hidden');
+                    crumbEl.innerText = linkedProject.name;
+                    crumbEl.href = `project-detail.html?slug=${encodeURIComponent(linkedProject.slug || linkedProject.id)}`;
                 }
             }
-            document.getElementById('detail-address').innerHTML = `<i class="fa-solid fa-location-dot text-emerald-600"></i> ${[p.plotStreet, p.plotSector || p.sector, p.area, p.city].filter(Boolean).join(', ')}`;
+
+            const addrText = [p.plotStreet, p.plotSector || p.sector, p.area, p.city].filter(Boolean).join(', ');
+            document.getElementById('detail-address').innerHTML = addrText ? `<i class="fa-solid fa-location-dot text-emerald-600"></i> ${addrText}` : '';
 
             const plotPill = document.getElementById('detail-plot-pill');
             if (p.plotNumber) {
                 plotPill.innerHTML = `<i class="fa-solid fa-map-pin text-[10px]"></i> ${p.plotNumber}`;
                 plotPill.classList.remove('hidden');
             }
-            document.getElementById('detail-cat-pill').innerText = p.category || p.type || 'Plot';
+            document.getElementById('detail-cat-pill').innerText = p.category || p.type || 'Listing';
 
-            // Prices & Specs
             const priceStr = fmtPrice(p.price);
             document.getElementById('rail-price').innerText = priceStr;
             document.getElementById('mobile-cta-price').innerText = priceStr;
-            if (p.lumpSumPrice) {
-                document.getElementById('rail-lumpsum').innerText = `Lump Sum: ${fmtPrice(p.lumpSumPrice)}`;
-            }
+            document.getElementById('rail-lumpsum').innerText = p.lumpSumPrice ? `Lump Sum: ${fmtPrice(p.lumpSumPrice)}` : '';
 
-            document.getElementById('spec-plot').innerText = p.plotNumber || 'Allotted';
-            document.getElementById('spec-size').innerText = p.plotDimensions || (p.sqYards ? `${p.sqYards} Sq Yds` : `${p.size || ''} ${p.sizeUnit || 'Marla'}`);
-            document.getElementById('spec-dp').innerText = p.downPaymentAmount ? fmtPrice(p.downPaymentAmount) : (p.installments?.advance ? fmtPrice(p.installments.advance) : '20% Down');
-            document.getElementById('spec-qtr').innerText = p.quarterlyAmount ? fmtPrice(p.quarterlyAmount) : (p.installments?.monthly ? fmtPrice(p.installments.monthly) : 'Quarterly');
+            document.getElementById('spec-plot').innerText = p.plotNumber || '—';
+            document.getElementById('spec-size').innerText = p.plotDimensions || (p.sqYards ? `${p.sqYards} Sq Yds` : (p.size ? `${p.size} ${p.sizeUnit || ''}` : '—'));
+            document.getElementById('spec-dp').innerText = p.downPaymentAmount ? fmtPrice(p.downPaymentAmount) : (p.installments?.advance ? fmtPrice(p.installments.advance) : '—');
+            document.getElementById('spec-qtr').innerText = p.quarterlyAmount ? fmtPrice(p.quarterlyAmount) : (p.installments?.monthly ? fmtPrice(p.installments.monthly) : '—');
 
-            // Contacts
-            const phone = p.agentPhone || '+923340091127';
+            // Contact links strictly from Firestore property agentPhone or siteSettings.contact.phone
+            const phone = p.agentPhone || (siteSettings.contact && siteSettings.contact.phone) || '';
             const cleanPhone = phone.replace(/[^0-9]/g, '');
             const waMsg = encodeURIComponent(`Hi, I am interested in ${p.title}${p.plotNumber ? ' (' + p.plotNumber + ')' : ''} — ${priceStr}.`);
-            const waHref = `https://wa.me/${cleanPhone}?text=${waMsg}`;
-            ['rail-call-btn', 'mobile-cta-call'].forEach(id => { const el = document.getElementById(id); if (el) el.href = `tel:${phone}`; });
+            const telHref = phone ? `tel:${phone.replace(/[^0-9+]/g, '')}` : 'contact.html';
+            const waHref = cleanPhone ? `https://wa.me/${cleanPhone}?text=${waMsg}` : 'contact.html';
+
+            ['rail-call-btn', 'mobile-cta-call'].forEach(id => { const el = document.getElementById(id); if (el) el.href = telHref; });
             ['rail-wa-btn', 'mobile-cta-wa'].forEach(id => { const el = document.getElementById(id); if (el) el.href = waHref; });
             document.getElementById('lead-message').value = `I'm interested in ${p.title}${p.plotNumber ? ' (' + p.plotNumber + ')' : ''}.`;
 
-            // Unified Gallery (Photos + YouTube Videos)
+            // Gallery
             currentMedia = buildPropertyMedia(p);
             photoOnlyList = currentMedia.filter(m => m.type === 'image');
             const photoCount = photoOnlyList.length;
@@ -302,51 +297,59 @@
             const countParts = [];
             if (photoCount) countParts.push(`${photoCount} Photo${photoCount > 1 ? 's' : ''}`);
             if (videoCount) countParts.push(`${videoCount} Video${videoCount > 1 ? 's' : ''}`);
-            document.getElementById('gallery-photo-count').innerText = countParts.join(' • ') || '1 Photo';
+            const countEl = document.getElementById('gallery-photo-count');
+            if (countParts.length) {
+                countEl.innerText = countParts.join(' • ');
+                countEl.classList.remove('hidden');
+            }
 
-            document.getElementById('gallery-filmstrip').innerHTML = currentMedia.map((item, idx) => {
-                const isVideo = item.type === 'video';
-                const thumbSrc = isVideo ? item.thumbnail : item.url;
-                return `
-                    <div onclick="selectMedia(${idx})" id="thumb-${idx}" class="filmstrip-thumb relative ${idx === 0 ? 'active' : ''}">
-                        <img src="${thumbSrc}" alt="${isVideo ? 'YouTube Video Tour' : 'Property Photo'}" class="w-full h-full object-cover">
-                        ${isVideo ? '<span class="absolute inset-0 flex items-center justify-center bg-slate-900/35"><i class="fa-brands fa-youtube text-rose-500 text-2xl drop-shadow"></i></span>' : ''}
-                    </div>
-                `;
-            }).join('');
-            selectMedia(0);
+            if (currentMedia.length) {
+                document.getElementById('gallery-empty-icon').classList.add('hidden');
+                document.getElementById('gallery-filmstrip').innerHTML = currentMedia.map((item, idx) => {
+                    const isVideo = item.type === 'video';
+                    const thumbSrc = isVideo ? item.thumbnail : item.url;
+                    return `
+                        <div onclick="selectMedia(${idx})" id="thumb-${idx}" class="filmstrip-thumb relative ${idx === 0 ? 'active' : ''}">
+                            <img src="${thumbSrc}" alt="${isVideo ? 'YouTube Video Tour' : 'Property Photo'}" class="w-full h-full object-cover">
+                            ${isVideo ? '<span class="absolute inset-0 flex items-center justify-center bg-slate-900/35"><i class="fa-brands fa-youtube text-rose-500 text-2xl drop-shadow"></i></span>' : ''}
+                        </div>
+                    `;
+                }).join('');
+                selectMedia(0);
+            }
 
-            // Specs Definition List
+            // Specifications
             const rows = [
-                ['Plot Number', p.plotNumber || 'Upon Allotment'],
-                ['Dimensions / Size', p.plotDimensions || (p.sqYards ? `${p.sqYards} Sq Yds` : `${p.size} ${p.sizeUnit || 'Marla'}`)],
+                ['Plot / Unit', p.plotNumber || '—'],
+                ['Size / Dimensions', p.plotDimensions || (p.sqYards ? `${p.sqYards} Sq Yds` : (p.size ? `${p.size} ${p.sizeUnit || ''}` : '—'))],
                 ['Street / Road', p.plotStreet || p.address || '—'],
-                ['Sector / Block', p.plotSector || p.sector || p.area || '—'],
+                ['Sector / Area', p.plotSector || p.sector || p.area || '—'],
                 ['Total Price', priceStr],
                 ['Lump Sum', p.lumpSumPrice ? fmtPrice(p.lumpSumPrice) : '—'],
-                ['Down Payment', p.downPaymentAmount ? fmtPrice(p.downPaymentAmount) : '20%'],
+                ['Down Payment', p.downPaymentAmount ? fmtPrice(p.downPaymentAmount) : '—'],
                 ['Processing Fee', p.processingFee ? `PKR ${Number(p.processingFee).toLocaleString()}` : '—']
             ];
             document.getElementById('property-details-list').innerHTML = rows.map(([k, v]) => `
-                <div class="flex justify-between py-2 border-b border-slate-100">
+                <div class="flex justify-between py-2 border-b border-slate-200">
                     <span class="text-slate-500 font-medium">${k}</span>
                     <span class="font-bold text-slate-900 text-right">${v}</span>
                 </div>
             `).join('');
 
-            // Description
-            document.getElementById('property-description').innerHTML = p.description || '';
+            if (p.description) {
+                document.getElementById('property-description').innerHTML = p.description;
+            } else {
+                document.getElementById('desc-wrap').classList.add('hidden');
+            }
 
-            // Features
             const feats = (p.features && p.features.length) ? p.features : [];
             if (feats.length) {
                 document.getElementById('features-wrap').classList.remove('hidden');
                 document.getElementById('property-features').innerHTML = feats.map(f =>
-                    `<span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 font-semibold">${f}</span>`
+                    `<span class="px-3 py-1 rounded-full bg-slate-100 border border-slate-300 text-slate-800 font-semibold">${f}</span>`
                 ).join('');
             }
 
-            // Coordinates + Render Pinned Plot Map immediately
             const coords = window.KaghanPlotMap ? window.KaghanPlotMap.getPlotCoords(p) : null;
             if (coords) {
                 document.getElementById('plot-coords-label').innerText = `${coords[0].toFixed(5)}, ${coords[1].toFixed(5)}`;
@@ -355,6 +358,7 @@
                 window.KaghanPlotMap.create('property-plot-map-root', {
                     mode: 'single',
                     property: p,
+                    emapUrl: (linkedProject && linkedProject.emapUrl) || '',
                     height: '440px'
                 });
             }
@@ -365,7 +369,6 @@
             document.querySelectorAll('.filmstrip-thumb').forEach(el => el.classList.remove('active'));
             const t = document.getElementById(`thumb-${idx}`);
             if (t) t.classList.add('active');
-
             const item = currentMedia[idx];
             if (!item) return;
 
@@ -385,7 +388,7 @@
                 vidEl.classList.add('hidden');
                 imgEl.src = item.url;
                 imgEl.classList.remove('hidden');
-                if (countEl) countEl.classList.remove('hidden');
+                if (countEl && currentMedia.length) countEl.classList.remove('hidden');
                 if (stage) stage.classList.add('cursor-pointer');
             }
         }
@@ -418,23 +421,21 @@
             e.preventDefault();
             const fb = document.getElementById('lead-feedback');
             try {
-                if (window.KaghanDB && window.KaghanDB.createLead) {
-                    await window.KaghanDB.createLead({
-                        name: document.getElementById('lead-name').value.trim(),
-                        phone: document.getElementById('lead-phone').value.trim(),
-                        propertyId: currentProperty ? currentProperty.id : '',
-                        propertyTitle: currentProperty ? currentProperty.title : 'Listing',
-                        message: document.getElementById('lead-message').value.trim(),
-                        sourcePage: window.location.href,
-                        status: 'new'
-                    });
-                }
-                fb.className = 'text-center text-xs font-bold p-2 rounded-lg bg-emerald-50 text-emerald-700 block';
+                await window.KaghanDB.createLead({
+                    name: document.getElementById('lead-name').value.trim(),
+                    phone: document.getElementById('lead-phone').value.trim(),
+                    propertyId: currentProperty ? currentProperty.id : '',
+                    propertyTitle: currentProperty ? currentProperty.title : 'Listing',
+                    message: document.getElementById('lead-message').value.trim(),
+                    sourcePage: window.location.href,
+                    status: 'new'
+                });
+                fb.className = 'text-center text-xs font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-700 block';
                 fb.innerText = 'Inquiry sent! We will contact you shortly.';
                 e.target.reset();
             } catch (err) {
-                fb.className = 'text-center text-xs font-bold p-2 rounded-lg bg-rose-50 text-rose-700 block';
-                fb.innerText = 'Error sending. Please call +92 334 0091127.';
+                fb.className = 'text-center text-xs font-bold p-2 rounded-lg bg-rose-50 border border-rose-300 text-rose-700 block';
+                fb.innerText = 'Error sending inquiry. Please try again.';
             }
         }
 
@@ -442,28 +443,26 @@
             const params = new URLSearchParams(window.location.search);
             const slug = params.get('slug') || params.get('id');
 
-            if (slug && window.KaghanDB && window.KaghanDB.getPropertyBySlugOrId) {
-                currentProperty = await window.KaghanDB.getPropertyBySlugOrId(slug);
+            const [settings, allProps] = await Promise.all([
+                window.KaghanDB.getSiteSettings(),
+                window.KaghanDB.getProperties()
+            ]);
+            siteSettings = settings || {};
+
+            if (slug) {
+                const norm = slug.toLowerCase().trim();
+                currentProperty = allProps.find(p => (p.slug || '').toLowerCase() === norm || String(p.id || '').toLowerCase() === norm) || null;
             }
-            if (!currentProperty && window.KaghanDB && window.KaghanDB.getProperties) {
-                const all = await window.KaghanDB.getProperties();
-                if (slug) {
-                    const norm = slug.toLowerCase().trim();
-                    currentProperty = all.find(p => (p.slug || '').toLowerCase() === norm || String(p.id || '').toLowerCase() === norm);
-                }
-                if (!currentProperty && all.length > 0) currentProperty = all[0];
+            if (!currentProperty && allProps.length > 0) {
+                currentProperty = allProps[0];
             }
 
             if (currentProperty) {
-                if (currentProperty.isNewProject) {
-                    window.location.replace(`project-detail.html?slug=${encodeURIComponent(currentProperty.slug || currentProperty.id)}`);
-                    return;
-                }
-                populateUI(currentProperty);
+                await populateUI(currentProperty);
             } else {
                 document.querySelector('main').innerHTML = `
-                    <div class="bg-white p-12 text-center rounded-2xl border border-slate-200 max-w-md mx-auto my-12 space-y-3">
-                        <h2 class="text-lg font-bold outfit">Listing Not Found</h2>
+                    <div class="bg-white p-12 text-center rounded-2xl border-2 border-slate-300 max-w-md mx-auto my-12 space-y-3">
+                        <h2 class="text-lg font-extrabold outfit text-slate-900">Listing Not Found</h2>
                         <a href="projects.html" class="inline-block bg-emerald-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl">View All Listings</a>
                     </div>`;
             }
