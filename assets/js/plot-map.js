@@ -66,6 +66,23 @@
             }
             .kp-map-popup .leaflet-popup-content { margin: 0; padding: 12px 14px; }
             .kp-map-popup .leaflet-popup-tip { background: #0f172a; }
+            .kp-cad-overlay-img {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+            .kp-map-fullscreen {
+                position: fixed !important;
+                inset: 0 !important;
+                z-index: 9999 !important;
+                border-radius: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                background: #0f172a !important;
+            }
+            .kp-map-fullscreen .kp-map-viewport {
+                flex: 1 1 auto !important;
+                height: auto !important;
+            }
         `;
         document.head.appendChild(style);
     }
@@ -101,7 +118,7 @@
             : 'Margalla Enclave • CDA Zone 4, Islamabad';
 
         root.innerHTML = `
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div id="${uid}-shell" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <!-- Compact Map Toolbar -->
                 <div class="bg-slate-900 text-white px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2.5 text-xs">
                     <!-- View Mode Switcher -->
@@ -110,14 +127,14 @@
                             <i class="fa-solid fa-map-pin"></i>
                             <span>Pinned Plot Map</span>
                         </button>
-                        <button type="button" id="${uid}-btn-emap" class="px-3 py-1.5 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all">
+                        <button type="button" id="${uid}-btn-emap" class="px-3 py-1.5 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all" title="Switch to razor-sharp Emap CAD with individual plot numbers">
                             <i class="fa-solid fa-layer-group text-amber-400"></i>
-                            <span>Live Emap CAD</span>
+                            <span>Live Emap CAD (HD)</span>
                         </button>
                     </div>
 
                     <!-- CAD Overlay Opacity + Base Map Controls -->
-                    <div id="${uid}-pinned-controls" class="flex flex-wrap items-center gap-2.5">
+                    <div id="${uid}-pinned-controls" class="flex flex-wrap items-center gap-2">
                         <label class="flex items-center gap-2 bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700 text-[11px] text-slate-200">
                             <span class="font-semibold text-slate-300">CAD Overlay</span>
                             <input type="range" id="${uid}-opacity" min="0" max="100" value="${Math.round(defaultOpacity * 100)}" class="w-20 sm:w-24 accent-emerald-500 cursor-pointer">
@@ -127,30 +144,36 @@
                             <button type="button" id="${uid}-layer-sat" class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-800 text-emerald-400">Satellite</button>
                             <button type="button" id="${uid}-layer-str" class="px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-400 hover:text-white">Street</button>
                         </div>
+                        <button type="button" id="${uid}-btn-fs" title="Toggle Fullscreen" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold text-[11px] flex items-center gap-1 transition-colors">
+                            <i class="fa-solid fa-expand"></i>
+                        </button>
                         <a id="${uid}-gps-link" href="https://www.google.com/maps/dir/?api=1&destination=${navCoords[0]},${navCoords[1]}" target="_blank" rel="noopener" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-600 text-white font-bold text-[11px] flex items-center gap-1.5 transition-colors">
                             <i class="fa-solid fa-location-arrow text-emerald-400"></i>
                             <span class="hidden sm:inline">Directions</span>
                         </a>
                     </div>
 
-                    <!-- Emap Fullscreen Link -->
+                    <!-- Emap Fullscreen Controls -->
                     <div id="${uid}-emap-controls" class="hidden flex items-center gap-2">
+                        <button type="button" id="${uid}-btn-fs-emap" title="Toggle Fullscreen" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold text-[11px] flex items-center gap-1 transition-colors">
+                            <i class="fa-solid fa-expand"></i> Fullscreen
+                        </button>
                         <a href="${EMAP_URL}" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-600 text-white font-bold text-[11px] flex items-center gap-1.5 transition-colors">
-                            <i class="fa-solid fa-up-right-from-square text-amber-400"></i> Fullscreen Emap
+                            <i class="fa-solid fa-up-right-from-square text-amber-400"></i> Open Emap
                         </a>
                     </div>
                 </div>
 
                 <!-- Map Viewport -->
-                <div class="relative bg-slate-950" style="height: ${height};">
+                <div class="kp-map-viewport relative bg-slate-950" style="height: ${height};">
                     <!-- Leaflet Pinned Map -->
                     <div id="${uid}-leaflet" class="w-full h-full" style="z-index: 10;"></div>
 
                     <!-- Live Emap CAD Frame + Floating Pin Locator -->
                     <div id="${uid}-emap-wrap" class="hidden absolute inset-0 z-20 bg-slate-950">
-                        <div class="absolute top-3 left-3 right-3 z-30 flex items-center justify-between gap-2 pointer-events-none">
-                            <div id="${uid}-emap-pin-bar" class="pointer-events-auto inline-flex items-center gap-2 bg-slate-900/95 backdrop-blur-md text-white px-3.5 py-2 rounded-xl border border-emerald-500/50 shadow-xl text-xs font-bold">
-                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
+                        <div class="absolute top-3 left-14 right-14 z-30 flex items-center justify-center pointer-events-none">
+                            <div id="${uid}-emap-pin-bar" class="pointer-events-auto inline-flex items-center gap-2 bg-slate-900/90 backdrop-blur-md text-white px-3.5 py-1.5 rounded-xl border border-emerald-500/50 shadow-xl text-xs font-bold">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
                                 <span id="${uid}-emap-pin-text">${escapeHtml(plotBadgeText)}</span>
                             </div>
                         </div>
@@ -164,26 +187,66 @@
         const map = L.map(mapEl, {
             center: navCoords,
             zoom: mode === 'single' ? 16 : 14.5,
-            minZoom: 12,
-            maxZoom: 19,
-            scrollWheelZoom: false
+            minZoom: 11,
+            maxZoom: 21,
+            zoomSnap: 0.5,
+            zoomDelta: 1,
+            wheelPxPerZoomLevel: 80,
+            scrollWheelZoom: true,
+            touchZoom: true,
+            doubleClickZoom: true,
+            boxZoom: true,
+            dragging: true,
+            zoomControl: true
         });
 
         const satelliteLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
-            maxZoom: 20,
+            maxNativeZoom: 20,
+            maxZoom: 21,
             attribution: 'Google Satellite'
         }).addTo(map);
 
         const streetLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-            maxZoom: 20,
+            maxNativeZoom: 20,
+            maxZoom: 21,
             attribution: 'Google Maps'
         });
 
-        const cadOverlay = L.imageOverlay(
-            assetPrefix + 'assets/images/margalla-enclave-masterplan-overview.jpg',
+        let cadOverlay = L.imageOverlay(
+            assetPrefix + 'assets/images/margalla-enclave-cad-clean.png',
             MARGALLA_BOUNDS,
-            { opacity: defaultOpacity, interactive: false }
+            { opacity: defaultOpacity, interactive: false, className: 'kp-cad-overlay-img' }
         ).addTo(map);
+
+        // Apply custom High-Res CAD Image or XYZ Tile URL if configured in Admin -> Settings
+        async function loadCustomCadOverlay() {
+            try {
+                if (!window.KaghanDB || !window.KaghanDB.getSiteSettings) return;
+                const settings = await window.KaghanDB.getSiteSettings();
+                const cfg = settings && settings.cadOverlay;
+                if (!cfg) return;
+                const currentOp = parseInt(document.getElementById(`${uid}-opacity`)?.value || Math.round(defaultOpacity * 100), 10) / 100;
+                if (cfg.tileUrl && cfg.tileUrl.trim()) {
+                    if (cadOverlay && map.hasLayer(cadOverlay)) map.removeLayer(cadOverlay);
+                    cadOverlay = L.tileLayer(cfg.tileUrl.trim(), {
+                        opacity: currentOp,
+                        maxNativeZoom: 20,
+                        maxZoom: 21,
+                        tms: !!cfg.tms,
+                        className: 'kp-cad-overlay-img'
+                    }).addTo(map);
+                } else if (cfg.imageUrl && cfg.imageUrl.trim()) {
+                    const b = (Array.isArray(cfg.bounds) && cfg.bounds.length === 2) ? cfg.bounds : MARGALLA_BOUNDS;
+                    if (cadOverlay && map.hasLayer(cadOverlay)) map.removeLayer(cadOverlay);
+                    cadOverlay = L.imageOverlay(cfg.imageUrl.trim(), b, {
+                        opacity: currentOp,
+                        interactive: false,
+                        className: 'kp-cad-overlay-img'
+                    }).addTo(map);
+                }
+            } catch (err) {}
+        }
+        loadCustomCadOverlay();
 
         const markersGroup = L.layerGroup().addTo(map);
 
@@ -280,6 +343,19 @@
         const opacityVal = document.getElementById(`${uid}-opacity-val`);
         const btnSat = document.getElementById(`${uid}-layer-sat`);
         const btnStr = document.getElementById(`${uid}-layer-str`);
+        const shellEl = document.getElementById(`${uid}-shell`);
+        const btnFs = document.getElementById(`${uid}-btn-fs`);
+        const btnFsEmap = document.getElementById(`${uid}-btn-fs-emap`);
+
+        function toggleMapFullscreen() {
+            const isFs = shellEl.classList.toggle('kp-map-fullscreen');
+            document.body.style.overflow = isFs ? 'hidden' : '';
+            if (btnFs) btnFs.innerHTML = isFs ? '<i class="fa-solid fa-compress"></i>' : '<i class="fa-solid fa-expand"></i>';
+            if (btnFsEmap) btnFsEmap.innerHTML = isFs ? '<i class="fa-solid fa-compress"></i> Exit' : '<i class="fa-solid fa-expand"></i> Fullscreen';
+            setTimeout(() => map.invalidateSize(), 150);
+        }
+        if (btnFs) btnFs.onclick = toggleMapFullscreen;
+        if (btnFsEmap) btnFsEmap.onclick = toggleMapFullscreen;
 
         btnPinned.onclick = () => {
             btnPinned.className = 'px-3 py-1.5 rounded-lg font-bold bg-emerald-600 text-white flex items-center gap-1.5 transition-all';
@@ -303,14 +379,14 @@
 
         opacityInput.oninput = (e) => {
             const v = parseInt(e.target.value, 10);
-            cadOverlay.setOpacity(v / 100);
+            if (cadOverlay && cadOverlay.setOpacity) cadOverlay.setOpacity(v / 100);
             opacityVal.innerText = v + '%';
         };
 
         btnSat.onclick = () => {
             if (map.hasLayer(streetLayer)) map.removeLayer(streetLayer);
             if (!map.hasLayer(satelliteLayer)) satelliteLayer.addTo(map);
-            cadOverlay.bringToFront();
+            if (cadOverlay && cadOverlay.bringToFront) cadOverlay.bringToFront();
             btnSat.className = 'px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-800 text-emerald-400';
             btnStr.className = 'px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-400 hover:text-white';
         };
@@ -318,7 +394,7 @@
         btnStr.onclick = () => {
             if (map.hasLayer(satelliteLayer)) map.removeLayer(satelliteLayer);
             if (!map.hasLayer(streetLayer)) streetLayer.addTo(map);
-            cadOverlay.bringToFront();
+            if (cadOverlay && cadOverlay.bringToFront) cadOverlay.bringToFront();
             btnStr.className = 'px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-800 text-emerald-400';
             btnSat.className = 'px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-400 hover:text-white';
         };
