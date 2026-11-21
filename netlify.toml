@@ -1,4 +1,35 @@
-# Redirect /stay/* paths on main domains to their stay subdomain counterparts
+"$schema" = "https://open-api.netlify.com/netlify.schema.json"
+
+[build]
+  publish = "."
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = [
+    "index.html",
+    "projects.html",
+    "property.html",
+    "project-detail.html",
+    "about.html",
+    "contact.html",
+    "blog.html"
+  ]
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+# Redirect /stay/* paths on main domains to stay subdomain
 [[redirects]]
   host = "kaghanproperties.com"
   from = "/stay/*"
@@ -20,14 +51,13 @@
   status = 301
   force = true
 
-# Default fallback redirect for other domains (e.g. Netlify deployment URL)
 [[redirects]]
   from = "/stay/*"
   to = "https://stay.kaghanproperties.com/:splat"
   status = 301
   force = true
 
-# Clean URLs rewrites for Admin and Properties
+# Admin & Legal Clean URLs
 [[redirects]]
   from = "/admin"
   to = "/admin/index.html"
@@ -36,82 +66,6 @@
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/property/:slug"
-  to = "/property.html?slug=:slug"
-  status = 200
-
-[[redirects]]
-  from = "/property/*"
-  to = "/property.html"
-  status = 200
-
-[[redirects]]
-  from = "/area/:slug"
-  to = "/area.html?slug=:slug"
-  status = 200
-
-[[redirects]]
-  from = "/area/*"
-  to = "/area.html"
-  status = 200
-
-# Clean URLs rewrites
-[[redirects]]
-  from = "/about"
-  to = "/about.html"
-  status = 200
-
-[[redirects]]
-  from = "/services"
-  to = "/services.html"
-  status = 200
-
-[[redirects]]
-  from = "/projects"
-  to = "/projects.html"
-  status = 200
-
-[[redirects]]
-  from = "/properties"
-  to = "/projects.html"
-  status = 200
-
-[[redirects]]
-  from = "/calculator"
-  to = "/calculator.html"
-  status = 200
-
-[[redirects]]
-  from = "/compare"
-  to = "/compare.html"
-  status = 200
-
-[[redirects]]
-  from = "/societies"
-  to = "/societies.html"
-  status = 200
-
-[[redirects]]
-  from = "/agents"
-  to = "/agents.html"
-  status = 200
-
-[[redirects]]
-  from = "/faqs"
-  to = "/faqs.html"
-  status = 200
-
-[[redirects]]
-  from = "/blog"
-  to = "/blog.html"
-  status = 200
-
-[[redirects]]
-  from = "/contact"
-  to = "/contact.html"
   status = 200
 
 [[redirects]]
@@ -129,28 +83,51 @@
   to = "/privacy-policy.html"
   status = 301
 
-[build]
-  publish = "."
-
-[build.processing]
-  skip_node_bundling = true
-
-[build.processing.html]
-  pretty_urls = true
-
-[build.processing.images]
-  compress = true
-
-[build.processing.css]
-  bundle = true
-  minify = true
-
-[build.processing.js]
-  bundle = true
-  minify = true
+# ==============================================================================
+# SUPER-FAST BROWSER & CDN CACHING HEADERS FOR STATIC ASSETS
+# (SSR dynamic HTML routes set Netlify-CDN-Cache-Control: durable in ssr.mjs)
+# ==============================================================================
 
 [[headers]]
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Immutable long-term browser cache for images, icons & media (1 year)
+[[headers]]
+  for = "/assets/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/video/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/favicon*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Fast browser cache + Stale-While-Revalidate for CSS & JS bundles
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+# Always fetch fresh Service Worker & Admin Panel
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    Cache-Control = "no-store, must-revalidate"

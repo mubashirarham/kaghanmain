@@ -528,4 +528,7 @@ window.KaghanMaintenance = {
 
 document.addEventListener('DOMContentLoaded', () => {
     window.KaghanSharedUI.init();
+    if ('serviceWorker' in navigator && !window.location.pathname.toLowerCase().includes('/admin')) {
+        navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+    }
 });

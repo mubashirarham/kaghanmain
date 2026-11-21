@@ -131,6 +131,9 @@
                 <a href="../index.html" target="_blank" class="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-700 font-bold transition-colors">
                     <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> View Website
                 </a>
+                <button type="button" id="btn-purge-cache" onclick="purgeLiveCdnCache()" class="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-emerald-50 border border-emerald-300 hover:bg-emerald-100 text-emerald-800 font-bold transition-colors">
+                    <i class="fa-solid fa-bolt text-[11px]"></i> Refresh Live Cache
+                </button>
                 <button onclick="window.KaghanDB.logout()" class="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-rose-600 hover:bg-rose-50 font-bold transition-colors">
                     <i class="fa-solid fa-right-from-bracket text-[11px]"></i> Sign Out
                 </button>
@@ -1513,6 +1516,23 @@
             const msg = document.getElementById('settings-saved-msg');
             msg.classList.remove('hidden');
             setTimeout(() => msg.classList.add('hidden'), 2500);
+        }
+
+        async function purgeLiveCdnCache() {
+            const btn = document.getElementById('btn-purge-cache');
+            if (!btn) return;
+            const oldHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-[11px]"></i> Purging CDN...';
+            try {
+                const res = await window.KaghanDB.triggerRevalidate(['kaghan-ssr']);
+                btn.innerHTML = res && res.success
+                    ? '<i class="fa-solid fa-check text-[11px]"></i> Cache Refreshed!'
+                    : '<i class="fa-solid fa-check text-[11px]"></i> Browser Cache Cleared';
+            } catch (e) {
+                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-[11px]"></i> Retry Purge';
+            }
+            setTimeout(() => { btn.innerHTML = oldHtml; btn.disabled = false; }, 2200);
         }
 
         window.addEventListener('load', checkSession);

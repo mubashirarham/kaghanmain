@@ -1,11 +1,13 @@
-const CACHE_NAME = 'kaghan-properties-v6';
-const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/projects.html',
-  '/property.html',
-  '/project-detail.html',
-  '/about.html',
+// Kaghan Properties — Multi-Tier Browser Cache Service Worker (v7)
+// Cache-First for immutable images, Stale-While-Revalidate for CSS/JS,
+// Network-First with fast fallback for Netlify SSR HTML responses.
+
+const STATIC_CACHE = 'kaghan-static-v7';
+const HTML_CACHE = 'kaghan-html-v7';
+const IMAGE_CACHE = 'kaghan-images-v7';
+const VALID_CACHES = new Set([STATIC_CACHE, HTML_CACHE, IMAGE_CACHE]);
+
+const PRECACHE_ASSETS = [
   '/assets/css/style.css',
   '/assets/js/db.js',
   '/assets/js/shared.js',
@@ -15,22 +17,18 @@ const ASSETS_TO_CACHE = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return Promise.allSettled(
-        ASSETS_TO_CACHE.map(asset => cache.add(asset).catch(() => {}))
-      );
-    })
+    caches.open(STATIC_CACHE).then((cache) =>
+      Promise.allSettled(PRECACHE_ASSETS.map(url => cache.add(url).catch(() => {})))
+    )
   );
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.map((key) => (key !== CACHE_NAME ? caches.delete(key) : Promise.resolve()))
-      );
-    }).then(() => self.clients.claim())
+    caches.keys()
+      .then((keys) => Promise.all(keys.map((k) => (!VALID_CACHES.has(k) ? caches.delete(k) : Promise.resolve()))))
+      .then(() => self.clients.claim())
   );
 });
 
@@ -39,52 +37,65 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
 
-  // Only handle same-origin static assets; never intercept Firebase, Auth, Admin, Cloudinary, Map Tiles, or Video streams
+  // Never intercept cross-origin APIs (Firebase, Cloudinary, Map tiles), Admin, Functions, or Range/Video streams
   if (url.origin !== self.location.origin ||
       url.pathname.startsWith('/admin') ||
-      url.pathname.includes('/.netlify/functions/') ||
+      url.pathname.startsWith('/.netlify/') ||
       url.pathname.endsWith('.mp4') ||
       event.request.headers.has('range')) {
     return;
   }
 
-  const isHtmlOrScript = (event.request.headers.get('accept') || '').includes('text/html') ||
-                         url.pathname.endsWith('.html') ||
-                         url.pathname.endsWith('.js') ||
-                         url.pathname === '/';
-
-  // Network-First for HTML & JS so updates appear immediately without stale cache issues
-  if (isHtmlOrScript) {
+  // 1. Cache-First for images & icons (instant 0ms repeat loads)
+  if (url.pathname.startsWith('/assets/images/') || /\.(png|jpg|jpeg|webp|svg|ico)$/i.test(url.pathname)) {
     event.respondWith(
-      fetch(event.request).then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const resClone = networkResponse.clone();
-          caches.open(CACHE_NAME)
-            .then((cache) => cache.put(event.request, resClone))
-            .catch(() => {});
-        }
-        return networkResponse;
-      }).catch(() => {
-        return caches.match(event.request).then(cached => cached || caches.match('/index.html'));
-      })
+      caches.open(IMAGE_CACHE).then((cache) =>
+        cache.match(event.request).then((cached) => {
+          if (cached) return cached;
+          return fetch(event.request).then((res) => {
+            if (res && res.status === 200 && res.type === 'basic') {
+              cache.put(event.request, res.clone()).catch(() => {});
+            }
+            return res;
+          });
+        })
+      )
     );
     return;
   }
 
-  // Stale-While-Revalidate for images & CSS with safe error catching
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request).then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const resClone = networkResponse.clone();
-          caches.open(CACHE_NAME)
-            .then((cache) => cache.put(event.request, resClone))
-            .catch(() => {});
-        }
-        return networkResponse;
-      }).catch(() => cachedResponse);
+  // 2. Stale-While-Revalidate for CSS & JS assets (instant load + silent background update)
+  if (url.pathname.startsWith('/assets/css/') || url.pathname.startsWith('/assets/js/')) {
+    event.respondWith(
+      caches.open(STATIC_CACHE).then((cache) =>
+        cache.match(event.request).then((cached) => {
+          const networkFetch = fetch(event.request).then((res) => {
+            if (res && res.status === 200 && res.type === 'basic') {
+              cache.put(event.request, res.clone()).catch(() => {});
+            }
+            return res;
+          }).catch(() => cached);
+          return cached || networkFetch;
+        })
+      )
+    );
+    return;
+  }
 
-      return cachedResponse || fetchPromise;
-    })
-  );
+  // 3. Network-First (backed by Netlify Edge Durable SSR Cache) with instant offline HTML fallback
+  const isHtml = (event.request.headers.get('accept') || '').includes('text/html') ||
+                 url.pathname === '/' ||
+                 url.pathname.endsWith('.html');
+  if (isHtml) {
+    event.respondWith(
+      caches.open(HTML_CACHE).then((cache) =>
+        fetch(event.request).then((res) => {
+          if (res && res.status === 200 && res.type === 'basic') {
+            cache.put(event.request, res.clone()).catch(() => {});
+          }
+          return res;
+        }).catch(() => cache.match(event.request).then((c) => c || cache.match('/')))
+      )
+    );
+  }
 });

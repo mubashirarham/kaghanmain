@@ -19,9 +19,63 @@ if (typeof firebase !== 'undefined' && !firebase.apps.length) {
 const db = (typeof firebase !== 'undefined' && firebase.firestore) ? firebase.firestore() : null;
 const auth = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth() : null;
 
-// In-memory per-page-load promise cache for read-heavy singleton docs (invalidated on every save)
+// In-memory + sessionStorage browser cache + instant SSR hydration (window.__KAGHAN_SSR__)
+// Bypassed automatically inside /admin/ so admins always see live Firestore reads & writes.
+const IS_ADMIN_PATH = typeof window !== 'undefined' && window.location && window.location.pathname.toLowerCase().includes('/admin');
+const BROWSER_CACHE_TTL_MS = 120 * 1000; // 2 minutes fresh browser cache for public visitors
 let _siteSettingsCache = null;
 let _siteContentCache = null;
+
+function readSsrHydration(key) {
+    if (IS_ADMIN_PATH || typeof window === 'undefined' || !window.__KAGHAN_SSR__) return null;
+    const ssr = window.__KAGHAN_SSR__;
+    if (ssr && ssr[key] !== undefined && ssr[key] !== null) return ssr[key];
+    return null;
+}
+
+function readBrowserCache(key) {
+    if (IS_ADMIN_PATH || typeof sessionStorage === 'undefined') return null;
+    try {
+        const raw = sessionStorage.getItem('kp_cache_' + key);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.ts && (Date.now() - parsed.ts) < BROWSER_CACHE_TTL_MS) {
+            return parsed.data;
+        }
+    } catch (e) {}
+    return null;
+}
+
+function writeBrowserCache(key, data) {
+    if (IS_ADMIN_PATH || typeof sessionStorage === 'undefined') return;
+    try {
+        sessionStorage.setItem('kp_cache_' + key, JSON.stringify({ ts: Date.now(), data }));
+    } catch (e) {}
+}
+
+function clearBrowserCache() {
+    _siteSettingsCache = null;
+    _siteContentCache = null;
+    if (typeof sessionStorage === 'undefined') return;
+    try {
+        Object.keys(sessionStorage).forEach(k => {
+            if (k.startsWith('kp_cache_')) sessionStorage.removeItem(k);
+        });
+    } catch (e) {}
+}
+
+function triggerNetlifyRevalidate(tags = ['kaghan-ssr']) {
+    clearBrowserCache();
+    if (typeof fetch !== 'function' || typeof window === 'undefined') return Promise.resolve({ skipped: true });
+    if (window.location && (window.location.protocol === 'file:' || window.location.hostname === 'localhost')) {
+        return Promise.resolve({ skipped: true });
+    }
+    return fetch('/.netlify/functions/revalidate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tags })
+    }).then(r => r.json().catch(() => ({ ok: r.ok }))).catch(() => ({ ok: false }));
+}
 
 function getSubcollectionRef(subcollectionName) {
     if (!db) return null;
@@ -108,6 +162,8 @@ window.KaghanDB = {
     extractYouTubeId,
     uploadImageToCloudinary: window.CloudinaryService.uploadImage,
     cloudinary: window.CloudinaryService,
+    clearBrowserCache,
+    triggerRevalidate: triggerNetlifyRevalidate,
 
     AREA_UNITS: [
         { key: "marla", name: "Marla", sqftFactor: 225, label: "Marla" },
@@ -135,14 +191,21 @@ window.KaghanDB = {
         return (val * fromFactor) / toFactor;
     },
 
-    // ==================== SITE SETTINGS (Firestore: kaghan_properties/siteSettings) ====================
+    // ==================== SITE SETTINGS (Firestore + SSR + Browser Cache) ====================
     getSiteSettings: async (forceRefresh = false) => {
-        if (_siteSettingsCache && !forceRefresh) return _siteSettingsCache;
+        if (!forceRefresh) {
+            if (_siteSettingsCache) return _siteSettingsCache;
+            const ssrVal = readSsrHydration('siteSettings');
+            if (ssrVal) { _siteSettingsCache = ssrVal; writeBrowserCache('siteSettings', ssrVal); return ssrVal; }
+            const cached = readBrowserCache('siteSettings');
+            if (cached) { _siteSettingsCache = cached; return cached; }
+        }
         if (!db) return {};
         try {
             const snap = await db.collection('kaghan_properties').doc('siteSettings').get();
             const data = snap.exists ? snap.data() : {};
             _siteSettingsCache = data || {};
+            writeBrowserCache('siteSettings', _siteSettingsCache);
             return _siteSettingsCache;
         } catch (e) {
             console.error("Error fetching siteSettings from Firestore:", e);
@@ -158,18 +221,26 @@ window.KaghanDB = {
         };
         await db.collection('kaghan_properties').doc('siteSettings').set(payload, { merge: true });
         _siteSettingsCache = { ...(_siteSettingsCache || {}), ...payload };
+        triggerNetlifyRevalidate(['kaghan-ssr', 'site-settings']);
         window.dispatchEvent(new CustomEvent('siteSettingsUpdated', { detail: _siteSettingsCache }));
         return { success: true, settings: _siteSettingsCache };
     },
 
-    // ==================== SITE CONTENT & SEO (Firestore: kaghan_properties/siteContent) ====================
+    // ==================== SITE CONTENT & SEO (Firestore + SSR + Browser Cache) ====================
     getSiteContent: async (forceRefresh = false) => {
-        if (_siteContentCache && !forceRefresh) return _siteContentCache;
+        if (!forceRefresh) {
+            if (_siteContentCache) return _siteContentCache;
+            const ssrVal = readSsrHydration('siteContent');
+            if (ssrVal) { _siteContentCache = ssrVal; writeBrowserCache('siteContent', ssrVal); return ssrVal; }
+            const cached = readBrowserCache('siteContent');
+            if (cached) { _siteContentCache = cached; return cached; }
+        }
         if (!db) return {};
         try {
             const snap = await db.collection('kaghan_properties').doc('siteContent').get();
             const data = snap.exists ? snap.data() : {};
             _siteContentCache = data || {};
+            writeBrowserCache('siteContent', _siteContentCache);
             return _siteContentCache;
         } catch (e) {
             console.error("Error fetching siteContent from Firestore:", e);
@@ -185,6 +256,7 @@ window.KaghanDB = {
         };
         await db.collection('kaghan_properties').doc('siteContent').set(payload, { merge: true });
         _siteContentCache = { ...(_siteContentCache || {}), ...payload };
+        triggerNetlifyRevalidate(['kaghan-ssr', 'site-content', 'page-home', 'page-about']);
         return { success: true, content: _siteContentCache };
     },
 
@@ -240,27 +312,40 @@ window.KaghanDB = {
         return localStorage.getItem('kaghan_maintenance_bypass') || '';
     },
 
-    // ==================== PROJECTS (Firestore: kaghan_properties/main/projects) ====================
+    // ==================== PROJECTS (Firestore + SSR + Browser Cache) ====================
     getProjects: async (onlyPublished = false) => {
-        if (!db) return [];
-        try {
-            const snap = await getSubcollectionRef('projects').get();
-            let list = [];
-            snap.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
-            if (onlyPublished) {
-                list = list.filter(pr => pr.status !== 'draft');
+        let list = null;
+        if (onlyPublished) {
+            const ssrVal = readSsrHydration('projects');
+            if (Array.isArray(ssrVal)) {
+                list = ssrVal;
+                writeBrowserCache('projects_pub', list);
+            } else {
+                list = readBrowserCache('projects_pub');
             }
-            return list.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
-        } catch (e) {
-            console.error("Error getting projects from Firestore:", e);
-            return [];
         }
+        if (!list) {
+            if (!db) return [];
+            try {
+                const snap = await getSubcollectionRef('projects').get();
+                list = [];
+                snap.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
+                if (onlyPublished) writeBrowserCache('projects_pub', list.filter(pr => pr.status !== 'draft'));
+            } catch (e) {
+                console.error("Error getting projects from Firestore:", e);
+                return [];
+            }
+        }
+        if (onlyPublished) {
+            list = list.filter(pr => pr.status !== 'draft');
+        }
+        return [...list].sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
     },
 
     getProjectBySlugOrId: async (slugOrId) => {
         if (!slugOrId) return null;
         const norm = String(slugOrId).toLowerCase().trim();
-        const all = await window.KaghanDB.getProjects(false);
+        const all = await window.KaghanDB.getProjects(!IS_ADMIN_PATH);
         return all.find(p =>
             (p.slug && String(p.slug).toLowerCase() === norm) ||
             (p.id && String(p.id).toLowerCase() === norm)
@@ -281,12 +366,14 @@ window.KaghanDB = {
             updatedAt: now
         };
         await getSubcollectionRef('projects').doc(id).set(payload, { merge: true });
+        triggerNetlifyRevalidate(['kaghan-ssr', 'projects', `project-${id}`]);
         return { success: true, id, project: payload };
     },
 
     deleteProject: async (id) => {
         if (!db) throw new Error("Firestore SDK not initialized");
         await getSubcollectionRef('projects').doc(id).delete();
+        triggerNetlifyRevalidate(['kaghan-ssr', 'projects', `project-${id}`]);
         return true;
     },
 
@@ -302,32 +389,46 @@ window.KaghanDB = {
                 await window.KaghanDB.saveProperty({ ...p, projectId: '', societyId: p.societyId === projectId ? '' : (p.societyId || '') });
             }
         }
+        triggerNetlifyRevalidate(['kaghan-ssr', 'projects', 'properties', `project-${projectId}`]);
         return { success: true };
     },
 
-    // ==================== PROPERTIES / LISTINGS (Firestore: kaghan_properties/main/properties) ====================
+    // ==================== PROPERTIES / LISTINGS (Firestore + SSR + Browser Cache) ====================
     getProperties: async (filters = {}) => {
-        if (!db) return [];
-        try {
-            const snap = await getSubcollectionRef('properties').get();
-            const list = [];
-            snap.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
-
-            return list.filter(p => {
-                if (filters.projectId && p.projectId !== filters.projectId && p.societyId !== filters.projectId) return false;
-                if (filters.status && p.status !== filters.status) return false;
-                if (filters.type && filters.type !== 'all' && p.type !== filters.type) return false;
-                if (filters.purpose && filters.purpose !== 'all' && p.purpose !== filters.purpose) return false;
-                if (filters.city && filters.city !== 'all' && p.city && p.city.toLowerCase() !== filters.city.toLowerCase()) return false;
-                if (filters.area && filters.area !== 'all' && p.area && !p.area.toLowerCase().includes(filters.area.toLowerCase())) return false;
-                if (filters.minPrice && (p.price || 0) < filters.minPrice) return false;
-                if (filters.maxPrice && (p.price || 0) > filters.maxPrice) return false;
-                return true;
-            }).sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
-        } catch (e) {
-            console.error("Error getting properties from Firestore:", e);
-            return [];
+        let list = null;
+        if (!IS_ADMIN_PATH) {
+            const ssrVal = readSsrHydration('properties');
+            if (Array.isArray(ssrVal)) {
+                list = ssrVal;
+                writeBrowserCache('properties_all', list);
+            } else {
+                list = readBrowserCache('properties_all');
+            }
         }
+        if (!list) {
+            if (!db) return [];
+            try {
+                const snap = await getSubcollectionRef('properties').get();
+                list = [];
+                snap.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
+                writeBrowserCache('properties_all', list);
+            } catch (e) {
+                console.error("Error getting properties from Firestore:", e);
+                return [];
+            }
+        }
+
+        return list.filter(p => {
+            if (filters.projectId && p.projectId !== filters.projectId && p.societyId !== filters.projectId) return false;
+            if (filters.status && p.status !== filters.status) return false;
+            if (filters.type && filters.type !== 'all' && p.type !== filters.type) return false;
+            if (filters.purpose && filters.purpose !== 'all' && p.purpose !== filters.purpose) return false;
+            if (filters.city && filters.city !== 'all' && p.city && p.city.toLowerCase() !== filters.city.toLowerCase()) return false;
+            if (filters.area && filters.area !== 'all' && p.area && !p.area.toLowerCase().includes(filters.area.toLowerCase())) return false;
+            if (filters.minPrice && (p.price || 0) < filters.minPrice) return false;
+            if (filters.maxPrice && (p.price || 0) > filters.maxPrice) return false;
+            return true;
+        }).sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
     },
 
     getPropertyBySlugOrId: async (slugOrId) => {
@@ -355,12 +456,14 @@ window.KaghanDB = {
             publishedAt: property.publishedAt || (property.status === 'published' ? now : '')
         };
         await getSubcollectionRef('properties').doc(id).set(payload, { merge: true });
+        triggerNetlifyRevalidate(['kaghan-ssr', 'properties', `property-${id}`]);
         return { success: true, id, property: payload };
     },
 
     deleteProperty: async (id) => {
         if (!db) throw new Error("Firestore SDK not initialized");
         await getSubcollectionRef('properties').doc(id).delete();
+        triggerNetlifyRevalidate(['kaghan-ssr', 'properties', `property-${id}`]);
         return true;
     },
 
@@ -421,20 +524,33 @@ window.KaghanDB = {
         return true;
     },
 
-    // ==================== BLOG POSTS (Firestore: kaghan_properties/main/blogPosts) ====================
+    // ==================== BLOG POSTS (Firestore + SSR + Browser Cache) ====================
     getBlogPosts: async (statusOnly = 'published') => {
-        if (!db) return [];
-        try {
-            const snap = await getSubcollectionRef('blogPosts').get();
-            const list = [];
-            snap.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
-            return list
-                .filter(b => !statusOnly || b.status === statusOnly)
-                .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
-        } catch (e) {
-            console.error("Error getting blog posts from Firestore:", e);
-            return [];
+        let list = null;
+        if (!IS_ADMIN_PATH) {
+            const ssrVal = readSsrHydration('blogPosts');
+            if (Array.isArray(ssrVal) && ssrVal.length > 0) {
+                list = ssrVal;
+                writeBrowserCache('blogPosts', list);
+            } else {
+                list = readBrowserCache('blogPosts');
+            }
         }
+        if (!list) {
+            if (!db) return [];
+            try {
+                const snap = await getSubcollectionRef('blogPosts').get();
+                list = [];
+                snap.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
+                writeBrowserCache('blogPosts', list);
+            } catch (e) {
+                console.error("Error getting blog posts from Firestore:", e);
+                return [];
+            }
+        }
+        return list
+            .filter(b => !statusOnly || b.status === statusOnly)
+            .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
     },
 
     saveBlogPost: async (post) => {
@@ -450,12 +566,14 @@ window.KaghanDB = {
             updatedAt: now
         };
         await getSubcollectionRef('blogPosts').doc(id).set(payload, { merge: true });
+        triggerNetlifyRevalidate(['kaghan-ssr', 'blogs', 'page-blog']);
         return { success: true, id };
     },
 
     deleteBlogPost: async (id) => {
         if (!db) throw new Error("Firestore SDK not initialized");
         await getSubcollectionRef('blogPosts').doc(id).delete();
+        triggerNetlifyRevalidate(['kaghan-ssr', 'blogs', 'page-blog']);
         return true;
     },
 
