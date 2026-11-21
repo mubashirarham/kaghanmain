@@ -34,47 +34,47 @@
 
     <div id="site-header"></div>
 
-    <!-- Single Compact Filter Bar -->
-    <section class="bg-white border-b border-slate-200 sticky top-[61px] z-30">
-        <div class="market-container py-3 flex flex-wrap items-center justify-between gap-2.5 text-xs">
+    <!-- Single Compact Filter Bar with Prominent Borderlines -->
+    <section class="bg-white border-b-2 border-slate-300 sticky top-[62px] sm:top-[95px] z-30 shadow-xs">
+        <div class="market-container py-3.5 flex flex-wrap items-center justify-between gap-2.5 text-xs">
             <div class="flex flex-wrap items-center gap-2 flex-1">
                 <div class="relative min-w-[180px] flex-1 max-w-xs">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-[11px]"></i>
-                    <input type="text" id="filter-keyword" oninput="applyFilters()" placeholder="Search plot #, ballot, or area..." class="w-full bg-slate-100 border border-slate-200 rounded-xl pl-8 pr-3 py-2 font-medium text-slate-800 focus:outline-none focus:border-emerald-600">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-emerald-700 text-[11px]"></i>
+                    <input type="text" id="filter-keyword" oninput="applyFilters()" placeholder="Search plot #, ballot, or area..." class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl pl-8 pr-3 py-2 font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
                 </div>
 
-                <select id="filter-project" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:border-emerald-600">
+                <select id="filter-project" onchange="applyFilters()" class="bg-slate-50 border-2 border-slate-300 rounded-xl px-3 py-2 font-bold text-slate-800 focus:outline-none focus:border-emerald-600">
                     <option value="all">All Projects</option>
                 </select>
 
-                <select id="filter-type" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:border-emerald-600">
+                <select id="filter-type" onchange="applyFilters()" class="bg-slate-50 border-2 border-slate-300 rounded-xl px-3 py-2 font-bold text-slate-800 focus:outline-none focus:border-emerald-600">
                     <option value="all">All Types</option>
                     <option value="residential_plot">Residential Plots</option>
                     <option value="commercial_plot">Commercial Plots</option>
                     <option value="all_homes">Homes</option>
                 </select>
 
-                <select id="filter-price-range" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:border-emerald-600">
+                <select id="filter-price-range" onchange="applyFilters()" class="bg-slate-50 border-2 border-slate-300 rounded-xl px-3 py-2 font-bold text-slate-800 focus:outline-none focus:border-emerald-600">
                     <option value="all">Any Price</option>
                     <option value="0-30000000">Under 3 Cr</option>
                     <option value="30000000-100000000">3 – 10 Cr</option>
                     <option value="100000000-999999999">10 Cr+</option>
                 </select>
 
-                <select id="results-sort" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:border-emerald-600">
+                <select id="results-sort" onchange="applyFilters()" class="bg-slate-50 border-2 border-slate-300 rounded-xl px-3 py-2 font-bold text-slate-800 focus:outline-none focus:border-emerald-600">
                     <option value="default">Sort: Featured</option>
                     <option value="price-asc">Price: Low to High</option>
                     <option value="price-desc">Price: High to Low</option>
                 </select>
 
-                <button type="button" onclick="resetFilters()" title="Reset" class="p-2 text-slate-400 hover:text-slate-800">
+                <button type="button" onclick="resetFilters()" title="Reset" class="p-2 rounded-xl border-2 border-slate-300 bg-white text-slate-600 hover:border-emerald-600 hover:text-emerald-700">
                     <i class="fa-solid fa-rotate-left"></i>
                 </button>
             </div>
 
             <!-- List / Map View Toggle -->
-            <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shrink-0">
-                <button type="button" id="view-btn-grid" onclick="setViewMode('grid')" class="px-3 py-1.5 rounded-lg font-bold bg-white text-emerald-700 shadow-xs flex items-center gap-1.5">
+            <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border-2 border-slate-300 shrink-0">
+                <button type="button" id="view-btn-grid" onclick="setViewMode('grid')" class="px-3 py-1.5 rounded-lg font-bold bg-white border border-slate-300 text-emerald-700 shadow-xs flex items-center gap-1.5">
                     <i class="fa-solid fa-grip"></i> Listings
                 </button>
                 <button type="button" id="view-btn-map" onclick="setViewMode('map')" class="px-3 py-1.5 rounded-lg font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1.5">
@@ -85,12 +85,15 @@
     </section>
 
     <main class="market-container py-8 flex-1 space-y-6">
-        <div class="flex items-center justify-between">
-            <h1 class="text-xl sm:text-2xl font-extrabold outfit text-slate-900">
-                <span id="results-count" class="text-emerald-700">0</span> Verified Listings
-            </h1>
-            <a href="project-detail.html?slug=dha-margalla-enclave#payment-plan" class="text-xs font-bold text-emerald-700 hover:underline">
-                Payment Plans &rarr;
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b-2 border-slate-300">
+            <div>
+                <span class="text-[11px] font-extrabold uppercase tracking-widest text-emerald-700">Islamabad Verified Inventory</span>
+                <h1 class="text-xl sm:text-2xl font-extrabold outfit text-slate-900">
+                    <span id="results-count" class="text-emerald-700">0</span> Verified Listings
+                </h1>
+            </div>
+            <a href="project-detail.html?slug=dha-margalla-enclave#payment-plan" class="px-4 py-2 rounded-xl bg-white border-2 border-slate-300 hover:border-emerald-600 text-xs font-extrabold text-emerald-800 transition-colors">
+                Official Payment Plans &rarr;
             </a>
         </div>
 
@@ -232,8 +235,8 @@
                 const waUrl = `https://wa.me/923340091127?text=${encodeURIComponent('Hi, I am interested in ' + p.title + (p.plotNumber ? ' (' + p.plotNumber + ')' : ''))}`;
 
                 return `
-                    <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-lg transition-all flex flex-col group">
-                        <a href="${url}" class="relative h-52 bg-slate-100 overflow-hidden block">
+                    <article class="kp-card rounded-2xl overflow-hidden flex flex-col group">
+                        <a href="${url}" class="relative h-52 bg-slate-100 overflow-hidden block border-b-2 border-slate-200">
                             <img src="${img}" alt="${p.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-map-pin text-[10px]"></i> ${p.plotNumber}</span>` : ''}
                             ${hasVid ? `<span class="absolute top-3 right-3 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-brands fa-youtube"></i> Video</span>` : ''}

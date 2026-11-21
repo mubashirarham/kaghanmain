@@ -118,9 +118,9 @@
             : 'Margalla Enclave • CDA Zone 4, Islamabad';
 
         root.innerHTML = `
-            <div id="${uid}-shell" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div id="${uid}-shell" class="bg-white rounded-2xl border-2 border-slate-300 shadow-md overflow-hidden">
                 <!-- Compact Map Toolbar -->
-                <div class="bg-slate-900 text-white px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2.5 text-xs">
+                <div class="bg-slate-900 text-white px-3.5 py-2.5 border-b-2 border-emerald-600/70 flex flex-wrap items-center justify-between gap-2.5 text-xs">
                     <!-- View Mode Switcher -->
                     <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
                         <button type="button" id="${uid}-btn-pinned" class="px-3 py-1.5 rounded-lg font-bold bg-emerald-600 text-white flex items-center gap-1.5 transition-all">

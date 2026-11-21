@@ -106,50 +106,90 @@ window.KaghanSharedUI = {
         const headerContainer = document.getElementById('site-header') || document.querySelector('nav');
         if (!headerContainer) return;
 
-        const isHome = active === 'home';
-        const isListing = active === 'projects';
+        const navLinkCls = (isActive) => isActive
+            ? 'px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-800 font-extrabold transition-all'
+            : 'px-3 py-1.5 rounded-lg border border-transparent text-slate-700 hover:text-emerald-800 hover:bg-slate-50 hover:border-slate-300 font-bold transition-all';
 
         const navHtml = `
-            <!-- Minimal Single-Row Sticky Header -->
-            <header id="main-site-header" class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 transition-all duration-300 shadow-xs">
+            <!-- Executive Two-Tier Sticky Header with Prominent Borderlines -->
+            <header id="main-site-header" class="sticky top-0 z-50 w-full bg-white/98 backdrop-blur-md border-b-2 border-slate-300 shadow-sm transition-all duration-300">
+                <!-- Tier 1: Compact Authority Utility Strip -->
+                <div class="bg-slate-900 text-slate-300 border-b-2 border-emerald-600/80 text-[11px] hidden sm:block">
+                    <div class="market-container py-1.5 flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="inline-flex items-center gap-1.5 text-emerald-400 font-bold">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>DHA &amp; CDA Verified Advisory</span>
+                            </span>
+                            <span class="text-slate-700">|</span>
+                            <span class="shared-address-text text-slate-300 flex items-center gap-1.5">
+                                <i class="fa-solid fa-location-dot text-amber-400 text-[10px]"></i>
+                                Bahria Enclave, Islamabad
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <button type="button" onclick="window.KaghanSharedUI.openAreaUnitModal()" class="text-slate-300 hover:text-emerald-400 font-semibold flex items-center gap-1 transition-colors">
+                                <i class="fa-solid fa-ruler-combined text-[10px] text-amber-400"></i>
+                                <span>Area Converter</span>
+                            </button>
+                            <span class="text-slate-700">|</span>
+                            <a href="tel:+923340091127" class="shared-phone-link text-white hover:text-emerald-400 font-bold tabular-nums flex items-center gap-1.5 transition-colors">
+                                <i class="fa-solid fa-phone text-emerald-400 text-[10px]"></i>
+                                +92 334 0091127
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tier 2: Main Navigation Bar -->
                 <div class="py-3">
                     <div class="market-container flex justify-between items-center text-xs gap-4">
-                        <!-- Logo -->
-                        <a href="index.html" class="flex items-center gap-2.5 group shrink-0">
-                            <img src="assets/images/logo.png" alt="Kaghan Properties" class="h-8 w-auto object-contain">
+                        <!-- Brand Lockup -->
+                        <a href="index.html" class="flex items-center gap-3 group shrink-0">
+                            <div class="p-1.5 rounded-xl bg-slate-50 border-2 border-slate-300 group-hover:border-emerald-600 transition-colors shadow-xs">
+                                <img src="assets/images/logo.png" alt="Kaghan Properties" class="h-8 w-auto object-contain">
+                            </div>
                             <div class="flex flex-col">
-                                <span class="text-base font-extrabold tracking-tight uppercase outfit text-slate-900 leading-none group-hover:text-emerald-700 transition-colors">Kaghan</span>
-                                <span class="text-[8px] text-amber-600 tracking-[0.24em] uppercase font-bold">Properties</span>
+                                <span class="text-lg font-extrabold tracking-tight uppercase outfit text-slate-900 leading-none group-hover:text-emerald-700 transition-colors">Kaghan</span>
+                                <span class="text-[9px] text-amber-600 tracking-[0.26em] uppercase font-extrabold mt-0.5">Properties</span>
                             </div>
                         </a>
 
-                        <!-- Clean Single-Row Primary Nav -->
-                        <nav class="hidden md:flex items-center gap-7 font-bold text-slate-700 text-[13px]">
-                            <a href="index.html" class="${active === 'home' ? 'text-emerald-700' : 'hover:text-emerald-700'} transition-colors">Home</a>
-                            <a href="projects.html" class="${active === 'projects' ? 'text-emerald-700' : 'hover:text-emerald-700'} transition-colors">Listings</a>
-                            <a href="project-detail.html?slug=dha-margalla-enclave" class="${active === 'dha-margalla' ? 'text-emerald-700' : 'hover:text-emerald-700'} transition-colors">Margalla Enclave</a>
-                            <a href="index.html#plot-map" class="hover:text-emerald-700 transition-colors flex items-center gap-1.5">
+                        <!-- Primary Navigation -->
+                        <nav class="hidden lg:flex items-center gap-1.5 text-[13px]">
+                            <a href="index.html" class="${navLinkCls(active === 'home')}">Home</a>
+                            <a href="projects.html" class="${navLinkCls(active === 'projects')}">Listings</a>
+                            <a href="project-detail.html?slug=dha-margalla-enclave" class="${navLinkCls(active === 'dha-margalla')}">Margalla Enclave</a>
+                            <a href="index.html#plot-map" class="${navLinkCls(false)} inline-flex items-center gap-1.5">
                                 <i class="fa-solid fa-map-pin text-emerald-600 text-xs"></i> Plot Map
                             </a>
-                            <a href="contact.html" class="${active === 'contact' ? 'text-emerald-700' : 'hover:text-emerald-700'} transition-colors">Contact</a>
+                            <a href="about.html" class="${navLinkCls(active === 'about')}">About</a>
+                            <a href="contact.html" class="${navLinkCls(active === 'contact')}">Contact</a>
                         </nav>
 
-                        <!-- Right: Currency + Primary CTA -->
-                        <div class="flex items-center gap-2.5">
-                            <div class="flex items-center gap-1 bg-slate-100 px-2 py-1.5 rounded-lg border border-slate-200">
-                                <select id="header-currency-select" onchange="window.KaghanSharedUI.setCurrency(this.value)" aria-label="Currency" class="bg-transparent text-slate-800 font-bold text-[11px] focus:outline-none cursor-pointer">
+                        <!-- Right Actions -->
+                        <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-1 bg-slate-50 px-2.5 py-1.5 rounded-xl border-2 border-slate-300 hover:border-emerald-600 transition-colors">
+                                <i class="fa-solid fa-coins text-amber-600 text-[10px]"></i>
+                                <select id="header-currency-select" onchange="window.KaghanSharedUI.setCurrency(this.value)" aria-label="Currency" class="bg-transparent text-slate-900 font-extrabold text-[11px] focus:outline-none cursor-pointer">
                                     <option value="PKR" ${this.currency === 'PKR' ? 'selected' : ''}>PKR</option>
                                     <option value="USD" ${this.currency === 'USD' ? 'selected' : ''}>USD</option>
                                     <option value="AED" ${this.currency === 'AED' ? 'selected' : ''}>AED</option>
                                 </select>
                             </div>
 
-                            <a href="https://wa.me/923340091127" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-1.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-2 px-4 rounded-xl shadow-xs transition-colors">
+                            <a href="tel:+923340091127" class="hidden md:inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white border-2 border-slate-900 text-xs font-bold py-2 px-3.5 rounded-xl transition-colors">
+                                <i class="fa-solid fa-phone text-emerald-400 text-[11px]"></i>
+                                <span>Call</span>
+                            </a>
+
+                            <a href="https://wa.me/923340091127" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-1.5 bg-emerald-700 hover:bg-emerald-800 text-white border-2 border-emerald-800 text-xs font-bold py-2 px-4 rounded-xl shadow-xs transition-colors">
                                 <i class="fa-brands fa-whatsapp text-sm"></i>
                                 <span>WhatsApp</span>
                             </a>
 
-                            <button onclick="window.KaghanSharedUI.toggleMobileMenu()" aria-label="Menu" class="md:hidden p-2 text-slate-700 hover:text-emerald-700 hover:bg-slate-100 rounded-lg">
+                            <button onclick="window.KaghanSharedUI.toggleMobileMenu()" aria-label="Menu" class="lg:hidden p-2 text-slate-800 hover:text-emerald-700 bg-slate-50 border-2 border-slate-300 rounded-xl">
                                 <i class="fa-solid fa-bars text-base"></i>
                             </button>
                         </div>
@@ -157,25 +197,31 @@ window.KaghanSharedUI = {
                 </div>
             </header>
 
-            <!-- Minimal Mobile Drawer -->
+            <!-- Enhanced Mobile Drawer -->
             <div id="mobile-menu-drawer" onclick="if(event.target === this) window.KaghanSharedUI.toggleMobileMenu()" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-[70] hidden flex flex-col justify-end">
-                <div class="bg-white rounded-t-3xl p-5 space-y-4 shadow-2xl">
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                        <span class="font-bold outfit text-base text-slate-900">Kaghan Properties</span>
-                        <button onclick="window.KaghanSharedUI.toggleMobileMenu()" aria-label="Close menu" class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center">
+                <div class="bg-white rounded-t-3xl border-t-4 border-emerald-600 p-5 space-y-4 shadow-2xl">
+                    <div class="flex justify-between items-center border-b-2 border-slate-200 pb-3">
+                        <div class="flex items-center gap-2.5">
+                            <img src="assets/images/logo.png" alt="Kaghan Properties" class="h-7 w-auto">
+                            <span class="font-extrabold outfit text-base text-slate-900 uppercase">Kaghan Properties</span>
+                        </div>
+                        <button onclick="window.KaghanSharedUI.toggleMobileMenu()" aria-label="Close menu" class="w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 flex items-center justify-center">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
-                    <div class="space-y-1 text-sm font-bold text-slate-800 divide-y divide-slate-100">
+                    <div class="space-y-1 text-sm font-bold text-slate-800 divide-y divide-slate-200">
                         <a href="index.html" class="block py-2.5 hover:text-emerald-700">Home</a>
-                        <a href="projects.html" class="block py-2.5 hover:text-emerald-700">Listings</a>
-                        <a href="project-detail.html?slug=dha-margalla-enclave" class="block py-2.5 hover:text-emerald-700">Margalla Enclave Plans</a>
+                        <a href="projects.html" class="block py-2.5 hover:text-emerald-700">Verified Listings</a>
+                        <a href="project-detail.html?slug=dha-margalla-enclave" class="block py-2.5 hover:text-emerald-700">DHA Margalla Enclave</a>
                         <a href="index.html#plot-map" onclick="window.KaghanSharedUI.toggleMobileMenu()" class="block py-2.5 text-emerald-700">Interactive Plot Map</a>
-                        <a href="about.html" class="block py-2.5 hover:text-emerald-700">About</a>
-                        <a href="contact.html" class="block py-2.5 hover:text-emerald-700">Contact</a>
+                        <a href="about.html" class="block py-2.5 hover:text-emerald-700">About Us</a>
+                        <a href="contact.html" class="block py-2.5 hover:text-emerald-700">Contact &amp; Office</a>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 pt-2">
-                        <a href="tel:+923340091127" class="btn-primary py-2.5 rounded-xl text-xs font-bold text-center"><i class="fa-solid fa-phone mr-1"></i> Call</a>
+                    <button type="button" onclick="window.KaghanSharedUI.toggleMobileMenu(); window.KaghanSharedUI.openAreaUnitModal();" class="w-full py-2.5 rounded-xl bg-slate-100 border-2 border-slate-300 text-slate-800 text-xs font-bold flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-ruler-combined text-emerald-700"></i> Area Unit Converter
+                    </button>
+                    <div class="grid grid-cols-2 gap-2.5 pt-1">
+                        <a href="tel:+923340091127" class="btn-primary py-2.5 rounded-xl text-xs font-bold text-center"><i class="fa-solid fa-phone mr-1"></i> Call Now</a>
                         <a href="https://wa.me/923340091127" target="_blank" class="btn-whatsapp py-2.5 rounded-xl text-xs font-bold text-center"><i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp</a>
                     </div>
                 </div>
@@ -201,32 +247,105 @@ window.KaghanSharedUI = {
         }
     },
 
-    // Shared 5-Column Marketplace Footer (§7)
+    // Enhanced 4-Column Executive Footer with Prominent Borderlines
     renderFooter: function() {
         const footerContainer = document.getElementById('site-footer') || document.querySelector('footer');
         if (!footerContainer) return;
 
         const footerHtml = `
-            <footer class="bg-slate-900 text-slate-400 text-xs border-t border-slate-800 relative z-10 py-8">
-                <div class="market-container flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div class="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-                        <a href="index.html" class="font-extrabold outfit text-white text-sm uppercase tracking-wider">Kaghan Properties</a>
-                        <span class="hidden sm:inline text-slate-700">&bull;</span>
-                        <span class="shared-address-text text-slate-400">Bahria Enclave, Islamabad</span>
-                        <span class="hidden sm:inline text-slate-700">&bull;</span>
-                        <a href="tel:+923340091127" class="shared-phone-link text-emerald-400 hover:text-white font-semibold tabular-nums">+92 334 0091127</a>
+            <footer class="bg-slate-950 text-slate-300 text-xs border-t-4 border-emerald-600 relative z-10">
+                <!-- Main Footer Grid -->
+                <div class="market-container py-12 sm:py-14">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-10 border-b border-slate-800">
+                        <!-- Column 1: Brand & Advisory Authority -->
+                        <div class="lg:col-span-4 space-y-4 lg:pr-6 lg:border-r lg:border-slate-800">
+                            <a href="index.html" class="inline-flex items-center gap-3">
+                                <div class="p-1.5 rounded-xl bg-white border-2 border-emerald-500/70">
+                                    <img src="assets/images/logo.png" alt="Kaghan Properties" class="h-8 w-auto object-contain">
+                                </div>
+                                <div>
+                                    <div class="font-extrabold outfit text-white text-lg uppercase tracking-wide leading-none">Kaghan Properties</div>
+                                    <div class="text-[9px] text-amber-400 uppercase tracking-[0.22em] font-bold mt-1">Islamabad Real Estate Advisory</div>
+                                </div>
+                            </a>
+                            <p class="text-slate-400 leading-relaxed text-xs">
+                                Authorized real estate advisory specializing in verified DHA Margalla Enclave Ballot 1, 2 &amp; 3 residential &amp; commercial plots, Bahria Enclave, and CDA Zone 4 investments for local and overseas Pakistanis.
+                            </p>
+                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-[11px] font-bold text-emerald-400">
+                                <i class="fa-solid fa-certificate text-amber-400"></i>
+                                <span>100% Verified Documentation &amp; Transfers</span>
+                            </div>
+                            <div class="flex items-center gap-2 pt-1">
+                                <a href="https://wa.me/923340091127" target="_blank" rel="noopener" aria-label="WhatsApp" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-700 hover:border-emerald-500 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                                </a>
+                                <a href="tel:+923340091127" aria-label="Phone" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-700 hover:border-emerald-500 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors">
+                                    <i class="fa-solid fa-phone text-xs"></i>
+                                </a>
+                                <a href="mailto:info@kaghanproperties.com" aria-label="Email" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-700 hover:border-emerald-500 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors">
+                                    <i class="fa-solid fa-envelope text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Column 2: Quick Links -->
+                        <div class="lg:col-span-2 space-y-3">
+                            <h3 class="text-white font-extrabold outfit text-sm uppercase tracking-wider pb-2 border-b border-slate-800">Explore</h3>
+                            <ul class="space-y-2.5 text-slate-400 font-medium">
+                                <li><a href="index.html" class="hover:text-emerald-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[8px] text-emerald-500"></i> Home</a></li>
+                                <li><a href="projects.html" class="hover:text-emerald-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[8px] text-emerald-500"></i> All Verified Listings</a></li>
+                                <li><a href="project-detail.html?slug=dha-margalla-enclave" class="hover:text-emerald-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[8px] text-emerald-500"></i> Margalla Enclave</a></li>
+                                <li><a href="index.html#plot-map" class="hover:text-emerald-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[8px] text-emerald-500"></i> Interactive Plot Map</a></li>
+                                <li><a href="about.html" class="hover:text-emerald-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[8px] text-emerald-500"></i> About Advisory</a></li>
+                                <li><a href="contact.html" class="hover:text-emerald-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[8px] text-emerald-500"></i> Contact Us</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Column 3: Popular SEO Searches -->
+                        <div class="lg:col-span-3 space-y-3">
+                            <h3 class="text-white font-extrabold outfit text-sm uppercase tracking-wider pb-2 border-b border-slate-800">Popular Plot Categories</h3>
+                            <ul class="space-y-2.5 text-slate-400 font-medium">
+                                <li><a href="projects.html?type=residential_plot" class="hover:text-emerald-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-map-pin text-[10px] text-emerald-500"></i> Residential Plots (5, 10 Marla &amp; 1 Kanal)</a></li>
+                                <li><a href="projects.html?type=commercial_plot" class="hover:text-emerald-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-map-pin text-[10px] text-amber-400"></i> Commercial Plots (Ballot 2 &amp; Ballot 3)</a></li>
+                                <li><a href="project-detail.html?slug=dha-margalla-enclave#payment-plan" class="hover:text-emerald-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-table-list text-[10px] text-emerald-500"></i> Official Ballot 1, 2 &amp; 3 Payment Plans</a></li>
+                                <li><a href="projects.html?view=map" class="hover:text-emerald-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-layer-group text-[10px] text-emerald-500"></i> Satellite &amp; Live Emap CAD Finder</a></li>
+                                <li><button type="button" onclick="window.KaghanSharedUI.openAreaUnitModal()" class="hover:text-emerald-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-calculator text-[10px] text-amber-400"></i> Marla / Sq Yds / Kanal Converter</button></li>
+                            </ul>
+                        </div>
+
+                        <!-- Column 4: Direct Head Office -->
+                        <div class="lg:col-span-3 space-y-3">
+                            <h3 class="text-white font-extrabold outfit text-sm uppercase tracking-wider pb-2 border-b border-slate-800">Head Office &amp; Desk</h3>
+                            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <i class="fa-solid fa-location-dot text-emerald-400 mt-0.5"></i>
+                                    <span class="shared-address-text text-slate-300 leading-snug">Office 203, 2nd Floor, Asian Arcade, Sector C, Bahria Enclave, Islamabad</span>
+                                </div>
+                                <div class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-phone text-emerald-400"></i>
+                                    <a href="tel:+923340091127" class="shared-phone-link text-white hover:text-emerald-400 font-bold tabular-nums">+92 334 0091127</a>
+                                </div>
+                                <div class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-clock text-amber-400"></i>
+                                    <span class="text-slate-400">Mon – Sun: 9:00 AM – 8:00 PM PKT</span>
+                                </div>
+                                <a href="https://wa.me/923340091127?text=Hi%20Kaghan%20Properties,%20I%20would%20like%20to%20schedule%20a%20consultation." target="_blank" rel="noopener" class="mt-1 w-full py-2.5 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold flex items-center justify-center gap-2 transition-colors">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i> Message Advisor
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="flex flex-wrap items-center justify-center gap-5 font-semibold text-slate-300">
-                        <a href="projects.html" class="hover:text-emerald-400 transition-colors">Listings</a>
-                        <a href="project-detail.html?slug=dha-margalla-enclave" class="hover:text-emerald-400 transition-colors">Margalla Enclave</a>
-                        <a href="about.html" class="hover:text-emerald-400 transition-colors">About</a>
-                        <a href="contact.html" class="hover:text-emerald-400 transition-colors">Contact</a>
-                        <a href="privacy-policy.html" class="hover:text-emerald-400 transition-colors">Privacy</a>
-                    </div>
-
-                    <div class="text-slate-500 text-[11px]">
-                        &copy; 2026 Kaghan Properties
+                    <!-- Bottom Legal Bar -->
+                    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+                        <div>&copy; 2026 <span class="text-slate-300 font-bold">Kaghan Properties Islamabad</span>. All rights reserved.</div>
+                        <div class="flex items-center gap-4">
+                            <a href="privacy-policy.html" class="hover:text-emerald-400 transition-colors">Privacy Policy</a>
+                            <span class="text-slate-800">&bull;</span>
+                            <a href="contact.html" class="hover:text-emerald-400 transition-colors">Office Directions</a>
+                            <span class="text-slate-800">&bull;</span>
+                            <a href="admin/index.html" class="hover:text-emerald-400 transition-colors">Admin</a>
+                        </div>
                     </div>
                 </div>
             </footer>

@@ -28,8 +28,14 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         .outfit { font-family: 'Outfit', sans-serif; }
-        .nav-active { background: #ecfdf5; color: #047857; font-weight: 700; }
+        .nav-active { background: #ecfdf5; color: #047857; font-weight: 700; border: 1.5px solid #6ee7b7; }
         #admin-plot-picker-map { z-index: 10; }
+        /* Prominent architectural borderlines across the white admin panel */
+        .border-slate-200 { border-color: #cbd5e1 !important; }
+        .border-slate-100 { border-color: #e2e8f0 !important; }
+        .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #e2e8f0 !important; }
+        aside#admin-sidebar { border-right-width: 2px !important; }
+        input:not([type="range"]):not([type="checkbox"]), select, textarea { border-width: 1.5px !important; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen">

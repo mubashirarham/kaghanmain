@@ -36,7 +36,7 @@
 
     <main class="market-container py-8 flex-1 space-y-12">
         <!-- 1. COMPACT PROJECT HEADER & COVER IMAGE -->
-        <section class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 space-y-5 shadow-xs">
+        <section class="bg-white rounded-3xl border-2 border-slate-300 p-5 sm:p-7 space-y-5 shadow-sm">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="space-y-1">
                     <span id="proj-hero-badge" class="inline-block text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">
@@ -89,7 +89,7 @@
             </div>
 
             <!-- Ballot 1 Table -->
-            <div id="tab-b1" class="bg-white rounded-2xl border border-slate-200 overflow-x-auto shadow-xs">
+            <div id="tab-b1" class="bg-white rounded-2xl border-2 border-slate-300 overflow-x-auto shadow-xs">
                 <table class="w-full text-left text-xs min-w-[680px]">
                     <thead class="bg-slate-900 text-white uppercase text-[11px]">
                         <tr>
@@ -111,7 +111,7 @@
             </div>
 
             <!-- Ballot 2 Table -->
-            <div id="tab-b2" class="hidden bg-white rounded-2xl border border-slate-200 overflow-x-auto shadow-xs">
+            <div id="tab-b2" class="hidden bg-white rounded-2xl border-2 border-slate-300 overflow-x-auto shadow-xs">
                 <table class="w-full text-left text-xs min-w-[680px]">
                     <thead class="bg-slate-900 text-white uppercase text-[11px]">
                         <tr>
@@ -134,7 +134,7 @@
             </div>
 
             <!-- Ballot 3 Table -->
-            <div id="tab-b3" class="hidden bg-white rounded-2xl border border-slate-200 overflow-x-auto shadow-xs">
+            <div id="tab-b3" class="hidden bg-white rounded-2xl border-2 border-slate-300 overflow-x-auto shadow-xs">
                 <table class="w-full text-left text-xs min-w-[680px]">
                     <thead class="bg-slate-900 text-white uppercase text-[11px]">
                         <tr>
@@ -166,15 +166,15 @@
         </section>
 
         <!-- 5. COMPACT INQUIRY BOX -->
-        <section id="request-call-box" class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 max-w-2xl mx-auto space-y-4 shadow-xs">
+        <section id="request-call-box" class="bg-white rounded-3xl border-2 border-slate-300 p-6 sm:p-8 max-w-2xl mx-auto space-y-4 shadow-sm">
             <div class="text-center space-y-1">
                 <h2 class="text-xl font-extrabold outfit text-slate-900">Book a Plot or Site Visit</h2>
                 <p class="text-xs text-slate-500">Call <a href="tel:+923340091127" class="font-bold text-emerald-700">+92 334 0091127</a> or request a quick callback.</p>
             </div>
             <form onsubmit="handleProjectLead(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-                <input type="text" id="lead-name" required placeholder="Full Name" class="bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
-                <input type="tel" id="lead-phone" required placeholder="Phone / WhatsApp" class="bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
-                <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl py-2.5 px-4">Request Callback</button>
+                <input type="text" id="lead-name" required placeholder="Full Name" class="bg-slate-50 border-2 border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                <input type="tel" id="lead-phone" required placeholder="Phone / WhatsApp" class="bg-slate-50 border-2 border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-emerald-600">
+                <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 border-2 border-emerald-800 text-white font-bold rounded-xl py-2.5 px-4">Request Callback</button>
             </form>
             <div id="lead-feedback" class="hidden text-center text-xs font-bold text-emerald-700"></div>
         </section>
@@ -308,8 +308,8 @@
                         const price = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${Number(p.price || 0).toLocaleString()}`;
                         const url = `property.html?slug=${encodeURIComponent(p.slug || p.id)}`;
                         return `
-                            <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col">
-                                <a href="${url}" class="relative h-44 bg-slate-100 block overflow-hidden">
+                            <article class="kp-card rounded-2xl overflow-hidden flex flex-col">
+                                <a href="${url}" class="relative h-44 bg-slate-100 block overflow-hidden border-b-2 border-slate-200">
                                     <img src="${img}" alt="${p.title}" loading="lazy" class="w-full h-full object-cover">
                                     ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-map-pin text-[10px] mr-1"></i>${p.plotNumber}</span>` : ''}
                                     ${hasVid ? `<span class="absolute top-3 right-3 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-brands fa-youtube"></i> Video</span>` : ''}

@@ -13,8 +13,9 @@
     --color-text-primary: #0f172a;
     --color-text-secondary: #334155;
     --color-text-muted: #64748b;
-    --color-border: #e2e8f0;
-    --color-border-subtle: #f1f5f9;
+    --color-border: #cbd5e1;
+    --color-border-strong: #94a3b8;
+    --color-border-subtle: #e2e8f0;
 
     /* Brand Accent */
     --color-brand-primary: #077943;
@@ -1397,4 +1398,66 @@ h1, h2, h3, h4, h5, h6, .outfit {
     border-color: #34d399 !important;
     box-shadow: 0 4px 12px rgba(7, 121, 67, 0.35);
 }
+
+/* ==========================================================================
+   PROMINENT ARCHITECTURAL BORDERLINES & ENHANCED UI POLISH (SITE-WIDE)
+   ========================================================================== */
+.kp-card {
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.kp-card:hover {
+    border-color: #059669;
+    box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.10);
+}
+
+.kp-panel {
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+.kp-section-band {
+    border-top: 2px solid #cbd5e1;
+}
+
+.kp-faq-item {
+    border: 1.5px solid #cbd5e1;
+    border-radius: 1rem;
+    background: #ffffff;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.kp-faq-item[open] {
+    border-color: #059669;
+    box-shadow: 0 8px 20px -8px rgba(5, 150, 105, 0.2);
+}
+.kp-faq-item summary {
+    list-style: none;
+    cursor: pointer;
+}
+.kp-faq-item summary::-webkit-details-marker {
+    display: none;
+}
+.kp-faq-item[open] .kp-faq-chevron {
+    transform: rotate(180deg);
+    color: #059669;
+}
+
+/* Strengthen global surface borders across Tailwind cards, tables & inputs */
+.border-slate-200 {
+    border-color: #cbd5e1 !important;
+}
+input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+    border-color: #cbd5e1;
+}
+table th,
+table td {
+    border-color: #cbd5e1;
+}
+
 
