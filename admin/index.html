@@ -1302,7 +1302,15 @@
                 adminPlotMap = L.map(el, { center: [cLat, cLng], zoom: 16, maxZoom: 21, scrollWheelZoom: true });
                 adminSatLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', { maxNativeZoom: 20, maxZoom: 21 }).addTo(adminPlotMap);
                 adminStrLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', { maxNativeZoom: 20, maxZoom: 21 });
-                adminCadOverlay = L.imageOverlay('../assets/images/margalla-enclave-cad-clean.png', ADMIN_MARGALLA_BOUNDS, { opacity: 0.75, interactive: false }).addTo(adminPlotMap);
+
+                // Crisp SVG vector society boundary (zero blurry screenshot)
+                L.polygon([
+                    [33.6882, 73.1652], [33.6960, 73.1655], [33.7038, 73.1672],
+                    [33.7052, 73.1715], [33.7155, 73.1938], [33.7120, 73.1960],
+                    [33.7042, 73.1912], [33.6960, 73.1978], [33.6905, 73.1945],
+                    [33.6870, 73.1845], [33.6865, 73.1725]
+                ], { color: '#10b981', weight: 2, dashArray: '6 5', fillColor: '#10b981', fillOpacity: 0.06, interactive: false }).addTo(adminPlotMap);
+
                 if (window.KaghanDB && window.KaghanDB.getSiteSettings) {
                     window.KaghanDB.getSiteSettings().then(st => {
                         const cfg = st && st.cadOverlay;

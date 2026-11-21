@@ -2264,9 +2264,21 @@ window.KaghanDB = {
         try {
             if (db) {
                 const snap = await getSubcollectionRef('properties').get();
+                const defaultMap = new Map(DEFAULT_PROPERTIES.map(dp => [dp.id, dp]));
                 snap.forEach(doc => {
-                    const data = { id: doc.id, ...doc.data() };
-                    list.push(data);
+                    const raw = { id: doc.id, ...doc.data() };
+                    const def = defaultMap.get(raw.id);
+                    if (def) {
+                        if (raw.lat == null && def.lat != null) raw.lat = def.lat;
+                        if (raw.lng == null && def.lng != null) raw.lng = def.lng;
+                        if (!raw.coords && def.coords) raw.coords = def.coords;
+                        if (!raw.plotNumber && def.plotNumber) raw.plotNumber = def.plotNumber;
+                        if (!raw.plotDimensions && def.plotDimensions) raw.plotDimensions = def.plotDimensions;
+                        if (!raw.plotStreet && def.plotStreet) raw.plotStreet = def.plotStreet;
+                        if (!raw.plotSector && def.plotSector) raw.plotSector = def.plotSector;
+                        if (!raw.projectId) raw.projectId = raw.societyId || 'dha-margalla-enclave';
+                    }
+                    list.push(raw);
                 });
 
                 if (list.length > 0) {
