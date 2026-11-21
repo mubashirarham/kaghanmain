@@ -223,16 +223,23 @@
                     <select id="listings-project-filter" onchange="renderListingsTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-700 focus:outline-none focus:border-emerald-600">
                         <option value="all">All Projects</option>
                     </select>
+                    <select id="listings-badge-filter" onchange="renderListingsTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-700 focus:outline-none focus:border-emerald-600">
+                        <option value="all">All Badges</option>
+                        <option value="superhot">Super Hot</option>
+                        <option value="hot">Hot</option>
+                        <option value="none">No Badge</option>
+                    </select>
                 </div>
 
                 <div class="bg-white rounded-2xl border-2 border-slate-300 shadow-xs overflow-x-auto">
-                    <table class="w-full text-left text-xs min-w-[700px]">
+                    <table class="w-full text-left text-xs min-w-[780px]">
                         <thead class="bg-slate-50 border-b-2 border-slate-200 text-slate-600 uppercase text-[11px] font-bold">
                             <tr>
                                 <th class="p-3.5">Listing</th>
                                 <th class="p-3.5">Project</th>
                                 <th class="p-3.5">Plot Pin</th>
                                 <th class="p-3.5">Price</th>
+                                <th class="p-3.5">Badge / Rank</th>
                                 <th class="p-3.5">Status</th>
                                 <th class="p-3.5 text-right">Actions</th>
                             </tr>
@@ -622,6 +629,20 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="sm:col-span-2 bg-amber-50/70 border border-amber-200 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                            <label for="list-urgency" class="block font-bold text-slate-900 text-xs flex items-center gap-1.5">
+                                <i class="fa-solid fa-fire-flame-curved text-red-600"></i> Priority Badge (Homepage &amp; Listings Ranking)
+                            </label>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Super Hot properties rank first, followed by Hot, then standard listings with no badge.</p>
+                        </div>
+                        <select id="list-urgency" class="sm:w-56 bg-white border-2 border-slate-300 rounded-xl px-3.5 py-2.5 font-bold text-slate-800 focus:outline-none focus:border-emerald-600 shrink-0">
+                            <option value="">No Badge (Standard)</option>
+                            <option value="hot">Hot (Rank #2)</option>
+                            <option value="superhot">Super Hot (Top Rank #1)</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Photos & YouTube Video Gallery -->
@@ -858,6 +879,10 @@
             recentEl.innerHTML = cachedListings.slice(0, 6).map(p => {
                 const imgObj = (p.images || []).find(i => !i.type || i.type === 'image');
                 const thumb = imgObj ? resolveAdminImg(imgObj.url || imgObj) : '';
+                const rank = window.KaghanDB.getBadgeRank(p);
+                const badgePill = rank === 2
+                    ? '<span class="ml-1.5 px-1.5 py-0.5 rounded-full bg-red-600 text-white text-[9px] font-extrabold uppercase tracking-wider shrink-0">Super Hot</span>'
+                    : (rank === 1 ? '<span class="ml-1.5 px-1.5 py-0.5 rounded-full bg-orange-500 text-white text-[9px] font-extrabold uppercase tracking-wider shrink-0">Hot</span>' : '');
                 return `
                     <div class="py-2.5 flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3 min-w-0">
@@ -865,7 +890,7 @@
                                 ${thumb ? `<img src="${thumb}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-image text-slate-300"></i>`}
                             </div>
                             <div class="min-w-0">
-                                <div class="font-bold text-slate-800 truncate">${p.title}</div>
+                                <div class="font-bold text-slate-800 truncate flex items-center">${p.title}${badgePill}</div>
                                 <div class="text-[11px] text-slate-400">${p.plotNumber ? p.plotNumber + ' • ' : ''}${p.area || p.city || ''}</div>
                             </div>
                         </div>
@@ -1047,22 +1072,35 @@
         }
 
         // ==================== LISTINGS ====================
+        function normalizeListingBadge(p) {
+            const rank = window.KaghanDB.getBadgeRank(p);
+            return rank === 2 ? 'superhot' : (rank === 1 ? 'hot' : '');
+        }
+
         function renderListingsTable() {
             const q = (document.getElementById('listings-search').value || '').toLowerCase().trim();
             const projFilter = document.getElementById('listings-project-filter').value;
+            const badgeFilterEl = document.getElementById('listings-badge-filter');
+            const badgeFilter = badgeFilterEl ? badgeFilterEl.value : 'all';
             const tbody = document.getElementById('listings-table-body');
 
-            const filtered = cachedListings.filter(p => {
+            const filtered = window.KaghanDB.sortPropertiesByBadge(cachedListings.filter(p => {
                 if (projFilter !== 'all' && p.projectId !== projFilter && !(!p.projectId && p.societyId === projFilter)) return false;
+                if (badgeFilter !== 'all') {
+                    const rank = window.KaghanDB.getBadgeRank(p);
+                    if (badgeFilter === 'superhot' && rank !== 2) return false;
+                    if (badgeFilter === 'hot' && rank !== 1) return false;
+                    if (badgeFilter === 'none' && rank !== 0) return false;
+                }
                 if (q) {
                     const hay = `${p.title || ''} ${p.plotNumber || ''} ${p.area || ''} ${p.sector || ''}`.toLowerCase();
                     if (!hay.includes(q)) return false;
                 }
                 return true;
-            });
+            }));
 
             if (!filtered.length) {
-                tbody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-slate-400">No matching listings found in Firestore.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-400">No matching listings found in Firestore.</td></tr>';
                 return;
             }
 
@@ -1071,6 +1109,12 @@
                 const thumb = imgObj ? resolveAdminImg(imgObj.url || imgObj) : '';
                 const hasVideo = (p.videos && p.videos.length > 0) || (p.gallery && p.gallery.some(g => g.type === 'video'));
                 const projObj = cachedProjects.find(pr => pr.id === p.projectId || (!p.projectId && pr.id === p.societyId));
+                const badgeVal = normalizeListingBadge(p);
+                const badgeSelectClass = badgeVal === 'superhot'
+                    ? 'bg-red-50 border-red-300 text-red-700 font-extrabold'
+                    : (badgeVal === 'hot'
+                        ? 'bg-orange-50 border-orange-300 text-orange-700 font-bold'
+                        : 'bg-slate-50 border-slate-300 text-slate-600 font-semibold');
                 return `
                     <tr class="hover:bg-slate-50">
                         <td class="p-3.5">
@@ -1088,6 +1132,13 @@
                         <td class="p-3.5">${projObj ? `<span class="px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-[11px]">${projObj.name}</span>` : '<span class="text-slate-400">—</span>'}</td>
                         <td class="p-3.5">${p.plotNumber ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-100 border border-slate-300 text-slate-800 font-bold text-[11px]"><i class="fa-solid fa-map-pin text-emerald-600 text-[10px]"></i> ${p.plotNumber}</span>` : '<span class="text-slate-400">Not pinned</span>'}</td>
                         <td class="p-3.5 font-extrabold text-slate-900">${fmtPrice(p.price)}</td>
+                        <td class="p-3.5">
+                            <select onchange="changeListingBadge('${p.id}', this.value)" title="Select priority badge for homepage &amp; listings rank" class="rounded-lg border px-2 py-1 text-[11px] focus:outline-none focus:border-emerald-600 cursor-pointer ${badgeSelectClass}">
+                                <option value="" ${badgeVal === '' ? 'selected' : ''}>No Badge</option>
+                                <option value="hot" ${badgeVal === 'hot' ? 'selected' : ''}>Hot</option>
+                                <option value="superhot" ${badgeVal === 'superhot' ? 'selected' : ''}>Super Hot</option>
+                            </select>
+                        </td>
                         <td class="p-3.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${p.status === 'sold' ? 'bg-rose-50 text-rose-700' : p.status === 'draft' ? 'bg-slate-100 text-slate-600' : 'bg-emerald-50 text-emerald-700'}">${p.status || 'published'}</span></td>
                         <td class="p-3.5 text-right whitespace-nowrap space-x-1">
                             <a href="../property.html?slug=${encodeURIComponent(p.slug || p.id)}" target="_blank" title="View" class="inline-block p-2 rounded-lg bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-600"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -1116,6 +1167,7 @@
             document.getElementById('list-area').value = prop ? (prop.area || '') : (presetProj ? presetProj.name : '');
             document.getElementById('list-city').value = prop ? (prop.city || '') : (presetProj ? (presetProj.city || '') : '');
             document.getElementById('list-status').value = prop ? (prop.status || 'published') : 'published';
+            document.getElementById('list-urgency').value = prop ? normalizeListingBadge(prop) : '';
             document.getElementById('list-desc').value = prop ? (prop.description || '').replace(/<[^>]+>/g, '') : '';
 
             document.getElementById('list-plot-no').value = prop ? (prop.plotNumber || '') : '';
@@ -1154,6 +1206,17 @@
 
         function closeListingModal() { document.getElementById('modal-listing').classList.add('hidden'); }
         function editListing(id) { const p = cachedListings.find(x => x.id === id); if (p) openListingModal(p); }
+
+        async function changeListingBadge(id, urgency) {
+            const p = cachedListings.find(x => x.id === id);
+            if (!p) return;
+            try {
+                await window.KaghanDB.saveProperty({ ...p, urgency: urgency || '' });
+                await refreshAllData();
+            } catch (err) {
+                alert('Failed to update property badge: ' + (err.message || err));
+            }
+        }
 
         async function deleteListing(id) {
             if (!confirm('Delete this listing from Firestore?')) return;
@@ -1263,6 +1326,7 @@
                 city: document.getElementById('list-city').value.trim(),
                 sector: document.getElementById('list-plot-sector').value.trim(),
                 status: document.getElementById('list-status').value,
+                urgency: document.getElementById('list-urgency').value,
                 description: document.getElementById('list-desc').value.trim(),
                 plotNumber: document.getElementById('list-plot-no').value.trim(),
                 plotDimensions: document.getElementById('list-plot-dim').value.trim(),

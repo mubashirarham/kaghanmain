@@ -47,6 +47,7 @@
         <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="space-y-1">
                 <div class="flex items-center gap-2 flex-wrap">
+                    <span id="detail-urgency-pill" class="hidden"></span>
                     <span id="detail-plot-pill" class="hidden bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1"></span>
                     <span id="detail-cat-pill" class="bg-slate-100 border border-slate-300 text-slate-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full">Listing</span>
                 </div>
@@ -260,6 +261,22 @@
 
             const addrText = [p.plotStreet, p.plotSector || p.sector, p.area, p.city].filter(Boolean).join(', ');
             document.getElementById('detail-address').innerHTML = addrText ? `<i class="fa-solid fa-location-dot text-emerald-600"></i> ${addrText}` : '';
+
+            const urgencyPill = document.getElementById('detail-urgency-pill');
+            if (urgencyPill) {
+                const rank = window.KaghanDB && window.KaghanDB.getBadgeRank
+                    ? window.KaghanDB.getBadgeRank(p)
+                    : (String((p.urgency || p.badge) || '').toLowerCase().trim() === 'superhot' ? 2 : (String((p.urgency || p.badge) || '').toLowerCase().trim() === 'hot' ? 1 : 0));
+                if (rank === 2) {
+                    urgencyPill.className = 'badge-urgency-superhot inline-flex items-center gap-1';
+                    urgencyPill.innerHTML = '<i class="fa-solid fa-fire-flame-curved"></i> Super Hot';
+                } else if (rank === 1) {
+                    urgencyPill.className = 'badge-urgency-hot inline-flex items-center gap-1';
+                    urgencyPill.innerHTML = '<i class="fa-solid fa-fire"></i> Hot';
+                } else {
+                    urgencyPill.className = 'hidden';
+                }
+            }
 
             const plotPill = document.getElementById('detail-plot-pill');
             if (p.plotNumber) {

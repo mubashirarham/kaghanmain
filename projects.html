@@ -62,7 +62,7 @@
                 </select>
 
                 <select id="results-sort" onchange="applyFilters()" class="bg-slate-50 border-2 border-slate-300 rounded-xl px-3 py-2 font-bold text-slate-800 focus:outline-none focus:border-emerald-600">
-                    <option value="default">Sort: Featured</option>
+                    <option value="default">Sort: Featured (Super Hot First)</option>
                     <option value="price-asc">Price: Low to High</option>
                     <option value="price-desc">Price: High to Low</option>
                 </select>
@@ -201,10 +201,24 @@
 
             if (sort === 'price-asc') filteredProperties.sort((a, b) => (a.price || 0) - (b.price || 0));
             else if (sort === 'price-desc') filteredProperties.sort((a, b) => (b.price || 0) - (a.price || 0));
+            else if (window.KaghanDB && window.KaghanDB.sortPropertiesByBadge) {
+                filteredProperties = window.KaghanDB.sortPropertiesByBadge(filteredProperties);
+            }
 
             document.getElementById('results-count').innerText = filteredProperties.length;
             renderCards();
             if (listingsMap) listingsMap.updateProperties(filteredProperties);
+        }
+
+        function renderUrgencyBadge(p) {
+            const u = String((p && (p.urgency || p.badge)) || '').toLowerCase().trim();
+            if (u === 'superhot' || u === 'super_hot' || u === 'super hot') {
+                return `<span class="badge-urgency-superhot inline-flex items-center gap-1"><i class="fa-solid fa-fire-flame-curved"></i> Super Hot</span>`;
+            }
+            if (u === 'hot') {
+                return `<span class="badge-urgency-hot inline-flex items-center gap-1"><i class="fa-solid fa-fire"></i> Hot</span>`;
+            }
+            return '';
         }
 
         function renderCards() {
@@ -225,6 +239,8 @@
             container.innerHTML = filteredProperties.map(p => {
                 const img = getPrimaryPhoto(p);
                 const hasVid = hasListingVideo(p);
+                const badgeHtml = renderUrgencyBadge(p);
+                const isSuper = String((p && (p.urgency || p.badge)) || '').toLowerCase().trim() === 'superhot';
                 const price = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${Number(p.price || 0).toLocaleString()}`;
                 const sizeText = p.sqYards ? `${p.sqYards} Sq Yds` : (p.size ? `${p.size} ${p.sizeUnit || ''}` : '');
                 const url = `property.html?slug=${encodeURIComponent(p.slug || p.id)}`;
@@ -233,12 +249,15 @@
                 const loc = [p.plotSector || p.sector || p.area, p.city].filter(Boolean).join(', ');
 
                 return `
-                    <article class="kp-card rounded-2xl overflow-hidden flex flex-col group">
+                    <article class="kp-card ${isSuper ? 'ring-2 ring-red-500/40' : ''} rounded-2xl overflow-hidden flex flex-col group">
                         <a href="${url}" class="relative h-52 bg-slate-100 overflow-hidden flex items-center justify-center border-b-2 border-slate-200">
                             ${img
                                 ? `<img src="${escHtml(img)}" alt="${escHtml(p.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">`
                                 : `<i class="fa-solid fa-image text-3xl text-slate-300"></i>`}
-                            ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-map-pin text-[10px]"></i> ${escHtml(p.plotNumber)}</span>` : ''}
+                            <div class="absolute top-3 left-3 flex flex-wrap items-center gap-1.5">
+                                ${badgeHtml}
+                                ${p.plotNumber ? `<span class="bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-map-pin text-[10px]"></i> ${escHtml(p.plotNumber)}</span>` : ''}
+                            </div>
                             ${hasVid ? `<span class="absolute top-3 right-3 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-brands fa-youtube"></i> Video</span>` : ''}
                             ${sizeText ? `<span class="absolute bottom-3 right-3 bg-slate-900/85 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">${escHtml(sizeText)}</span>` : ''}
                         </a>

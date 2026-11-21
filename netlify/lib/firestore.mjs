@@ -81,9 +81,21 @@ export async function fetchProjects(onlyPublished = true) {
     return onlyPublished ? list.filter(p => p.status !== 'draft') : list;
 }
 
+export function getBadgeRank(p) {
+    const u = String((p && (p.urgency || p.badge)) || '').toLowerCase().trim();
+    if (u === 'superhot' || u === 'super_hot' || u === 'super hot') return 2;
+    if (u === 'hot') return 1;
+    return 0;
+}
+
 export async function fetchProperties(onlyPublished = true) {
     const list = await fetchCollection('kaghan_properties/main/properties', 300);
-    return onlyPublished ? list.filter(p => !p.status || p.status === 'published') : list;
+    const filtered = onlyPublished ? list.filter(p => !p.status || p.status === 'published') : list;
+    return filtered.sort((a, b) => {
+        const diff = getBadgeRank(b) - getBadgeRank(a);
+        if (diff !== 0) return diff;
+        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+    });
 }
 
 export async function fetchBlogPosts(onlyPublished = true) {

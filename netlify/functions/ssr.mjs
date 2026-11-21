@@ -130,6 +130,17 @@ function injectHeadPayload(html, { title, description, ogImage, canonicalUrl, js
     return out.replace('</head>', `    ${headExtras}\n</head>`);
 }
 
+function renderUrgencyBadgeHtml(p) {
+    const u = String((p && (p.urgency || p.badge)) || '').toLowerCase().trim();
+    if (u === 'superhot' || u === 'super_hot' || u === 'super hot') {
+        return `<span class="badge-urgency-superhot inline-flex items-center gap-1"><i class="fa-solid fa-fire-flame-curved"></i> Super Hot</span>`;
+    }
+    if (u === 'hot') {
+        return `<span class="badge-urgency-hot inline-flex items-center gap-1"><i class="fa-solid fa-fire"></i> Hot</span>`;
+    }
+    return '';
+}
+
 function renderListingCardsHtml(list, waDigits) {
     if (!list.length) {
         return `<div class="col-span-full py-12 text-center text-slate-500 text-xs bg-white rounded-2xl border-2 border-slate-300">No published listings yet.</div>`;
@@ -137,16 +148,21 @@ function renderListingCardsHtml(list, waDigits) {
     return list.map(p => {
         const img = getPrimaryPhoto(p);
         const vid = hasVideo(p);
+        const badgeHtml = renderUrgencyBadgeHtml(p);
+        const isSuper = String((p && (p.urgency || p.badge)) || '').toLowerCase().trim() === 'superhot';
         const price = fmtPrice(p.price);
         const sizeText = p.sqYards ? `${p.sqYards} Sq Yds` : (p.size ? `${p.size} ${p.sizeUnit || ''}` : '');
         const url = `property.html?slug=${encodeURIComponent(p.slug || p.id)}`;
         const waUrl = waDigits ? `https://wa.me/${waDigits}?text=${encodeURIComponent('Hi, I am interested in ' + p.title)}` : 'contact.html';
         const loc = [p.plotSector || p.sector || p.area, p.city].filter(Boolean).join(', ');
         return `
-            <article class="kp-card rounded-2xl overflow-hidden flex flex-col group">
+            <article class="kp-card ${isSuper ? 'ring-2 ring-red-500/40' : ''} rounded-2xl overflow-hidden flex flex-col group">
                 <a href="${url}" class="relative h-52 bg-slate-100 overflow-hidden flex items-center justify-center border-b-2 border-slate-200">
                     ${img ? `<img src="${escHtml(img)}" alt="${escHtml(p.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">` : `<i class="fa-solid fa-image text-3xl text-slate-300"></i>`}
-                    ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 border border-white/40 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-map-pin text-[10px]"></i> ${escHtml(p.plotNumber)}</span>` : ''}
+                    <div class="absolute top-3 left-3 flex flex-wrap items-center gap-1.5">
+                        ${badgeHtml}
+                        ${p.plotNumber ? `<span class="bg-emerald-600 border border-white/40 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-map-pin text-[10px]"></i> ${escHtml(p.plotNumber)}</span>` : ''}
+                    </div>
                     ${vid ? `<span class="absolute top-3 right-3 bg-rose-600 border border-white/40 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-brands fa-youtube"></i> Video</span>` : ''}
                     ${sizeText ? `<span class="absolute bottom-3 right-3 bg-slate-900/90 border border-white/20 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">${escHtml(sizeText)}</span>` : ''}
                 </a>
@@ -315,6 +331,10 @@ async function renderPropertyDetail(url, paramSlug) {
         tags.push(`property-${prop.id}`);
 
         html = replaceElementInnerById(html, 'detail-h1', escHtml(prop.title));
+        const badgeHtml = renderUrgencyBadgeHtml(prop);
+        if (badgeHtml) {
+            html = html.replace(/<span id="detail-urgency-pill"[^>]*><\/span>/i, badgeHtml.replace('<span ', '<span id="detail-urgency-pill" '));
+        }
         html = replaceElementInnerById(html, 'rail-price', escHtml(price));
         html = replaceElementInnerById(html, 'mobile-cta-price', escHtml(price));
         html = replaceElementInnerById(html, 'spec-plot', escHtml(prop.plotNumber || '—'));

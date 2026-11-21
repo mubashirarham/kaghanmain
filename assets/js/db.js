@@ -165,6 +165,22 @@ window.KaghanDB = {
     clearBrowserCache,
     triggerRevalidate: triggerNetlifyRevalidate,
 
+    // Priority Badge Ranking: Super Hot (2) > Hot (1) > No Badge (0)
+    getBadgeRank: (p) => {
+        const u = String((p && (p.urgency || p.badge)) || '').toLowerCase().trim();
+        if (u === 'superhot' || u === 'super_hot' || u === 'super hot') return 2;
+        if (u === 'hot') return 1;
+        return 0;
+    },
+
+    sortPropertiesByBadge: (list) => {
+        return [...(list || [])].sort((a, b) => {
+            const rankDiff = window.KaghanDB.getBadgeRank(b) - window.KaghanDB.getBadgeRank(a);
+            if (rankDiff !== 0) return rankDiff;
+            return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+        });
+    },
+
     AREA_UNITS: [
         { key: "marla", name: "Marla", sqftFactor: 225, label: "Marla" },
         { key: "sqft", name: "Square Feet", sqftFactor: 1, label: "Sq. Ft." },
@@ -428,7 +444,11 @@ window.KaghanDB = {
             if (filters.minPrice && (p.price || 0) < filters.minPrice) return false;
             if (filters.maxPrice && (p.price || 0) > filters.maxPrice) return false;
             return true;
-        }).sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+        }).sort((a, b) => {
+            const rankDiff = window.KaghanDB.getBadgeRank(b) - window.KaghanDB.getBadgeRank(a);
+            if (rankDiff !== 0) return rankDiff;
+            return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+        });
     },
 
     getPropertyBySlugOrId: async (slugOrId) => {
