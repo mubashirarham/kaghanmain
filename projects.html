@@ -43,6 +43,10 @@
                     <input type="text" id="filter-keyword" oninput="applyFilters()" placeholder="Search plot #, ballot, or area..." class="w-full bg-slate-100 border border-slate-200 rounded-xl pl-8 pr-3 py-2 font-medium text-slate-800 focus:outline-none focus:border-emerald-600">
                 </div>
 
+                <select id="filter-project" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:border-emerald-600">
+                    <option value="all">All Projects</option>
+                </select>
+
                 <select id="filter-type" onchange="applyFilters()" class="bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:border-emerald-600">
                     <option value="all">All Types</option>
                     <option value="residential_plot">Residential Plots</option>
@@ -143,19 +147,40 @@
 
         function resetFilters() {
             document.getElementById('filter-keyword').value = '';
+            const projSel = document.getElementById('filter-project');
+            if (projSel) projSel.value = 'all';
             document.getElementById('filter-type').value = 'all';
             document.getElementById('filter-price-range').value = 'all';
             document.getElementById('results-sort').value = 'default';
             applyFilters();
         }
 
+        function getPrimaryPhoto(p) {
+            if (Array.isArray(p.images) && p.images.length) {
+                const first = p.images.find(i => !i.type || i.type === 'image') || p.images[0];
+                if (first) return typeof first === 'string' ? first : (first.url || 'assets/images/dha-margalla-hero.jpg');
+            }
+            if (Array.isArray(p.gallery)) {
+                const img = p.gallery.find(g => g.type === 'image' && g.url);
+                if (img) return img.url;
+            }
+            return 'assets/images/dha-margalla-hero.jpg';
+        }
+
+        function hasListingVideo(p) {
+            return (Array.isArray(p.videos) && p.videos.length > 0) ||
+                   (Array.isArray(p.gallery) && p.gallery.some(g => g.type === 'video'));
+        }
+
         function applyFilters() {
             const kw = (document.getElementById('filter-keyword').value || '').trim().toLowerCase();
+            const projFilter = document.getElementById('filter-project') ? document.getElementById('filter-project').value : 'all';
             const type = document.getElementById('filter-type').value;
             const priceRange = document.getElementById('filter-price-range').value;
             const sort = document.getElementById('results-sort').value;
 
             filteredProperties = allProperties.filter(p => {
+                if (projFilter !== 'all' && p.projectId !== projFilter && !(!p.projectId && p.societyId === projFilter)) return false;
                 if (kw) {
                     const hay = `${p.title || ''} ${p.area || ''} ${p.sector || ''} ${p.plotNumber || ''} ${p.plotSector || ''} ${p.ballotPhase || ''}`.toLowerCase();
                     if (!hay.includes(kw)) return false;
@@ -196,7 +221,8 @@
             }
 
             container.innerHTML = filteredProperties.map(p => {
-                const img = (p.images && p.images[0] && p.images[0].url) ? p.images[0].url : 'assets/images/dha-margalla-hero.jpg';
+                const img = getPrimaryPhoto(p);
+                const hasVid = hasListingVideo(p);
                 const price = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${Number(p.price || 0).toLocaleString()}`;
                 const sizeText = p.sqYards ? `${p.sqYards} Sq Yds` : (p.size ? `${p.size} ${p.sizeUnit || 'Marla'}` : '');
                 const url = p.isNewProject
@@ -210,6 +236,7 @@
                         <a href="${url}" class="relative h-52 bg-slate-100 overflow-hidden block">
                             <img src="${img}" alt="${p.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-map-pin text-[10px]"></i> ${p.plotNumber}</span>` : ''}
+                            ${hasVid ? `<span class="absolute top-3 right-3 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-brands fa-youtube"></i> Video</span>` : ''}
                             ${sizeText ? `<span class="absolute bottom-3 right-3 bg-slate-900/85 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">${sizeText}</span>` : ''}
                         </a>
                         <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
@@ -252,10 +279,22 @@
                 document.getElementById('filter-price-range').value = priceParam;
             }
 
-            if (window.KaghanDB && window.KaghanDB.getProperties) {
-                allProperties = await window.KaghanDB.getProperties();
+            const [projects, props] = await Promise.all([
+                (window.KaghanDB && window.KaghanDB.getProjects) ? window.KaghanDB.getProjects(true) : Promise.resolve([]),
+                (window.KaghanDB && window.KaghanDB.getProperties) ? window.KaghanDB.getProperties() : Promise.resolve([])
+            ]);
+
+            const projSel = document.getElementById('filter-project');
+            if (projSel && projects.length) {
+                projSel.innerHTML = `<option value="all">All Projects</option>` + projects.map(pr => `<option value="${pr.id}">${pr.name}</option>`).join('');
+                const projectParam = params.get('project');
+                if (projectParam && projects.some(pr => pr.id === projectParam || pr.slug === projectParam)) {
+                    const matched = projects.find(pr => pr.id === projectParam || pr.slug === projectParam);
+                    projSel.value = matched.id;
+                }
             }
 
+            allProperties = props || [];
             applyFilters();
 
             if (params.get('tool') === 'plot-finder' || params.get('view') === 'map') {

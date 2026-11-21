@@ -1727,9 +1727,27 @@ function getSubcollectionRef(subcollectionName) {
 }
 
 // In-memory local fallback store if Firebase offline/connecting
+const DEFAULT_PROJECTS = [
+    {
+        id: "dha-margalla-enclave",
+        slug: "dha-margalla-enclave",
+        name: "DHA Margalla Enclave",
+        city: "Islamabad",
+        location: "CDA Zone 4, Margalla Avenue Corridor",
+        startingPrice: "PKR 2.14 Crore",
+        coverImage: "assets/images/dha-margalla-hero.jpg",
+        description: "Official CDA & DHA Islamabad joint venture residential and commercial plots with Ballot 1, 2 & 3 payment schedules.",
+        status: "published",
+        isDefaultBallot: true,
+        createdAt: "2026-01-15T00:00:00.000Z",
+        updatedAt: "2026-01-15T00:00:00.000Z"
+    }
+];
+
 let localStore = {
     users: [...DEFAULT_USERS],
-    properties: [...DEFAULT_PROPERTIES],
+    projects: [...DEFAULT_PROJECTS],
+    properties: DEFAULT_PROPERTIES.map(p => ({ ...p, projectId: p.projectId || p.societyId || 'dha-margalla-enclave' })),
     leads: [],
     societies: [...DEFAULT_SOCIETIES],
     categories: [...DEFAULT_CATEGORIES],
@@ -1738,20 +1756,6 @@ let localStore = {
     blogPosts: [...DEFAULT_BLOGS],
     siteSettings: { ...DEFAULT_SITE_SETTINGS }
 };
-
-// Purge any stale mock property cache from localStorage (ensuring strictly DHA Margalla properties)
-try {
-    const cached = localStorage.getItem('kaghan_properties');
-    if (cached) {
-        const parsed = JSON.parse(cached);
-        const hasStale = !Array.isArray(parsed) || parsed.length < DEFAULT_PROPERTIES.length || !cached.includes('ballot-3') || parsed.some(p => !p.id || !p.id.startsWith('prop-dha-margalla'));
-        if (hasStale || cached.includes('Asian Arcade') || cached.includes('pine-valley') || cached.includes('bahria')) {
-            localStorage.removeItem('kaghan_properties');
-            localStorage.removeItem('kaghan_site_content');
-            localStorage.removeItem('kaghan_societies');
-        }
-    }
-} catch (e) {}
 
 // Hydrate from localStorage if available
 try {
@@ -1776,35 +1780,40 @@ try {
     const savedSocs = localStorage.getItem('kaghan_societies');
     if (savedSocs) localStore.societies = JSON.parse(savedSocs);
 
-    const propCacheVer = localStorage.getItem('kaghan_properties_ver');
+    const savedProjects = localStorage.getItem('kaghan_projects');
+    if (savedProjects) {
+        try {
+            const parsedProjs = JSON.parse(savedProjects);
+            if (Array.isArray(parsedProjs) && parsedProjs.length > 0) {
+                localStore.projects = parsedProjs;
+            }
+        } catch (e) {}
+    }
+
     const savedProps = localStorage.getItem('kaghan_properties');
-    if (savedProps && propCacheVer === 'v3') {
+    if (savedProps) {
         try {
             const parsedProps = JSON.parse(savedProps);
-            if (Array.isArray(parsedProps) && parsedProps.length >= DEFAULT_PROPERTIES.length && parsedProps.every(p => p.id && p.id.startsWith('prop-dha-margalla'))) {
+            if (Array.isArray(parsedProps) && parsedProps.length > 0) {
                 localStore.properties = parsedProps;
-            } else {
-                localStore.properties = [...DEFAULT_PROPERTIES];
-                localStorage.setItem('kaghan_properties', JSON.stringify(localStore.properties));
             }
-        } catch(e) {
-            localStore.properties = [...DEFAULT_PROPERTIES];
-        }
-    } else {
-        localStore.properties = [...DEFAULT_PROPERTIES];
-        localStorage.setItem('kaghan_properties', JSON.stringify(localStore.properties));
-        localStorage.setItem('kaghan_properties_ver', 'v3');
+        } catch (e) {}
+    }
+
+    const savedLeads = localStorage.getItem('kaghan_leads');
+    if (savedLeads) {
+        try {
+            const parsedLeads = JSON.parse(savedLeads);
+            if (Array.isArray(parsedLeads)) localStore.leads = parsedLeads;
+        } catch (e) {}
     }
 
     const savedContent = localStorage.getItem('kaghan_site_content');
     if (savedContent) {
         try {
             const parsedContent = JSON.parse(savedContent);
-            if (parsedContent && parsedContent.promoBanner && parsedContent.promoBanner.title && parsedContent.promoBanner.title.includes('DHA Margalla')) {
+            if (parsedContent && parsedContent.promoBanner && parsedContent.promoBanner.title) {
                 localStore.siteContent = parsedContent;
-            } else {
-                localStore.siteContent = { ...DEFAULT_SITE_CONTENT };
-                localStorage.setItem('kaghan_site_content', JSON.stringify(localStore.siteContent));
             }
         } catch (e) {
             localStore.siteContent = { ...DEFAULT_SITE_CONTENT };
@@ -1831,7 +1840,7 @@ try {
     console.warn("Could not read from localStorage fallback cache:", e);
 }
 
-// Auto-seed and auto-sync Firestore on module load to guarantee clean DHA Margalla listings
+// Auto-seed Firestore ONLY when collections are empty (never overwrite admin edits or delete custom projects/listings)
 async function seedFirestoreIfNeeded() {
     if (!db) return;
     try {
@@ -1841,46 +1850,31 @@ async function seedFirestoreIfNeeded() {
             await settingsRef.set({ doc: 'main', ...DEFAULT_SITE_SETTINGS });
         }
 
-        // Sync siteContent document
-        try {
-            const contentRef = db.collection('kaghan_properties').doc('siteContent');
-            const contentSnap = await contentRef.get();
-            if (!contentSnap.exists) {
-                await contentRef.set({ doc: 'main', ...DEFAULT_SITE_CONTENT });
-            }
-        } catch (e) {}
-
-        // Check categories - ONLY seed if empty
-        const catRef = getSubcollectionRef('categories');
-        if (catRef) {
-            const cSnap = await catRef.limit(1).get();
-            if (cSnap.empty) {
-                for (const c of DEFAULT_CATEGORIES) {
-                    await catRef.doc(c.id).set(c, { merge: true });
+        // Seed projects ONLY if empty
+        const projRef = getSubcollectionRef('projects');
+        if (projRef) {
+            const prSnap = await projRef.limit(1).get();
+            if (prSnap.empty) {
+                for (const pr of DEFAULT_PROJECTS) {
+                    await projRef.doc(pr.id).set(pr, { merge: true });
                 }
             }
         }
 
-        // Check cities - ONLY seed if empty
-        const cityRef = getSubcollectionRef('cities');
-        if (cityRef) {
-            const ciSnap = await cityRef.limit(1).get();
-            if (ciSnap.empty) {
-                for (const c of DEFAULT_CITIES) {
-                    await cityRef.doc(c.id).set(c, { merge: true });
+        // Seed properties ONLY if empty
+        const propRef = getSubcollectionRef('properties');
+        if (propRef) {
+            const pSnap = await propRef.limit(1).get();
+            if (pSnap.empty) {
+                const batch = db.batch();
+                for (const p of DEFAULT_PROPERTIES) {
+                    batch.set(propRef.doc(p.id), { ...p, projectId: p.projectId || p.societyId || 'dha-margalla-enclave' });
                 }
-            }
-        }
-        
-        // Sync societies
-        const socRef = getSubcollectionRef('societies');
-        if (socRef) {
-            for (const s of DEFAULT_SOCIETIES) {
-                await socRef.doc(s.id).set(s, { merge: true });
+                await batch.commit();
             }
         }
 
-        // Check users - ONLY seed if empty
+        // Seed users ONLY if empty
         const usrRef = getSubcollectionRef('users');
         if (usrRef) {
             const uSnap = await usrRef.limit(1).get();
@@ -1890,47 +1884,8 @@ async function seedFirestoreIfNeeded() {
                 }
             }
         }
-
-        // Purge legacy properties and upsert all pristine DHA Margalla properties into Firestore
-        const propRef = getSubcollectionRef('properties');
-        if (propRef) {
-            const pSnap = await propRef.get();
-            const batch = db.batch();
-            let opCount = 0;
-            const validIds = new Set(DEFAULT_PROPERTIES.map(p => p.id));
-            pSnap.forEach(doc => {
-                const data = doc.data();
-                const pid = String(data.id || doc.id);
-                // Purge obsolete ballot docs or non-DHA docs
-                if (pid.startsWith('prop-dha-margalla-ballot-') && !validIds.has(pid)) {
-                    batch.delete(doc.ref);
-                    opCount++;
-                } else if (!pid.startsWith('prop-dha-margalla') && data.societyId !== 'dha-margalla-enclave') {
-                    batch.delete(doc.ref);
-                    opCount++;
-                }
-            });
-            for (const p of DEFAULT_PROPERTIES) {
-                batch.set(propRef.doc(p.id), p);
-                opCount++;
-            }
-            if (opCount > 0) {
-                await batch.commit();
-            }
-        }
-
-        // Check blogPosts - ONLY seed if empty
-        const blogRef = getSubcollectionRef('blogPosts');
-        if (blogRef) {
-            const bSnap = await blogRef.limit(1).get();
-            if (bSnap.empty) {
-                for (const b of DEFAULT_BLOGS) {
-                    await blogRef.doc(b.id).set(b, { merge: true });
-                }
-            }
-        }
     } catch (e) {
-        console.warn("Firestore auto-seeding/sync skipped:", e);
+        console.warn("Firestore auto-seeding skipped:", e);
     }
 }
 seedFirestoreIfNeeded();
@@ -1948,6 +1903,7 @@ window.KaghanDB = {
     DEFAULT_SITE_CONTENT,
     DEFAULT_CITIES,
     DEFAULT_SOCIETIES,
+    DEFAULT_PROJECTS,
     DEFAULT_PROPERTIES,
     DEFAULT_BLOGS,
     DEFAULT_USERS,
@@ -2213,60 +2169,125 @@ window.KaghanDB = {
         return true;
     },
 
+    // Projects API (Manage Real Estate Projects, Cover Images & Linked Listings)
+    getProjects: async (onlyPublished = false) => {
+        let list = [];
+        try {
+            if (db) {
+                const snap = await getSubcollectionRef('projects').get();
+                snap.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
+            }
+        } catch (e) {
+            console.error("Error getting projects from Firestore:", e);
+        }
+        if (list.length === 0) {
+            list = localStore.projects && localStore.projects.length > 0 ? [...localStore.projects] : [...DEFAULT_PROJECTS];
+        } else {
+            localStore.projects = list;
+            try { localStorage.setItem('kaghan_projects', JSON.stringify(list)); } catch (err) {}
+        }
+        if (onlyPublished) {
+            list = list.filter(pr => pr.status !== 'draft');
+        }
+        return list.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+    },
+
+    getProjectBySlugOrId: async (slugOrId) => {
+        if (!slugOrId) return null;
+        let norm = String(slugOrId).toLowerCase().trim();
+        if (norm === 'dha-margalla-enclave-ballot-1-2') norm = 'dha-margalla-enclave';
+        const all = await window.KaghanDB.getProjects(false);
+        return all.find(p => (p.slug && p.slug.toLowerCase() === norm) || (p.id && String(p.id).toLowerCase() === norm)) || null;
+    },
+
+    saveProject: async (project) => {
+        project.updatedAt = new Date().toISOString();
+        if (!project.createdAt) project.createdAt = new Date().toISOString();
+        if (!project.slug) {
+            project.slug = (project.name || 'project').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `proj_${Date.now()}`;
+        }
+        if (!project.id) project.id = project.slug;
+        if (!project.status) project.status = 'published';
+
+        try {
+            if (db) {
+                await getSubcollectionRef('projects').doc(project.id).set(project, { merge: true });
+            }
+        } catch (e) {
+            console.error("Error saving project:", e);
+        }
+
+        const idx = localStore.projects.findIndex(p => p.id === project.id);
+        if (idx >= 0) localStore.projects[idx] = project;
+        else localStore.projects.unshift(project);
+
+        try {
+            localStorage.setItem('kaghan_projects', JSON.stringify(localStore.projects));
+        } catch (err) {}
+
+        return { success: true, id: project.id, project };
+    },
+
+    deleteProject: async (id) => {
+        try {
+            if (db) {
+                await getSubcollectionRef('projects').doc(id).delete();
+            }
+        } catch (e) {
+            console.error("Error deleting project:", e);
+        }
+        localStore.projects = localStore.projects.filter(p => p.id !== id);
+        try {
+            localStorage.setItem('kaghan_projects', JSON.stringify(localStore.projects));
+        } catch (err) {}
+        return true;
+    },
+
+    assignListingsToProject: async (projectId, selectedListingIds = []) => {
+        const selectedSet = new Set(selectedListingIds);
+        const allProps = await window.KaghanDB.getProperties();
+        for (const p of allProps) {
+            const currentlyIn = (p.projectId === projectId) || (!p.projectId && p.societyId === projectId);
+            const shouldBeIn = selectedSet.has(p.id);
+            if (shouldBeIn && !currentlyIn) {
+                await window.KaghanDB.saveProperty({ ...p, projectId });
+            } else if (!shouldBeIn && currentlyIn) {
+                await window.KaghanDB.saveProperty({ ...p, projectId: '', societyId: p.societyId === projectId ? '' : (p.societyId || '') });
+            }
+        }
+        return { success: true };
+    },
+
     // Properties API
     getProperties: async (filters = {}) => {
         let list = [];
         try {
             if (db) {
                 const snap = await getSubcollectionRef('properties').get();
-                const validList = [];
-                const staleDocIds = [];
                 snap.forEach(doc => {
-                    const data = doc.data();
-                    const pid = String(data.id || doc.id);
-                    if (pid.startsWith('prop-dha-margalla') || data.societyId === 'dha-margalla-enclave') {
-                        validList.push(data);
-                    } else {
-                        staleDocIds.push(doc.id);
-                    }
+                    const data = { id: doc.id, ...doc.data() };
+                    list.push(data);
                 });
 
-                // Asynchronously purge stale docs
-                if (staleDocIds.length > 0) {
-                    staleDocIds.forEach(id => {
-                        getSubcollectionRef('properties').doc(id).delete().catch(() => {});
-                    });
+                if (list.length > 0) {
+                    localStore.properties = list;
+                    try {
+                        localStorage.setItem('kaghan_properties', JSON.stringify(list));
+                    } catch (err) {}
                 }
-
-                // If Firestore is missing default DHA properties, merge from DEFAULT_PROPERTIES
-                for (const defP of DEFAULT_PROPERTIES) {
-                    if (!validList.some(p => p.id === defP.id)) {
-                        validList.push(defP);
-                        getSubcollectionRef('properties').doc(defP.id).set(defP, { merge: true }).catch(() => {});
-                    }
-                }
-
-                list = validList;
-                localStore.properties = list;
-                try {
-                    localStorage.setItem('kaghan_properties', JSON.stringify(list));
-                } catch (err) {}
             }
         } catch (e) {
             console.error("Error getting properties from Firestore:", e);
         }
         if (list.length === 0) {
-            list = [...DEFAULT_PROPERTIES];
+            list = (localStore.properties && localStore.properties.length > 0)
+                ? [...localStore.properties]
+                : DEFAULT_PROPERTIES.map(p => ({ ...p, projectId: p.projectId || p.societyId || 'dha-margalla-enclave' }));
             localStore.properties = list;
         }
 
-        // Strictly enforce DHA Margalla property filtering
         return list.filter(p => {
-            const pid = String(p.id || '');
-            if (!pid.startsWith('prop-dha-margalla') && p.societyId !== 'dha-margalla-enclave') {
-                return false;
-            }
-
+            if (filters.projectId && p.projectId !== filters.projectId && p.societyId !== filters.projectId) return false;
             if (filters.status && p.status !== filters.status) return false;
             if (filters.type && filters.type !== 'all' && p.type !== filters.type) return false;
             if (filters.purpose && filters.purpose !== 'all' && p.purpose !== filters.purpose) return false;
@@ -2402,6 +2423,7 @@ window.KaghanDB = {
         if (lead) {
             lead.status = status;
             lead.updatedAt = new Date().toISOString();
+            try { localStorage.setItem('kaghan_leads', JSON.stringify(localStore.leads)); } catch (err) {}
         }
         return true;
     },

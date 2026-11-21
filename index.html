@@ -86,7 +86,18 @@
             </div>
         </section>
 
-        <!-- 2. FEATURED LISTINGS (FRONT & CENTER) -->
+        <!-- 2. FEATURED PROJECTS (COVER IMAGES) -->
+        <section id="home-projects-section" class="pt-12 sm:pt-16">
+            <div class="market-container space-y-5">
+                <div class="flex items-end justify-between gap-4">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold outfit text-slate-900">Featured Projects</h2>
+                    <a href="projects.html" class="text-xs font-bold text-emerald-700 hover:underline">All Listings &rarr;</a>
+                </div>
+                <div id="home-projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- 3. FEATURED LISTINGS (FRONT & CENTER) -->
         <section class="py-12 sm:py-16">
             <div class="market-container space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -133,8 +144,59 @@
     <div id="site-footer"></div>
 
     <script>
+        let homeProjects = [];
         let homeProperties = [];
         let homeMapInstance = null;
+
+        function getPrimaryPhoto(p) {
+            if (Array.isArray(p.images) && p.images.length) {
+                const first = p.images.find(i => !i.type || i.type === 'image') || p.images[0];
+                if (first) return typeof first === 'string' ? first : (first.url || 'assets/images/dha-margalla-hero.jpg');
+            }
+            if (Array.isArray(p.gallery)) {
+                const img = p.gallery.find(g => g.type === 'image' && g.url);
+                if (img) return img.url;
+            }
+            return 'assets/images/dha-margalla-hero.jpg';
+        }
+
+        function hasListingVideo(p) {
+            return (Array.isArray(p.videos) && p.videos.length > 0) ||
+                   (Array.isArray(p.gallery) && p.gallery.some(g => g.type === 'video'));
+        }
+
+        function renderHomeProjects() {
+            const sec = document.getElementById('home-projects-section');
+            const grid = document.getElementById('home-projects-grid');
+            if (!grid || !sec) return;
+            if (!homeProjects.length) {
+                sec.classList.add('hidden');
+                return;
+            }
+            sec.classList.remove('hidden');
+            grid.innerHTML = homeProjects.map(pr => {
+                const count = homeProperties.filter(p => p.projectId === pr.id || (!p.projectId && p.societyId === pr.id)).length;
+                const url = `project-detail.html?slug=${encodeURIComponent(pr.slug || pr.id)}`;
+                return `
+                    <a href="${url}" class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-lg transition-all flex flex-col group">
+                        <div class="relative h-52 bg-slate-100 overflow-hidden">
+                            <img src="${pr.coverImage || 'assets/images/dha-margalla-hero.jpg'}" alt="${pr.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-white/95 text-slate-900 text-[11px] font-bold px-2.5 py-1 rounded-full shadow">${count} Listing${count === 1 ? '' : 's'}</span>
+                            ${pr.startingPrice ? `<span class="absolute bottom-3 left-3 bg-emerald-700 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow">From ${pr.startingPrice}</span>` : ''}
+                        </div>
+                        <div class="p-4 flex items-center justify-between gap-2">
+                            <div class="min-w-0">
+                                <h3 class="font-extrabold outfit text-base text-slate-900 truncate group-hover:text-emerald-700 transition-colors">${pr.name}</h3>
+                                <p class="text-xs text-slate-500 truncate mt-0.5"><i class="fa-solid fa-location-dot text-emerald-600 text-[10px] mr-1"></i>${[pr.location, pr.city].filter(Boolean).join(', ')}</p>
+                            </div>
+                            <span class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-emerald-700 group-hover:text-white text-slate-700 flex items-center justify-center shrink-0 transition-colors">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </span>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+        }
 
         function renderHomeListings(filter = 'all') {
             const grid = document.getElementById('home-listings-grid');
@@ -154,7 +216,8 @@
             }
 
             grid.innerHTML = visible.map(p => {
-                const img = (p.images && p.images[0] && p.images[0].url) ? p.images[0].url : 'assets/images/dha-margalla-hero.jpg';
+                const img = getPrimaryPhoto(p);
+                const hasVid = hasListingVideo(p);
                 const price = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${Number(p.price || 0).toLocaleString()}`;
                 const sizeText = p.sqYards ? `${p.sqYards} Sq Yds` : (p.size ? `${p.size} ${p.sizeUnit || 'Marla'}` : '');
                 const url = p.isNewProject
@@ -167,6 +230,7 @@
                         <a href="${url}" class="relative h-52 bg-slate-100 overflow-hidden block">
                             <img src="${img}" alt="${p.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-map-pin text-[10px]"></i> ${p.plotNumber}</span>` : ''}
+                            ${hasVid ? `<span class="absolute top-3 right-3 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-brands fa-youtube"></i> Video</span>` : ''}
                             ${sizeText ? `<span class="absolute bottom-3 right-3 bg-slate-900/85 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">${sizeText}</span>` : ''}
                         </a>
                         <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
@@ -203,9 +267,13 @@
         }
 
         window.addEventListener('DOMContentLoaded', async () => {
-            if (window.KaghanDB && window.KaghanDB.getProperties) {
-                homeProperties = await window.KaghanDB.getProperties();
-            }
+            const [projects, props] = await Promise.all([
+                (window.KaghanDB && window.KaghanDB.getProjects) ? window.KaghanDB.getProjects(true) : Promise.resolve([]),
+                (window.KaghanDB && window.KaghanDB.getProperties) ? window.KaghanDB.getProperties() : Promise.resolve([])
+            ]);
+            homeProjects = projects || [];
+            homeProperties = props || [];
+            renderHomeProjects();
             renderHomeListings('all');
 
             if (window.KaghanPlotMap) {

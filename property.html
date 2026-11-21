@@ -41,7 +41,7 @@
             <i class="fa-solid fa-chevron-right text-[8px]"></i>
             <a href="projects.html" class="hover:text-emerald-700">Listings</a>
             <i class="fa-solid fa-chevron-right text-[8px]"></i>
-            <span id="crumb-society" class="text-slate-700 font-semibold">DHA Margalla Enclave</span>
+            <a id="crumb-society" href="project-detail.html?slug=dha-margalla-enclave" class="text-slate-700 hover:text-emerald-700 font-semibold">DHA Margalla Enclave</a>
         </nav>
 
         <!-- Title Row -->
@@ -67,11 +67,12 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             <!-- Left 8 Cols -->
             <div class="lg:col-span-8 space-y-6">
-                <!-- Gallery -->
+                <!-- Gallery (Photos + Embedded YouTube Videos) -->
                 <div class="bg-white p-3.5 rounded-2xl border border-slate-200 space-y-3">
-                    <div class="relative h-[300px] sm:h-[420px] rounded-xl overflow-hidden cursor-pointer bg-slate-100" onclick="openLightbox(currentPhotoIndex)">
+                    <div id="gallery-main-stage" class="relative h-[300px] sm:h-[420px] rounded-xl overflow-hidden cursor-pointer bg-slate-900" onclick="handleMainStageClick()">
                         <img id="gallery-main-photo" src="assets/images/dha-margalla-hero.jpg" alt="Property Photo" class="w-full h-full object-cover">
-                        <span id="gallery-photo-count" class="absolute bottom-3 left-3 bg-slate-900/80 text-white text-xs font-bold px-3 py-1 rounded-lg">1 Photo</span>
+                        <iframe id="gallery-main-video" src="" title="Property Video Tour" class="hidden w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <span id="gallery-photo-count" class="absolute bottom-3 left-3 bg-slate-900/80 text-white text-xs font-bold px-3 py-1 rounded-lg pointer-events-none">1 Photo</span>
                     </div>
                     <div id="gallery-filmstrip" class="filmstrip-container"></div>
                 </div>
@@ -187,17 +188,81 @@
 
     <script>
         let currentProperty = null;
-        let currentPhotos = [];
-        let currentPhotoIndex = 0;
+        let currentMedia = [];
+        let photoOnlyList = [];
+        let currentMediaIndex = 0;
+        let currentLightboxPhotoIdx = 0;
 
         function fmtPrice(val) {
             return window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(val) : ('PKR ' + Number(val || 0).toLocaleString());
         }
 
-        function populateUI(p) {
+        function extractYouTubeId(input) {
+            if (!input) return null;
+            if (window.KaghanDB && window.KaghanDB.extractYouTubeId) {
+                return window.KaghanDB.extractYouTubeId(input);
+            }
+            const trimmed = String(input).trim();
+            if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed;
+            const m = trimmed.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            return m ? m[1] : null;
+        }
+
+        function buildPropertyMedia(p) {
+            const media = [];
+            if (Array.isArray(p.gallery) && p.gallery.length > 0) {
+                p.gallery.forEach(item => {
+                    if (!item) return;
+                    if (item.type === 'video') {
+                        const vid = item.videoId || extractYouTubeId(item.url);
+                        if (vid) {
+                            media.push({
+                                type: 'video',
+                                videoId: vid,
+                                url: item.url || `https://www.youtube.com/watch?v=${vid}`,
+                                thumbnail: item.thumbnail || `https://img.youtube.com/vi/${vid}/hqdefault.jpg`
+                            });
+                        }
+                    } else {
+                        const u = typeof item === 'string' ? item : item.url;
+                        if (u) media.push({ type: 'image', url: u });
+                    }
+                });
+            } else {
+                (p.images || []).forEach(img => {
+                    const u = typeof img === 'string' ? img : (img && img.url);
+                    if (u) media.push({ type: 'image', url: u });
+                });
+                (p.videos || []).forEach(v => {
+                    const vid = (v && v.videoId) || extractYouTubeId(typeof v === 'string' ? v : (v && v.url));
+                    if (vid) {
+                        media.push({
+                            type: 'video',
+                            videoId: vid,
+                            url: (v && v.url) || `https://www.youtube.com/watch?v=${vid}`,
+                            thumbnail: (v && v.thumbnail) || `https://img.youtube.com/vi/${vid}/hqdefault.jpg`
+                        });
+                    }
+                });
+            }
+            if (media.length === 0) {
+                media.push({ type: 'image', url: 'assets/images/dha-margalla-hero.jpg' });
+            }
+            return media;
+        }
+
+        async function populateUI(p) {
             document.title = `${p.title} | Kaghan Properties`;
             document.getElementById('detail-h1').innerText = p.title;
-            document.getElementById('crumb-society').innerText = p.area || 'DHA Margalla Enclave';
+            const crumbEl = document.getElementById('crumb-society');
+            crumbEl.innerText = p.area || 'DHA Margalla Enclave';
+            if ((p.projectId || p.societyId) && window.KaghanDB && window.KaghanDB.getProjectBySlugOrId) {
+                const proj = await window.KaghanDB.getProjectBySlugOrId(p.projectId || p.societyId);
+                if (proj) {
+                    crumbEl.innerText = proj.name;
+                    crumbEl.href = `project-detail.html?slug=${encodeURIComponent(proj.slug || proj.id)}`;
+                }
+            }
             document.getElementById('detail-address').innerHTML = `<i class="fa-solid fa-location-dot text-emerald-600"></i> ${[p.plotStreet, p.plotSector || p.sector, p.area, p.city].filter(Boolean).join(', ')}`;
 
             const plotPill = document.getElementById('detail-plot-pill');
@@ -229,13 +294,27 @@
             ['rail-wa-btn', 'mobile-cta-wa'].forEach(id => { const el = document.getElementById(id); if (el) el.href = waHref; });
             document.getElementById('lead-message').value = `I'm interested in ${p.title}${p.plotNumber ? ' (' + p.plotNumber + ')' : ''}.`;
 
-            // Gallery
-            currentPhotos = (p.images && p.images.length > 0) ? p.images : [{ url: 'assets/images/dha-margalla-hero.jpg' }];
-            document.getElementById('gallery-photo-count').innerText = `${currentPhotos.length} Photo${currentPhotos.length > 1 ? 's' : ''}`;
-            document.getElementById('gallery-filmstrip').innerHTML = currentPhotos.map((ph, idx) =>
-                `<div onclick="selectPhoto(${idx})" id="thumb-${idx}" class="filmstrip-thumb ${idx === 0 ? 'active' : ''}"><img src="${ph.url || ph}" alt="" class="w-full h-full object-cover"></div>`
-            ).join('');
-            selectPhoto(0);
+            // Unified Gallery (Photos + YouTube Videos)
+            currentMedia = buildPropertyMedia(p);
+            photoOnlyList = currentMedia.filter(m => m.type === 'image');
+            const photoCount = photoOnlyList.length;
+            const videoCount = currentMedia.length - photoCount;
+            const countParts = [];
+            if (photoCount) countParts.push(`${photoCount} Photo${photoCount > 1 ? 's' : ''}`);
+            if (videoCount) countParts.push(`${videoCount} Video${videoCount > 1 ? 's' : ''}`);
+            document.getElementById('gallery-photo-count').innerText = countParts.join(' • ') || '1 Photo';
+
+            document.getElementById('gallery-filmstrip').innerHTML = currentMedia.map((item, idx) => {
+                const isVideo = item.type === 'video';
+                const thumbSrc = isVideo ? item.thumbnail : item.url;
+                return `
+                    <div onclick="selectMedia(${idx})" id="thumb-${idx}" class="filmstrip-thumb relative ${idx === 0 ? 'active' : ''}">
+                        <img src="${thumbSrc}" alt="${isVideo ? 'YouTube Video Tour' : 'Property Photo'}" class="w-full h-full object-cover">
+                        ${isVideo ? '<span class="absolute inset-0 flex items-center justify-center bg-slate-900/35"><i class="fa-brands fa-youtube text-rose-500 text-2xl drop-shadow"></i></span>' : ''}
+                    </div>
+                `;
+            }).join('');
+            selectMedia(0);
 
             // Specs Definition List
             const rows = [
@@ -281,24 +360,54 @@
             }
         }
 
-        function selectPhoto(idx) {
-            currentPhotoIndex = idx;
+        function selectMedia(idx) {
+            currentMediaIndex = idx;
             document.querySelectorAll('.filmstrip-thumb').forEach(el => el.classList.remove('active'));
             const t = document.getElementById(`thumb-${idx}`);
             if (t) t.classList.add('active');
-            const img = document.getElementById('gallery-main-photo');
-            if (img && currentPhotos[idx]) img.src = currentPhotos[idx].url || currentPhotos[idx];
+
+            const item = currentMedia[idx];
+            if (!item) return;
+
+            const stage = document.getElementById('gallery-main-stage');
+            const imgEl = document.getElementById('gallery-main-photo');
+            const vidEl = document.getElementById('gallery-main-video');
+            const countEl = document.getElementById('gallery-photo-count');
+
+            if (item.type === 'video') {
+                imgEl.classList.add('hidden');
+                if (countEl) countEl.classList.add('hidden');
+                vidEl.src = `https://www.youtube.com/embed/${item.videoId}?rel=0`;
+                vidEl.classList.remove('hidden');
+                if (stage) stage.classList.remove('cursor-pointer');
+            } else {
+                vidEl.src = '';
+                vidEl.classList.add('hidden');
+                imgEl.src = item.url;
+                imgEl.classList.remove('hidden');
+                if (countEl) countEl.classList.remove('hidden');
+                if (stage) stage.classList.add('cursor-pointer');
+            }
+        }
+
+        function handleMainStageClick() {
+            const active = currentMedia[currentMediaIndex];
+            if (!active || active.type !== 'image') return;
+            const photoIdx = photoOnlyList.findIndex(m => m.url === active.url);
+            openLightbox(photoIdx >= 0 ? photoIdx : 0);
         }
 
         function openLightbox(idx) {
-            currentPhotoIndex = idx;
+            if (!photoOnlyList.length) return;
+            currentLightboxPhotoIdx = idx;
             document.getElementById('gallery-lightbox-modal').classList.add('active');
-            document.getElementById('lightbox-img').src = currentPhotos[idx].url || currentPhotos[idx];
+            document.getElementById('lightbox-img').src = photoOnlyList[idx].url;
         }
         function closeLightbox() { document.getElementById('gallery-lightbox-modal').classList.remove('active'); }
         function changeLightboxPhoto(dir) {
-            currentPhotoIndex = (currentPhotoIndex + dir + currentPhotos.length) % currentPhotos.length;
-            document.getElementById('lightbox-img').src = currentPhotos[currentPhotoIndex].url || currentPhotos[currentPhotoIndex];
+            if (!photoOnlyList.length) return;
+            currentLightboxPhotoIdx = (currentLightboxPhotoIdx + dir + photoOnlyList.length) % photoOnlyList.length;
+            document.getElementById('lightbox-img').src = photoOnlyList[currentLightboxPhotoIdx].url;
         }
         function shareListing() {
             if (navigator.share) navigator.share({ title: document.title, url: window.location.href }).catch(() => {});

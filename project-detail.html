@@ -35,33 +35,35 @@
     <div id="site-header"></div>
 
     <main class="market-container py-8 flex-1 space-y-12">
-        <!-- 1. COMPACT PROJECT HEADER & GALLERY -->
+        <!-- 1. COMPACT PROJECT HEADER & COVER IMAGE -->
         <section class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 space-y-5 shadow-xs">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="space-y-1">
-                    <span class="inline-block text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">
+                    <span id="proj-hero-badge" class="inline-block text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">
                         CDA &amp; DHA Joint Venture • Zone 4
                     </span>
-                    <h1 class="text-2xl sm:text-4xl font-extrabold outfit text-slate-900">DHA Margalla Enclave Islamabad</h1>
-                    <p class="text-xs sm:text-sm text-slate-500">Official Ballot 1, 2 &amp; 3 Residential &amp; Commercial Plots — Starting from PKR 2.14 Crore</p>
+                    <h1 id="proj-hero-title" class="text-2xl sm:text-4xl font-extrabold outfit text-slate-900">DHA Margalla Enclave Islamabad</h1>
+                    <p id="proj-hero-subtitle" class="text-xs sm:text-sm text-slate-500">Official Ballot 1, 2 &amp; 3 Residential &amp; Commercial Plots — Starting from PKR 2.14 Crore</p>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
                     <a href="#location" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-1.5">
                         <i class="fa-solid fa-map-pin text-emerald-400"></i> Plot Map
                     </a>
-                    <a href="https://wa.me/923340091127?text=Hi%2C%20I%20want%20details%20for%20DHA%20Margalla%20Enclave%20plots." target="_blank" rel="noopener" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5">
+                    <a id="proj-wa-btn" href="https://wa.me/923340091127?text=Hi%2C%20I%20want%20details%20for%20DHA%20Margalla%20Enclave%20plots." target="_blank" rel="noopener" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5">
                         <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
                     </a>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <img src="assets/images/dha-margalla-hero.jpg" alt="DHA Margalla Enclave" class="md:col-span-2 h-64 sm:h-80 w-full object-cover rounded-2xl">
-                <div class="grid grid-cols-2 md:grid-cols-1 gap-3">
+            <div id="proj-cover-wrap" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <img id="proj-cover-img" src="assets/images/dha-margalla-hero.jpg" alt="Project Cover" class="md:col-span-2 h-64 sm:h-80 w-full object-cover rounded-2xl">
+                <div id="proj-cover-side" class="grid grid-cols-2 md:grid-cols-1 gap-3">
                     <img src="assets/images/dha-residential-plots.jpg" alt="Residential Sectors" class="h-32 sm:h-[154px] w-full object-cover rounded-2xl">
                     <img src="assets/images/dha-commercial-plots.jpg" alt="Commercial Boulevard" class="h-32 sm:h-[154px] w-full object-cover rounded-2xl">
                 </div>
             </div>
+
+            <p id="proj-hero-desc" class="hidden text-xs sm:text-sm text-slate-600 leading-relaxed pt-1"></p>
         </section>
 
         <!-- 2. INTERACTIVE PINNED PLOT MAP & LIVE EMAP -->
@@ -181,6 +183,8 @@
     <div id="site-footer"></div>
 
     <script>
+        let currentProject = null;
+
         function showBallotTab(id) {
             ['b1', 'b2', 'b3'].forEach(k => {
                 document.getElementById('tab-' + k).classList.toggle('hidden', k !== id);
@@ -188,6 +192,23 @@
                     ? 'px-3.5 py-2 rounded-xl font-bold bg-emerald-700 text-white'
                     : 'px-3.5 py-2 rounded-xl font-bold bg-white border border-slate-200 text-slate-700';
             });
+        }
+
+        function getCardImage(p) {
+            if (Array.isArray(p.images) && p.images.length) {
+                const first = p.images.find(i => !i.type || i.type === 'image') || p.images[0];
+                if (first) return typeof first === 'string' ? first : (first.url || 'assets/images/dha-margalla-hero.jpg');
+            }
+            if (Array.isArray(p.gallery)) {
+                const img = p.gallery.find(g => g.type === 'image' && g.url);
+                if (img) return img.url;
+            }
+            return 'assets/images/dha-margalla-hero.jpg';
+        }
+
+        function hasListingVideo(p) {
+            return (Array.isArray(p.videos) && p.videos.length > 0) ||
+                   (Array.isArray(p.gallery) && p.gallery.some(g => g.type === 'video'));
         }
 
         async function handleProjectLead(e) {
@@ -198,7 +219,7 @@
                     await window.KaghanDB.createLead({
                         name: document.getElementById('lead-name').value.trim(),
                         phone: document.getElementById('lead-phone').value.trim(),
-                        propertyTitle: 'DHA Margalla Enclave',
+                        propertyTitle: currentProject ? currentProject.name : 'Project Inquiry',
                         sourcePage: window.location.href,
                         status: 'new'
                     });
@@ -213,10 +234,60 @@
         }
 
         window.addEventListener('DOMContentLoaded', async () => {
-            let props = [];
-            if (window.KaghanDB && window.KaghanDB.getProperties) {
-                props = await window.KaghanDB.getProperties();
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get('slug') || params.get('id');
+
+            if (window.KaghanDB && window.KaghanDB.getProjectBySlugOrId) {
+                if (slug) currentProject = await window.KaghanDB.getProjectBySlugOrId(slug);
+                if (!currentProject && window.KaghanDB.getProjects) {
+                    const allProjs = await window.KaghanDB.getProjects(false);
+                    currentProject = allProjs.find(pr => pr.id === 'dha-margalla-enclave') || allProjs[0] || null;
+                }
             }
+
+            if (currentProject) {
+                document.title = `${currentProject.name} | Kaghan Properties`;
+                document.getElementById('proj-hero-title').innerText = currentProject.name;
+                document.getElementById('proj-hero-badge').innerText = [currentProject.location, currentProject.city].filter(Boolean).join(' • ') || 'Verified Project';
+                document.getElementById('proj-hero-subtitle').innerText = currentProject.startingPrice
+                    ? `Starting from ${currentProject.startingPrice}`
+                    : (currentProject.description || '');
+                document.getElementById('proj-wa-btn').href = `https://wa.me/923340091127?text=${encodeURIComponent('Hi, I want details for ' + currentProject.name + '.')}`;
+
+                const coverImg = document.getElementById('proj-cover-img');
+                if (coverImg && currentProject.coverImage) {
+                    coverImg.src = currentProject.coverImage;
+                    coverImg.alt = currentProject.name;
+                }
+
+                const isDhaMargalla = currentProject.id === 'dha-margalla-enclave';
+                const sideEl = document.getElementById('proj-cover-side');
+                if (!isDhaMargalla && sideEl && coverImg) {
+                    sideEl.classList.add('hidden');
+                    coverImg.classList.remove('md:col-span-2', 'sm:h-80');
+                    coverImg.classList.add('md:col-span-3', 'sm:h-[400px]');
+                }
+
+                const descEl = document.getElementById('proj-hero-desc');
+                if (descEl && currentProject.description) {
+                    descEl.innerText = currentProject.description;
+                    descEl.classList.remove('hidden');
+                }
+
+                const planSec = document.getElementById('payment-plan');
+                if (planSec) {
+                    planSec.classList.toggle('hidden', !isDhaMargalla);
+                }
+            }
+
+            let allProps = [];
+            if (window.KaghanDB && window.KaghanDB.getProperties) {
+                allProps = await window.KaghanDB.getProperties();
+            }
+
+            const props = currentProject
+                ? allProps.filter(p => p.projectId === currentProject.id || (!p.projectId && p.societyId === currentProject.id))
+                : allProps;
 
             if (window.KaghanPlotMap) {
                 window.KaghanPlotMap.create('project-plot-map-root', {
@@ -228,27 +299,33 @@
 
             const grid = document.getElementById('project-plots-grid');
             if (grid) {
-                grid.innerHTML = props.map(p => {
-                    const img = (p.images && p.images[0] && p.images[0].url) ? p.images[0].url : 'assets/images/dha-margalla-hero.jpg';
-                    const price = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${Number(p.price || 0).toLocaleString()}`;
-                    const url = `property.html?slug=${encodeURIComponent(p.slug || p.id)}`;
-                    return `
-                        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col">
-                            <a href="${url}" class="relative h-44 bg-slate-100 block overflow-hidden">
-                                <img src="${img}" alt="${p.title}" loading="lazy" class="w-full h-full object-cover">
-                                ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-map-pin text-[10px] mr-1"></i>${p.plotNumber}</span>` : ''}
-                            </a>
-                            <div class="p-4 flex-1 flex flex-col justify-between space-y-2">
-                                <div>
-                                    <div class="text-lg font-extrabold outfit text-emerald-800">${price}</div>
-                                    <h3 class="font-bold text-sm text-slate-900 line-clamp-1"><a href="${url}">${p.title}</a></h3>
-                                    <div class="text-xs text-slate-500">${p.plotDimensions || (p.sqYards ? p.sqYards + ' Sq Yds' : '')}</div>
+                if (!props.length) {
+                    grid.innerHTML = `<div class="col-span-full bg-white p-10 rounded-2xl border border-slate-200 text-center text-slate-400 text-xs">No listings assigned to this project yet.</div>`;
+                } else {
+                    grid.innerHTML = props.map(p => {
+                        const img = getCardImage(p);
+                        const hasVid = hasListingVideo(p);
+                        const price = window.KaghanSharedUI ? window.KaghanSharedUI.formatPrice(p.price) : `PKR ${Number(p.price || 0).toLocaleString()}`;
+                        const url = `property.html?slug=${encodeURIComponent(p.slug || p.id)}`;
+                        return `
+                            <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col">
+                                <a href="${url}" class="relative h-44 bg-slate-100 block overflow-hidden">
+                                    <img src="${img}" alt="${p.title}" loading="lazy" class="w-full h-full object-cover">
+                                    ${p.plotNumber ? `<span class="absolute top-3 left-3 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-map-pin text-[10px] mr-1"></i>${p.plotNumber}</span>` : ''}
+                                    ${hasVid ? `<span class="absolute top-3 right-3 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-brands fa-youtube"></i> Video</span>` : ''}
+                                </a>
+                                <div class="p-4 flex-1 flex flex-col justify-between space-y-2">
+                                    <div>
+                                        <div class="text-lg font-extrabold outfit text-emerald-800">${price}</div>
+                                        <h3 class="font-bold text-sm text-slate-900 line-clamp-1"><a href="${url}">${p.title}</a></h3>
+                                        <div class="text-xs text-slate-500">${p.plotDimensions || (p.sqYards ? p.sqYards + ' Sq Yds' : (p.size ? p.size + ' ' + (p.sizeUnit || 'Marla') : ''))}</div>
+                                    </div>
+                                    <a href="${url}" class="mt-2 block text-center py-2 rounded-xl bg-slate-900 hover:bg-emerald-700 text-white text-xs font-bold transition-colors">View Plot &amp; Map</a>
                                 </div>
-                                <a href="${url}" class="mt-2 block text-center py-2 rounded-xl bg-slate-900 hover:bg-emerald-700 text-white text-xs font-bold transition-colors">View Plot &amp; Map</a>
-                            </div>
-                        </article>
-                    `;
-                }).join('');
+                            </article>
+                        `;
+                    }).join('');
+                }
             }
         });
     </script>
