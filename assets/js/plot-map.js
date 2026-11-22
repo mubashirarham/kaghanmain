@@ -123,7 +123,7 @@
                         </button>
                         <button type="button" id="${uid}-btn-cad" class="hidden px-3 py-1.5 rounded-lg font-bold text-emerald-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all">
                             <i class="fa-solid fa-compass-drafting"></i>
-                            <span>HD CAD Master Plan (8K)</span>
+                            <span>HD CAD Master Plan (16K)</span>
                         </button>
                         <button type="button" id="${uid}-btn-emap" class="${activeEmapUrl ? '' : 'hidden'} px-3 py-1.5 rounded-lg font-bold text-amber-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all">
                             <i class="fa-solid fa-layer-group"></i>
@@ -363,12 +363,24 @@
         }
 
         // Hydrate Contact Phone, Emap URL, & High-Res 8K CAD Master Plan from Firestore siteSettings (or installed CAD manifest)
+        function normalizeAssetUrl(u) {
+            const s = String(u || '').trim();
+            if (!s) return '';
+            if (/^(https?:|data:|blob:|\/)/i.test(s)) return s;
+            return '/' + s.replace(/^\.\//, '');
+        }
+
         async function hydrateMapFromFirestore() {
             try {
-                let settings = null;
-                if (window.KaghanDB && window.KaghanDB.getSiteSettings) {
-                    settings = await window.KaghanDB.getSiteSettings();
-                }
+                // Fetch Firestore settings & installed CAD manifest in parallel (zero waterfall!)
+                const settingsPromise = (window.KaghanDB && window.KaghanDB.getSiteSettings)
+                    ? window.KaghanDB.getSiteSettings().catch(() => null)
+                    : Promise.resolve(null);
+                const manifestPromise = fetch('/assets/cad-tiles/margalla-enclave/manifest.json')
+                    .then(r => (r.ok ? r.json() : null))
+                    .catch(() => null);
+
+                const [settings, manifest] = await Promise.all([settingsPromise, manifestPromise]);
 
                 if (settings && settings.contact && settings.contact.phone) {
                     activePhoneDigits = settings.contact.phone.replace(/[^0-9]/g, '');
@@ -385,23 +397,18 @@
                 }
 
                 const fsCad = (settings && settings.cadOverlay) || {};
-                let manifest = null;
-                if (!fsCad.deepZoomUrl || !fsCad.pdfUrl || (!fsCad.tileUrl && !fsCad.imageUrl)) {
-                    try {
-                        const res = await fetch('assets/cad-tiles/margalla-enclave/manifest.json');
-                        if (res.ok) manifest = await res.json();
-                    } catch (e) {}
-                }
-
                 const cfg = {
-                    pdfUrl: (fsCad.pdfUrl || (manifest && manifest.pdfUrl) || '').trim(),
-                    deepZoomUrl: (fsCad.deepZoomUrl || (manifest && manifest.deepZoomUrl) || '').trim(),
+                    pdfUrl: normalizeAssetUrl(fsCad.pdfUrl || (manifest && manifest.pdfUrl) || ''),
+                    deepZoomUrl: normalizeAssetUrl(fsCad.deepZoomUrl || (manifest && manifest.deepZoomUrl) || ''),
                     sheetWidth: fsCad.sheetWidth || (manifest && manifest.sheetWidth) || 8192,
                     sheetHeight: fsCad.sheetHeight || (manifest && manifest.sheetHeight) || 5791,
                     tileSize: fsCad.tileSize || (manifest && manifest.tileSize) || 512,
                     maxZoom: typeof fsCad.maxZoom === 'number' ? fsCad.maxZoom : ((manifest && typeof manifest.maxZoom === 'number') ? manifest.maxZoom : 4),
-                    tileUrl: (fsCad.tileUrl || '').trim(),
-                    imageUrl: (fsCad.imageUrl || (manifest && manifest.overlayImageUrl) || '').trim(),
+                    maxDisplayZoom: typeof fsCad.maxDisplayZoom === 'number' ? fsCad.maxDisplayZoom : ((manifest && typeof manifest.maxDisplayZoom === 'number') ? manifest.maxDisplayZoom : 6),
+                    tileUrl: normalizeAssetUrl(fsCad.tileUrl || (manifest && manifest.tileUrl) || ''),
+                    geoMinZoom: typeof fsCad.geoMinZoom === 'number' ? fsCad.geoMinZoom : ((manifest && typeof manifest.geoMinZoom === 'number') ? manifest.geoMinZoom : 14),
+                    geoMaxNativeZoom: typeof fsCad.geoMaxNativeZoom === 'number' ? fsCad.geoMaxNativeZoom : ((manifest && typeof manifest.geoMaxNativeZoom === 'number') ? manifest.geoMaxNativeZoom : 18),
+                    imageUrl: normalizeAssetUrl(fsCad.imageUrl || (manifest && manifest.overlayImageUrl) || ''),
                     bounds: (Array.isArray(fsCad.bounds) && fsCad.bounds.length === 2)
                         ? fsCad.bounds
                         : ((manifest && Array.isArray(manifest.overlayBounds) && manifest.overlayBounds.length === 2)
@@ -428,17 +435,30 @@
                 const sliderWrap = document.getElementById(`${uid}-cad-slider-wrap`);
                 if (cfg.tileUrl) {
                     customCadOverlay = L.tileLayer(cfg.tileUrl, {
-                        opacity: 0.78,
-                        maxNativeZoom: 20,
+                        opacity: 0.82,
+                        minZoom: cfg.geoMinZoom,
+                        maxNativeZoom: cfg.geoMaxNativeZoom,
                         maxZoom: 21,
-                        tms: cfg.tms
+                        bounds: cfg.bounds,
+                        zIndex: 450,
+                        tms: cfg.tms,
+                        keepBuffer: 4,
+                        errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
                     }).addTo(map);
+                    if (customCadOverlay.bringToFront) customCadOverlay.bringToFront();
                     if (sliderWrap) sliderWrap.classList.remove('hidden');
                 } else if (cfg.imageUrl) {
                     customCadOverlay = L.imageOverlay(cfg.imageUrl, cfg.bounds, {
-                        opacity: 0.78,
-                        interactive: false
+                        opacity: 0.82,
+                        interactive: false,
+                        zIndex: 450
                     }).addTo(map);
+                    const ovEl = customCadOverlay.getElement && customCadOverlay.getElement();
+                    if (ovEl) {
+                        ovEl.fetchPriority = 'high';
+                        ovEl.decoding = 'async';
+                    }
+                    if (customCadOverlay.bringToFront) customCadOverlay.bringToFront();
                     if (sliderWrap) sliderWrap.classList.remove('hidden');
                 }
             } catch (err) {}
@@ -448,11 +468,12 @@
             if (cadMap || !activeDeepZoomCfg) return;
             const cadEl = document.getElementById(`${uid}-cad-leaflet`);
             if (!cadEl) return;
-            const { deepZoomUrl, sheetWidth, sheetHeight, tileSize, maxZoom } = activeDeepZoomCfg;
+            const { deepZoomUrl, sheetWidth, sheetHeight, tileSize, maxZoom, maxDisplayZoom } = activeDeepZoomCfg;
+            const topZoom = Math.max(maxZoom + 2, maxDisplayZoom || 6);
             cadMap = L.map(cadEl, {
                 crs: L.CRS.Simple,
                 minZoom: 0,
-                maxZoom: maxZoom + 1,
+                maxZoom: topZoom,
                 zoomSnap: 0.25,
                 zoomDelta: 0.75,
                 wheelPxPerZoomLevel: 70,
@@ -474,7 +495,7 @@
                 tileSize,
                 minZoom: 0,
                 maxNativeZoom: maxZoom,
-                maxZoom: maxZoom + 1,
+                maxZoom: topZoom,
                 bounds: cadBounds,
                 noWrap: true,
                 keepBuffer: 4

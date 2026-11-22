@@ -1385,11 +1385,14 @@
                     const b = (Array.isArray(cfg.bounds) && cfg.bounds.length === 2) ? cfg.bounds : [[33.68592, 73.16362], [33.71606, 73.19890]];
                     adminCadOverlay = L.imageOverlay(cfg.imageUrl, b, { opacity: 0.78, interactive: false }).addTo(adminPlotMap);
                 } else {
-                    fetch('../assets/cad-tiles/margalla-enclave/manifest.json').then(r => r.ok ? r.json() : null).then(m => {
-                        if (m && m.overlayImageUrl && adminPlotMap && !adminCadOverlay) {
-                            const url = m.overlayImageUrl.startsWith('http') ? m.overlayImageUrl : ('../' + m.overlayImageUrl.replace(/^\//, ''));
-                            const b = (Array.isArray(m.overlayBounds) && m.overlayBounds.length === 2) ? m.overlayBounds : [[33.68592, 73.16362], [33.71606, 73.19890]];
-                            adminCadOverlay = L.imageOverlay(url, b, { opacity: 0.78, interactive: false }).addTo(adminPlotMap);
+                    fetch('/assets/cad-tiles/margalla-enclave/manifest.json').then(r => r.ok ? r.json() : null).then(m => {
+                        if (!m || !adminPlotMap || adminCadOverlay) return;
+                        const b = (Array.isArray(m.overlayBounds) && m.overlayBounds.length === 2) ? m.overlayBounds : [[33.68592, 73.16362], [33.71606, 73.19890]];
+                        if (m.tileUrl) {
+                            adminCadOverlay = L.tileLayer(m.tileUrl, { opacity: 0.82, minZoom: m.geoMinZoom || 14, maxNativeZoom: m.geoMaxNativeZoom || 18, maxZoom: 21, bounds: b, zIndex: 450 }).addTo(adminPlotMap);
+                        } else if (m.overlayImageUrl) {
+                            const url = /^(https?:|\/)/i.test(m.overlayImageUrl) ? m.overlayImageUrl : ('/' + m.overlayImageUrl.replace(/^\.\//, ''));
+                            adminCadOverlay = L.imageOverlay(url, b, { opacity: 0.82, interactive: false, zIndex: 450 }).addTo(adminPlotMap);
                         }
                     }).catch(() => {});
                 }
@@ -1568,13 +1571,14 @@
             const st = document.getElementById('cad-upload-status');
             if (st) { st.classList.remove('hidden'); st.innerText = 'Loading installed 8K CAD manifest...'; }
             try {
-                const res = await fetch('../assets/cad-tiles/margalla-enclave/manifest.json');
+                const res = await fetch('/assets/cad-tiles/margalla-enclave/manifest.json');
                 if (!res.ok) throw new Error('CAD manifest not found');
                 const m = await res.json();
                 document.getElementById('set-cad-pdf').value = m.pdfUrl || '';
                 document.getElementById('set-cad-deepzoom').value = m.deepZoomUrl || '';
                 document.getElementById('set-cad-image').value = m.overlayImageUrl || '';
-                if (st) st.innerText = 'Loaded installed 8K Margalla Enclave CAD Pack! Click "Save Settings to Firestore" to publish.';
+                document.getElementById('set-cad-tiles').value = m.tileUrl || '';
+                if (st) st.innerText = 'Loaded installed 16K Margalla Enclave CAD Pack (including Max-Zoom Satellite XYZ Tiles)! Click "Save Settings to Firestore" to publish.';
             } catch (err) {
                 if (st) st.innerText = 'Could not load CAD pack: ' + err.message;
             }

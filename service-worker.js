@@ -2,9 +2,9 @@
 // Cache-First for immutable images, Stale-While-Revalidate for CSS/JS,
 // Network-First with fast fallback for Netlify SSR HTML responses.
 
-const STATIC_CACHE = 'kaghan-static-v9';
-const HTML_CACHE = 'kaghan-html-v9';
-const IMAGE_CACHE = 'kaghan-images-v9';
+const STATIC_CACHE = 'kaghan-static-v10';
+const HTML_CACHE = 'kaghan-html-v10';
+const IMAGE_CACHE = 'kaghan-images-v10';
 const VALID_CACHES = new Set([STATIC_CACHE, HTML_CACHE, IMAGE_CACHE]);
 
 const PRECACHE_ASSETS = [
@@ -65,19 +65,16 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. Stale-While-Revalidate for CSS & JS assets (instant load + silent background update)
+  // 2. Network-First for CSS & JS assets (always gets latest deploy immediately, falls back to cache offline)
   if (url.pathname.startsWith('/assets/css/') || url.pathname.startsWith('/assets/js/')) {
     event.respondWith(
       caches.open(STATIC_CACHE).then((cache) =>
-        cache.match(event.request).then((cached) => {
-          const networkFetch = fetch(event.request).then((res) => {
-            if (res && res.status === 200 && res.type === 'basic') {
-              cache.put(event.request, res.clone()).catch(() => {});
-            }
-            return res;
-          }).catch(() => cached);
-          return cached || networkFetch;
-        })
+        fetch(event.request).then((res) => {
+          if (res && res.status === 200 && res.type === 'basic') {
+            cache.put(event.request, res.clone()).catch(() => {});
+          }
+          return res;
+        }).catch(() => cache.match(event.request))
       )
     );
     return;
