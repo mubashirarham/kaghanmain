@@ -2,9 +2,9 @@
 // Cache-First for immutable images, Stale-While-Revalidate for CSS/JS,
 // Network-First with fast fallback for Netlify SSR HTML responses.
 
-const STATIC_CACHE = 'kaghan-static-v10';
-const HTML_CACHE = 'kaghan-html-v10';
-const IMAGE_CACHE = 'kaghan-images-v10';
+const STATIC_CACHE = 'kaghan-static-v11';
+const HTML_CACHE = 'kaghan-html-v11';
+const IMAGE_CACHE = 'kaghan-images-v11';
 const VALID_CACHES = new Set([STATIC_CACHE, HTML_CACHE, IMAGE_CACHE]);
 
 const PRECACHE_ASSETS = [

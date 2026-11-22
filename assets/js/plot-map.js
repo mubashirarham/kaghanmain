@@ -376,7 +376,7 @@
                 const settingsPromise = (window.KaghanDB && window.KaghanDB.getSiteSettings)
                     ? window.KaghanDB.getSiteSettings().catch(() => null)
                     : Promise.resolve(null);
-                const manifestPromise = fetch('/assets/cad-tiles/margalla-enclave/manifest.json')
+                const manifestPromise = fetch('/assets/cad-tiles/margalla-enclave/manifest.json?v=2')
                     .then(r => (r.ok ? r.json() : null))
                     .catch(() => null);
 
@@ -413,7 +413,7 @@
                         ? fsCad.bounds
                         : ((manifest && Array.isArray(manifest.overlayBounds) && manifest.overlayBounds.length === 2)
                             ? manifest.overlayBounds
-                            : [[33.68592, 73.16362], [33.71606, 73.19890]]),
+                            : [[33.68077, 73.16434], [33.71609, 73.20630]]),
                     tms: !!fsCad.tms
                 };
 

@@ -1385,9 +1385,9 @@
                     const b = (Array.isArray(cfg.bounds) && cfg.bounds.length === 2) ? cfg.bounds : [[33.68592, 73.16362], [33.71606, 73.19890]];
                     adminCadOverlay = L.imageOverlay(cfg.imageUrl, b, { opacity: 0.78, interactive: false }).addTo(adminPlotMap);
                 } else {
-                    fetch('/assets/cad-tiles/margalla-enclave/manifest.json').then(r => r.ok ? r.json() : null).then(m => {
+                    fetch('/assets/cad-tiles/margalla-enclave/manifest.json?v=2').then(r => r.ok ? r.json() : null).then(m => {
                         if (!m || !adminPlotMap || adminCadOverlay) return;
-                        const b = (Array.isArray(m.overlayBounds) && m.overlayBounds.length === 2) ? m.overlayBounds : [[33.68592, 73.16362], [33.71606, 73.19890]];
+                        const b = (Array.isArray(m.overlayBounds) && m.overlayBounds.length === 2) ? m.overlayBounds : [[33.68077, 73.16434], [33.71609, 73.20630]];
                         if (m.tileUrl) {
                             adminCadOverlay = L.tileLayer(m.tileUrl, { opacity: 0.82, minZoom: m.geoMinZoom || 14, maxNativeZoom: m.geoMaxNativeZoom || 18, maxZoom: 21, bounds: b, zIndex: 450 }).addTo(adminPlotMap);
                         } else if (m.overlayImageUrl) {
