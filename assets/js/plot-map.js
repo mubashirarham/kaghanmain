@@ -90,6 +90,7 @@
         if (instances.has(containerId)) {
             const old = instances.get(containerId);
             if (old && old.map) old.map.remove();
+            if (old && old.cadMap) old.cadMap.remove();
             instances.delete(containerId);
         }
 
@@ -104,6 +105,10 @@
 
         let activePhoneDigits = '';
         let activeEmapUrl = options.emapUrl || '';
+        let activeCadPdfUrl = '';
+        let activeDeepZoomCfg = null;
+        let cadMap = null;
+        let cadBounds = null;
         const plotBadgeText = singleProp && (singleProp.plotNumber || singleProp.plotDimensions)
             ? [singleProp.plotNumber, singleProp.plotDimensions, singleProp.plotStreet, singleProp.plotSector].filter(Boolean).join(' • ')
             : (singleProp ? singleProp.title : '');
@@ -111,28 +116,38 @@
         root.innerHTML = `
             <div id="${uid}-shell" class="bg-white rounded-2xl border-2 border-slate-300 shadow-md overflow-hidden">
                 <div class="bg-slate-900 text-white px-3.5 py-2.5 border-b-2 border-emerald-600/80 flex flex-wrap items-center justify-between gap-2.5 text-xs">
-                    <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-700">
+                    <div class="flex flex-wrap items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-700">
                         <button type="button" id="${uid}-btn-pinned" class="px-3 py-1.5 rounded-lg font-bold bg-emerald-600 text-white flex items-center gap-1.5 transition-all">
                             <i class="fa-solid fa-map-pin"></i>
                             <span>Pinned Plot Map</span>
                         </button>
+                        <button type="button" id="${uid}-btn-cad" class="hidden px-3 py-1.5 rounded-lg font-bold text-emerald-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all">
+                            <i class="fa-solid fa-compass-drafting"></i>
+                            <span>HD CAD Master Plan (8K)</span>
+                        </button>
                         <button type="button" id="${uid}-btn-emap" class="${activeEmapUrl ? '' : 'hidden'} px-3 py-1.5 rounded-lg font-bold text-amber-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all">
                             <i class="fa-solid fa-layer-group"></i>
-                            <span>Live Emap CAD (HD)</span>
+                            <span>Live Emap CAD</span>
                         </button>
                     </div>
 
                     <div id="${uid}-pinned-controls" class="flex flex-wrap items-center gap-2">
                         <label id="${uid}-cad-slider-wrap" class="hidden flex items-center gap-2 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700 text-[11px] text-slate-200">
                             <span class="font-semibold text-slate-300">CAD Overlay</span>
-                            <input type="range" id="${uid}-opacity" min="0" max="100" value="80" class="w-16 sm:w-20 accent-emerald-500 cursor-pointer">
-                            <span id="${uid}-opacity-val" class="font-mono text-emerald-400 w-7 text-right">80%</span>
+                            <input type="range" id="${uid}-opacity" min="0" max="100" value="78" class="w-16 sm:w-20 accent-emerald-500 cursor-pointer">
+                            <span id="${uid}-opacity-val" class="font-mono text-emerald-400 w-7 text-right">78%</span>
                         </label>
 
                         <div class="flex items-center gap-1 bg-slate-950 p-0.5 rounded-lg border border-slate-700">
                             <button type="button" id="${uid}-layer-sat" class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-800 text-emerald-400">Satellite</button>
                             <button type="button" id="${uid}-layer-str" class="px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-400 hover:text-white">Street</button>
                         </div>
+
+                        <a id="${uid}-cad-pdf-pinned" href="#" download class="hidden px-2.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-[11px] flex items-center gap-1.5 transition-colors shadow-xs">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span class="hidden sm:inline">Download CAD PDF</span>
+                            <span class="sm:hidden">CAD PDF</span>
+                        </a>
 
                         <button type="button" id="${uid}-btn-fs" title="Fullscreen Map" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-[11px] flex items-center gap-1 transition-colors">
                             <i class="fa-solid fa-expand"></i>
@@ -142,6 +157,18 @@
                             <i class="fa-solid fa-location-arrow text-emerald-400"></i>
                             <span class="hidden sm:inline">Directions</span>
                         </a>
+                    </div>
+
+                    <div id="${uid}-cad-controls" class="hidden flex flex-wrap items-center gap-2">
+                        <button type="button" id="${uid}-cad-fit" title="Fit Full CAD Sheet" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-[11px] flex items-center gap-1.5 transition-colors">
+                            <i class="fa-solid fa-arrows-to-dot text-emerald-400"></i> Fit Sheet
+                        </button>
+                        <a id="${uid}-cad-pdf-btn" href="#" download class="hidden px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-[11px] flex items-center gap-1.5 transition-colors shadow-xs">
+                            <i class="fa-solid fa-file-arrow-down"></i> Download Vector CAD (PDF)
+                        </a>
+                        <button type="button" id="${uid}-btn-fs-cad" title="Toggle Fullscreen" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-[11px] flex items-center gap-1 transition-colors">
+                            <i class="fa-solid fa-expand"></i> Fullscreen
+                        </button>
                     </div>
 
                     <div id="${uid}-emap-controls" class="hidden flex items-center gap-2">
@@ -156,6 +183,14 @@
 
                 <div class="kp-map-viewport relative bg-slate-950" style="height: ${height};">
                     <div id="${uid}-leaflet" class="w-full h-full" style="z-index: 10;"></div>
+
+                    <div id="${uid}-cad-wrap" class="hidden absolute inset-0 z-20 bg-white">
+                        <div id="${uid}-cad-leaflet" class="w-full h-full bg-white"></div>
+                        <div class="pointer-events-none absolute bottom-3 left-3 z-[400] bg-slate-900/85 backdrop-blur-xs text-white text-[10px] font-bold px-3 py-1.5 rounded-lg border border-slate-700 shadow-lg flex items-center gap-1.5">
+                            <i class="fa-solid fa-magnifying-glass-plus text-emerald-400"></i>
+                            <span>Scroll or pinch to zoom down to exact plot numbers &amp; street dimensions</span>
+                        </div>
+                    </div>
 
                     <div id="${uid}-emap-wrap" class="hidden absolute inset-0 z-20 bg-slate-950">
                         ${plotBadgeText ? `
@@ -327,19 +362,20 @@
             }
         }
 
-        // Hydrate Contact Phone, Emap URL, & Custom High-Res CAD Overlay from Firestore siteSettings
+        // Hydrate Contact Phone, Emap URL, & High-Res 8K CAD Master Plan from Firestore siteSettings (or installed CAD manifest)
         async function hydrateMapFromFirestore() {
             try {
-                if (!window.KaghanDB || !window.KaghanDB.getSiteSettings) return;
-                const settings = await window.KaghanDB.getSiteSettings();
-                if (!settings) return;
+                let settings = null;
+                if (window.KaghanDB && window.KaghanDB.getSiteSettings) {
+                    settings = await window.KaghanDB.getSiteSettings();
+                }
 
-                if (settings.contact && settings.contact.phone) {
+                if (settings && settings.contact && settings.contact.phone) {
                     activePhoneDigits = settings.contact.phone.replace(/[^0-9]/g, '');
                     renderMarkers(lastRenderedList);
                 }
 
-                const emapUrl = activeEmapUrl || (settings.mapConfig && settings.mapConfig.emapUrl) || '';
+                const emapUrl = activeEmapUrl || (settings && settings.mapConfig && settings.mapConfig.emapUrl) || '';
                 if (emapUrl) {
                     activeEmapUrl = emapUrl;
                     const emBtn = document.getElementById(`${uid}-btn-emap`);
@@ -348,38 +384,119 @@
                     if (emExt) emExt.href = emapUrl;
                 }
 
-                const cfg = settings.cadOverlay;
-                if (cfg) {
-                    const sliderWrap = document.getElementById(`${uid}-cad-slider-wrap`);
-                    if (cfg.tileUrl && cfg.tileUrl.trim()) {
-                        customCadOverlay = L.tileLayer(cfg.tileUrl.trim(), {
-                            opacity: 0.8,
-                            maxNativeZoom: 20,
-                            maxZoom: 21,
-                            tms: !!cfg.tms
-                        }).addTo(map);
-                        if (sliderWrap) sliderWrap.classList.remove('hidden');
-                    } else if (cfg.imageUrl && cfg.imageUrl.trim()) {
-                        const b = (Array.isArray(cfg.bounds) && cfg.bounds.length === 2)
-                            ? cfg.bounds
-                            : [[33.68592, 73.16362], [33.71606, 73.19890]];
-                        customCadOverlay = L.imageOverlay(cfg.imageUrl.trim(), b, {
-                            opacity: 0.8,
-                            interactive: false
-                        }).addTo(map);
-                        if (sliderWrap) sliderWrap.classList.remove('hidden');
-                    }
+                const fsCad = (settings && settings.cadOverlay) || {};
+                let manifest = null;
+                if (!fsCad.deepZoomUrl || !fsCad.pdfUrl || (!fsCad.tileUrl && !fsCad.imageUrl)) {
+                    try {
+                        const res = await fetch('assets/cad-tiles/margalla-enclave/manifest.json');
+                        if (res.ok) manifest = await res.json();
+                    } catch (e) {}
+                }
+
+                const cfg = {
+                    pdfUrl: (fsCad.pdfUrl || (manifest && manifest.pdfUrl) || '').trim(),
+                    deepZoomUrl: (fsCad.deepZoomUrl || (manifest && manifest.deepZoomUrl) || '').trim(),
+                    sheetWidth: fsCad.sheetWidth || (manifest && manifest.sheetWidth) || 8192,
+                    sheetHeight: fsCad.sheetHeight || (manifest && manifest.sheetHeight) || 5791,
+                    tileSize: fsCad.tileSize || (manifest && manifest.tileSize) || 512,
+                    maxZoom: typeof fsCad.maxZoom === 'number' ? fsCad.maxZoom : ((manifest && typeof manifest.maxZoom === 'number') ? manifest.maxZoom : 4),
+                    tileUrl: (fsCad.tileUrl || '').trim(),
+                    imageUrl: (fsCad.imageUrl || (manifest && manifest.overlayImageUrl) || '').trim(),
+                    bounds: (Array.isArray(fsCad.bounds) && fsCad.bounds.length === 2)
+                        ? fsCad.bounds
+                        : ((manifest && Array.isArray(manifest.overlayBounds) && manifest.overlayBounds.length === 2)
+                            ? manifest.overlayBounds
+                            : [[33.68592, 73.16362], [33.71606, 73.19890]]),
+                    tms: !!fsCad.tms
+                };
+
+                if (cfg.pdfUrl) {
+                    activeCadPdfUrl = cfg.pdfUrl;
+                    [document.getElementById(`${uid}-cad-pdf-pinned`), document.getElementById(`${uid}-cad-pdf-btn`)].forEach(el => {
+                        if (!el) return;
+                        el.href = activeCadPdfUrl;
+                        el.classList.remove('hidden');
+                    });
+                }
+
+                if (cfg.deepZoomUrl) {
+                    activeDeepZoomCfg = cfg;
+                    const cadBtn = document.getElementById(`${uid}-btn-cad`);
+                    if (cadBtn) cadBtn.classList.remove('hidden');
+                }
+
+                const sliderWrap = document.getElementById(`${uid}-cad-slider-wrap`);
+                if (cfg.tileUrl) {
+                    customCadOverlay = L.tileLayer(cfg.tileUrl, {
+                        opacity: 0.78,
+                        maxNativeZoom: 20,
+                        maxZoom: 21,
+                        tms: cfg.tms
+                    }).addTo(map);
+                    if (sliderWrap) sliderWrap.classList.remove('hidden');
+                } else if (cfg.imageUrl) {
+                    customCadOverlay = L.imageOverlay(cfg.imageUrl, cfg.bounds, {
+                        opacity: 0.78,
+                        interactive: false
+                    }).addTo(map);
+                    if (sliderWrap) sliderWrap.classList.remove('hidden');
                 }
             } catch (err) {}
+        }
+
+        function ensureCadMapInitialized() {
+            if (cadMap || !activeDeepZoomCfg) return;
+            const cadEl = document.getElementById(`${uid}-cad-leaflet`);
+            if (!cadEl) return;
+            const { deepZoomUrl, sheetWidth, sheetHeight, tileSize, maxZoom } = activeDeepZoomCfg;
+            cadMap = L.map(cadEl, {
+                crs: L.CRS.Simple,
+                minZoom: 0,
+                maxZoom: maxZoom + 1,
+                zoomSnap: 0.25,
+                zoomDelta: 0.75,
+                wheelPxPerZoomLevel: 70,
+                scrollWheelZoom: true,
+                touchZoom: true,
+                doubleClickZoom: true,
+                boxZoom: true,
+                dragging: true,
+                zoomControl: true,
+                maxBoundsViscosity: 0.85,
+                attributionControl: false
+            });
+
+            const sw = cadMap.unproject([0, sheetHeight], maxZoom);
+            const ne = cadMap.unproject([sheetWidth, 0], maxZoom);
+            cadBounds = L.latLngBounds(sw, ne);
+
+            L.tileLayer(deepZoomUrl, {
+                tileSize,
+                minZoom: 0,
+                maxNativeZoom: maxZoom,
+                maxZoom: maxZoom + 1,
+                bounds: cadBounds,
+                noWrap: true,
+                keepBuffer: 4
+            }).addTo(cadMap);
+
+            cadMap.setMaxBounds(cadBounds.pad(0.08));
+            cadMap.fitBounds(cadBounds);
+            if (instances.has(containerId)) {
+                instances.get(containerId).cadMap = cadMap;
+            }
         }
 
         renderMarkers(initialProps);
         hydrateMapFromFirestore();
 
         const btnPinned = document.getElementById(`${uid}-btn-pinned`);
+        const btnCad = document.getElementById(`${uid}-btn-cad`);
         const btnEmap = document.getElementById(`${uid}-btn-emap`);
         const pinnedControls = document.getElementById(`${uid}-pinned-controls`);
+        const cadControls = document.getElementById(`${uid}-cad-controls`);
         const emapControls = document.getElementById(`${uid}-emap-controls`);
+        const cadWrap = document.getElementById(`${uid}-cad-wrap`);
         const emapWrap = document.getElementById(`${uid}-emap-wrap`);
         const emapIframe = document.getElementById(`${uid}-emap-iframe`);
         const opacityInput = document.getElementById(`${uid}-opacity`);
@@ -388,34 +505,63 @@
         const btnStr = document.getElementById(`${uid}-layer-str`);
         const shellEl = document.getElementById(`${uid}-shell`);
         const btnFs = document.getElementById(`${uid}-btn-fs`);
+        const btnFsCad = document.getElementById(`${uid}-btn-fs-cad`);
         const btnFsEmap = document.getElementById(`${uid}-btn-fs-emap`);
+        const btnCadFit = document.getElementById(`${uid}-cad-fit`);
 
         function toggleMapFullscreen() {
             const isFs = shellEl.classList.toggle('kp-map-fullscreen');
             document.body.style.overflow = isFs ? 'hidden' : '';
             if (btnFs) btnFs.innerHTML = isFs ? '<i class="fa-solid fa-compress"></i>' : '<i class="fa-solid fa-expand"></i>';
+            if (btnFsCad) btnFsCad.innerHTML = isFs ? '<i class="fa-solid fa-compress"></i> Exit' : '<i class="fa-solid fa-expand"></i> Fullscreen';
             if (btnFsEmap) btnFsEmap.innerHTML = isFs ? '<i class="fa-solid fa-compress"></i> Exit' : '<i class="fa-solid fa-expand"></i> Fullscreen';
-            setTimeout(() => map.invalidateSize(), 150);
+            setTimeout(() => {
+                map.invalidateSize();
+                if (cadMap) cadMap.invalidateSize();
+            }, 150);
         }
         if (btnFs) btnFs.onclick = toggleMapFullscreen;
+        if (btnFsCad) btnFsCad.onclick = toggleMapFullscreen;
         if (btnFsEmap) btnFsEmap.onclick = toggleMapFullscreen;
+        if (btnCadFit) btnCadFit.onclick = () => { if (cadMap && cadBounds) cadMap.fitBounds(cadBounds); };
+
+        function setActiveTab(tab) {
+            const activeCls = 'px-3 py-1.5 rounded-lg font-bold bg-emerald-600 text-white flex items-center gap-1.5 transition-all';
+            const idlePinned = 'px-3 py-1.5 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all';
+            const idleCad = `${activeDeepZoomCfg ? '' : 'hidden'} px-3 py-1.5 rounded-lg font-bold text-emerald-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all`;
+            const idleEmap = `${activeEmapUrl ? '' : 'hidden'} px-3 py-1.5 rounded-lg font-bold text-amber-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all`;
+
+            btnPinned.className = tab === 'pinned' ? activeCls : idlePinned;
+            if (btnCad) btnCad.className = tab === 'cad' ? activeCls : idleCad;
+            btnEmap.className = tab === 'emap' ? activeCls : idleEmap;
+
+            pinnedControls.classList.toggle('hidden', tab !== 'pinned');
+            if (cadControls) cadControls.classList.toggle('hidden', tab !== 'cad');
+            emapControls.classList.toggle('hidden', tab !== 'emap');
+
+            if (cadWrap) cadWrap.classList.toggle('hidden', tab !== 'cad');
+            emapWrap.classList.toggle('hidden', tab !== 'emap');
+        }
 
         btnPinned.onclick = () => {
-            btnPinned.className = 'px-3 py-1.5 rounded-lg font-bold bg-emerald-600 text-white flex items-center gap-1.5 transition-all';
-            btnEmap.className = `${activeEmapUrl ? '' : 'hidden'} px-3 py-1.5 rounded-lg font-bold text-amber-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all`;
-            pinnedControls.classList.remove('hidden');
-            emapControls.classList.add('hidden');
-            emapWrap.classList.add('hidden');
+            setActiveTab('pinned');
             setTimeout(() => map.invalidateSize(), 150);
         };
 
+        if (btnCad) {
+            btnCad.onclick = () => {
+                if (!activeDeepZoomCfg) return;
+                setActiveTab('cad');
+                setTimeout(() => {
+                    ensureCadMapInitialized();
+                    if (cadMap) cadMap.invalidateSize();
+                }, 60);
+            };
+        }
+
         btnEmap.onclick = () => {
             if (!activeEmapUrl) return;
-            btnEmap.className = 'px-3 py-1.5 rounded-lg font-bold bg-emerald-600 text-white flex items-center gap-1.5 transition-all';
-            btnPinned.className = 'px-3 py-1.5 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all';
-            pinnedControls.classList.add('hidden');
-            emapControls.classList.remove('hidden');
-            emapWrap.classList.remove('hidden');
+            setActiveTab('emap');
             if (!emapIframe.src || emapIframe.src === 'about:blank') {
                 emapIframe.src = activeEmapUrl;
             }
@@ -449,8 +595,10 @@
 
         const api = {
             map,
+            cadMap: null,
             updateProperties: (list) => renderMarkers(list),
-            invalidateSize: () => map.invalidateSize(),
+            invalidateSize: () => { map.invalidateSize(); if (cadMap) cadMap.invalidateSize(); },
+            switchToCad: () => { if (btnCad) btnCad.click(); },
             switchToEmap: () => btnEmap.click(),
             switchToPinned: () => btnPinned.click()
         };

@@ -1,0 +1,11 @@
+{
+  "title": "DHA Margalla Enclave — Civil 3D Master Plan (8K CAD)",
+  "pdfUrl": "assets/docs/margalla-enclave-master-plan.pdf",
+  "deepZoomUrl": "assets/cad-tiles/margalla-enclave/{z}/{x}/{y}.webp",
+  "sheetWidth": 8192,
+  "sheetHeight": 5791,
+  "tileSize": 512,
+  "maxZoom": 4,
+  "overlayImageUrl": "assets/cad-tiles/margalla-enclave/satellite-overlay.webp",
+  "overlayBounds": [[33.68592, 73.16362], [33.71606, 73.19890]]
+}

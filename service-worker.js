@@ -2,9 +2,9 @@
 // Cache-First for immutable images, Stale-While-Revalidate for CSS/JS,
 // Network-First with fast fallback for Netlify SSR HTML responses.
 
-const STATIC_CACHE = 'kaghan-static-v8';
-const HTML_CACHE = 'kaghan-html-v8';
-const IMAGE_CACHE = 'kaghan-images-v8';
+const STATIC_CACHE = 'kaghan-static-v9';
+const HTML_CACHE = 'kaghan-html-v9';
+const IMAGE_CACHE = 'kaghan-images-v9';
 const VALID_CACHES = new Set([STATIC_CACHE, HTML_CACHE, IMAGE_CACHE]);
 
 const PRECACHE_ASSETS = [
@@ -42,6 +42,7 @@ self.addEventListener('fetch', (event) => {
       url.pathname.startsWith('/admin') ||
       url.pathname.startsWith('/.netlify/') ||
       url.pathname.endsWith('.mp4') ||
+      url.pathname.endsWith('.pdf') ||
       event.request.headers.has('range')) {
     return;
   }

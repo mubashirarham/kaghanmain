@@ -419,23 +419,39 @@
 
                     <!-- Map, Emap & High-Res CAD Settings -->
                     <div class="pt-4 border-t-2 border-slate-200 space-y-3">
-                        <div class="font-bold text-slate-900 flex items-center gap-1.5">
-                            <i class="fa-solid fa-layer-group text-emerald-600"></i> Map &amp; High-Res CAD Overlay Settings
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="font-bold text-slate-900 flex items-center gap-1.5">
+                                <i class="fa-solid fa-layer-group text-emerald-600"></i> Map &amp; High-Res 8K CAD Master Plan Settings
+                            </div>
+                            <button type="button" onclick="loadInstalledCadPack()" class="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-300 hover:bg-emerald-100 text-emerald-800 font-bold text-[11px] flex items-center gap-1.5 transition-colors">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Load Installed 8K Margalla CAD Pack
+                            </button>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Downloadable Vector CAD PDF URL</label>
+                            <input type="text" id="set-cad-pdf" placeholder="assets/docs/margalla-enclave-master-plan.pdf" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 font-mono text-[11px] focus:outline-none focus:border-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">8K Deep-Zoom CAD Tile Pyramid URL (&#123;z&#125;/&#123;x&#125;/&#123;y&#125;.webp)</label>
+                            <input type="text" id="set-cad-deepzoom" placeholder="assets/cad-tiles/margalla-enclave/{z}/{x}/{y}.webp" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 font-mono text-[11px] focus:outline-none focus:border-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Transparent Satellite CAD Overlay Image URL</label>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <input type="text" id="set-cad-image" placeholder="High-Res transparent CAD overlay image URL..." class="flex-1 min-w-[200px] bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
+                                <label class="cursor-pointer bg-slate-900 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl flex items-center gap-1.5 transition-colors">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload CAD
+                                    <input type="file" accept="image/*" class="hidden" onchange="uploadSingleToInput(event, 'set-cad-image', 'cad-upload-status')">
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">OR Custom Georeferenced XYZ Tile URL (MapTiler / QGIS)</label>
+                            <input type="text" id="set-cad-tiles" placeholder="https://.../{z}/{x}/{y}.png" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 font-mono text-[11px] focus:outline-none focus:border-emerald-600">
                         </div>
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Live Emap CAD URL (Optional)</label>
                             <input type="url" id="set-emap-url" placeholder="https://emap.pk/..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 focus:outline-none focus:border-emerald-600">
-                        </div>
-                        <div class="flex flex-wrap items-center gap-2">
-                            <input type="text" id="set-cad-image" placeholder="High-Res 4K CAD Master Plan image URL..." class="flex-1 min-w-[200px] bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-600">
-                            <label class="cursor-pointer bg-slate-900 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl flex items-center gap-1.5 transition-colors">
-                                <i class="fa-solid fa-cloud-arrow-up"></i> Upload CAD
-                                <input type="file" accept="image/*" class="hidden" onchange="uploadSingleToInput(event, 'set-cad-image', 'cad-upload-status')">
-                            </label>
-                        </div>
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1">OR Custom XYZ Tile URL (MapTiler / QGIS)</label>
-                            <input type="text" id="set-cad-tiles" placeholder="https://.../{z}/{x}/{y}.png" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 font-mono text-[11px] focus:outline-none focus:border-emerald-600">
                         </div>
                         <div id="cad-upload-status" class="hidden text-[11px] font-semibold text-emerald-700"></div>
                     </div>
@@ -1364,9 +1380,18 @@
 
                 const cfg = cachedSettings && cachedSettings.cadOverlay;
                 if (cfg && cfg.tileUrl) {
-                    adminCadOverlay = L.tileLayer(cfg.tileUrl, { opacity: 0.75, maxNativeZoom: 20, maxZoom: 21 }).addTo(adminPlotMap);
+                    adminCadOverlay = L.tileLayer(cfg.tileUrl, { opacity: 0.78, maxNativeZoom: 20, maxZoom: 21 }).addTo(adminPlotMap);
                 } else if (cfg && cfg.imageUrl) {
-                    adminCadOverlay = L.imageOverlay(cfg.imageUrl, [[33.68592, 73.16362], [33.71606, 73.19890]], { opacity: 0.75, interactive: false }).addTo(adminPlotMap);
+                    const b = (Array.isArray(cfg.bounds) && cfg.bounds.length === 2) ? cfg.bounds : [[33.68592, 73.16362], [33.71606, 73.19890]];
+                    adminCadOverlay = L.imageOverlay(cfg.imageUrl, b, { opacity: 0.78, interactive: false }).addTo(adminPlotMap);
+                } else {
+                    fetch('../assets/cad-tiles/margalla-enclave/manifest.json').then(r => r.ok ? r.json() : null).then(m => {
+                        if (m && m.overlayImageUrl && adminPlotMap && !adminCadOverlay) {
+                            const url = m.overlayImageUrl.startsWith('http') ? m.overlayImageUrl : ('../' + m.overlayImageUrl.replace(/^\//, ''));
+                            const b = (Array.isArray(m.overlayBounds) && m.overlayBounds.length === 2) ? m.overlayBounds : [[33.68592, 73.16362], [33.71606, 73.19890]];
+                            adminCadOverlay = L.imageOverlay(url, b, { opacity: 0.78, interactive: false }).addTo(adminPlotMap);
+                        }
+                    }).catch(() => {});
                 }
 
                 const pinIcon = L.divIcon({
@@ -1533,8 +1558,26 @@
             document.getElementById('set-footer-bio').value = s.footerBio || '';
             document.getElementById('set-currency').value = s.defaultCurrency || 'PKR';
             document.getElementById('set-emap-url').value = (s.mapConfig && s.mapConfig.emapUrl) || '';
+            document.getElementById('set-cad-pdf').value = (s.cadOverlay && s.cadOverlay.pdfUrl) || '';
+            document.getElementById('set-cad-deepzoom').value = (s.cadOverlay && s.cadOverlay.deepZoomUrl) || '';
             document.getElementById('set-cad-image').value = (s.cadOverlay && s.cadOverlay.imageUrl) || '';
             document.getElementById('set-cad-tiles').value = (s.cadOverlay && s.cadOverlay.tileUrl) || '';
+        }
+
+        async function loadInstalledCadPack() {
+            const st = document.getElementById('cad-upload-status');
+            if (st) { st.classList.remove('hidden'); st.innerText = 'Loading installed 8K CAD manifest...'; }
+            try {
+                const res = await fetch('../assets/cad-tiles/margalla-enclave/manifest.json');
+                if (!res.ok) throw new Error('CAD manifest not found');
+                const m = await res.json();
+                document.getElementById('set-cad-pdf').value = m.pdfUrl || '';
+                document.getElementById('set-cad-deepzoom').value = m.deepZoomUrl || '';
+                document.getElementById('set-cad-image').value = m.overlayImageUrl || '';
+                if (st) st.innerText = 'Loaded installed 8K Margalla Enclave CAD Pack! Click "Save Settings to Firestore" to publish.';
+            } catch (err) {
+                if (st) st.innerText = 'Could not load CAD pack: ' + err.message;
+            }
         }
 
         async function uploadSingleToInput(e, inputId, statusId) {
@@ -1573,6 +1616,9 @@
                     emapUrl: document.getElementById('set-emap-url').value.trim()
                 },
                 cadOverlay: {
+                    ...(cachedSettings && cachedSettings.cadOverlay ? cachedSettings.cadOverlay : {}),
+                    pdfUrl: document.getElementById('set-cad-pdf').value.trim(),
+                    deepZoomUrl: document.getElementById('set-cad-deepzoom').value.trim(),
                     imageUrl: document.getElementById('set-cad-image').value.trim(),
                     tileUrl: document.getElementById('set-cad-tiles').value.trim()
                 }
