@@ -392,7 +392,7 @@
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <h1 class="text-2xl font-extrabold outfit text-slate-900">CAD Map Alignment Studio</h1>
-                        <p class="text-xs text-slate-500">Drag, nudge, rotate, and scale the 16K Margalla Enclave CAD directly over Google Earth, then save to apply live across the entire website.</p>
+                        <p class="text-xs text-slate-500">Visually move, resize from all 4 corners, and rotate the 16K Margalla Enclave CAD directly with your cursor over Google Earth, or enter exact overlay coordinates.</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2 text-xs">
                         <span id="cad-align-saved-msg" class="hidden px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 font-bold">
@@ -408,21 +408,28 @@
                 </div>
 
                 <div class="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
-                    <!-- Interactive Earth + CAD Map Canvas -->
+                    <!-- Interactive Earth + CAD Map Canvas with Visual Corner/Rotate/Move Handles -->
                     <div id="cad-align-shell" class="xl:col-span-8 bg-white rounded-2xl border-2 border-slate-300 shadow-xs overflow-hidden">
                         <div class="bg-slate-900 text-white px-3.5 py-2.5 border-b-2 border-emerald-600/80 flex flex-wrap items-center justify-between gap-2 text-xs">
                             <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-700">
-                                <button type="button" id="cad-mode-earth" onclick="cadSetMode('earth')" class="px-3 py-1.5 rounded-lg font-bold bg-emerald-600 text-white flex items-center gap-1.5 transition-all">
+                                <button type="button" id="cad-mode-earth" onclick="cadSetMode('earth')" class="px-3 py-1.5 rounded-lg font-bold bg-emerald-600 text-white flex items-center gap-1.5 transition-all" title="Pan & zoom Google Earth normally; grab any corner/rotate/center handle directly with cursor">
                                     <i class="fa-solid fa-hand"></i> Pan Earth
                                 </button>
-                                <button type="button" id="cad-mode-drag" onclick="cadSetMode('cad')" class="px-3 py-1.5 rounded-lg font-bold text-amber-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all">
-                                    <i class="fa-solid fa-up-down-left-right"></i> Drag CAD Map
+                                <button type="button" id="cad-mode-drag" onclick="cadSetMode('cad')" class="px-3 py-1.5 rounded-lg font-bold text-amber-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all" title="Click & drag anywhere on the map to slide the CAD overlay with your cursor">
+                                    <i class="fa-solid fa-up-down-left-right"></i> Drag CAD
                                 </button>
                             </div>
 
                             <div class="flex flex-wrap items-center gap-1.5">
-                                <button type="button" onmousedown="cadCompareStart()" onmouseup="cadCompareEnd()" onmouseleave="cadCompareEnd()" ontouchstart="cadCompareStart()" ontouchend="cadCompareEnd()" class="px-2.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-[11px] flex items-center gap-1 select-none" title="Hold to temporarily hide CAD and compare satellite roads underneath">
-                                    <i class="fa-solid fa-eye-slash"></i> Hold to Peek Earth
+                                <label class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-[11px] font-bold text-slate-200 cursor-pointer select-none" title="Keep original CAD proportions when dragging corners">
+                                    <input type="checkbox" id="cad-lock-aspect" checked class="accent-emerald-500">
+                                    <span>Lock Ratio</span>
+                                </label>
+                                <button type="button" id="cad-toggle-handles" onclick="cadToggleHandles()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-emerald-500/60 text-emerald-300 font-bold text-[11px] flex items-center gap-1" title="Show or hide visual corner/rotate handles">
+                                    <i class="fa-solid fa-vector-square"></i> Box
+                                </button>
+                                <button type="button" onmousedown="cadCompareStart()" onmouseup="cadCompareEnd()" onmouseleave="cadCompareEnd()" ontouchstart="cadCompareStart()" ontouchend="cadCompareEnd()" class="px-2.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-[11px] flex items-center gap-1 select-none" title="Hold to hide CAD and see exact satellite roads underneath">
+                                    <i class="fa-solid fa-eye-slash"></i> Peek Earth
                                 </button>
                                 <div class="flex items-center gap-0.5 bg-slate-950 p-0.5 rounded-lg border border-slate-700">
                                     <button type="button" id="cad-base-hybrid" onclick="cadSetBasemap('hybrid')" class="px-2 py-1 rounded-md text-[10px] font-bold bg-slate-800 text-emerald-400">Hybrid</button>
@@ -435,26 +442,66 @@
                             </div>
                         </div>
 
-                        <div id="cad-align-map" class="w-full h-[560px] bg-slate-950 relative"></div>
+                        <div id="cad-align-map" class="w-full h-[580px] bg-slate-950 relative"></div>
 
-                        <div class="bg-slate-50 border-t-2 border-slate-200 px-3.5 py-2.5 flex flex-wrap items-center gap-1.5 text-[11px]">
-                            <span class="font-extrabold uppercase tracking-wider text-slate-500 text-[10px] mr-1"><i class="fa-solid fa-crosshairs text-emerald-600 mr-1"></i>Verify Landmarks:</span>
-                            <button type="button" onclick="cadJumpTo(33.7000, 73.1788, 17)" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-600 font-bold text-slate-700">Lake District</button>
-                            <button type="button" onclick="cadJumpTo(33.6994, 73.1846, 17.5)" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-600 font-bold text-slate-700">Jinnah Ave</button>
-                            <button type="button" onclick="cadJumpTo(33.7118, 73.1890, 17)" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-600 font-bold text-slate-700">Botanical / Park View</button>
-                            <button type="button" onclick="cadJumpTo(33.6905, 73.1920, 16.5)" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-600 font-bold text-slate-700">Phase II / River</button>
-                            <button type="button" onclick="cadJumpTo(33.6868, 73.2035, 17)" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-600 font-bold text-slate-700">Bahria Border</button>
-                            <button type="button" onclick="cadJumpTo(33.6984, 73.1853, 14.5)" class="ml-auto px-2.5 py-1 rounded-lg bg-slate-900 text-white font-bold">Fit All</button>
+                        <div class="bg-slate-50 border-t-2 border-slate-200 px-3 py-2 flex flex-wrap items-center gap-1.5 text-[11px]">
+                            <span class="font-extrabold uppercase tracking-wider text-slate-500 text-[10px] mr-0.5"><i class="fa-solid fa-crosshairs text-emerald-600 mr-1"></i>Jump:</span>
+                            <button type="button" onclick="cadJumpTo(33.7000, 73.1788, 17)" class="px-2 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-600 font-bold text-slate-700">Lake District</button>
+                            <button type="button" onclick="cadJumpTo(33.6994, 73.1846, 17.5)" class="px-2 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-600 font-bold text-slate-700">Jinnah Ave</button>
+                            <button type="button" onclick="cadJumpTo(33.7118, 73.1890, 17)" class="px-2 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-600 font-bold text-slate-700">Botanical</button>
+                            <button type="button" onclick="cadJumpTo(33.6905, 73.1920, 16.5)" class="px-2 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-600 font-bold text-slate-700">Phase II</button>
+                            <button type="button" onclick="cadJumpTo(33.6868, 73.2035, 17)" class="px-2 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-600 font-bold text-slate-700">Bahria Border</button>
+                            <button type="button" onclick="cadJumpTo(33.6984, 73.1853, 14)" class="ml-auto px-2.5 py-1 rounded-lg bg-slate-900 text-white font-bold">Fit Box</button>
                         </div>
                     </div>
 
-                    <!-- Precision Calibration Controls -->
-                    <div class="xl:col-span-4 bg-white rounded-2xl border-2 border-slate-300 shadow-xs p-5 space-y-5 text-xs">
-                        <!-- 1. Position Nudge -->
-                        <div class="space-y-3">
+                    <!-- Precision Calibration & Direct Coordinate Controls -->
+                    <div class="xl:col-span-4 bg-white rounded-2xl border-2 border-slate-300 shadow-xs p-5 space-y-4 text-xs">
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-[11px] text-emerald-900 space-y-1">
+                            <div class="font-extrabold flex items-center gap-1.5"><i class="fa-solid fa-computer-mouse text-emerald-700"></i> Direct On-Map Cursor Handles</div>
+                            <ul class="list-disc pl-4 space-y-0.5 text-emerald-800">
+                                <li><b>4 White Corner Squares:</b> Drag with cursor to resize (opposite corner stays locked)</li>
+                                <li><b>Amber Top Circle:</b> Drag to rotate CAD freely</li>
+                                <li><b>Green Center Pin</b> or <b>Drag CAD</b> mode (or hold <code>Alt</code>): Move CAD with cursor</li>
+                            </ul>
+                        </div>
+
+                        <!-- 1. Editable Overlay Corner Coordinates -->
+                        <div class="space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <div class="font-extrabold text-slate-900 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-location-crosshairs text-emerald-600"></i> Overlay Bounds Coordinates
+                                </div>
+                                <span id="cad-readout-offset" class="font-mono text-[10px] font-bold text-slate-500">0.0m N, 0.0m E</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 mb-0.5">South Lat (Bottom)</label>
+                                    <input type="number" step="0.00001" id="cad-coord-s" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-mono text-[11px] focus:outline-none focus:border-emerald-600">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 mb-0.5">West Lng (Left)</label>
+                                    <input type="number" step="0.00001" id="cad-coord-w" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-mono text-[11px] focus:outline-none focus:border-emerald-600">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 mb-0.5">North Lat (Top)</label>
+                                    <input type="number" step="0.00001" id="cad-coord-n" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-mono text-[11px] focus:outline-none focus:border-emerald-600">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 mb-0.5">East Lng (Right)</label>
+                                    <input type="number" step="0.00001" id="cad-coord-e" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-mono text-[11px] focus:outline-none focus:border-emerald-600">
+                                </div>
+                            </div>
+                            <button type="button" onclick="cadApplyManualCoords()" class="w-full py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 font-bold text-[11px] transition-colors">
+                                Apply Typed Coordinates
+                            </button>
+                        </div>
+
+                        <!-- 2. Fine Position Nudge -->
+                        <div class="pt-3.5 border-t border-slate-200 space-y-2.5">
                             <div class="flex items-center justify-between gap-2">
                                 <div class="font-extrabold text-slate-900 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-arrows-up-down-left-right text-emerald-600"></i> Move Position
+                                    <i class="fa-solid fa-arrows-up-down-left-right text-emerald-600"></i> Micro Nudge
                                 </div>
                                 <select id="cad-nudge-step" class="bg-slate-50 border border-slate-300 rounded-lg px-2 py-1 font-bold text-[11px] text-slate-800">
                                     <option value="1">Step: 1m (Exact)</option>
@@ -464,34 +511,28 @@
                                 </select>
                             </div>
 
-                            <div class="grid grid-cols-3 gap-1.5 max-w-[210px] mx-auto">
+                            <div class="grid grid-cols-3 gap-1.5 max-w-[200px] mx-auto">
                                 <div></div>
-                                <button type="button" onclick="cadNudge(1, 0)" class="py-2 rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white border border-slate-300 font-extrabold text-slate-800 transition-colors" title="Move North (Up Arrow)"><i class="fa-solid fa-arrow-up"></i> N</button>
+                                <button type="button" onclick="cadNudge(1, 0)" class="py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white border border-slate-300 font-extrabold text-slate-800 transition-colors" title="Move North (Up Arrow)"><i class="fa-solid fa-arrow-up"></i> N</button>
                                 <div></div>
-                                <button type="button" onclick="cadNudge(0, -1)" class="py-2 rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white border border-slate-300 font-extrabold text-slate-800 transition-colors" title="Move West (Left Arrow)"><i class="fa-solid fa-arrow-left"></i> W</button>
-                                <button type="button" onclick="cadCenterOnAnchor()" class="py-2 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 font-bold text-[10px]" title="Jump to CAD Center"><i class="fa-solid fa-crosshairs"></i></button>
-                                <button type="button" onclick="cadNudge(0, 1)" class="py-2 rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white border border-slate-300 font-extrabold text-slate-800 transition-colors" title="Move East (Right Arrow)">E <i class="fa-solid fa-arrow-right"></i></button>
+                                <button type="button" onclick="cadNudge(0, -1)" class="py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white border border-slate-300 font-extrabold text-slate-800 transition-colors" title="Move West (Left Arrow)"><i class="fa-solid fa-arrow-left"></i> W</button>
+                                <button type="button" onclick="cadCenterOnAnchor()" class="py-1.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 font-bold text-[10px]" title="Center on CAD"><i class="fa-solid fa-crosshairs"></i></button>
+                                <button type="button" onclick="cadNudge(0, 1)" class="py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white border border-slate-300 font-extrabold text-slate-800 transition-colors" title="Move East (Right Arrow)">E <i class="fa-solid fa-arrow-right"></i></button>
                                 <div></div>
-                                <button type="button" onclick="cadNudge(-1, 0)" class="py-2 rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white border border-slate-300 font-extrabold text-slate-800 transition-colors" title="Move South (Down Arrow)"><i class="fa-solid fa-arrow-down"></i> S</button>
+                                <button type="button" onclick="cadNudge(-1, 0)" class="py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white border border-slate-300 font-extrabold text-slate-800 transition-colors" title="Move South (Down Arrow)"><i class="fa-solid fa-arrow-down"></i> S</button>
                                 <div></div>
                             </div>
-
-                            <div class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 flex items-center justify-between text-[11px] font-mono">
-                                <span class="text-slate-500">Offset:</span>
-                                <span id="cad-readout-offset" class="font-bold text-slate-800">0.0m N, 0.0m E</span>
-                            </div>
-                            <p class="text-[10px] text-slate-400">Tip: Switch to <b>Drag CAD Map</b> or drag the green pin on the map, or use keyboard Arrow Keys.</p>
                         </div>
 
-                        <!-- 2. Rotation -->
-                        <div class="pt-4 border-t border-slate-200 space-y-2">
+                        <!-- 3. Rotation -->
+                        <div class="pt-3.5 border-t border-slate-200 space-y-2">
                             <div class="flex items-center justify-between">
                                 <label for="cad-rot-slider" class="font-extrabold text-slate-900 flex items-center gap-1.5">
                                     <i class="fa-solid fa-rotate text-emerald-600"></i> Rotation (Tilt)
                                 </label>
                                 <span id="cad-readout-rot" class="font-mono font-bold text-emerald-700">0.00°</span>
                             </div>
-                            <input type="range" id="cad-rot-slider" min="-30" max="30" step="0.05" value="0" oninput="cadUpdateFromSliders()" class="w-full accent-emerald-600 cursor-pointer">
+                            <input type="range" id="cad-rot-slider" min="-45" max="45" step="0.05" value="0" oninput="cadUpdateFromSliders()" class="w-full accent-emerald-600 cursor-pointer">
                             <div class="grid grid-cols-5 gap-1 text-[10px]">
                                 <button type="button" onclick="cadStepRotation(-1)" class="py-1 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 font-bold">-1°</button>
                                 <button type="button" onclick="cadStepRotation(-0.1)" class="py-1 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 font-bold">-0.1°</button>
@@ -501,15 +542,15 @@
                             </div>
                         </div>
 
-                        <!-- 3. Scale (Size) -->
-                        <div class="pt-4 border-t border-slate-200 space-y-2">
+                        <!-- 4. Scale (Size) -->
+                        <div class="pt-3.5 border-t border-slate-200 space-y-2">
                             <div class="flex items-center justify-between">
                                 <label for="cad-scale-slider" class="font-extrabold text-slate-900 flex items-center gap-1.5">
                                     <i class="fa-solid fa-maximize text-emerald-600"></i> Map Scale (Size)
                                 </label>
                                 <span id="cad-readout-scale" class="font-mono font-bold text-emerald-700">100.0%</span>
                             </div>
-                            <input type="range" id="cad-scale-slider" min="60" max="140" step="0.1" value="100" oninput="cadUpdateUniformScale()" class="w-full accent-emerald-600 cursor-pointer">
+                            <input type="range" id="cad-scale-slider" min="50" max="160" step="0.1" value="100" oninput="cadUpdateUniformScale()" class="w-full accent-emerald-600 cursor-pointer">
                             <div class="grid grid-cols-5 gap-1 text-[10px]">
                                 <button type="button" onclick="cadStepUniformScale(-1)" class="py-1 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 font-bold">-1%</button>
                                 <button type="button" onclick="cadStepUniformScale(-0.2)" class="py-1 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 font-bold">-0.2%</button>
@@ -519,28 +560,28 @@
                             </div>
 
                             <details class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 mt-2">
-                                <summary class="cursor-pointer font-bold text-slate-700 text-[11px]">Stretch Width / Height Independently (Optional)</summary>
+                                <summary class="cursor-pointer font-bold text-slate-700 text-[11px]">Stretch Width / Height Independently</summary>
                                 <div class="space-y-2.5 mt-2.5">
                                     <div>
                                         <div class="flex justify-between text-[10px] font-bold text-slate-600">
                                             <span>Width Scale (East–West)</span>
                                             <span id="cad-readout-sx" class="font-mono text-emerald-700">100.0%</span>
                                         </div>
-                                        <input type="range" id="cad-sx-slider" min="60" max="140" step="0.1" value="100" oninput="cadUpdateFromSliders()" class="w-full accent-emerald-600 cursor-pointer">
+                                        <input type="range" id="cad-sx-slider" min="50" max="160" step="0.1" value="100" oninput="cadUpdateFromSliders()" class="w-full accent-emerald-600 cursor-pointer">
                                     </div>
                                     <div>
                                         <div class="flex justify-between text-[10px] font-bold text-slate-600">
                                             <span>Height Scale (North–South)</span>
                                             <span id="cad-readout-sy" class="font-mono text-emerald-700">100.0%</span>
                                         </div>
-                                        <input type="range" id="cad-sy-slider" min="60" max="140" step="0.1" value="100" oninput="cadUpdateFromSliders()" class="w-full accent-emerald-600 cursor-pointer">
+                                        <input type="range" id="cad-sy-slider" min="50" max="160" step="0.1" value="100" oninput="cadUpdateFromSliders()" class="w-full accent-emerald-600 cursor-pointer">
                                     </div>
                                 </div>
                             </details>
                         </div>
 
-                        <!-- 4. Opacity -->
-                        <div class="pt-4 border-t border-slate-200 space-y-2">
+                        <!-- 5. Opacity -->
+                        <div class="pt-3.5 border-t border-slate-200 space-y-2">
                             <div class="flex items-center justify-between">
                                 <label for="cad-opacity-slider" class="font-extrabold text-slate-900 flex items-center gap-1.5">
                                     <i class="fa-solid fa-circle-half-stroke text-emerald-600"></i> Default Opacity
@@ -1840,11 +1881,93 @@
         let cadStudioMap = null;
         let cadStudioCadLayer = null;
         let cadStudioAnchorMarker = null;
+        let cadStudioHandlesGroup = null;
+        let cadStudioBoxPoly = null;
+        let cadStudioRotLine = null;
+        let cadStudioRotMarker = null;
+        let cadStudioCornerMarkers = {};
+        let cadStudioHandlesVisible = true;
         let cadStudioBaseLayers = {};
         let cadStudioMode = 'earth';
         let cadStudioConfig = null;
         let cadStudioState = null;
         let cadComparePrevOpacity = null;
+        let cadActiveDragHandle = null;
+
+        function cadComputeBoxGeometry() {
+            if (!cadStudioMap || !cadStudioConfig || !cadStudioState) return null;
+            const b = cadStudioConfig.bounds || [[33.68077, 73.16434], [33.71609, 73.20630]];
+            const S0 = Number(b[0][0]), W0 = Number(b[0][1]), N0 = Number(b[1][0]), E0 = Number(b[1][1]);
+            const a = cadStudioState;
+            const p0 = cadStudioMap.latLngToLayerPoint([a.anchorLat, a.anchorLng]);
+            const p1 = cadStudioMap.latLngToLayerPoint([a.anchorLat + (a.offsetLat || 0), a.anchorLng + (a.offsetLng || 0)]);
+            const pNW0 = cadStudioMap.latLngToLayerPoint([N0, W0]);
+            const pSE0 = cadStudioMap.latLngToLayerPoint([S0, E0]);
+            const halfW = (pSE0.x - pNW0.x) / 2;
+            const halfH = (pSE0.y - pNW0.y) / 2;
+            const rad = ((a.rotation || 0) * Math.PI) / 180;
+            const cosR = Math.cos(rad);
+            const sinR = Math.sin(rad);
+            const sx = a.scaleX || 1;
+            const sy = a.scaleY || 1;
+
+            function cornerPoint(sxSign, sySign) {
+                const lx = sxSign * halfW * sx;
+                const ly = sySign * halfH * sy;
+                return L.point(p1.x + (lx * cosR - ly * sinR), p1.y + (lx * sinR + ly * cosR));
+            }
+            const nwPx = cornerPoint(-1, -1);
+            const nePx = cornerPoint(1, -1);
+            const sePx = cornerPoint(1, 1);
+            const swPx = cornerPoint(-1, 1);
+            const topPx = cornerPoint(0, -1);
+            const knobPx = L.point(topPx.x + 42 * sinR, topPx.y - 42 * cosR);
+
+            return {
+                halfW, halfH, p0, p1, cosR, sinR, S0, W0, N0, E0,
+                nw: cadStudioMap.layerPointToLatLng(nwPx),
+                ne: cadStudioMap.layerPointToLatLng(nePx),
+                se: cadStudioMap.layerPointToLatLng(sePx),
+                sw: cadStudioMap.layerPointToLatLng(swPx),
+                top: cadStudioMap.layerPointToLatLng(topPx),
+                knob: cadStudioMap.layerPointToLatLng(knobPx),
+                center: L.latLng(a.anchorLat + (a.offsetLat || 0), a.anchorLng + (a.offsetLng || 0))
+            };
+        }
+
+        function cadSyncVisualHandles(skipKey = null) {
+            const g = cadComputeBoxGeometry();
+            if (!g || !cadStudioHandlesGroup) return;
+
+            if (cadStudioBoxPoly) cadStudioBoxPoly.setLatLngs([g.nw, g.ne, g.se, g.sw]);
+            if (cadStudioRotLine) cadStudioRotLine.setLatLngs([g.top, g.knob]);
+            if (cadStudioRotMarker && skipKey !== 'rot') cadStudioRotMarker.setLatLng(g.knob);
+            if (cadStudioAnchorMarker && skipKey !== 'center') cadStudioAnchorMarker.setLatLng(g.center);
+
+            ['nw', 'ne', 'se', 'sw'].forEach(k => {
+                if (cadStudioCornerMarkers[k] && skipKey !== k) {
+                    cadStudioCornerMarkers[k].setLatLng(g[k]);
+                }
+            });
+        }
+
+        function cadToggleHandles() {
+            cadStudioHandlesVisible = !cadStudioHandlesVisible;
+            const btn = document.getElementById('cad-toggle-handles');
+            if (cadStudioMap && cadStudioHandlesGroup) {
+                if (cadStudioHandlesVisible) {
+                    cadStudioHandlesGroup.addTo(cadStudioMap);
+                    cadSyncVisualHandles();
+                } else {
+                    cadStudioMap.removeLayer(cadStudioHandlesGroup);
+                }
+            }
+            if (btn) {
+                btn.className = cadStudioHandlesVisible
+                    ? 'px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-emerald-500/60 text-emerald-300 font-bold text-[11px] flex items-center gap-1'
+                    : 'px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-400 font-bold text-[11px] flex items-center gap-1';
+            }
+        }
 
         async function initCadAlignmentStudio() {
             const el = document.getElementById('cad-align-map');
@@ -1856,7 +1979,7 @@
             if (!cadStudioMap) {
                 cadStudioMap = L.map(el, {
                     center: [cadStudioState.anchorLat + cadStudioState.offsetLat, cadStudioState.anchorLng + cadStudioState.offsetLng],
-                    zoom: 15,
+                    zoom: 14,
                     minZoom: 11,
                     maxZoom: 21,
                     zoomSnap: 0.5,
@@ -1869,36 +1992,158 @@
 
                 cadStudioCadLayer = window.KaghanPlotMap.createAlignedCadLayer(cadStudioMap, cadStudioConfig);
 
+                // Visual Selection Frame + 4 Corner Resize Handles + Top Rotate Knob + Center Move Pin
+                cadStudioHandlesGroup = L.layerGroup().addTo(cadStudioMap);
+
+                cadStudioBoxPoly = L.polygon([], {
+                    color: '#10b981',
+                    weight: 2.5,
+                    dashArray: '8 6',
+                    fillColor: '#10b981',
+                    fillOpacity: 0.03,
+                    interactive: false
+                }).addTo(cadStudioHandlesGroup);
+
+                cadStudioRotLine = L.polyline([], {
+                    color: '#f59e0b',
+                    weight: 2.5,
+                    dashArray: '4 4',
+                    interactive: false
+                }).addTo(cadStudioHandlesGroup);
+
+                // Center Move Handle
                 const handleIcon = L.divIcon({
                     className: 'cad-anchor-handle',
-                    html: '<div style="width:36px;height:36px;border-radius:50%;background:#059669;border:3px solid #fff;box-shadow:0 6px 18px rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;color:#fff;cursor:move;" title="Drag handle to move CAD map"><i class="fa-solid fa-up-down-left-right" style="font-size:14px;"></i></div>',
+                    html: '<div style="width:36px;height:36px;border-radius:50%;background:#059669;border:3px solid #fff;box-shadow:0 6px 18px rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;color:#fff;cursor:move;" title="Drag to move CAD map"><i class="fa-solid fa-up-down-left-right" style="font-size:14px;"></i></div>',
                     iconSize: [36, 36],
                     iconAnchor: [18, 18]
                 });
-                cadStudioAnchorMarker = L.marker(
-                    [cadStudioState.anchorLat + cadStudioState.offsetLat, cadStudioState.anchorLng + cadStudioState.offsetLng],
-                    { draggable: true, icon: handleIcon, zIndexOffset: 1000 }
-                ).addTo(cadStudioMap);
+                cadStudioAnchorMarker = L.marker([cadStudioState.anchorLat, cadStudioState.anchorLng], {
+                    draggable: true, icon: handleIcon, zIndexOffset: 1000
+                }).addTo(cadStudioHandlesGroup);
 
+                cadStudioAnchorMarker.on('dragstart', () => { cadActiveDragHandle = 'center'; });
                 cadStudioAnchorMarker.on('drag', (ev) => {
                     const pos = ev.target.getLatLng();
                     cadStudioState.offsetLat = pos.lat - cadStudioState.anchorLat;
                     cadStudioState.offsetLng = pos.lng - cadStudioState.anchorLng;
-                    cadApplyLive(false);
+                    cadApplyLive(false, 'center');
                 });
-                cadStudioAnchorMarker.on('dragend', () => cadApplyLive(true));
+                cadStudioAnchorMarker.on('dragend', () => {
+                    cadActiveDragHandle = null;
+                    cadApplyLive(true);
+                });
 
-                // Direct drag-anywhere-on-map when in "Drag CAD Map" mode
+                // Top Rotate Knob Handle
+                const rotIcon = L.divIcon({
+                    className: 'cad-rot-handle',
+                    html: '<div style="width:32px;height:32px;border-radius:50%;background:#f59e0b;border:3px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;color:#0f172a;cursor:grab;" title="Drag to rotate CAD map"><i class="fa-solid fa-rotate" style="font-size:13px;"></i></div>',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16]
+                });
+                cadStudioRotMarker = L.marker([cadStudioState.anchorLat, cadStudioState.anchorLng], {
+                    draggable: true, icon: rotIcon, zIndexOffset: 1050
+                }).addTo(cadStudioHandlesGroup);
+
+                cadStudioRotMarker.on('dragstart', () => { cadActiveDragHandle = 'rot'; });
+                cadStudioRotMarker.on('drag', (ev) => {
+                    const cPx = cadStudioMap.latLngToLayerPoint([
+                        cadStudioState.anchorLat + (cadStudioState.offsetLat || 0),
+                        cadStudioState.anchorLng + (cadStudioState.offsetLng || 0)
+                    ]);
+                    const kPx = cadStudioMap.latLngToLayerPoint(ev.target.getLatLng());
+                    let deg = (Math.atan2(kPx.y - cPx.y, kPx.x - cPx.x) * 180) / Math.PI + 90;
+                    if (deg > 180) deg -= 360;
+                    if (deg < -180) deg += 360;
+                    cadStudioState.rotation = Math.max(-45, Math.min(45, Number(deg.toFixed(2))));
+                    cadApplyLive(false, 'rot');
+                });
+                cadStudioRotMarker.on('dragend', () => {
+                    cadActiveDragHandle = null;
+                    cadApplyLive(true);
+                });
+
+                // 4 Corner Resize Handles (Opposite Corner Anchored Resize!)
+                const cornerDefs = [
+                    { key: 'nw', opp: 'se', sx: -1, sy: -1, cursor: 'nwse-resize', label: 'NW' },
+                    { key: 'ne', opp: 'sw', sx: 1, sy: -1, cursor: 'nesw-resize', label: 'NE' },
+                    { key: 'se', opp: 'nw', sx: 1, sy: 1, cursor: 'nwse-resize', label: 'SE' },
+                    { key: 'sw', opp: 'ne', sx: -1, sy: 1, cursor: 'nesw-resize', label: 'SW' }
+                ];
+
+                cornerDefs.forEach(cd => {
+                    const cIcon = L.divIcon({
+                        className: 'cad-corner-handle',
+                        html: `<div style="width:20px;height:20px;border-radius:5px;background:#ffffff;border:3px solid #059669;box-shadow:0 3px 10px rgba(0,0,0,0.55);cursor:${cd.cursor};" title="Drag ${cd.label} corner to resize CAD"></div>`,
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    });
+                    const m = L.marker([cadStudioState.anchorLat, cadStudioState.anchorLng], {
+                        draggable: true, icon: cIcon, zIndexOffset: 1100
+                    }).addTo(cadStudioHandlesGroup);
+
+                    let fixedOppLL = null;
+                    m.on('dragstart', () => {
+                        cadActiveDragHandle = cd.key;
+                        const g = cadComputeBoxGeometry();
+                        fixedOppLL = g ? g[cd.opp] : null;
+                    });
+                    m.on('drag', (ev) => {
+                        if (!fixedOppLL) return;
+                        const g = cadComputeBoxGeometry();
+                        if (!g) return;
+                        const pOpp = cadStudioMap.latLngToLayerPoint(fixedOppLL);
+                        const pCur = cadStudioMap.latLngToLayerPoint(ev.target.getLatLng());
+                        const dx = pCur.x - pOpp.x;
+                        const dy = pCur.y - pOpp.y;
+                        const localX = dx * g.cosR + dy * g.sinR;
+                        const localY = -dx * g.sinR + dy * g.cosR;
+                        let newSX = Math.max(0.35, Math.min(2.0, (localX * cd.sx) / (2 * g.halfW)));
+                        let newSY = Math.max(0.35, Math.min(2.0, (localY * cd.sy) / (2 * g.halfH)));
+
+                        const lockEl = document.getElementById('cad-lock-aspect');
+                        if (lockEl && lockEl.checked) {
+                            const avg = Math.max(0.35, Math.min(2.0, (newSX + newSY) / 2));
+                            newSX = avg;
+                            newSY = avg;
+                        }
+
+                        const cLX = cd.sx * 2 * g.halfW * newSX;
+                        const cLY = cd.sy * 2 * g.halfH * newSY;
+                        const fx = cLX * g.cosR - cLY * g.sinR;
+                        const fy = cLX * g.sinR + cLY * g.cosR;
+                        const newCenterLL = cadStudioMap.layerPointToLatLng([pOpp.x + fx / 2, pOpp.y + fy / 2]);
+
+                        cadStudioState.scaleX = newSX;
+                        cadStudioState.scaleY = newSY;
+                        cadStudioState.offsetLat = newCenterLL.lat - cadStudioState.anchorLat;
+                        cadStudioState.offsetLng = newCenterLL.lng - cadStudioState.anchorLng;
+                        cadApplyLive(false, cd.key);
+                    });
+                    m.on('dragend', () => {
+                        fixedOppLL = null;
+                        cadActiveDragHandle = null;
+                        cadApplyLive(true);
+                    });
+                    cadStudioCornerMarkers[cd.key] = m;
+                });
+
+                cadStudioMap.on('zoomend viewreset', () => {
+                    if (!cadActiveDragHandle) cadSyncVisualHandles();
+                });
+
+                // Direct drag-anywhere-on-map when in "Drag CAD" mode OR holding Alt key!
                 let dragStartLL = null;
                 let dragStartOffset = null;
+                let dragTempAlt = false;
                 function startCadDrag(clientX, clientY) {
-                    if (cadStudioMode !== 'cad' || !cadStudioMap) return;
+                    if (!cadStudioMap) return;
                     const rect = el.getBoundingClientRect();
                     dragStartLL = cadStudioMap.containerPointToLatLng([clientX - rect.left, clientY - rect.top]);
                     dragStartOffset = { lat: cadStudioState.offsetLat, lng: cadStudioState.offsetLng };
                 }
                 function moveCadDrag(clientX, clientY) {
-                    if (!dragStartLL || cadStudioMode !== 'cad' || !cadStudioMap) return;
+                    if (!dragStartLL || !cadStudioMap) return;
                     const rect = el.getBoundingClientRect();
                     const curLL = cadStudioMap.containerPointToLatLng([clientX - rect.left, clientY - rect.top]);
                     cadStudioState.offsetLat = dragStartOffset.lat + (curLL.lat - dragStartLL.lat);
@@ -1909,19 +2154,29 @@
                     if (!dragStartLL) return;
                     dragStartLL = null;
                     dragStartOffset = null;
+                    if (dragTempAlt) {
+                        dragTempAlt = false;
+                        if (cadStudioMode !== 'cad' && cadStudioMap) cadStudioMap.dragging.enable();
+                    }
                     cadApplyLive(true);
                 }
 
                 el.addEventListener('mousedown', (e) => {
-                    if (cadStudioMode !== 'cad' || e.button !== 0 || e.target.closest('.leaflet-control')) return;
-                    e.preventDefault();
-                    startCadDrag(e.clientX, e.clientY);
+                    if (e.button !== 0 || e.target.closest('.leaflet-control') || e.target.closest('.leaflet-marker-icon')) return;
+                    if (cadStudioMode === 'cad' || e.altKey) {
+                        e.preventDefault();
+                        if (e.altKey && cadStudioMode !== 'cad') {
+                            dragTempAlt = true;
+                            cadStudioMap.dragging.disable();
+                        }
+                        startCadDrag(e.clientX, e.clientY);
+                    }
                 });
                 window.addEventListener('mousemove', (e) => { if (dragStartLL) moveCadDrag(e.clientX, e.clientY); });
                 window.addEventListener('mouseup', () => { if (dragStartLL) endCadDrag(); });
 
                 el.addEventListener('touchstart', (e) => {
-                    if (cadStudioMode !== 'cad' || e.touches.length !== 1 || e.target.closest('.leaflet-control')) return;
+                    if (cadStudioMode !== 'cad' || e.touches.length !== 1 || e.target.closest('.leaflet-control') || e.target.closest('.leaflet-marker-icon')) return;
                     startCadDrag(e.touches[0].clientX, e.touches[0].clientY);
                 }, { passive: true });
                 el.addEventListener('touchmove', (e) => {
@@ -1936,10 +2191,15 @@
             }
 
             cadSyncControlsUI();
-            setTimeout(() => cadStudioMap && cadStudioMap.invalidateSize(), 150);
+            setTimeout(() => {
+                if (cadStudioMap) {
+                    cadStudioMap.invalidateSize();
+                    cadSyncVisualHandles();
+                }
+            }, 150);
         }
 
-        function cadSyncControlsUI() {
+        function cadSyncControlsUI(skipHandleKey = null) {
             if (!cadStudioState) return;
             const nMeters = cadStudioState.offsetLat * 110920;
             const eMeters = cadStudioState.offsetLng * 92580;
@@ -1947,8 +2207,10 @@
             if (offEl) offEl.innerText = `${nMeters >= 0 ? '+' : ''}${nMeters.toFixed(1)}m N, ${eMeters >= 0 ? '+' : ''}${eMeters.toFixed(1)}m E`;
 
             const rot = Number(cadStudioState.rotation || 0);
-            const sxPct = Number(cadStudioState.scaleX || 1) * 100;
-            const syPct = Number(cadStudioState.scaleY || 1) * 100;
+            const sx = Number(cadStudioState.scaleX || 1);
+            const sy = Number(cadStudioState.scaleY || 1);
+            const sxPct = sx * 100;
+            const syPct = sy * 100;
             const avgPct = (sxPct + syPct) / 2;
             const opPct = Math.round((cadStudioState.opacity != null ? cadStudioState.opacity : 0.82) * 100);
 
@@ -1963,18 +2225,48 @@
             document.getElementById('cad-opacity-slider').value = String(opPct);
             document.getElementById('cad-readout-opacity').innerText = `${opPct}%`;
 
-            if (cadStudioAnchorMarker) {
-                cadStudioAnchorMarker.setLatLng([
-                    cadStudioState.anchorLat + cadStudioState.offsetLat,
-                    cadStudioState.anchorLng + cadStudioState.offsetLng
-                ]);
-            }
+            // Update editable SW / NE overlay coordinate inputs
+            const b = (cadStudioConfig && cadStudioConfig.bounds) || [[33.68077, 73.16434], [33.71609, 73.20630]];
+            const halfLat = ((Number(b[1][0]) - Number(b[0][0])) / 2) * sy;
+            const halfLng = ((Number(b[1][1]) - Number(b[0][1])) / 2) * sx;
+            const cLat = cadStudioState.anchorLat + (cadStudioState.offsetLat || 0);
+            const cLng = cadStudioState.anchorLng + (cadStudioState.offsetLng || 0);
+            const setCoord = (id, val) => {
+                const inp = document.getElementById(id);
+                if (inp && document.activeElement !== inp) inp.value = val.toFixed(6);
+            };
+            setCoord('cad-coord-s', cLat - halfLat);
+            setCoord('cad-coord-w', cLng - halfLng);
+            setCoord('cad-coord-n', cLat + halfLat);
+            setCoord('cad-coord-e', cLng + halfLng);
+
+            cadSyncVisualHandles(skipHandleKey);
         }
 
-        function cadApplyLive(refreshTiles = false) {
+        function cadApplyManualCoords() {
+            if (!cadStudioState || !cadStudioConfig) return;
+            const newS = parseFloat(document.getElementById('cad-coord-s').value);
+            const newW = parseFloat(document.getElementById('cad-coord-w').value);
+            const newN = parseFloat(document.getElementById('cad-coord-n').value);
+            const newE = parseFloat(document.getElementById('cad-coord-e').value);
+            if ([newS, newW, newN, newE].some(isNaN) || newN <= newS || newE <= newW) {
+                alert('Please enter valid coordinates where North > South and East > West.');
+                return;
+            }
+            const b = cadStudioConfig.bounds || [[33.68077, 73.16434], [33.71609, 73.20630]];
+            const baseLatSpan = Number(b[1][0]) - Number(b[0][0]);
+            const baseLngSpan = Number(b[1][1]) - Number(b[0][1]);
+            cadStudioState.offsetLat = ((newN + newS) / 2) - cadStudioState.anchorLat;
+            cadStudioState.offsetLng = ((newE + newW) / 2) - cadStudioState.anchorLng;
+            cadStudioState.scaleY = Math.max(0.35, Math.min(2.0, (newN - newS) / baseLatSpan));
+            cadStudioState.scaleX = Math.max(0.35, Math.min(2.0, (newE - newW) / baseLngSpan));
+            cadApplyLive(true);
+        }
+
+        function cadApplyLive(refreshTiles = false, skipHandleKey = null) {
             if (!cadStudioState) return;
             if (cadStudioCadLayer) cadStudioCadLayer.setAlignment(cadStudioState, refreshTiles);
-            cadSyncControlsUI();
+            cadSyncControlsUI(skipHandleKey);
         }
 
         function cadSetMode(mode) {
@@ -2026,7 +2318,7 @@
             cadStudioMap.flyTo([
                 cadStudioState.anchorLat + cadStudioState.offsetLat,
                 cadStudioState.anchorLng + cadStudioState.offsetLng
-            ], Math.max(cadStudioMap.getZoom(), 16), { duration: 0.45 });
+            ], Math.max(cadStudioMap.getZoom(), 15.5), { duration: 0.45 });
         }
 
         function cadJumpTo(lat, lng, zoom) {
@@ -2039,8 +2331,8 @@
             const target = (parseFloat(document.getElementById('cad-scale-slider').value) || 100) / 100;
             const curAvg = ((cadStudioState.scaleX || 1) + (cadStudioState.scaleY || 1)) / 2;
             const ratio = curAvg > 0 ? target / curAvg : 1;
-            cadStudioState.scaleX = Math.max(0.5, Math.min(1.6, (cadStudioState.scaleX || 1) * ratio));
-            cadStudioState.scaleY = Math.max(0.5, Math.min(1.6, (cadStudioState.scaleY || 1) * ratio));
+            cadStudioState.scaleX = Math.max(0.35, Math.min(2.0, (cadStudioState.scaleX || 1) * ratio));
+            cadStudioState.scaleY = Math.max(0.35, Math.min(2.0, (cadStudioState.scaleY || 1) * ratio));
             cadApplyLive(false);
         }
 
@@ -2055,7 +2347,7 @@
 
         function cadStepRotation(delta) {
             if (!cadStudioState) return;
-            cadStudioState.rotation = Math.max(-30, Math.min(30, Number(((cadStudioState.rotation || 0) + delta).toFixed(2))));
+            cadStudioState.rotation = Math.max(-45, Math.min(45, Number(((cadStudioState.rotation || 0) + delta).toFixed(2))));
             cadApplyLive(true);
         }
 
@@ -2068,7 +2360,7 @@
         function cadStepUniformScale(deltaPct) {
             if (!cadStudioState) return;
             const curPct = (((cadStudioState.scaleX || 1) + (cadStudioState.scaleY || 1)) / 2) * 100;
-            document.getElementById('cad-scale-slider').value = Math.max(60, Math.min(140, curPct + deltaPct)).toFixed(1);
+            document.getElementById('cad-scale-slider').value = Math.max(50, Math.min(160, curPct + deltaPct)).toFixed(1);
             cadUpdateUniformScale();
             cadApplyLive(true);
         }
@@ -2099,7 +2391,12 @@
             const isFs = shell.classList.toggle('cad-align-fs');
             document.body.style.overflow = isFs ? 'hidden' : '';
             if (btn) btn.innerHTML = isFs ? '<i class="fa-solid fa-compress"></i>' : '<i class="fa-solid fa-expand"></i>';
-            setTimeout(() => cadStudioMap && cadStudioMap.invalidateSize(), 150);
+            setTimeout(() => {
+                if (cadStudioMap) {
+                    cadStudioMap.invalidateSize();
+                    cadSyncVisualHandles();
+                }
+            }, 150);
         }
 
         function cadResetAlignment() {
