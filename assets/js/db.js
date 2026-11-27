@@ -237,6 +237,7 @@ window.KaghanDB = {
         };
         await db.collection('kaghan_properties').doc('siteSettings').set(payload, { merge: true });
         _siteSettingsCache = { ...(_siteSettingsCache || {}), ...payload };
+        writeBrowserCache('siteSettings', _siteSettingsCache);
         triggerNetlifyRevalidate(['kaghan-ssr', 'site-settings']);
         window.dispatchEvent(new CustomEvent('siteSettingsUpdated', { detail: _siteSettingsCache }));
         return { success: true, settings: _siteSettingsCache };

@@ -80,6 +80,203 @@
     }
 
     const instances = new Map();
+    const DEFAULT_CAD_BOUNDS = [[33.68077, 73.16434], [33.71609, 73.20630]];
+
+    function normalizeAssetUrl(u) {
+        const s = String(u || '').trim();
+        if (!s) return '';
+        if (/^(https?:|data:|blob:|\/)/i.test(s)) return s;
+        return '/' + s.replace(/^\.\//, '');
+    }
+
+    function normalizeAlignment(raw, bounds) {
+        const b = (Array.isArray(bounds) && bounds.length === 2) ? bounds : DEFAULT_CAD_BOUNDS;
+        const defaultAnchorLat = (Number(b[0][0]) + Number(b[1][0])) / 2;
+        const defaultAnchorLng = (Number(b[0][1]) + Number(b[1][1])) / 2;
+        const a = raw && typeof raw === 'object' ? raw : {};
+        const sx = Number(a.scaleX != null ? a.scaleX : (a.scale != null ? a.scale : 1));
+        const sy = Number(a.scaleY != null ? a.scaleY : (a.scale != null ? a.scale : 1));
+        return {
+            anchorLat: typeof a.anchorLat === 'number' && !isNaN(a.anchorLat) ? a.anchorLat : defaultAnchorLat,
+            anchorLng: typeof a.anchorLng === 'number' && !isNaN(a.anchorLng) ? a.anchorLng : defaultAnchorLng,
+            offsetLat: Number(a.offsetLat) || 0,
+            offsetLng: Number(a.offsetLng) || 0,
+            scaleX: (isFinite(sx) && sx > 0.2 && sx < 3) ? sx : 1,
+            scaleY: (isFinite(sy) && sy > 0.2 && sy < 3) ? sy : 1,
+            rotation: Number(a.rotation) || 0,
+            opacity: (typeof a.opacity === 'number' && isFinite(a.opacity)) ? Math.max(0, Math.min(1, a.opacity)) : 0.82
+        };
+    }
+
+    async function loadCadConfig(siteSettings) {
+        const fsCad = (siteSettings && siteSettings.cadOverlay) || {};
+        let manifest = null;
+        try {
+            const res = await fetch('/assets/cad-tiles/margalla-enclave/manifest.json?v=2');
+            if (res.ok) manifest = await res.json();
+        } catch (e) {}
+
+        const bounds = (Array.isArray(fsCad.bounds) && fsCad.bounds.length === 2)
+            ? fsCad.bounds
+            : ((manifest && Array.isArray(manifest.overlayBounds) && manifest.overlayBounds.length === 2)
+                ? manifest.overlayBounds
+                : DEFAULT_CAD_BOUNDS);
+
+        return {
+            pdfUrl: normalizeAssetUrl(fsCad.pdfUrl || (manifest && manifest.pdfUrl) || ''),
+            deepZoomUrl: normalizeAssetUrl(fsCad.deepZoomUrl || (manifest && manifest.deepZoomUrl) || ''),
+            sheetWidth: fsCad.sheetWidth || (manifest && manifest.sheetWidth) || 8192,
+            sheetHeight: fsCad.sheetHeight || (manifest && manifest.sheetHeight) || 7458,
+            tileSize: fsCad.tileSize || (manifest && manifest.tileSize) || 512,
+            maxZoom: typeof fsCad.maxZoom === 'number' ? fsCad.maxZoom : ((manifest && typeof manifest.maxZoom === 'number') ? manifest.maxZoom : 4),
+            maxDisplayZoom: typeof fsCad.maxDisplayZoom === 'number' ? fsCad.maxDisplayZoom : ((manifest && typeof manifest.maxDisplayZoom === 'number') ? manifest.maxDisplayZoom : 6),
+            tileUrl: normalizeAssetUrl(fsCad.tileUrl || (manifest && manifest.tileUrl) || ''),
+            geoMinZoom: typeof fsCad.geoMinZoom === 'number' ? fsCad.geoMinZoom : ((manifest && typeof manifest.geoMinZoom === 'number') ? manifest.geoMinZoom : 12),
+            geoMaxNativeZoom: typeof fsCad.geoMaxNativeZoom === 'number' ? fsCad.geoMaxNativeZoom : ((manifest && typeof manifest.geoMaxNativeZoom === 'number') ? manifest.geoMaxNativeZoom : 18),
+            imageUrl: normalizeAssetUrl(fsCad.imageUrl || (manifest && manifest.overlayImageUrl) || ''),
+            bounds,
+            tms: !!fsCad.tms,
+            alignment: normalizeAlignment(fsCad.alignment, bounds)
+        };
+    }
+
+    // Precision Affine-Aligned CAD Layer (keeps 16K XYZ tiles razor-sharp at z=21 even when shifted/scaled/rotated!)
+    function createAlignedCadLayer(map, cfg) {
+        if (!map || typeof L === 'undefined' || !cfg || (!cfg.tileUrl && !cfg.imageUrl)) return null;
+
+        const paneName = 'kp-cad-pane-' + Math.random().toString(36).slice(2, 8);
+        const pane = map.createPane(paneName);
+        pane.style.zIndex = '450';
+        pane.style.pointerEvents = 'none';
+        pane.style.willChange = 'transform';
+
+        let currentAlignment = normalizeAlignment(cfg.alignment, cfg.bounds);
+        let layer = null;
+
+        if (cfg.tileUrl) {
+            const CadAlignedTileLayer = L.TileLayer.extend({
+                _getTiledPixelBounds: function (center) {
+                    const m = this._map;
+                    const a = this.options.alignment || {};
+                    const tileZoom = this._tileZoom;
+                    let adjCenter = center;
+                    if (m && tileZoom != null && (a.offsetLat || a.offsetLng || a.rotation || (a.scaleX && a.scaleX !== 1) || (a.scaleY && a.scaleY !== 1))) {
+                        const anchorPx = m.project([a.anchorLat, a.anchorLng], tileZoom);
+                        const movedPx = m.project([a.anchorLat + (a.offsetLat || 0), a.anchorLng + (a.offsetLng || 0)], tileZoom);
+                        const viewPx = m.project(center, tileZoom);
+                        const vx = viewPx.x - movedPx.x;
+                        const vy = viewPx.y - movedPx.y;
+                        const rad = -((a.rotation || 0) * Math.PI) / 180;
+                        const cos = Math.cos(rad);
+                        const sin = Math.sin(rad);
+                        const rx = vx * cos - vy * sin;
+                        const ry = vx * sin + vy * cos;
+                        const sx = Math.max(0.25, a.scaleX || 1);
+                        const sy = Math.max(0.25, a.scaleY || 1);
+                        adjCenter = m.unproject([anchorPx.x + rx / sx, anchorPx.y + ry / sy], tileZoom);
+                    }
+                    const pxBounds = L.TileLayer.prototype._getTiledPixelBounds.call(this, adjCenter);
+                    const minScale = Math.min(Math.max(0.35, a.scaleX || 1), Math.max(0.35, a.scaleY || 1));
+                    const rotPad = Math.abs(a.rotation || 0) > 0.1 ? 1.45 : 1.1;
+                    const pad = Math.max(rotPad, (1 / minScale) * 1.2);
+                    if (pad > 1.02) {
+                        const c = pxBounds.getCenter();
+                        const hw = (pxBounds.max.x - pxBounds.min.x) * 0.5 * pad;
+                        const hh = (pxBounds.max.y - pxBounds.min.y) * 0.5 * pad;
+                        return L.bounds([c.x - hw, c.y - hh], [c.x + hw, c.y + hh]);
+                    }
+                    return pxBounds;
+                }
+            });
+
+            layer = new CadAlignedTileLayer(cfg.tileUrl, {
+                pane: paneName,
+                opacity: currentAlignment.opacity,
+                minZoom: cfg.geoMinZoom != null ? cfg.geoMinZoom : 12,
+                maxNativeZoom: cfg.geoMaxNativeZoom != null ? cfg.geoMaxNativeZoom : 18,
+                maxZoom: 21,
+                bounds: cfg.bounds,
+                tms: !!cfg.tms,
+                keepBuffer: 4,
+                alignment: currentAlignment,
+                errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+            }).addTo(map);
+        } else if (cfg.imageUrl) {
+            layer = L.imageOverlay(cfg.imageUrl, cfg.bounds, {
+                pane: paneName,
+                opacity: currentAlignment.opacity,
+                interactive: false
+            }).addTo(map);
+            const ovEl = layer.getElement && layer.getElement();
+            if (ovEl) {
+                ovEl.fetchPriority = 'high';
+                ovEl.decoding = 'async';
+            }
+        }
+
+        function applyTransform() {
+            if (!map || !pane) return;
+            const a = currentAlignment;
+            const p0 = map.latLngToLayerPoint([a.anchorLat, a.anchorLng]);
+            const p1 = map.latLngToLayerPoint([a.anchorLat + (a.offsetLat || 0), a.anchorLng + (a.offsetLng || 0)]);
+            const dx = p1.x - p0.x;
+            const dy = p1.y - p0.y;
+            const rot = a.rotation || 0;
+            const sx = a.scaleX || 1;
+            const sy = a.scaleY || 1;
+            pane.style.transformOrigin = `${p0.x}px ${p0.y}px`;
+            pane.style.transform = (dx === 0 && dy === 0 && rot === 0 && sx === 1 && sy === 1)
+                ? ''
+                : `translate3d(${dx}px, ${dy}px, 0) rotate(${rot}deg) scale(${sx}, ${sy})`;
+        }
+
+        map.on('viewreset zoomend zoom moveend', applyTransform);
+        applyTransform();
+
+        let tileRefreshTimer = null;
+        function scheduleTileRefresh() {
+            if (!layer || typeof layer._update !== 'function') return;
+            if (tileRefreshTimer) clearTimeout(tileRefreshTimer);
+            tileRefreshTimer = setTimeout(() => {
+                if (layer && layer._map) {
+                    layer.options.alignment = currentAlignment;
+                    layer._update();
+                }
+            }, 110);
+        }
+
+        return {
+            layer,
+            pane,
+            getAlignment: () => ({ ...currentAlignment }),
+            setAlignment: (partial, immediateRefresh = false) => {
+                currentAlignment = normalizeAlignment({ ...currentAlignment, ...partial }, cfg.bounds);
+                if (layer) {
+                    layer.options.alignment = currentAlignment;
+                    if (typeof layer.setOpacity === 'function') layer.setOpacity(currentAlignment.opacity);
+                }
+                applyTransform();
+                if (immediateRefresh) {
+                    if (layer && layer._map && typeof layer._update === 'function') layer._update();
+                } else {
+                    scheduleTileRefresh();
+                }
+            },
+            setOpacity: (val) => {
+                currentAlignment.opacity = Math.max(0, Math.min(1, Number(val) || 0));
+                if (layer && typeof layer.setOpacity === 'function') layer.setOpacity(currentAlignment.opacity);
+            },
+            bringToFront: () => {
+                pane.style.zIndex = '450';
+            },
+            remove: () => {
+                if (tileRefreshTimer) clearTimeout(tileRefreshTimer);
+                map.off('viewreset zoomend zoom moveend', applyTransform);
+                if (layer && map.hasLayer(layer)) map.removeLayer(layer);
+                if (pane && pane.parentNode) pane.parentNode.removeChild(pane);
+            }
+        };
+    }
 
     function create(containerId, options = {}) {
         const root = document.getElementById(containerId);
@@ -362,25 +559,12 @@
             }
         }
 
-        // Hydrate Contact Phone, Emap URL, & High-Res 8K CAD Master Plan from Firestore siteSettings (or installed CAD manifest)
-        function normalizeAssetUrl(u) {
-            const s = String(u || '').trim();
-            if (!s) return '';
-            if (/^(https?:|data:|blob:|\/)/i.test(s)) return s;
-            return '/' + s.replace(/^\.\//, '');
-        }
-
+        // Hydrate Contact Phone, Emap URL, & High-Res 16K Aligned CAD Master Plan from Firestore siteSettings (or installed CAD manifest)
         async function hydrateMapFromFirestore() {
             try {
-                // Fetch Firestore settings & installed CAD manifest in parallel (zero waterfall!)
-                const settingsPromise = (window.KaghanDB && window.KaghanDB.getSiteSettings)
-                    ? window.KaghanDB.getSiteSettings().catch(() => null)
-                    : Promise.resolve(null);
-                const manifestPromise = fetch('/assets/cad-tiles/margalla-enclave/manifest.json?v=2')
-                    .then(r => (r.ok ? r.json() : null))
-                    .catch(() => null);
-
-                const [settings, manifest] = await Promise.all([settingsPromise, manifestPromise]);
+                const settings = (window.KaghanDB && window.KaghanDB.getSiteSettings)
+                    ? await window.KaghanDB.getSiteSettings().catch(() => null)
+                    : null;
 
                 if (settings && settings.contact && settings.contact.phone) {
                     activePhoneDigits = settings.contact.phone.replace(/[^0-9]/g, '');
@@ -396,26 +580,7 @@
                     if (emExt) emExt.href = emapUrl;
                 }
 
-                const fsCad = (settings && settings.cadOverlay) || {};
-                const cfg = {
-                    pdfUrl: normalizeAssetUrl(fsCad.pdfUrl || (manifest && manifest.pdfUrl) || ''),
-                    deepZoomUrl: normalizeAssetUrl(fsCad.deepZoomUrl || (manifest && manifest.deepZoomUrl) || ''),
-                    sheetWidth: fsCad.sheetWidth || (manifest && manifest.sheetWidth) || 8192,
-                    sheetHeight: fsCad.sheetHeight || (manifest && manifest.sheetHeight) || 5791,
-                    tileSize: fsCad.tileSize || (manifest && manifest.tileSize) || 512,
-                    maxZoom: typeof fsCad.maxZoom === 'number' ? fsCad.maxZoom : ((manifest && typeof manifest.maxZoom === 'number') ? manifest.maxZoom : 4),
-                    maxDisplayZoom: typeof fsCad.maxDisplayZoom === 'number' ? fsCad.maxDisplayZoom : ((manifest && typeof manifest.maxDisplayZoom === 'number') ? manifest.maxDisplayZoom : 6),
-                    tileUrl: normalizeAssetUrl(fsCad.tileUrl || (manifest && manifest.tileUrl) || ''),
-                    geoMinZoom: typeof fsCad.geoMinZoom === 'number' ? fsCad.geoMinZoom : ((manifest && typeof manifest.geoMinZoom === 'number') ? manifest.geoMinZoom : 14),
-                    geoMaxNativeZoom: typeof fsCad.geoMaxNativeZoom === 'number' ? fsCad.geoMaxNativeZoom : ((manifest && typeof manifest.geoMaxNativeZoom === 'number') ? manifest.geoMaxNativeZoom : 18),
-                    imageUrl: normalizeAssetUrl(fsCad.imageUrl || (manifest && manifest.overlayImageUrl) || ''),
-                    bounds: (Array.isArray(fsCad.bounds) && fsCad.bounds.length === 2)
-                        ? fsCad.bounds
-                        : ((manifest && Array.isArray(manifest.overlayBounds) && manifest.overlayBounds.length === 2)
-                            ? manifest.overlayBounds
-                            : [[33.68077, 73.16434], [33.71609, 73.20630]]),
-                    tms: !!fsCad.tms
-                };
+                const cfg = await loadCadConfig(settings);
 
                 if (cfg.pdfUrl) {
                     activeCadPdfUrl = cfg.pdfUrl;
@@ -433,33 +598,13 @@
                 }
 
                 const sliderWrap = document.getElementById(`${uid}-cad-slider-wrap`);
-                if (cfg.tileUrl) {
-                    customCadOverlay = L.tileLayer(cfg.tileUrl, {
-                        opacity: 0.82,
-                        minZoom: cfg.geoMinZoom,
-                        maxNativeZoom: cfg.geoMaxNativeZoom,
-                        maxZoom: 21,
-                        bounds: cfg.bounds,
-                        zIndex: 450,
-                        tms: cfg.tms,
-                        keepBuffer: 4,
-                        errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-                    }).addTo(map);
-                    if (customCadOverlay.bringToFront) customCadOverlay.bringToFront();
+                if (cfg.tileUrl || cfg.imageUrl) {
+                    if (customCadOverlay && customCadOverlay.remove) customCadOverlay.remove();
+                    customCadOverlay = createAlignedCadLayer(map, cfg);
                     if (sliderWrap) sliderWrap.classList.remove('hidden');
-                } else if (cfg.imageUrl) {
-                    customCadOverlay = L.imageOverlay(cfg.imageUrl, cfg.bounds, {
-                        opacity: 0.82,
-                        interactive: false,
-                        zIndex: 450
-                    }).addTo(map);
-                    const ovEl = customCadOverlay.getElement && customCadOverlay.getElement();
-                    if (ovEl) {
-                        ovEl.fetchPriority = 'high';
-                        ovEl.decoding = 'async';
-                    }
-                    if (customCadOverlay.bringToFront) customCadOverlay.bringToFront();
-                    if (sliderWrap) sliderWrap.classList.remove('hidden');
+                    const pct = Math.round((cfg.alignment ? cfg.alignment.opacity : 0.82) * 100);
+                    if (opacityInput) opacityInput.value = String(pct);
+                    if (opacityVal) opacityVal.innerText = pct + '%';
                 }
             } catch (err) {}
         }
@@ -629,6 +774,9 @@
 
     window.KaghanPlotMap = {
         create,
-        getPlotCoords
+        getPlotCoords,
+        loadCadConfig,
+        createAlignedCadLayer,
+        normalizeAlignment
     };
 })();
